@@ -10,7 +10,7 @@ git submodule management.
 
 The related repositories are:
 
-AMP POC: https://github.com/Lullabot/amp-poc
-AMP Module: https://github.com/Lullabot/amp-module
-AMP Library: https://github.com/Lullabot/amp-library
+- AMP POC: https://github.com/Lullabot/amp-poc
+- AMP Module: https://github.com/Lullabot/amp-module
+- AMP Library: https://github.com/Lullabot/amp-library
 
