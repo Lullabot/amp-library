@@ -1,4 +1,4 @@
-# AMP PHP Library
+# AMP PHP Library, D8 Version
 
 This repository has two branches, D8 and D7. Work on each version of the AMP module
 should take place in the respective branch. Tickets will be worked on in feature branches,
@@ -13,3 +13,4 @@ The related repositories are:
 AMP POC: https://github.com/Lullabot/amp-poc
 AMP Module: https://github.com/Lullabot/amp-module
 AMP Library: https://github.com/Lullabot/amp-library
+
