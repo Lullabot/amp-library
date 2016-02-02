@@ -8,7 +8,9 @@
         }
     ],
     "require" : {
-        "php" : ">=5.5.0"
+        "php" : ">=5.5.0",
+        "querypath/QueryPath": ">=3.0.0",
+        "myclabs/php-enum": "^1.4"
     },
     "autoload": {
         "psr-4": {"Lullabot\\AMP\\": "src"}
