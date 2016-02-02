@@ -9,7 +9,8 @@ class AMP
     // We'll need to add discovery of passes etc. very basic for now
     public $passes = [
         'Lullabot\AMP\Pass\FixTagsAndAttributesPass',
-        'Lullabot\AMP\Pass\FixATagPass'
+        'Lullabot\AMP\Pass\FixATagPass',
+        'Lullabot\AMP\Pass\FixHTMLCommentsPass'
     ];
 
     /** @var array */
@@ -33,7 +34,7 @@ class AMP
     public function convertToAMP()
     {
         /** @var QueryPath\DOMQuery $qp */
-        $qp = QueryPath::withHTML($this->input_html);
+        $qp = QueryPath::withHTML($this->input_html, array('convert_to_encoding' => 'UTF-8'));
 
         $warnings = [];
         foreach ($this->passes as $pass) {
