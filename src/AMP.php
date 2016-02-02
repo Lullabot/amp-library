@@ -9,7 +9,8 @@ class AMP
     // We'll need to add discovery of passes etc. very basic for now
     public $passes = [
         'Lullabot\AMP\Pass\FixTagsAndAttributesPass',
-        'Lullabot\AMP\Pass\FixATagPass'
+        'Lullabot\AMP\Pass\FixATagPass',
+        'Lullabot\AMP\Pass\FixHTMLCommentsPass'
     ];
 
     /** @var array */
