@@ -13,7 +13,7 @@ use Lullabot\AMP\ActionTaken;
  * - Remove all attributes that start with "on" e.g. "onmouseover". However, "on" by itself as an attribute name is OK
  * - Remove style attribute
  */
-class FixTagsAndAttributesPass extends FixHTMLPass
+class FixTagsAndAttributesPass extends FixBasePass
 {
     // These are the whitelisted tags
     // All other tags will be stripped out

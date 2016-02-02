@@ -4,7 +4,7 @@ namespace Lullabot\AMP\Pass;
 use QueryPath\DOMQuery;
 use Lullabot\AMP\Warning;
 
-abstract class FixHTMLPass
+abstract class FixBasePass
 {
     protected $q;
     protected $warnings = [];
