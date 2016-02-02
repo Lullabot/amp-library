@@ -11,6 +11,7 @@ use Lullabot\AMP\ActionTaken;
  *
  * - Remove all non-whitelisted tags
  * - Remove all attributes that start with "on" e.g. "onmouseover". However, "on" by itself as an attribute name is OK
+ * - Remove style attribute
  */
 class FixTagsAndAttributesPass extends FixHTMLPass
 {
@@ -179,13 +180,21 @@ class FixTagsAndAttributesPass extends FixHTMLPass
 
         /** @var \DOMElement $tag */
         foreach ($all_tags as $tag) {
+            // Only allow tags in whitelist
             if (!in_array($tag->nodeName, self::$tag_whitelist)) {
                 $this->addWarning(new Warning($tag->nodeName, WarningType::TAG_NOT_ALLOWED, ActionTaken::TAG_REMOVED, $tag->getLineNo()));
                 $tag->parentNode->removeChild($tag);
                 continue;
             }
 
+            // Remove style attribute, if present
+            if ($tag->hasAttribute('style')) {
+                $this->addWarning(new Warning('style', WarningType::ATTRIBUTE_NOT_ALLOWED, ActionTaken::ATTRIBUTE_REMOVED, $tag->getLineNo()));
+                $tag->removeAttribute('style');
+            }
+
             // Iterate over attributes just like in QueryPath\DOMQuery::attr() function
+            // Remove attributes starting with "on..."
             /**
              * @var  string $name
              * @var \DOMNode $attrNode
