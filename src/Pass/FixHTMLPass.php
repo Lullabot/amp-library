@@ -16,7 +16,8 @@ abstract class FixHTMLPass
 
     abstract function pass();
 
-    protected function addWarning(Warning $w) {
+    protected function addWarning(Warning $w)
+    {
         $this->warnings[] = $w;
     }
 }
