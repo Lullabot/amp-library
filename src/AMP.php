@@ -33,7 +33,7 @@ class AMP
     public function convertToAMP()
     {
         /** @var QueryPath\DOMQuery $qp */
-        $qp = QueryPath::withHTML($this->input_html);
+        $qp = QueryPath::withHTML($this->input_html, array('convert_to_encoding' => 'UTF-8'));
 
         $warnings = [];
         foreach ($this->passes as $pass) {
