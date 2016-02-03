@@ -37,7 +37,9 @@ class AmpCommand extends Command
                 '--diff',
                 null,
                 InputOption::VALUE_NONE,
-                'If set, a diff of the input and output HTML will be printed out instead of the AMP html'
+                'If set, a diff of the input and output HTML will be printed out instead of the AMP html. ' .
+                'Note that the original HTML will be formatted before being diffed with output HTML for best results. ' .
+                'This is because the output HTML is also formatted automatically.'
             );
     }
 
