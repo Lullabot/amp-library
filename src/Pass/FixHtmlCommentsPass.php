@@ -8,7 +8,7 @@ use Lullabot\AMP\Warning;
 use Lullabot\AMP\WarningType;
 use Lullabot\AMP\ActionTaken;
 
-class FixHTMLCommentsPass extends FixBasePass
+class FixHtmlCommentsPass extends FixBasePass
 {
     function pass()
     {

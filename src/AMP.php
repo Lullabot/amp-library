@@ -3,24 +3,47 @@
 namespace Lullabot\AMP;
 
 use QueryPath;
+use SebastianBergmann\Diff\Differ;
 
 class AMP
 {
     // We'll need to add discovery of passes etc. very basic for now
     public $passes = [
         'Lullabot\AMP\Pass\FixTagsAndAttributesPass',
-        'Lullabot\AMP\Pass\FixATagPass',
-        'Lullabot\AMP\Pass\FixHTMLCommentsPass'
+        'Lullabot\AMP\Pass\FixATagsPass',
+        'Lullabot\AMP\Pass\FixHtmlCommentsPass'
     ];
 
     /** @var array */
-    public $warnings = [];
+    protected $warnings = [];
     /** @var string */
-    public $input_html = '';
+    protected $input_html = '';
     /** @var string */
-    public $amp_html = '';
+    protected $amp_html = '';
 
-    public function loadHTML($html)
+    public function getWarnings()
+    {
+        return $this->warnings;
+    }
+
+    public function getInputHtml()
+    {
+        return $this->input_html;
+    }
+
+    public function getAmpHtml()
+    {
+        return $this->amp_html;
+    }
+
+    /**
+     * Calling this function "resets" the state of the AMP object.
+     * It "loads" up new HTML, that is ready for conversion with
+     * AMP::convertToAmpHtml()
+     *
+     * @param $html
+     */
+    public function loadHtml($html)
     {
         $this->input_html = $html;
         $this->warnings = [];
@@ -31,7 +54,7 @@ class AMP
      * Convert an HTML Fragment to AMP HTML
      * @return string
      */
-    public function convertToAMP()
+    public function convertToAmpHtml()
     {
         /** @var QueryPath\DOMQuery $qp */
         $qp = QueryPath::withHTML($this->input_html, array('convert_to_encoding' => 'UTF-8'));
@@ -45,11 +68,52 @@ class AMP
             $this->warnings = array_merge($this->warnings, $warning);
         }
 
-        $this->amp_html = $qp->innerHTML();
+        $this->sortWarningsByLineno();
+        // @todo: Remove body at some point?
+        $this->amp_html = $qp->find('body')->innerHTML();
         return $this->amp_html;
     }
 
-    public function warnings_human()
+    protected function sortWarningsByLineno()
+    {
+        // Sort the warnings according to increasing line number
+        usort($this->warnings, function (Warning $warning1, Warning $warning2) {
+            if ($warning1->lineno > $warning2->lineno) {
+                return 1;
+            } else if ($warning1->lineno < $warning2->lineno) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+    }
+
+    public function getInputOutputHtmlDiff($escape_html = TRUE)
+    {
+        $diff = new Differ();
+        $diff_html = $diff->diff($this->formatSource($this->input_html), $this->amp_html);
+        if ($escape_html) {
+            return htmlspecialchars($diff_html, ENT_QUOTES);
+        } else {
+            return $diff_html;
+        }
+    }
+
+    /**
+     * Quick and dirty way to format html
+     * Need this if the incoming html is to be diffed to the output html in any logical way
+     * @param $html
+     * @return string
+     */
+    protected function formatSource($html)
+    {
+        /** @var QueryPath\DOMQuery $qp */
+        $qp = \QueryPath::withHTML($html);
+        // @todo: Remove body at some point?
+        return $qp->find('body')->innerHTML();
+    }
+
+    public function warningsHuman()
     {
         if (empty($this->warnings)) {
             return '';
@@ -62,5 +126,26 @@ class AMP
         $warning_text .= '</ul>';
 
         return $warning_text;
+    }
+
+    /**
+     * Differs from AMP::warningsHuman() in that it outputs warnings in Text and not HTML format
+     * @return string
+     */
+    public function warningsHumanText($no_heading = TRUE)
+    {
+        if (empty($this->warnings)) {
+            return '';
+        }
+
+        $warning_text = '';
+        if (!$no_heading) {
+            $warning_text .= PHP_EOL . 'Warnings' . PHP_EOL;
+        }
+        foreach ($this->warnings as $warning) {
+            $warning_text .= "- $warning->human_description" . PHP_EOL;
+        }
+
+        return htmlspecialchars_decode(strip_tags($warning_text));
     }
 }
