@@ -69,7 +69,7 @@ class AMP
         }
 
         $this->sortWarningsByLineno();
-        $this->amp_html = $qp->innerHTML();
+        $this->amp_html = $qp->find('body')->innerHTML();
         return $this->amp_html;
     }
 
