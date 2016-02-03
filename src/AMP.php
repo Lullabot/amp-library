@@ -9,18 +9,40 @@ class AMP
     // We'll need to add discovery of passes etc. very basic for now
     public $passes = [
         'Lullabot\AMP\Pass\FixTagsAndAttributesPass',
-        'Lullabot\AMP\Pass\FixATagPass',
-        'Lullabot\AMP\Pass\FixHTMLCommentsPass'
+        'Lullabot\AMP\Pass\FixATagsPass',
+        'Lullabot\AMP\Pass\FixHtmlCommentsPass'
     ];
 
     /** @var array */
-    public $warnings = [];
+    protected $warnings = [];
     /** @var string */
-    public $input_html = '';
+    protected $input_html = '';
     /** @var string */
-    public $amp_html = '';
+    protected $amp_html = '';
 
-    public function loadHTML($html)
+    public function getWarnings()
+    {
+        return $this->warnings;
+    }
+
+    public function getInputHtml()
+    {
+        return $this->input_html;
+    }
+
+    public function getAmpHtml()
+    {
+        return $this->amp_html;
+    }
+
+    /**
+     * Calling this function "resets" the state of the AMP object.
+     * It "loads" up new HTML, that is ready for conversion with
+     * AMP::convertToAmpHtml()
+     *
+     * @param $html
+     */
+    public function loadHtml($html)
     {
         $this->input_html = $html;
         $this->warnings = [];
@@ -31,7 +53,7 @@ class AMP
      * Convert an HTML Fragment to AMP HTML
      * @return string
      */
-    public function convertToAMP()
+    public function convertToAmpHtml()
     {
         /** @var QueryPath\DOMQuery $qp */
         $qp = QueryPath::withHTML($this->input_html, array('convert_to_encoding' => 'UTF-8'));
@@ -45,11 +67,26 @@ class AMP
             $this->warnings = array_merge($this->warnings, $warning);
         }
 
+        $this->sortWarningsByLineno();
         $this->amp_html = $qp->innerHTML();
         return $this->amp_html;
     }
 
-    public function warnings_human()
+    protected function sortWarningsByLineno()
+    {
+        // Sort the warnings according to increasing line number
+        usort($this->warnings, function (Warning $warning1, Warning $warning2) {
+            if ($warning1->lineno > $warning2->lineno) {
+                return 1;
+            } else if ($warning1->lineno < $warning2->lineno) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+    }
+
+    public function warningsHuman()
     {
         if (empty($this->warnings)) {
             return '';

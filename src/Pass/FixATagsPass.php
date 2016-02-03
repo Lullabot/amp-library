@@ -8,7 +8,7 @@ use Lullabot\AMP\Warning;
 use Lullabot\AMP\WarningType;
 use Lullabot\AMP\ActionTaken;
 
-class FixATagPass extends FixBasePass
+class FixATagsPass extends FixBasePass
 {
     function pass()
     {
