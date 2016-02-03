@@ -3,6 +3,7 @@
 namespace Lullabot\AMP;
 
 use QueryPath;
+use SebastianBergmann\Diff\Differ;
 
 class AMP
 {
@@ -84,6 +85,17 @@ class AMP
                 return 0;
             }
         });
+    }
+
+    public function getInputOutputHtmlDiff($escape_html = TRUE)
+    {
+        $diff = new Differ();
+        $diff_html = $diff->diff($this->input_html, $this->amp_html);
+        if ($escape_html) {
+            return htmlspecialchars($diff_html, ENT_QUOTES);
+        } else {
+            return $diff_html;
+        }
     }
 
     public function warningsHuman()
