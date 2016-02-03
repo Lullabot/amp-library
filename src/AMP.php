@@ -69,6 +69,7 @@ class AMP
         }
 
         $this->sortWarningsByLineno();
+        // @todo: Remove body at some point?
         $this->amp_html = $qp->find('body')->innerHTML();
         return $this->amp_html;
     }
@@ -90,12 +91,26 @@ class AMP
     public function getInputOutputHtmlDiff($escape_html = TRUE)
     {
         $diff = new Differ();
-        $diff_html = $diff->diff($this->input_html, $this->amp_html);
+        $diff_html = $diff->diff($this->formatSource($this->input_html), $this->amp_html);
         if ($escape_html) {
             return htmlspecialchars($diff_html, ENT_QUOTES);
         } else {
             return $diff_html;
         }
+    }
+
+    /**
+     * Quick and dirty way to format html
+     * Need this if the incoming html is to be diffed to the output html in any logical way
+     * @param $html
+     * @return string
+     */
+    protected function formatSource($html)
+    {
+        /** @var QueryPath\DOMQuery $qp */
+        $qp = \QueryPath::withHTML($html);
+        // @todo: Remove body at some point?
+        return $qp->find('body')->innerHTML();
     }
 
     public function warningsHuman()
