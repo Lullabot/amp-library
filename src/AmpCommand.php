@@ -21,16 +21,16 @@ class AmpCommand extends Command
                 'Which file do you want to convert to AMP HTML? (Default is stdin)'
             )
             ->addOption(
-                '--no-warnings',
+                '--no-orig-and-warn',
                 null,
                 InputOption::VALUE_NONE,
-                'If set, the warnings encountered during conversion will be suppressed'
+                'If set, the original HTML and warnings encountered during conversion will not be printed out'
             )
             ->addOption(
                 '--no-lines',
                 null,
                 InputOption::VALUE_NONE,
-                'If set, the line numbers will be not printed along with source code. Option makes sense only when --diff is not used'
+                'If set, the line numbers will be not printed the AMPized HTML. Option makes sense only when --no-orig-and-warn is not used'
             )
             ->addOption(
                 '--diff',
@@ -54,16 +54,8 @@ class AmpCommand extends Command
         $amp_html = $amp->convertToAmpHtml();
 
         if (!$input->getOption('no-lines')) {
-            $amp_lines = explode(PHP_EOL, $amp_html);
-            $amp_html_new = '';
-            $n = strlen((string)count($amp_lines));
-            $line = 0;
-            foreach ($amp_lines as $amp_line) {
-                $line++;
-                $amp_html_new .= sprintf("Line %{$n}d: %s" . PHP_EOL, $line, $amp_line);
-            }
             // now this is our new output html
-            $amp_html = $amp_html_new;
+            $amp_html = $this->getStringWithLineNumbers($amp_html);
         }
 
         // Show the diff if the option is set
@@ -75,8 +67,26 @@ class AmpCommand extends Command
         }
 
         // Show the warnings by default
-        if (!$input->getOption('no-warnings')) {
+        if (!$input->getOption('no-orig-and-warn')) {
+            $output->writeln("\nORIGINAL HTML WITH WARNINGS");
+            $output->writeln("===========================");
+            $output->writeln($this->getStringWithLineNumbers($amp->getInputHtml()));
+            $output->writeln('Warnings');
             $output->writeln($amp->warningsHumanText());
         }
+    }
+
+    protected function getStringWithLineNumbers($string_input)
+    {
+        $lines = explode(PHP_EOL, $string_input);
+        $string_output = '';
+        $n = strlen((string)count($lines));
+        $lineno = 0;
+        foreach ($lines as $line) {
+            $lineno++;
+            $string_output .= sprintf("Line %{$n}d: %s" . PHP_EOL, $lineno, $line);
+        }
+
+        return $string_output;
     }
 }

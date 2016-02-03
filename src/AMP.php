@@ -117,13 +117,16 @@ class AMP
      * Differs from AMP::warningsHuman() in that it outputs warnings in Text and not HTML format
      * @return string
      */
-    public function warningsHumanText()
+    public function warningsHumanText($no_heading = TRUE)
     {
         if (empty($this->warnings)) {
             return '';
         }
 
-        $warning_text = PHP_EOL . 'Warnings' . PHP_EOL;
+        $warning_text = '';
+        if (!$no_heading) {
+            $warning_text .= PHP_EOL . 'Warnings' . PHP_EOL;
+        }
         foreach ($this->warnings as $warning) {
             $warning_text .= "- $warning->human_description" . PHP_EOL;
         }
