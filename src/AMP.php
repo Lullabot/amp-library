@@ -12,7 +12,8 @@ class AMP
         'Lullabot\AMP\Pass\FixTagsAndAttributesPass',
         'Lullabot\AMP\Pass\FixATagsPass',
         'Lullabot\AMP\Pass\FixHtmlCommentsPass',
-        'Lullabot\AMP\Pass\FixScriptTagsBodyPass'
+        'Lullabot\AMP\Pass\FixScriptTagsBodyPass',
+        'Lullabot\AMP\Pass\FixStyleTagsBodyPass'
     ];
 
     /** @var array */
