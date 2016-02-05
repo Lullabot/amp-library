@@ -2,14 +2,18 @@
 
 namespace Lullabot\AMP;
 
+use Lullabot\AMP\Spec\ValidatorRules;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
+use Lullabot\AMP\Spec\ValidationRulesFactory;
+use Lullabot\AMP\Spec\ValidationRules;
 
 class AMP
 {
     // We'll need to add discovery of passes etc. very basic for now
     public $passes = [
         'Lullabot\AMP\Pass\FixTagsAndAttributesPass',
+        'Lullabot\AMP\Pass\FixStandardPass',
         'Lullabot\AMP\Pass\FixATagsPass',
         'Lullabot\AMP\Pass\FixHtmlCommentsPass',
         'Lullabot\AMP\Pass\FixScriptTagsBodyPass',
@@ -22,6 +26,8 @@ class AMP
     protected $input_html = '';
     /** @var string */
     protected $amp_html = '';
+    /** @var ValidatorRules */
+    protected $rules;
 
     public function getWarnings()
     {
@@ -36,6 +42,17 @@ class AMP
     public function getAmpHtml()
     {
         return $this->amp_html;
+    }
+
+    /**
+     * AMP constructor.
+     *
+     * The most important job of this constructor is to instantiate an object of the \Lullabot\AMP\Spec\ValidationRules class
+     * @see src/Spec/validator-generated.php
+     */
+    public function __construct()
+    {
+        $this->rules = ValidationRulesFactory::createValidationRules();
     }
 
     /**
@@ -66,7 +83,7 @@ class AMP
             $qp_branch = $qp->branch();
             // Run the pass
             // Each of the $qp objects are pointing to the same DOMDocument
-            $warning = (new $pass($qp_branch))->pass();
+            $warning = (new $pass($qp_branch, $this->rules))->pass();
             $this->warnings = array_merge($this->warnings, $warning);
         }
 
@@ -128,6 +145,11 @@ class AMP
         $warning_text .= '</ul>';
 
         return $warning_text;
+    }
+
+    public function getRules()
+    {
+        return $this->rules;
     }
 
     /**
