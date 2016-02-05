@@ -193,8 +193,8 @@ class ValidatorRules {
   public $error_formats = [];
 }
 
-class Rules {
-  public function __construct() {
+class ValidationRulesFactory {
+  public static function createValidationRules() {
   $o_0 = new ValidatorRules();
   $o_1 = new TagSpec();
   $o_1->name = '!doctype';
@@ -3487,7 +3487,7 @@ class Rules {
   $o_889->code = ValidationErrorCode::ATTR_DISALLOWED_BY_SPECIFIED_LAYOUT;
   $o_889->format = 'The attribute \'%1\' in tag \'%2\' is disallowed by implied layout \'%3\'.';
   $o_0->error_formats[] = $o_889;
-  $this->rules = $o_0;
+  return $o_0;
   }
 }
 
