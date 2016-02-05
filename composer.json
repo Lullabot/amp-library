@@ -15,6 +15,7 @@
         "symfony/console": ">=2.7.0"
     },
     "autoload": {
+        "classmap": ["src/Spec/validator-generated.php"],
         "psr-4": {"Lullabot\\AMP\\": "src"}
     }
 }
