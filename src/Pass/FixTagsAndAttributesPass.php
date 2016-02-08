@@ -170,7 +170,10 @@ class FixTagsAndAttributesPass extends FixBasePass
         'amp-pixel',
         'amp-audio',
         'amp-lightbox',
-        'amp-image-lightbox'];
+        'amp-image-lightbox',
+        // These tags will be later transformed
+        'img'
+    ];
 
     public function pass()
     {
