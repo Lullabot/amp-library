@@ -36,27 +36,32 @@ class FixImgTagsPass extends FixBasePass
     }
 
     // @todo deal with failure
-    // @todo should this call out to externally registered callbacks?
-    protected function setAmpImgAttributes(\DOMElement $el)
+    protected function getImageWidthHeight($src)
     {
-
-        $src = $el->getAttribute('src');
-
         // Try obtaining image size
         $size = getimagesize($src);
 
         if (empty($size)) {
             $src = $this->options['base_uri'] . $src;
+            $size = getimagesize($src);
         }
 
-        $size = getimagesize($src);
+        return ['width' => $size[0], 'height' => $size[1]];
+    }
 
-        $width = $size[0];
-        $height = $size[1];
+    // @todo should this call out to externally registered callbacks?
+    protected function setAmpImgAttributes(\DOMElement $el)
+    {
+        // If height or image is not set, get it from the image
+        if (!$el->getAttribute('width') || !$el->getAttribute('height')) {
+            $dimensions = $this->getImageWidthHeight($el->getAttribute('src'));
+            $el->setAttribute('width', $dimensions['width']);
+            $el->setAttribute('height', $dimensions['height']);
+        }
 
-        // Default settings according to discussion in amp-library #4
-        $el->setAttribute('width', $width);
-        $el->setAttribute('height', $height);
-        $el->setAttribute('layout', 'responsive');
+        // Sane default for now
+        if (!$el->getAttribute('layout')) {
+            $el->setAttribute('layout', 'responsive');
+        }
     }
 }
