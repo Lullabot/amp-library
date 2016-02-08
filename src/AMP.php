@@ -17,7 +17,8 @@ class AMP
         'Lullabot\AMP\Pass\FixATagsPass',
         'Lullabot\AMP\Pass\FixHtmlCommentsPass',
         'Lullabot\AMP\Pass\FixScriptTagsBodyPass',
-        'Lullabot\AMP\Pass\FixStyleTagsBodyPass'
+        'Lullabot\AMP\Pass\FixStyleTagsBodyPass',
+        'Lullabot\AMP\Pass\FixImgTagsPass'
     ];
 
     /** @var array */
@@ -61,12 +62,14 @@ class AMP
      * AMP::convertToAmpHtml()
      *
      * @param $html
+     * @param $options
      */
-    public function loadHtml($html)
+    public function loadHtml($html, $options = [])
     {
         $this->input_html = $html;
         $this->warnings = [];
         $this->amp_html = '';
+        $this->options = $options;
     }
 
     /**
@@ -83,7 +86,7 @@ class AMP
             $qp_branch = $qp->branch();
             // Run the pass
             // Each of the $qp objects are pointing to the same DOMDocument
-            $warning = (new $pass($qp_branch, $this->rules))->pass();
+            $warning = (new $pass($qp_branch, $this->rules, $this->options))->pass();
             $this->warnings = array_merge($this->warnings, $warning);
         }
 
