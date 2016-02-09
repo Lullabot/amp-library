@@ -15,6 +15,22 @@ abstract class FixBasePass
     protected $rules;
     /** @var array */
     protected $options;
+    /** @var array */
+    protected $component_js = [];
+
+    protected static $component_mappings = [
+        "amp-anim" => "https://cdn.ampproject.org/v0/amp-anim-0.1.js",
+        "amp-audio" => "https://cdn.ampproject.org/v0/amp-audio-0.1.js",
+        "amp-carousel" => "https://cdn.ampproject.org/v0/amp-carousel-0.1.js",
+        "amp-fit-text" => "https://cdn.ampproject.org/v0/amp-fit-text-0.1.js",
+        "amp-font" => "https://cdn.ampproject.org/v0/amp-font-0.1.js",
+        "amp-iframe" => "https://cdn.ampproject.org/v0/amp-iframe-0.1.js",
+        "amp-instagram" => "https://cdn.ampproject.org/v0/amp-instagram-0.1.js",
+        "amp-image-lightbox" => "https://cdn.ampproject.org/v0/amp-image-lightbox-0.1.js",
+        "amp-lightbox" => "https://cdn.ampproject.org/v0/amp-lightbox-0.1.js",
+        "amp-twitter" => "https://cdn.ampproject.org/v0/amp-twitter-0.1.js",
+        "amp-youtube" => "https://cdn.ampproject.org/v0/amp-youtube-0.1.js"
+    ];
 
     /**
      * FixBasePass constructor.
@@ -27,6 +43,23 @@ abstract class FixBasePass
         $this->q = $q;
         $this->rules = $rules;
         $this->options = $options;
+    }
+
+    function getWarnings()
+    {
+        return $this->warnings;
+    }
+
+    function getComponentJs()
+    {
+        return $this->component_js;
+    }
+
+    function addComponent($component_name)
+    {
+        if (isset(self::$component_mappings[$component_name])) {
+            $this->component_js[$component_name] = self::$component_mappings[$component_name];
+        }
     }
 
     abstract function pass();

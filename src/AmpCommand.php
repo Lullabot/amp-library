@@ -40,6 +40,12 @@ class AmpCommand extends Command
                 'If set, a diff of the input and output HTML will be printed out instead of the AMP html. ' .
                 'Note that the original HTML will be formatted before being diffed with output HTML for best results. ' .
                 'This is because the output HTML is also formatted automatically.'
+            )
+            ->addOption(
+                '--js',
+                null,
+                InputOption::VALUE_NONE,
+                'If set, a list of custom amp components and the url to include the js is printed out'
             );
     }
 
@@ -77,6 +83,14 @@ class AmpCommand extends Command
             $output->writeln('Warnings');
             $output->writeln($amp->warningsHumanText());
         }
+
+        // Show the components with js urls
+        if ($input->getOption('js')) {
+            $output->writeln("\nCOMPONENT NAMES WITH JS PATH");
+            $output->writeln("===========================");
+            $output->writeln($this->componentList($amp->getComponentJs()));
+        }
+
     }
 
     protected function getStringWithLineNumbers($string_input)
@@ -91,5 +105,19 @@ class AmpCommand extends Command
         }
 
         return $string_output;
+    }
+
+    protected function componentList($components)
+    {
+        $str = '';
+        if (empty($components)) {
+            return 'No custom amp components found';
+        }
+
+        foreach ($components as $name => $uri) {
+            $str .= "'$name', include path '$uri''";
+        }
+
+        return $str;
     }
 }

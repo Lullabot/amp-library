@@ -2,6 +2,7 @@
 
 namespace Lullabot\AMP;
 
+use Lullabot\AMP\Pass\FixBasePass;
 use Lullabot\AMP\Spec\ValidatorRules;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
@@ -29,6 +30,15 @@ class AMP
     protected $amp_html = '';
     /** @var ValidatorRules */
     protected $rules;
+    /** @var array */
+    protected $component_js = [];
+    /** @var array */
+    protected $options;
+
+    public function getComponentJs()
+    {
+        return $this->component_js;
+    }
 
     public function getWarnings()
     {
@@ -70,6 +80,7 @@ class AMP
         $this->warnings = [];
         $this->amp_html = '';
         $this->options = $options;
+        $this->component_js = [];
     }
 
     /**
@@ -82,12 +93,15 @@ class AMP
         $qp = QueryPath::withHTML($this->input_html, array('convert_to_encoding' => 'UTF-8'));
 
         $warnings = [];
-        foreach ($this->passes as $pass) {
+        foreach ($this->passes as $pass_name) {
             $qp_branch = $qp->branch();
-            // Run the pass
             // Each of the $qp objects are pointing to the same DOMDocument
-            $warning = (new $pass($qp_branch, $this->rules, $this->options))->pass();
-            $this->warnings = array_merge($this->warnings, $warning);
+            /** @var FixBasePass $pass */
+            $pass = (new $pass_name($qp_branch, $this->rules, $this->options));
+            // Run the pass
+            $pass->pass();
+            $this->warnings = array_merge($this->warnings, $pass->getWarnings());
+            $this->component_js = array_merge($this->component_js, $pass->getComponentJs());
         }
 
         $this->sortWarningsByLineno();
