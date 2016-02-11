@@ -7,6 +7,7 @@ use QueryPath\DOMQuery;
 use Lullabot\AMP\Warning;
 use Lullabot\AMP\WarningType;
 use Lullabot\AMP\ActionTaken;
+use FastImageSize\FastImageSize;
 
 /**
  * Class FixImgTagsPass
@@ -38,15 +39,16 @@ class FixImgTagsPass extends FixBasePass
     // @todo deal with failure
     protected function getImageWidthHeight($src)
     {
-        // Try obtaining image size
-        $size = getimagesize($src);
+        $fastimage = new FastImageSize();
 
-        if (empty($size)) {
+        // Try attaching the base_uri if that does not work
+        if (!empty($this->options['base_uri']) && !preg_match('/.*:\/\//', $src)) {
             $src = $this->options['base_uri'] . $src;
-            $size = getimagesize($src);
         }
 
-        return ['width' => $size[0], 'height' => $size[1]];
+        // Try obtaining image size without having to download the whole image
+        $size = $fastimage->getImageSize($src);
+        return $size;
     }
 
     // @todo should this call out to externally registered callbacks?

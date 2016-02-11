@@ -12,7 +12,8 @@
         "querypath/QueryPath": ">=3.0.0",
         "myclabs/php-enum": "^1.4",
         "sebastian/diff": "~1.2",
-        "symfony/console": ">=2.7.0"
+        "symfony/console": ">=2.7.0",
+        "marc1706/fast-image-size": "1.*"
     },
     "autoload": {
         "classmap": ["src/Spec/validator-generated.php"],
