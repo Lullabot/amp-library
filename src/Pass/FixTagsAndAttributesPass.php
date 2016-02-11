@@ -172,7 +172,8 @@ class FixTagsAndAttributesPass extends FixBasePass
         'amp-lightbox',
         'amp-image-lightbox',
         // These tags will be later transformed
-        'img'
+        'img',
+        'iframe'
     ];
 
     public function pass()
