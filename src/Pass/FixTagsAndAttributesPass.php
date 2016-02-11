@@ -193,7 +193,7 @@ class FixTagsAndAttributesPass extends FixBasePass
 
             // Remove style attribute, if present
             if ($tag->hasAttribute('style')) {
-                $this->addWarning(new Warning('style', WarningType::ATTRIBUTE_NOT_ALLOWED, ActionTaken::ATTRIBUTE_REMOVED, $tag->getLineNo()));
+                $this->addWarning(new Warning($tag->nodeName . '.style', WarningType::ATTRIBUTE_NOT_ALLOWED, ActionTaken::ATTRIBUTE_REMOVED, $tag->getLineNo()));
                 $tag->removeAttribute('style');
             }
 
@@ -206,7 +206,7 @@ class FixTagsAndAttributesPass extends FixBasePass
             foreach ($tag->attributes as $name => $attrNode) {
                 // Something like "onmouseover" is not allowed but just "on" by itself, is.
                 if (preg_match('/^on./', $name)) {
-                    $this->addWarning(new Warning($name, WarningType::ATTRIBUTE_NOT_ALLOWED, ActionTaken::ATTRIBUTE_REMOVED, $tag->getLineNo()));
+                    $this->addWarning(new Warning($tag->nodeName . $name, WarningType::ATTRIBUTE_NOT_ALLOWED, ActionTaken::ATTRIBUTE_REMOVED, $tag->getLineNo()));
                     $tag->removeAttribute($name);
                 }
             }
