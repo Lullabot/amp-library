@@ -67,8 +67,8 @@ class AMP
     }
 
     /**
-     * Calling this function "resets" the state of the AMP object.
-     * It "loads" up new HTML, that is ready for conversion with
+     * Calling this function "clears" the state of the AMP object.
+     * It then "loads" up new HTML, that is ready for conversion with
      * AMP::convertToAmpHtml()
      *
      * @param $html
@@ -76,10 +76,21 @@ class AMP
      */
     public function loadHtml($html, $options = [])
     {
+        $this->clear();
         $this->input_html = $html;
+        $this->options = $options;
+    }
+
+    /**
+     * Calling this function "clears" the state of the AMP object.
+     * Call this function when you don't want anything remaining in the AMP Object
+     */
+    public function clear()
+    {
+        $this->input_html = '';
         $this->warnings = [];
         $this->amp_html = '';
-        $this->options = $options;
+        $this->options = [];
         $this->component_js = [];
     }
 
