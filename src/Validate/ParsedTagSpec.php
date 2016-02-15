@@ -106,12 +106,6 @@ class ParsedTagSpec
         return $this->also_requires;
     }
 
-    public function validateAttributes($context, $encountered_attributes, $result_for_attempt)
-    {
-        // @todo
-        return;
-    }
-
     /**
      * @return bool
      */
@@ -138,6 +132,92 @@ class ParsedTagSpec
     {
         // @todo
         return;
+    }
+
+    // No support for templates at the moment
+    public function validateAttrNotFoundInSpec($attr_name, Context $context, IValidationResult $validation_result)
+    {
+        if (strpos($attr_name, 'data-') === 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // No support for templates at the moment
+    public function validateAttributes(Context $context, array $encountered_attrs, $result_for_attempt)
+    {
+        // skip layout validation for now
+
+        /** @var $mandatory_attrs_seen */
+        $mandatory_attrs_seen = new SplObjectStorage();
+        $mandatory_oneofs_seen = []; // Set
+        foreach ($encountered_attrs as $encountered_attr_key => $encounted_attr_value) {
+            if (empty($encounted_attr_value)) {
+                $encounted_attr_value = '';
+            }
+
+            $encountered_attr_name = mb_strtolower($encounted_attr_value);
+            $parsed_attr_spec = $this->attrs_by_name[$encountered_attr_name];
+            if (empty($parsed_attr_spec)) {
+                if ($this->validateAttrNotFoundInSpec($encountered_attr_name, $context, $result_for_attempt)) {
+                    continue;
+                } else {
+                    return;
+                }
+            }
+
+            if (!empty($parsed_attr_spec->getSpec()->deprecation)) {
+                $context->addError(ValidationErrorCode::DEPRECATED_ATTR, [$encountered_attr_name, getDetailOrName($this->spec), $parsed_attr_spec->getSpec()->deprecation], $parsed_attr_spec->getSpec()->deprecation_url, $result_for_attempt);
+                // Dont exit as its not a fatal error
+            }
+
+            if (!empty($parsed_attr_spec->getSpec()->value)) {
+                if ($encounted_attr_value != $parsed_attr_spec->getSpec()->value) {
+                    $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE, [$encountered_attr_name, getDetailOrName($this->spec), $encounted_attr_value], $this->spec->spec_url);
+                    return;
+                }
+            }
+
+            if (!empty($parsed_attr_spec->getSpec()->value_regex)) {
+                // @todo
+            }
+
+            if (!empty($parsed_attr_spec->getSpec()->value_url)) {
+                // @todo
+            }
+
+            if (!empty($parsed_attr_spec->getSpec()->value_properties)) {
+                // @todo
+            }
+
+            if (!empty($parsed_attr_spec->getSpec()->blacklisted_value_regex)) {
+                // @todo
+            }
+
+            if ($parsed_attr_spec->getSpec()->mandatory) {
+                $mandatory_attrs_seen->attach($parsed_attr_spec);
+            }
+
+            if ($parsed_attr_spec->getSpec()->mandatory_oneof && isset($mandatory_oneofs_seen[$parsed_attr_spec->getSpec()->mandatory_oneof])) {
+                $context->addError(ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS, [getDetailOrName($this->spec), $parsed_attr_spec->getSpec()->mandatory_oneof], $this->spec->spec_url, $result_for_attempt);
+                return;
+            }
+
+        }
+
+        foreach ($this->mandatory_oneofs as $mandatory_oneof) {
+            if (!isset($mandatory_oneofs_seen[$mandatory_oneof])) {
+                $context->addError(ValidationErrorCode::MANDATORY_ONEOF_ATTR_MISSING, [getDetailOrName($this->spec), $mandatory_oneof], $this->spec->spec_url, $result_for_attempt);
+            }
+        }
+
+        /** @var ParsedTagSpec $mandatory_attr */
+        foreach ($this->mandatory_attrs as $mandatory_attr) {
+            if (!$mandatory_attrs_seen->contains($mandatory_attr)) {
+                $context->addError(ValidationErrorCode::MANDATORY_ATTR_MISSING, [$mandatory_attr->getSpec()->name, getDetailOrName($this->spec)], $this->spec->spec_url, $result_for_attempt);
+            }
+        }
     }
 
 }
