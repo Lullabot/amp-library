@@ -49,10 +49,8 @@ class ParsedTagSpec
 
             $mandatory_oneofs = $parsed_attr_spec->getSpec()->mandatory_oneof;
             if (!empty($mandatory_oneofs)) {
-                foreach ($mandatory_oneofs as $mandatory_oneof) {
-                    // Treat this like a set
-                    $this->mandatory_oneofs[$mandatory_oneof] = 1;
-                }
+                // Treat this like a set
+                $this->mandatory_oneofs[$mandatory_oneofs] = 1;
             }
 
             $alt_names = $parsed_attr_spec->getSpec()->alternative_names;
@@ -124,7 +122,7 @@ class ParsedTagSpec
     {
         if ($this->getSpec()->mandatory_parent) {
             $parent = $context->getTag()->parentNode;
-            if ($parent->tagName !== $this->getSpec()->mandatory_parent) {
+            if (!empty($parent->tagName) && $parent->tagName !== $this->getSpec()->mandatory_parent) {
                 $context->addError(ValidationErrorCode::WRONG_PARENT_TAG, [$this->spec->name, $parent->tagName, $this->getSpec()->mandatory_parent], $this->spec->spec_url, $validation_result);
             }
         }
@@ -160,7 +158,7 @@ class ParsedTagSpec
             }
 
             $encountered_attr_name = mb_strtolower($encounted_attr_value);
-            $parsed_attr_spec = $this->attrs_by_name[$encountered_attr_name];
+            $parsed_attr_spec = isset($this->attrs_by_name[$encountered_attr_key]) ? $this->attrs_by_name[$encountered_attr_key] : null;
             if (empty($parsed_attr_spec)) {
                 if ($this->validateAttrNotFoundInSpec($encountered_attr_name, $context, $result_for_attempt)) {
                     continue;
@@ -294,7 +292,7 @@ class ParsedTagSpec
      */
     public static function getDetailOrName(TagSpec $tag_spec)
     {
-        return empty($tag_spec->detail) ? $tag_spec->detail : $tag_spec->name;
+        return empty($tag_spec->detail) ? $tag_spec->name : $tag_spec->detail;
     }
 
     /**

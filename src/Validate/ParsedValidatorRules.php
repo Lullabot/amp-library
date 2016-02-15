@@ -8,7 +8,6 @@ use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Spec\ValidatorRules;
 use Lullabot\AMP\Spec\ErrorFormat;
-use function Lullabot\AMP\Validate\getDetailOrName;
 
 class ParsedValidatorRules
 {
@@ -55,10 +54,9 @@ class ParsedValidatorRules
         /** @var TagSpec $tag_spec */
         foreach ($this->rules->tags as $tagspec) {
             /** @var ParsedTagSpec $parsed_tag_spec */
-            $parsed_tag_spec = new ParsedTagSpec($attr_lists_by_name, $tagspec_by_detail_or_name,
-                ParsedTagSpec::shouldRecordTagspecValidatedTest($tagspec, $detail_or_names_to_track), $tagspec);
+            $parsed_tag_spec = new ParsedTagSpec($attr_lists_by_name, $tagspec_by_detail_or_name, ParsedTagSpec::shouldRecordTagspecValidatedTest($tagspec, $detail_or_names_to_track), $tagspec);
             assert(!empty($tagspec->name));
-            $this->all_parsed_tag_specs[$tagspec] = $parsed_tag_spec;
+            $this->all_parsed_specs_by_specs[$tagspec] = $parsed_tag_spec;
 
             if (!isset($this->tag_dispatch_by_tag_name[$tagspec->name])) {
                 $this->tag_dispatch_by_tag_name[$tagspec->name] = new TagSpecDispatch();
@@ -97,7 +95,7 @@ class ParsedValidatorRules
     public function validateTag(Context $context, $tag_name, array $encountered_attributes, IValidationResult $validationResult)
     {
         /** @var TagSpecDispatch $tag_spec_dispatch */
-        $tag_spec_dispatch = $this->tag_dispatch_by_tag_name[$tag_name];
+        $tag_spec_dispatch = isset($this->tag_dispatch_by_tag_name[$tag_name]) ? $this->tag_dispatch_by_tag_name[$tag_name] : null;
         if (empty($tag_spec_dispatch)) {
             $context->addError(ValidationErrorCode::DISALLOWED_TAG, [$tag_name], '', $validationResult);
             return;
