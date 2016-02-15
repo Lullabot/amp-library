@@ -5,6 +5,7 @@ use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Spec\ValidationErrorSeverity;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationError;
+use Lullabot\AMP\Spec\TagSpec;
 
 class Context
 {
@@ -86,14 +87,14 @@ class Context
     }
 
     /**
-     * @param ParsedTagSpec $parsed_spec
+     * @param ParsedTagSpec $parsed_tag_spec
      * @return bool
      */
-    public function recordTagspecValidated(ParsedTagSpec $parsed_spec)
+    public function recordTagspecValidated(ParsedTagSpec $parsed_tag_spec)
     {
-        $duplicate = $this->tagspecs_validated->contains($parsed_spec);
+        $duplicate = $this->tagspecs_validated->contains($parsed_tag_spec);
         if (!$duplicate) {
-            $this->tagspecs_validated->attach($parsed_spec);
+            $this->tagspecs_validated->attach($parsed_tag_spec);
         }
         return !$duplicate;
     }
@@ -111,6 +112,10 @@ class Context
         $this->mandatory_alternatives_satisfied[$satisfied] = 1;
     }
 
+    /**
+     * @param IValidationResult $validation_result
+     * @return array
+     */
     public function getProgress(IValidationResult $validation_result)
     {
         if ($this->max_errors === -1) {
@@ -125,6 +130,9 @@ class Context
         return ['complete' => !$wants_more_errors, 'wants_more_errors' => $wants_more_errors];
     }
 
+    /**
+     * @return SplObjectStorage
+     */
     public function getTagspecsValidated()
     {
         return $this->tagspecs_validated;

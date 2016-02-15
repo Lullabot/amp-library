@@ -8,21 +8,21 @@ use Lullabot\AMP\Spec\ValidationErrorCode;
 class ParsedTagSpec
 {
     /** @var TagSpec */
-    public $spec;
+    protected $spec;
     /** @var ParsedAttrSpec[] */
-    public $attrs_by_name = [];
+    protected $attrs_by_name = [];
     /** @var ParsedAttrSpec[] */
-    public $mandatory_attrs = [];
+    protected $mandatory_attrs = [];
 
     // Basically a Set
     /** @var array */
-    public $mandatory_oneofs = [];
+    protected $mandatory_oneofs = [];
     /** @var boolean */
-    public $should_record_tagspec_validated = false;
+    protected $should_record_tagspec_validated = false;
     /** @var TagSpec[] */
-    public $also_requires = [];
+    protected $also_requires = [];
     /** @var ParsedAttrSpec */
-    public $dispatch_key_attr_spec = null;
+    protected $dispatch_key_attr_spec = null;
 
     /**
      * ParsedTagSpec constructor.
@@ -37,7 +37,7 @@ class ParsedTagSpec
         $this->should_record_tagspec_validated = $should_record_tagspec_validated;
 
         /** @var AttrSpec[] $attrs */
-        $attrs = GetAttrsFor($tag_spec, $attr_lists_by_name);
+        $attrs = getAttrsFor($tag_spec, $attr_lists_by_name);
         foreach ($attrs as $attr) {
             $parsed_attr_spec = new ParsedAttrSpec($attr);
             $this->attrs_by_name[$attr->name] = $parsed_attr_spec;
@@ -99,7 +99,7 @@ class ParsedTagSpec
     }
 
     /**
-     * @return \Lullabot\AMP\Spec\TagSpec[]
+     * @return TagSpec[]
      */
     public function getAlsoRequires()
     {
@@ -127,7 +127,7 @@ class ParsedTagSpec
     public function validateParentTag(Context $context, IValidationResult $validation_result)
     {
         if ($this->getSpec()->mandatory_parent) {
-            $parent = $context->tag->parentNode;
+            $parent = $context->getTag()->parentNode;
             if ($parent->tagName !== $this->getSpec()->mandatory_parent) {
                 $context->addError(ValidationErrorCode::WRONG_PARENT_TAG, [$this->spec->name, $parent->tagName, $this->getSpec()->mandatory_parent], $this->spec->spec_url, $validation_result);
             }
@@ -147,7 +147,7 @@ class ParsedTagSpec
  * @param AttrList[] $attr_lists_by_name
  * @return AttrSpec[]
  */
-function GetAttrsFor(TagSpec $tag_spec, array $attr_lists_by_name)
+function getAttrsFor(TagSpec $tag_spec, array $attr_lists_by_name)
 {
     $attrs = [];
     $names_seen = []; // A Set
