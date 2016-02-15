@@ -1,5 +1,7 @@
 <?php
 
+namespace Lullabot\AMP\Validate;
+
 use Lullabot\AMP\Spec\AttrSpec;
 
 class ParsedAttrSpec

@@ -1,5 +1,7 @@
 <?php
 
+namespace Lullabot\AMP\Validate;
+
 use Lullabot\AMP\Spec\AttrList;
 use Lullabot\AMP\Spec\AttrSpec;
 use Lullabot\AMP\Spec\TagSpec;
@@ -150,7 +152,7 @@ class ParsedTagSpec
         // skip layout validation for now
 
         /** @var $mandatory_attrs_seen */
-        $mandatory_attrs_seen = new SplObjectStorage();
+        $mandatory_attrs_seen = new \SplObjectStorage();
         $mandatory_oneofs_seen = []; // Set
         foreach ($encountered_attrs as $encountered_attr_key => $encounted_attr_value) {
             if (empty($encounted_attr_value)) {
@@ -174,7 +176,7 @@ class ParsedTagSpec
 
             if (!empty($parsed_attr_spec->getSpec()->value)) {
                 if ($encounted_attr_value != $parsed_attr_spec->getSpec()->value) {
-                    $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE, [$encountered_attr_name, getDetailOrName($this->spec), $encounted_attr_value], $this->spec->spec_url);
+                    $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE, [$encountered_attr_name, getDetailOrName($this->spec), $encounted_attr_value], $this->spec->spec_url, $result_for_attempt);
                     return;
                 }
             }

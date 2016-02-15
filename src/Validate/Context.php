@@ -1,29 +1,28 @@
 <?php
 
-use Lullabot\AMP\Spec\ValidationResult;
+namespace Lullabot\AMP\Validate;
+
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Spec\ValidationErrorSeverity;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationError;
-use Lullabot\AMP\Spec\TagSpec;
 
 class Context
 {
-    /** @var DOMElement */
-    protected $tag;
-    /** @var SplObjectStorage */
+    /** @var \DOMElement */
+    protected $tag = null;
+    /** @var \SplObjectStorage */
     protected $tagspecs_validated;
     protected $mandatory_alternatives_satisfied = []; // Set of strings
     protected $max_errors = -1;
 
-    public function __construct(DOMElement $tag, $max_errors = -1)
+    public function __construct($max_errors = -1)
     {
-        $this->tag = $tag;
-        $this->tagspecs_validated = new SplObjectStorage();
+        $this->tagspecs_validated = new \SplObjectStorage();
         $this->max_errors = $max_errors;
     }
 
-    public function substituteTag(DOMElement $new_tag)
+    public function substituteTag(\DOMElement $new_tag)
     {
         $this->tag = $new_tag;
     }
@@ -37,10 +36,10 @@ class Context
      * @param $code
      * @param array $params
      * @param $spec_url
-     * @param ValidationResult $validationResult
+     * @param IValidationResult $validationResult
      * @return bool
      */
-    public function addError($code, array $params, $spec_url, ValidationResult $validationResult)
+    public function addError($code, array $params, $spec_url, IValidationResult $validationResult)
     {
         if (empty($spec_url)) {
             $spec_url = '';
@@ -131,7 +130,7 @@ class Context
     }
 
     /**
-     * @return SplObjectStorage
+     * @return \SplObjectStorage
      */
     public function getTagspecsValidated()
     {

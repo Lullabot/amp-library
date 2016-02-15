@@ -1,10 +1,13 @@
 <?php
 
+namespace Lullabot\AMP\Validate;
+
 use Lullabot\AMP\Spec\AttrList;
 use Lullabot\AMP\Spec\TagSpec;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Spec\ValidatorRules;
+use Lullabot\AMP\Spec\ErrorFormat;
 
 class ParsedValidatorRules
 {
@@ -14,7 +17,7 @@ class ParsedValidatorRules
     public $format_by_code = [];
     /** @var TagSpecDispatch[] */
     protected $tag_dispatch_by_tag_name = [];
-    /** @var SplObjectStorage */ // key is a TagSpec, value is a ParsedTagSpec
+    /** @var \SplObjectStorage */ // key is a TagSpec, value is a ParsedTagSpec
     protected $all_parsed_specs_by_specs;
 
     /** @var ParsedTagSpec[] */
@@ -23,7 +26,7 @@ class ParsedValidatorRules
     public function __construct(ValidatorRules $rules)
     {
         $this->rules = $rules;
-        $this->all_parsed_specs_by_specs = new SplObjectStorage();
+        $this->all_parsed_specs_by_specs = new \SplObjectStorage();
 
         /** @var AttrList[] $attr_lists_by_name */
         $attr_lists_by_name = [];
@@ -173,7 +176,7 @@ class ParsedValidatorRules
 
         if (!empty($parsed_spec->getSpec()->mandatory_alternatives)) {
             $satisfied = $parsed_spec->getSpec()->mandatory_alternatives;
-            $context->recordMandatoryAlternativeSatisfied($satisfied);
+            $context->recordMandatoryAlternativesSatisfied($satisfied);
         }
     }
 
@@ -199,14 +202,14 @@ class ParsedValidatorRules
      */
     public function maybeEmitAlsoRequiresValidationErrors(Context $context, IValidationResult $validation_result)
     {
-        /** @var ParsedTagSpec $$parsed_tag_spec */
+        /** @var ParsedTagSpec $parsed_tag_spec */
         foreach ($context->getTagspecsValidated() as $parsed_tag_spec) {
             /** @var TagSpec $tagspec_require */
             foreach ($parsed_tag_spec->getAlsoRequires() as $tagspec_require) {
                 $parsed_tag_spec_require = $this->all_parsed_specs_by_specs[$tagspec_require];
                 assert(!empty($parsed_tag_spec_require)); // @todo leave as an assert?
                 if (!$context->getTagspecsValidated()->contains($parsed_tag_spec_require)) {
-                    if (!$context->addError(ValidationErrorCode::TAG_REQUIRED_BY_MISSING, [getDetailOrName($parsed_tag_spec_require->getSpec()), getDetailOrName($parsed_tag_spec->getSpec())])) {
+                    if (!$context->addError(ValidationErrorCode::TAG_REQUIRED_BY_MISSING, [getDetailOrName($parsed_tag_spec_require->getSpec()), getDetailOrName($parsed_tag_spec->getSpec())], $parsed_tag_spec->getSpec()->spec_url, $validation_result)) {
                         return;
                     }
                 }

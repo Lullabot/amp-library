@@ -1,5 +1,7 @@
 <?php
 
+namespace Lullabot\AMP\Validate;
+
 class TagSpecDispatch
 {
     /** @var ParsedTagSpec[] */
