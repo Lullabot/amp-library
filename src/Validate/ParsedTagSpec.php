@@ -39,7 +39,7 @@ class ParsedTagSpec
         $this->should_record_tagspec_validated = $should_record_tagspec_validated;
 
         /** @var AttrSpec[] $attrs */
-        $attrs = getAttrsFor($tag_spec, $attr_lists_by_name);
+        $attrs = self::getAttrsFor($tag_spec, $attr_lists_by_name);
         foreach ($attrs as $attr) {
             $parsed_attr_spec = new ParsedAttrSpec($attr);
             $this->attrs_by_name[$attr->name] = $parsed_attr_spec;
@@ -170,13 +170,13 @@ class ParsedTagSpec
             }
 
             if (!empty($parsed_attr_spec->getSpec()->deprecation)) {
-                $context->addError(ValidationErrorCode::DEPRECATED_ATTR, [$encountered_attr_name, getDetailOrName($this->spec), $parsed_attr_spec->getSpec()->deprecation], $parsed_attr_spec->getSpec()->deprecation_url, $result_for_attempt);
+                $context->addError(ValidationErrorCode::DEPRECATED_ATTR, [$encountered_attr_name, self::getDetailOrName($this->spec), $parsed_attr_spec->getSpec()->deprecation], $parsed_attr_spec->getSpec()->deprecation_url, $result_for_attempt);
                 // Dont exit as its not a fatal error
             }
 
             if (!empty($parsed_attr_spec->getSpec()->value)) {
                 if ($encounted_attr_value != $parsed_attr_spec->getSpec()->value) {
-                    $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE, [$encountered_attr_name, getDetailOrName($this->spec), $encounted_attr_value], $this->spec->spec_url, $result_for_attempt);
+                    $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE, [$encountered_attr_name, self::getDetailOrName($this->spec), $encounted_attr_value], $this->spec->spec_url, $result_for_attempt);
                     return;
                 }
             }
@@ -202,7 +202,7 @@ class ParsedTagSpec
             }
 
             if ($parsed_attr_spec->getSpec()->mandatory_oneof && isset($mandatory_oneofs_seen[$parsed_attr_spec->getSpec()->mandatory_oneof])) {
-                $context->addError(ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS, [getDetailOrName($this->spec), $parsed_attr_spec->getSpec()->mandatory_oneof], $this->spec->spec_url, $result_for_attempt);
+                $context->addError(ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS, [self::getDetailOrName($this->spec), $parsed_attr_spec->getSpec()->mandatory_oneof], $this->spec->spec_url, $result_for_attempt);
                 return;
             }
 
@@ -210,59 +210,33 @@ class ParsedTagSpec
 
         foreach ($this->mandatory_oneofs as $mandatory_oneof) {
             if (!isset($mandatory_oneofs_seen[$mandatory_oneof])) {
-                $context->addError(ValidationErrorCode::MANDATORY_ONEOF_ATTR_MISSING, [getDetailOrName($this->spec), $mandatory_oneof], $this->spec->spec_url, $result_for_attempt);
+                $context->addError(ValidationErrorCode::MANDATORY_ONEOF_ATTR_MISSING, [self::getDetailOrName($this->spec), $mandatory_oneof], $this->spec->spec_url, $result_for_attempt);
             }
         }
 
         /** @var ParsedTagSpec $mandatory_attr */
         foreach ($this->mandatory_attrs as $mandatory_attr) {
             if (!$mandatory_attrs_seen->contains($mandatory_attr)) {
-                $context->addError(ValidationErrorCode::MANDATORY_ATTR_MISSING, [$mandatory_attr->getSpec()->name, getDetailOrName($this->spec)], $this->spec->spec_url, $result_for_attempt);
+                $context->addError(ValidationErrorCode::MANDATORY_ATTR_MISSING, [$mandatory_attr->getSpec()->name, self::getDetailOrName($this->spec)], $this->spec->spec_url, $result_for_attempt);
             }
         }
     }
 
-}
+    /**
+     * @param TagSpec $tag_spec
+     * @param AttrList[] $attr_lists_by_name
+     * @return AttrSpec[]
+     */
+    public static function getAttrsFor(TagSpec $tag_spec, array $attr_lists_by_name)
+    {
+        $attrs = [];
+        $names_seen = []; // A Set
 
-/**
- * @param TagSpec $tag_spec
- * @param AttrList[] $attr_lists_by_name
- * @return AttrSpec[]
- */
-function getAttrsFor(TagSpec $tag_spec, array $attr_lists_by_name)
-{
-    $attrs = [];
-    $names_seen = []; // A Set
-
-    // Layout attributes
-    if (!empty($tag_spec->amp_layout)) {
-        $layout_specs = $attr_lists_by_name['$AMP_LAYOUT_ATTRS'];
-        if (!empty($layout_specs)) {
-            foreach ($layout_specs->attrs as $attr_spec) {
-                if (!isset($names_seen[$attr_spec->name])) {
-                    $names_seen[$attr_spec->name] = 1;
-                    $attrs[] = $attr_spec;
-                }
-            }
-        }
-    }
-
-    // Attributes specified in the tag specification itself
-    /** @var AttrSpec $attr_spec */
-    foreach ($tag_spec->attrs as $attr_spec) {
-        if (!isset($names_seen[$attr_spec->name])) {
-            $names_seen[$attr_spec->name] = 1;
-            $attrs[] = $attr_spec;
-        }
-    }
-
-    // Attributes specified as attribute lists
-    /** @var string $attr_list */
-    foreach ($tag_spec->attr_lists as $attr_list) {
-        $attr_list_specs = $attr_lists_by_name[$attr_list];
-        if (!empty($attr_list_specs)) {
-            foreach ($attr_list_specs->attrs as $attr_spec) {
-                if (!isset($names_seen[$attr_spec->name])) {
+        // Layout attributes
+        if (!empty($tag_spec->amp_layout)) {
+            $layout_specs = $attr_lists_by_name['$AMP_LAYOUT_ATTRS'];
+            if (!empty($layout_specs)) {
+                foreach ($layout_specs->attrs as $attr_spec) {
                     if (!isset($names_seen[$attr_spec->name])) {
                         $names_seen[$attr_spec->name] = 1;
                         $attrs[] = $attr_spec;
@@ -270,41 +244,68 @@ function getAttrsFor(TagSpec $tag_spec, array $attr_lists_by_name)
                 }
             }
         }
-    }
 
-    // Global attributes, common to all tags
-    $global_specs = $attr_lists_by_name['$GLOBAL_ATTRS'];
-    if (empty($global_specs)) {
+        // Attributes specified in the tag specification itself
+        /** @var AttrSpec $attr_spec */
+        foreach ($tag_spec->attrs as $attr_spec) {
+            if (!isset($names_seen[$attr_spec->name])) {
+                $names_seen[$attr_spec->name] = 1;
+                $attrs[] = $attr_spec;
+            }
+        }
+
+        // Attributes specified as attribute lists
+        /** @var string $attr_list */
+        foreach ($tag_spec->attr_lists as $attr_list) {
+            $attr_list_specs = $attr_lists_by_name[$attr_list];
+            if (!empty($attr_list_specs)) {
+                foreach ($attr_list_specs->attrs as $attr_spec) {
+                    if (!isset($names_seen[$attr_spec->name])) {
+                        if (!isset($names_seen[$attr_spec->name])) {
+                            $names_seen[$attr_spec->name] = 1;
+                            $attrs[] = $attr_spec;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Global attributes, common to all tags
+        $global_specs = $attr_lists_by_name['$GLOBAL_ATTRS'];
+        if (empty($global_specs)) {
+            return $attrs;
+        }
+
+        /** @var AttrSpec $attr_spec */
+        foreach ($global_specs->attrs as $attr_spec) {
+            if (!isset($names_seen[$attr_spec->name])) {
+                $names_seen[$attr_spec->name] = 1;
+                $attrs[] = $attr_spec;
+            }
+        }
+
         return $attrs;
     }
 
-    /** @var AttrSpec $attr_spec */
-    foreach ($global_specs->attrs as $attr_spec) {
-        if (!isset($names_seen[$attr_spec->name])) {
-            $names_seen[$attr_spec->name] = 1;
-            $attrs[] = $attr_spec;
-        }
+
+    /**
+     * @param TagSpec $tag_spec
+     * @return string
+     */
+    public static function getDetailOrName(TagSpec $tag_spec)
+    {
+        return empty($tag_spec->detail) ? $tag_spec->detail : $tag_spec->name;
     }
 
-    return $attrs;
+    /**
+     * @param TagSpec $tag_spec
+     * @param array $detail_or_names_to_track
+     * @return bool
+     */
+    public static function shouldRecordTagspecValidatedTest(TagSpec $tag_spec, array $detail_or_names_to_track)
+    {
+        return $tag_spec->mandatory || $tag_spec->unique || (!empty(self::getDetailOrName($tag_spec)) && isset($detail_or_names_to_track[self::getDetailOrName($tag_spec)]));
+    }
+
 }
 
-
-/**
- * @param TagSpec $tag_spec
- * @return string
- */
-function getDetailOrName(TagSpec $tag_spec)
-{
-    return empty($tag_spec->detail) ? $tag_spec->detail : $tag_spec->name;
-}
-
-/**
- * @param TagSpec $tag_spec
- * @param array $detail_or_names_to_track
- * @return bool
- */
-function shouldRecordTagspecValidated(TagSpec $tag_spec, array $detail_or_names_to_track)
-{
-    return $tag_spec->mandatory || $tag_spec->unique || (!empty(getDetailOrName($tag_spec)) && isset($detail_or_names_to_track[getDetailOrName($tag_spec)]));
-}

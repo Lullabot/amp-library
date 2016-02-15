@@ -103,4 +103,16 @@ abstract class FixBasePass
 
         return $new_el;
     }
+
+    protected function encounteredAttributes(\DOMElement $el)
+    {
+        $encountered_attributes = [];
+        /** @var \DOMAttr $attr */
+        foreach ($el->attributes as $attr) {
+            $encountered_attributes[$attr->nodeName] = $attr->nodeValue;
+        }
+
+        return $encountered_attributes;
+    }
+
 }

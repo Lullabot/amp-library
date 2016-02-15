@@ -8,6 +8,7 @@ use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Spec\ValidatorRules;
 use Lullabot\AMP\Spec\ErrorFormat;
+use function Lullabot\AMP\Validate\getDetailOrName;
 
 class ParsedValidatorRules
 {
@@ -39,11 +40,11 @@ class ParsedValidatorRules
         $detail_or_names_to_track = [];
         /** @var TagSpec $tagspec */
         foreach ($this->rules->tags as $tagspec) {
-            assert(empty($tagspec_by_detail_or_name[getDetailOrName($tagspec)]));
-            $tagspec_by_detail_or_name[getDetailOrName($tagspec)] = $tagspec;
+            assert(empty($tagspec_by_detail_or_name[ParsedTagSpec::getDetailOrName($tagspec)]));
+            $tagspec_by_detail_or_name[ParsedTagSpec::getDetailOrName($tagspec)] = $tagspec;
 
             if (!empty($tagspec->also_requires)) {
-                $detail_or_names_to_track[getDetailOrName($tagspec)] = 1;
+                $detail_or_names_to_track[ParsedTagSpec::getDetailOrName($tagspec)] = 1;
             }
 
             foreach ($tagspec->also_requires as $require) {
@@ -55,7 +56,7 @@ class ParsedValidatorRules
         foreach ($this->rules->tags as $tagspec) {
             /** @var ParsedTagSpec $parsed_tag_spec */
             $parsed_tag_spec = new ParsedTagSpec($attr_lists_by_name, $tagspec_by_detail_or_name,
-                shouldRecordTagspecValidated($tagspec, $detail_or_names_to_track), $tagspec);
+                ParsedTagSpec::shouldRecordTagspecValidatedTest($tagspec, $detail_or_names_to_track), $tagspec);
             assert(!empty($tagspec->name));
             $this->all_parsed_tag_specs[$tagspec] = $parsed_tag_spec;
 
@@ -169,7 +170,7 @@ class ParsedValidatorRules
             if ($parsed_spec->getSpec()->unique && $is_unique !== true) {
                 /** @var ParsedTagSpec $spec */
                 $spec = $parsed_spec->getSpec();
-                $context->addError(ValidationErrorCode::DUPLICATE_UNIQUE_TAG, [getDetailOrName($spec)], $spec->spec_url, $result_for_best_attempt);
+                $context->addError(ValidationErrorCode::DUPLICATE_UNIQUE_TAG, [ParsedTagSpec::getDetailOrName($spec)], $spec->spec_url, $result_for_best_attempt);
                 return;
             }
         }
@@ -190,7 +191,7 @@ class ParsedValidatorRules
         foreach ($this->mandatory_tag_specs as $parsed_tag_spec) {
             $tagspec = $parsed_tag_spec->getSpec();
             if (!$context->getTagspecsValidated()->contains($parsed_tag_spec)) {
-                $context->addError(ValidationErrorCode::MANDATORY_TAG_MISSING, [getDetailOrName($tagspec)], $tagspec->spec_url, $validation_result);
+                $context->addError(ValidationErrorCode::MANDATORY_TAG_MISSING, [ParsedTagSpec::getDetailOrName($tagspec)], $tagspec->spec_url, $validation_result);
                 return;
             }
         }
@@ -209,7 +210,7 @@ class ParsedValidatorRules
                 $parsed_tag_spec_require = $this->all_parsed_specs_by_specs[$tagspec_require];
                 assert(!empty($parsed_tag_spec_require)); // @todo leave as an assert?
                 if (!$context->getTagspecsValidated()->contains($parsed_tag_spec_require)) {
-                    if (!$context->addError(ValidationErrorCode::TAG_REQUIRED_BY_MISSING, [getDetailOrName($parsed_tag_spec_require->getSpec()), getDetailOrName($parsed_tag_spec->getSpec())], $parsed_tag_spec->getSpec()->spec_url, $validation_result)) {
+                    if (!$context->addError(ValidationErrorCode::TAG_REQUIRED_BY_MISSING, [ParsedTagSpec::getDetailOrName($parsed_tag_spec_require->getSpec()), ParsedTagSpec::getDetailOrName($parsed_tag_spec->getSpec())], $parsed_tag_spec->getSpec()->spec_url, $validation_result)) {
                         return;
                     }
                 }
@@ -254,27 +255,4 @@ class ParsedValidatorRules
         }
         $this->maybeEmitMandatoryAlternativesSatisfiedErrors($context, $validation_result);
     }
-}
-
-/**
- * Get the detail string of the Tag or if not available, the tag name
- * @param TagSpec $spec
- * @return string
- */
-function getDetailOrName(TagSpec $spec)
-{
-    //if ($spec instanceof ParsedTagSpec) {
-    //    $spec = $spec->getSpec();
-    //}
-    return empty($spec->detail) ? $spec->detail : $spec->name;
-}
-
-/**
- * @param TagSpec $tag_spec
- * @param array $detail_or_names_to_track
- * @return bool
- */
-function shouldRecordTagspecValidated(TagSpec $tag_spec, array $detail_or_names_to_track)
-{
-    return $tag_spec->mandatory || $tag_spec->unique || (!empty(getDetailOrName($tag_spec)) && isset($detail_or_names_to_track[getDetailOrName($tag_spec)]));
 }
