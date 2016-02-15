@@ -90,14 +90,14 @@ class ParsedValidatorRules
      * @param Context $context
      * @param string $tag_name
      * @param array $encountered_attributes
-     * @param IValidationResult $validationResult
+     * @param IValidationResult $validation_result
      */
-    public function validateTag(Context $context, $tag_name, array $encountered_attributes, IValidationResult $validationResult)
+    public function validateTag(Context $context, $tag_name, array $encountered_attributes, IValidationResult $validation_result)
     {
         /** @var TagSpecDispatch $tag_spec_dispatch */
         $tag_spec_dispatch = isset($this->tag_dispatch_by_tag_name[$tag_name]) ? $this->tag_dispatch_by_tag_name[$tag_name] : null;
         if (empty($tag_spec_dispatch)) {
-            $context->addError(ValidationErrorCode::DISALLOWED_TAG, [$tag_name], '', $validationResult);
+            $context->addError(ValidationErrorCode::DISALLOWED_TAG, [$tag_name], '', $validation_result);
             return;
         }
 
@@ -117,7 +117,7 @@ class ParsedValidatorRules
                     $this->validateTagAgainstSpec($match_spec, $context, $encountered_attributes, $result_for_best_attempt);
                     // If we succeeded
                     if ($result_for_best_attempt->status !== ValidationResultStatus::FAIL) {
-                        $validationResult->mergeFrom($result_for_best_attempt);
+                        $validation_result->mergeFrom($result_for_best_attempt);
                         return;
                     }
                 }
@@ -130,11 +130,13 @@ class ParsedValidatorRules
                 $this->validateTagAgainstSpec($parsed_spec, $context, $encountered_attributes, $result_for_best_attempt);
                 // If we succeeded
                 if ($result_for_best_attempt->status !== ValidationResultStatus::FAIL) {
-                    $validationResult->mergeFrom($result_for_best_attempt);
+                    $validation_result->mergeFrom($result_for_best_attempt);
                     return;
                 }
             }
         }
+
+        $validation_result->mergeFrom($result_for_best_attempt);
     }
 
     /**
@@ -155,7 +157,10 @@ class ParsedValidatorRules
         $parsed_spec->validateAncestorTags($context, $result_for_attempt);
 
         if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
-            // @todo think about this. Some max specificity stuff is here
+            if (IValidationResult::maxSpecificity($result_for_attempt) > IValidationResult::maxSpecificity($result_for_best_attempt)) {
+                $result_for_best_attempt->status = $result_for_attempt->status;
+                $result_for_best_attempt->errors = $result_for_attempt->errors;
+            }
             return;
         }
 

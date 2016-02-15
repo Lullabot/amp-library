@@ -30,7 +30,12 @@ class FixStandardPass extends FixBasePass
 
         $parsed_rules->maybeEmitGlobalTagValidationErrors($context, $validation_result);
         // For debugging only right now
-        // print_r($validation_result);
+        if (function_exists('dpm')) {
+            dpm($validation_result);
+        }
+        else {
+            print_r($validation_result);
+        }
         return $this->warnings;
     }
 }
