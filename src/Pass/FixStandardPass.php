@@ -1,7 +1,7 @@
 <?php
 namespace Lullabot\AMP\Pass;
 
-use Lullabot\AMP\Validate\IValidationResult;
+use Lullabot\AMP\Validate\SValidationResult;
 use Lullabot\AMP\Validate\Context;
 use Lullabot\AMP\Validate\ParsedValidatorRules;
 
@@ -21,7 +21,7 @@ class FixStandardPass extends FixBasePass
         $all_tags = $this->q->find('*')->get();
         $context = new Context();
         $parsed_rules = new ParsedValidatorRules($this->rules);
-        $validation_result = new IValidationResult();
+        $validation_result = new SValidationResult();
         /** @var \DOMElement $tag */
         foreach ($all_tags as $tag) {
             $context->substituteTag($tag);

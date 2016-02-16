@@ -90,9 +90,9 @@ class ParsedValidatorRules
      * @param Context $context
      * @param string $tag_name
      * @param array $encountered_attributes
-     * @param IValidationResult $validation_result
+     * @param SValidationResult $validation_result
      */
-    public function validateTag(Context $context, $tag_name, array $encountered_attributes, IValidationResult $validation_result)
+    public function validateTag(Context $context, $tag_name, array $encountered_attributes, SValidationResult $validation_result)
     {
         /** @var TagSpecDispatch $tag_spec_dispatch */
         $tag_spec_dispatch = isset($this->tag_dispatch_by_tag_name[$tag_name]) ? $this->tag_dispatch_by_tag_name[$tag_name] : null;
@@ -101,7 +101,7 @@ class ParsedValidatorRules
             return;
         }
 
-        $result_for_best_attempt = new IValidationResult();
+        $result_for_best_attempt = new SValidationResult();
         $result_for_best_attempt->status = ValidationResultStatus::FAIL;
 
         // Try to validate against a specfication if we're able to dipatch based on attribute key and value
@@ -143,21 +143,21 @@ class ParsedValidatorRules
      * @param ParsedTagSpec $parsed_spec
      * @param Context $context
      * @param array $encountered_attributes
-     * @param IValidationResult $result_for_best_attempt
+     * @param SValidationResult $result_for_best_attempt
      */
-    public function validateTagAgainstSpec(ParsedTagSpec $parsed_spec, Context $context, array $encountered_attributes, IValidationResult $result_for_best_attempt)
+    public function validateTagAgainstSpec(ParsedTagSpec $parsed_spec, Context $context, array $encountered_attributes, SValidationResult $result_for_best_attempt)
     {
         // We should be failing so far, otherwise why are we being called?
         assert($result_for_best_attempt->status === ValidationResultStatus::FAIL);
 
-        $result_for_attempt = new IValidationResult();
+        $result_for_attempt = new SValidationResult();
         $result_for_attempt->status = ValidationResultStatus::UNKNOWN;
         $parsed_spec->validateAttributes($context, $encountered_attributes, $result_for_attempt);
         $parsed_spec->validateParentTag($context, $result_for_attempt);
         $parsed_spec->validateAncestorTags($context, $result_for_attempt);
 
         if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
-            if (IValidationResult::maxSpecificity($result_for_attempt) > IValidationResult::maxSpecificity($result_for_best_attempt)) {
+            if (SValidationResult::maxSpecificity($result_for_attempt) > SValidationResult::maxSpecificity($result_for_best_attempt)) {
                 $result_for_best_attempt->status = $result_for_attempt->status;
                 $result_for_best_attempt->errors = $result_for_attempt->errors;
             }
@@ -186,9 +186,9 @@ class ParsedValidatorRules
 
     /**
      * @param Context $context
-     * @param IValidationResult $validation_result
+     * @param SValidationResult $validation_result
      */
-    public function maybeEmitMandatoryTagValidationErrors(Context $context, IValidationResult $validation_result)
+    public function maybeEmitMandatoryTagValidationErrors(Context $context, SValidationResult $validation_result)
     {
         /** @var ParsedTagSpec $parsed_tag_spec */
         foreach ($this->mandatory_tag_specs as $parsed_tag_spec) {
@@ -202,9 +202,9 @@ class ParsedValidatorRules
 
     /**
      * @param Context $context
-     * @param IValidationResult $validation_result
+     * @param SValidationResult $validation_result
      */
-    public function maybeEmitAlsoRequiresValidationErrors(Context $context, IValidationResult $validation_result)
+    public function maybeEmitAlsoRequiresValidationErrors(Context $context, SValidationResult $validation_result)
     {
         /** @var ParsedTagSpec $parsed_tag_spec */
         foreach ($context->getTagspecsValidated() as $parsed_tag_spec) {
@@ -221,7 +221,7 @@ class ParsedValidatorRules
         }
     }
 
-    public function maybeEmitMandatoryAlternativesSatisfiedErrors(Context $context, IValidationResult $validation_result)
+    public function maybeEmitMandatoryAlternativesSatisfiedErrors(Context $context, SValidationResult $validation_result)
     {
         /** @var  $satisfied_alternatives */
         $satisfied_alternatives = $context->getMandatoryAlternativesSatisfied();
@@ -243,7 +243,7 @@ class ParsedValidatorRules
         }
     }
 
-    public function maybeEmitGlobalTagValidationErrors(Context $context, IValidationResult $validation_result)
+    public function maybeEmitGlobalTagValidationErrors(Context $context, SValidationResult $validation_result)
     {
         if ($context->getProgress($validation_result)['complete']) {
             return;

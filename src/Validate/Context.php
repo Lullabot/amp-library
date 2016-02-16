@@ -36,10 +36,10 @@ class Context
      * @param $code
      * @param array $params
      * @param $spec_url
-     * @param IValidationResult $validationResult
+     * @param SValidationResult $validationResult
      * @return bool
      */
-    public function addError($code, array $params, $spec_url, IValidationResult $validationResult)
+    public function addError($code, array $params, $spec_url, SValidationResult $validationResult)
     {
         if (empty($spec_url)) {
             $spec_url = '';
@@ -54,10 +54,10 @@ class Context
      * @param $validation_error_code
      * @param array $params
      * @param $spec_url
-     * @param IValidationResult $validation_result
+     * @param SValidationResult $validation_result
      * @return bool
      */
-    public function addErrorWithLine($line, $validation_error_code, array $params, $spec_url, IValidationResult $validation_result)
+    public function addErrorWithLine($line, $validation_error_code, array $params, $spec_url, SValidationResult $validation_result)
     {
         $progress = $this->getProgress($validation_result);
         if ($progress['complete']) {
@@ -112,10 +112,10 @@ class Context
     }
 
     /**
-     * @param IValidationResult $validation_result
+     * @param SValidationResult $validation_result
      * @return array
      */
-    public function getProgress(IValidationResult $validation_result)
+    public function getProgress(SValidationResult $validation_result)
     {
         if ($this->max_errors === -1) {
             return ['complete' => false, 'wants_more_errors' => true];

@@ -116,9 +116,9 @@ class ParsedTagSpec
 
     /**
      * @param Context $context
-     * @param IValidationResult $validation_result
+     * @param SValidationResult $validation_result
      */
-    public function validateParentTag(Context $context, IValidationResult $validation_result)
+    public function validateParentTag(Context $context, SValidationResult $validation_result)
     {
         if ($this->getSpec()->mandatory_parent) {
             $parent = $context->getTag()->parentNode;
@@ -135,7 +135,7 @@ class ParsedTagSpec
     }
 
     // No support for templates at the moment
-    public function validateAttrNotFoundInSpec($attr_name, Context $context, IValidationResult $validation_result)
+    public function validateAttrNotFoundInSpec($attr_name, Context $context, SValidationResult $validation_result)
     {
         if (strpos($attr_name, 'data-') === 0) {
             return true;

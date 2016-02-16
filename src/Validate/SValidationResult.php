@@ -6,9 +6,9 @@ use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationResult;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 
-class IValidationResult extends ValidationResult
+class SValidationResult extends ValidationResult
 {
-    public static function maxSpecificity(IValidationResult $validation_result)
+    public static function maxSpecificity(SValidationResult $validation_result)
     {
         $max = 0;
         foreach ($validation_result->errors as $error) {
@@ -104,7 +104,7 @@ class IValidationResult extends ValidationResult
         }
     }
 
-    public function mergeFrom(IValidationResult $other)
+    public function mergeFrom(SValidationResult $other)
     {
         assert(!empty($this->status));
         assert(!empty($other->status));
