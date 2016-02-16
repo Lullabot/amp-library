@@ -2,6 +2,7 @@
 namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Validate\SValidationResult;
+use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Validate\Context;
 use Lullabot\AMP\Validate\ParsedValidatorRules;
 
@@ -19,9 +20,13 @@ class FixStandardPass extends FixBasePass
         // We get back a DOMElements, this is a faster way of iterating over all tags
         // See http://technosophos.com/2009/11/26/iteration-techniques-and-performance-querypath.html
         $all_tags = $this->q->find('*')->get();
+
+        // Initializing stuff
         $context = new Context();
         $parsed_rules = new ParsedValidatorRules($this->rules);
         $validation_result = new SValidationResult();
+        $validation_result->status = ValidationResultStatus::FAIL;
+
         /** @var \DOMElement $tag */
         foreach ($all_tags as $tag) {
             $context->substituteTag($tag);
@@ -32,8 +37,7 @@ class FixStandardPass extends FixBasePass
         // For debugging only right now
         if (function_exists('dpm')) {
             dpm($validation_result);
-        }
-        else {
+        } else {
             print_r($validation_result);
         }
         return $this->warnings;
