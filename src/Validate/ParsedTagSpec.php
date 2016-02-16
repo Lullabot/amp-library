@@ -7,6 +7,22 @@ use Lullabot\AMP\Spec\AttrSpec;
 use Lullabot\AMP\Spec\TagSpec;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 
+/**
+ * Class ParsedTagSpec
+ * @package Lullabot\AMP\Validate
+ *
+ * This class is a straight PHP port of the ParsedTagSpec class in validator.js
+ * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ *
+ * The static methods getAttrsFor(), getDetailOrName(), shouldRecordTagspecValidated() are normal top-level functions
+ * in validator.js but have been incorporated into this class, when they were ported, for convenience.
+ *
+ * Note:
+ *  - shouldRecordTagspecValidated() in validator.js has been renamed shouldRecordTagspecValidatedTest() to prevent
+ *    a name collision in this class
+ *  - getAttrsFor() static method is called GetAttrsFor() in validator.js
+ *
+ */
 class ParsedTagSpec
 {
     /** @var TagSpec */

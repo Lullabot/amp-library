@@ -2,6 +2,14 @@
 
 namespace Lullabot\AMP\Validate;
 
+/**
+ * Class TagSpecDispatch
+ * @package Lullabot\AMP\Validate
+ *
+ * This class is a straight PHP port of the TagSpecDispatch class in validator.js
+ * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ *
+ */
 class TagSpecDispatch
 {
     /** @var ParsedTagSpec[] */

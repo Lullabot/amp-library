@@ -7,6 +7,20 @@ use Lullabot\AMP\Spec\ValidationErrorSeverity;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationError;
 
+/**
+ * Class Context
+ * @package Lullabot\AMP\Validate
+ *
+ * This class is a PHP port of the Context class in validator.js
+ * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ *
+ * The static method severityFor() is a normal top-level function in validator.js but has been incorporated
+ * into this class for convenience.
+ *
+ * The main difference between the PHP Port and the js version is that the Context class here will be working with a DOM
+ * style parser (PHP dom extension) while it was working with an event based/sax style in validator.js
+ *
+ */
 class Context
 {
     /** @var \DOMElement */
@@ -65,7 +79,7 @@ class Context
             return false;
         }
 
-        $severity = severityFor($validation_error_code);
+        $severity = self::severityFor($validation_error_code);
         if ($severity !== ValidationErrorSeverity::WARNING) {
             $validation_result->status = ValidationResultStatus::FAIL;
         }
@@ -136,16 +150,17 @@ class Context
     {
         return $this->tagspecs_validated;
     }
-}
 
-function severityFor($validation_error_code)
-{
-    // @todo make more error codes less severe as we're going to be able to fix them
-    if ($validation_error_code === ValidationErrorCode::DEPRECATED_TAG) {
-        return ValidationErrorSeverity::WARNING;
-    } else if ($validation_error_code == ValidationErrorCode::DEPRECATED_ATTR) {
-        return ValidationErrorSeverity::WARNING;
+    public static function severityFor($validation_error_code)
+    {
+        // @todo make more error codes less severe as we're going to be able to fix them
+        if ($validation_error_code === ValidationErrorCode::DEPRECATED_TAG) {
+            return ValidationErrorSeverity::WARNING;
+        } else if ($validation_error_code == ValidationErrorCode::DEPRECATED_ATTR) {
+            return ValidationErrorSeverity::WARNING;
+        }
+
+        return ValidationErrorSeverity::ERROR;
     }
-
-    return ValidationErrorSeverity::ERROR;
 }
+

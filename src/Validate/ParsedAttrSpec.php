@@ -4,6 +4,14 @@ namespace Lullabot\AMP\Validate;
 
 use Lullabot\AMP\Spec\AttrSpec;
 
+/**
+ * Class ParsedAttrSpec
+ * @package Lullabot\AMP\Validate
+ *
+ * This class is a straight PHP port of the ParsedAttrSpec class in validator.js
+ * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ *
+ */
 class ParsedAttrSpec
 {
     /** @var  AttrSpec */

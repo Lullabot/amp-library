@@ -9,6 +9,13 @@ use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Spec\ValidatorRules;
 use Lullabot\AMP\Spec\ErrorFormat;
 
+/**
+ * Class ParsedValidatorRules
+ * @package Lullabot\AMP\Validate
+ *
+ * This class is a straight PHP port of the ParsedValidatorRules class in validator.js
+ * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ */
 class ParsedValidatorRules
 {
     /** @var ValidatorRules */
