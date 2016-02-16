@@ -6,6 +6,7 @@ use Lullabot\AMP\Spec\AttrList;
 use Lullabot\AMP\Spec\AttrSpec;
 use Lullabot\AMP\Spec\TagSpec;
 use Lullabot\AMP\Spec\ValidationErrorCode;
+use Lullabot\AMP\Spec\ValidationResultStatus;
 
 /**
  * Class ParsedTagSpec
@@ -160,12 +161,18 @@ class ParsedTagSpec
         return false;
     }
 
-    // No support for templates at the moment
-    public function validateAttributes(Context $context, array $encountered_attrs, $result_for_attempt)
+    /**
+     * Note: No support for templates at the moment
+     *
+     * @param Context $context
+     * @param array $encountered_attrs
+     * @param SValidationResult $result_for_attempt
+     */
+    public function validateAttributes(Context $context, array $encountered_attrs, SValidationResult $result_for_attempt)
     {
         // skip layout validation for now
 
-        /** @var $mandatory_attrs_seen */
+        /** @var \SplObjectStorage $mandatory_attrs_seen */
         $mandatory_attrs_seen = new \SplObjectStorage();
         $mandatory_oneofs_seen = []; // Set
         foreach ($encountered_attrs as $encountered_attr_key => $encounted_attr_value) {
@@ -196,19 +203,33 @@ class ParsedTagSpec
             }
 
             if (!empty($parsed_attr_spec->getSpec()->value_regex)) {
-                // @todo
+                $value_regex = '&(*UTF8)^(' . $parsed_attr_spec->getSpec()->value_regex . ')$&';
+                if (!preg_match($value_regex, $encounted_attr_value)) {
+                    $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE, [$encounted_attr_value, self::getDetailOrName($this->spec), $encounted_attr_value], $this->spec->spec_url, $result_for_attempt);
+                    return;
+                }
             }
 
             if (!empty($parsed_attr_spec->getSpec()->value_url)) {
-                // @todo
+                $parsed_attr_spec->validateAttrValueUrl($context, $encountered_attr_name, $encounted_attr_value, $this->spec, $this->spec->spec_url, $result_for_attempt);
+                if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
+                    return;
+                }
             }
 
             if (!empty($parsed_attr_spec->getSpec()->value_properties)) {
-                // @todo
+                $parsed_attr_spec->validateAttrValueProperties($context, $encountered_attr_name, $encounted_attr_value, $this->spec, $this->spec->spec_url, $result_for_attempt);
+                if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
+                    return;
+                }
             }
 
             if (!empty($parsed_attr_spec->getSpec()->blacklisted_value_regex)) {
-                // @todo
+                $blacklisted_value_regex = '&(*UTF8)' . $parsed_attr_spec->getSpec()->blacklisted_value_regex . '&i';
+                if (!preg_match($blacklisted_value_regex, $encounted_attr_value)) {
+                    $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE, [$encounted_attr_value, self::getDetailOrName($this->spec), $encounted_attr_value], $this->spec->spec_url, $result_for_attempt);
+                    return;
+                }
             }
 
             if ($parsed_attr_spec->getSpec()->mandatory) {
@@ -220,6 +241,8 @@ class ParsedTagSpec
                 return;
             }
 
+            // Treat as Set
+            $mandatory_oneofs_seen[$parsed_attr_spec->getSpec()->mandatory_oneof] = 1;
         }
 
         foreach ($this->mandatory_oneofs as $mandatory_oneof) {
