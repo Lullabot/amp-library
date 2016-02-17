@@ -117,7 +117,7 @@ class ParsedValidatorRules
                 if (empty($attr_value)) {
                     $attr_value = '';
                 }
-                $attr_name = mb_strtolower($attr_name);
+                $attr_name = mb_strtolower($attr_name, 'UTF-8');
                 /** @var ParsedTagSpec $match_spec */
                 $match_spec = $tag_spec_dispatch->tag_specs_by_dispatch["$attr_name=$attr_value"];
                 if ($match_spec) {

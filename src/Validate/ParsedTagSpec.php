@@ -169,7 +169,7 @@ class ParsedTagSpec
 
         if (!empty($this->spec->disallowed_ancestor)) {
             foreach ($this->spec->disallowed_ancestor as $disallowed_ancestor) {
-                if (array_search($disallowed_ancestor, $context->getAncestorTagNames())) {
+                if (false !== array_search($disallowed_ancestor, $context->getAncestorTagNames())) {
                     $context->addError(ValidationErrorCode::DISALLOWED_TAG_ANCESTOR,
                         [$this->spec->name, $disallowed_ancestor], $this->spec->spec_url, $validation_result);
                     return;
@@ -191,7 +191,7 @@ class ParsedTagSpec
      */
     public function validateAttrNotFoundInSpec($attr_name, Context $context, SValidationResult $validation_result)
     {
-        if (strpos($attr_name, 'data-') === 0) {
+        if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') === 0) {
             return true;
         }
 
@@ -226,7 +226,7 @@ class ParsedTagSpec
                 $encountered_attr_value = '';
             }
 
-            $encountered_attr_name = mb_strtolower($encountered_attr_key);
+            $encountered_attr_name = mb_strtolower($encountered_attr_key, 'UTF-8');
             $parsed_attr_spec = isset($this->attrs_by_name[$encountered_attr_name]) ?
                 $this->attrs_by_name[$encountered_attr_name] : null;
             if (empty($parsed_attr_spec)) {

@@ -78,9 +78,12 @@ class ParsedAttrSpec
             return;
         }
 
-        if (!empty($url_components['scheme']) && !isset($this->value_url_allowed_protocols[mb_strtolower($url_components['scheme'])])) {
-            $context->addError(ValidationErrorCode::INVALID_URL_PROTOCOL, [$attr_name, ParsedTagSpec::getDetailOrName($tagspec), mb_strtolower($url_components['scheme'])], $spec_url, $validation_result);
-            return;
+        if (!empty($url_components['scheme'])) {
+            $scheme = mb_strtolower($url_components['scheme'], 'UTF-8');
+            if (!isset($this->value_url_allowed_protocols[$scheme])) {
+                $context->addError(ValidationErrorCode::INVALID_URL_PROTOCOL, [$attr_name, ParsedTagSpec::getDetailOrName($tagspec), $scheme], $spec_url, $validation_result);
+                return;
+            }
         }
     }
 
@@ -147,7 +150,7 @@ class ParsedAttrSpec
             if (count($key_value) < 2) {
                 continue;
             }
-            $properties[trim(mb_strtolower($key_value[0]))] = $key_value[1];
+            $properties[trim(mb_strtolower($key_value[0], 'UTF-8'))] = $key_value[1];
         }
 
         foreach ($properties as $name => $value) {
@@ -158,7 +161,7 @@ class ParsedAttrSpec
             /** @var PropertySpec $property_spec */
             $property_spec = $this->value_property_by_name[$name];
             if (!empty($property_spec->value)) {
-                if ($property_spec->value != mb_strtolower($value)) {
+                if ($property_spec->value != mb_strtolower($value, 'UTF-8')) {
                     $context->addError(ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE, [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec)], $spec_url, $result);
                 }
             }
