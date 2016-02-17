@@ -46,7 +46,7 @@ class ParsedTagSpec
     /**
      * ParsedTagSpec constructor.
      * @param AttrList[] $attr_lists_by_name
-     * @param  $tagspec_by_detail_or_name
+     * @param TagSpec[] $tagspec_by_detail_or_name
      * @param boolean $should_record_tagspec_validated
      * @param TagSpec $tag_spec
      */
@@ -57,9 +57,9 @@ class ParsedTagSpec
 
         /** @var AttrSpec[] $attrs */
         $attrs = self::getAttrsFor($tag_spec, $attr_lists_by_name);
-        foreach ($attrs as $attr) {
-            $parsed_attr_spec = new ParsedAttrSpec($attr);
-            $this->attrs_by_name[$attr->name] = $parsed_attr_spec;
+        foreach ($attrs as $attr_spec) {
+            $parsed_attr_spec = new ParsedAttrSpec($attr_spec);
+            $this->attrs_by_name[$attr_spec->name] = $parsed_attr_spec;
             if ($parsed_attr_spec->getSpec()->mandatory) {
                 $this->mandatory_attrs[] = $parsed_attr_spec;
             }
@@ -165,7 +165,7 @@ class ParsedTagSpec
      * Note: No support for templates at the moment
      *
      * @param Context $context
-     * @param array $encountered_attrs
+     * @param string[] $encountered_attrs
      * @param SValidationResult $result_for_attempt
      */
     public function validateAttributes(Context $context, array $encountered_attrs, SValidationResult $result_for_attempt)
@@ -189,60 +189,61 @@ class ParsedTagSpec
                     return;
                 }
             }
-
-            if (!empty($parsed_attr_spec->getSpec()->deprecation)) {
-                $context->addError(ValidationErrorCode::DEPRECATED_ATTR, [$encountered_attr_name, self::getDetailOrName($this->spec), $parsed_attr_spec->getSpec()->deprecation], $parsed_attr_spec->getSpec()->deprecation_url, $result_for_attempt);
+            /** @var AttrSpec $attr_spec */
+            $attr_spec = $parsed_attr_spec->getSpec();
+            if (!empty($attr_spec->deprecation)) {
+                $context->addError(ValidationErrorCode::DEPRECATED_ATTR, [$encountered_attr_name, self::getDetailOrName($this->spec), $attr_spec->deprecation], $attr_spec->deprecation_url, $result_for_attempt);
                 // Dont exit as its not a fatal error
             }
 
-            if (!empty($parsed_attr_spec->getSpec()->value)) {
-                if ($encounted_attr_value != $parsed_attr_spec->getSpec()->value) {
+            if (!empty($attr_spec->value)) {
+                if ($encounted_attr_value != $attr_spec->value) {
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE, [$encountered_attr_name, self::getDetailOrName($this->spec), $encounted_attr_value], $this->spec->spec_url, $result_for_attempt);
                     return;
                 }
             }
 
-            if (!empty($parsed_attr_spec->getSpec()->value_regex)) {
-                $value_regex = '&(*UTF8)^(' . $parsed_attr_spec->getSpec()->value_regex . ')$&';
+            if (!empty($attr_spec->value_regex)) {
+                $value_regex = '&(*UTF8)^(' . $attr_spec->value_regex . ')$&';
                 if (!preg_match($value_regex, $encounted_attr_value)) {
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE, [$encounted_attr_value, self::getDetailOrName($this->spec), $encounted_attr_value], $this->spec->spec_url, $result_for_attempt);
                     return;
                 }
             }
 
-            if (!empty($parsed_attr_spec->getSpec()->value_url)) {
+            if (!empty($attr_spec->value_url)) {
                 $parsed_attr_spec->validateAttrValueUrl($context, $encountered_attr_name, $encounted_attr_value, $this->spec, $this->spec->spec_url, $result_for_attempt);
                 if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
                     return;
                 }
             }
 
-            if (!empty($parsed_attr_spec->getSpec()->value_properties)) {
+            if (!empty($attr_spec->value_properties)) {
                 $parsed_attr_spec->validateAttrValueProperties($context, $encountered_attr_name, $encounted_attr_value, $this->spec, $this->spec->spec_url, $result_for_attempt);
                 if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
                     return;
                 }
             }
 
-            if (!empty($parsed_attr_spec->getSpec()->blacklisted_value_regex)) {
-                $blacklisted_value_regex = '&(*UTF8)' . $parsed_attr_spec->getSpec()->blacklisted_value_regex . '&i';
+            if (!empty($attr_spec->blacklisted_value_regex)) {
+                $blacklisted_value_regex = '&(*UTF8)' . $attr_spec->blacklisted_value_regex . '&i';
                 if (!preg_match($blacklisted_value_regex, $encounted_attr_value)) {
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE, [$encounted_attr_value, self::getDetailOrName($this->spec), $encounted_attr_value], $this->spec->spec_url, $result_for_attempt);
                     return;
                 }
             }
 
-            if ($parsed_attr_spec->getSpec()->mandatory) {
+            if ($attr_spec->mandatory) {
                 $mandatory_attrs_seen->attach($parsed_attr_spec);
             }
 
-            if ($parsed_attr_spec->getSpec()->mandatory_oneof && isset($mandatory_oneofs_seen[$parsed_attr_spec->getSpec()->mandatory_oneof])) {
-                $context->addError(ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS, [self::getDetailOrName($this->spec), $parsed_attr_spec->getSpec()->mandatory_oneof], $this->spec->spec_url, $result_for_attempt);
+            if ($attr_spec->mandatory_oneof && isset($mandatory_oneofs_seen[$attr_spec->mandatory_oneof])) {
+                $context->addError(ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS, [self::getDetailOrName($this->spec), $attr_spec->mandatory_oneof], $this->spec->spec_url, $result_for_attempt);
                 return;
             }
 
             // Treat as Set
-            $mandatory_oneofs_seen[$parsed_attr_spec->getSpec()->mandatory_oneof] = 1;
+            $mandatory_oneofs_seen[$attr_spec->mandatory_oneof] = 1;
         }
 
         foreach ($this->mandatory_oneofs as $mandatory_oneof) {
