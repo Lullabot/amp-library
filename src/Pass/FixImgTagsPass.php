@@ -22,7 +22,7 @@ class FixImgTagsPass extends FixBasePass
     function pass()
     {
         // @todo deal with animated gifs
-        $all_a = $this->q->find(':not(noscript) img');
+        $all_a = $this->q->find('img:not(noscript img)');
         /** @var \DOMElement $dom_el */
         foreach ($all_a->get() as $dom_el) {
             $lineno = $dom_el->getLineNo();

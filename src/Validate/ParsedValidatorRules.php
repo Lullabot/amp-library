@@ -118,8 +118,10 @@ class ParsedValidatorRules
                     $attr_value = '';
                 }
                 $attr_name = mb_strtolower($attr_name, 'UTF-8');
+                $dispatch_pattern = "$attr_name=$attr_value";
                 /** @var ParsedTagSpec $match_spec */
-                $match_spec = $tag_spec_dispatch->tag_specs_by_dispatch["$attr_name=$attr_value"];
+                $match_spec = isset($tag_spec_dispatch->tag_specs_by_dispatch[$dispatch_pattern]) ?
+                    $tag_spec_dispatch->tag_specs_by_dispatch[$dispatch_pattern] : null;
                 if ($match_spec) {
                     $this->validateTagAgainstSpec($match_spec, $context, $encountered_attributes, $result_for_best_attempt);
                     // If we succeeded

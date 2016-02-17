@@ -75,8 +75,8 @@ class ParsedAttrSpec
 
         $url_components = parse_url($url);
         if ($url_components === FALSE) {
-            $context->addError(ValidationErrorCode::MISSING_URL,
-                [$attr_name, ParsedTagSpec::getDetailOrName($tagspec)], $spec_url, $validation_result);
+            $context->addError(ValidationErrorCode::INVALID_URL,
+                [$attr_name, ParsedTagSpec::getDetailOrName($tagspec), $url], $spec_url, $validation_result);
             return;
         }
 
