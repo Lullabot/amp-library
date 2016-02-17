@@ -66,7 +66,7 @@ class Context
         while (($tag = $tag->parentNode) && !empty($tag->tagName)) {
             $ancestor_tag_names[] = $tag->tagName;
         }
-        $ancestor_tag_names[] = '$ROOT';
+        $ancestor_tag_names[] = '!doctype';
         return $ancestor_tag_names;
     }
 
@@ -84,7 +84,7 @@ class Context
     protected function _getParentTagName()
     {
         if (empty($this->dom_tag->parentNode->tagName)) {
-            return '$ROOT';
+            return '!doctype';
         } else {
             return $this->dom_tag->parentNode->tagName;
         }
