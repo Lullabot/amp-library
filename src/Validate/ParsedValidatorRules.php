@@ -201,8 +201,11 @@ class ParsedValidatorRules
         foreach ($this->mandatory_tag_specs as $parsed_tag_spec) {
             $tagspec = $parsed_tag_spec->getSpec();
             if (!$context->getTagspecsValidated()->contains($parsed_tag_spec)) {
-                $context->addError(ValidationErrorCode::MANDATORY_TAG_MISSING, [ParsedTagSpec::getDetailOrName($tagspec)], $tagspec->spec_url, $validation_result);
-                return;
+                if (!$context->addError(ValidationErrorCode::MANDATORY_TAG_MISSING,
+                    [ParsedTagSpec::getDetailOrName($tagspec)], $tagspec->spec_url, $validation_result)
+                ) {
+                    return;
+                };
             }
         }
     }

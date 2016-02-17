@@ -170,7 +170,7 @@ class ParsedAttrSpec
         /** @var PropertySpec $mandatory_value_property_name */
         $names = array_keys($properties);
         foreach ($this->mandatory_value_property_names as $mandatory_value_property_name) {
-            if (!array_key_exists($mandatory_value_property_name->name, $names)) {
+            if (false === array_search($mandatory_value_property_name->name, $names)) {
                 $context->addError(ValidationErrorCode::MANDATORY_PROPERTY_MISSING_FROM_ATTR_VALUE, [$mandatory_value_property_name->name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec)], $spec_url, $result);
             }
         }
