@@ -49,7 +49,7 @@ class Context
     /**
      * @param $code
      * @param array $params
-     * @param $spec_url
+     * @param string $spec_url
      * @param SValidationResult $validationResult
      * @return bool
      */

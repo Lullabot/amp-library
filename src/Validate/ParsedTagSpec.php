@@ -201,9 +201,9 @@ class ParsedTagSpec
                 $encountered_attr_value = '';
             }
 
-            $encountered_attr_name = mb_strtolower($encountered_attr_value);
-            $parsed_attr_spec = isset($this->attrs_by_name[$encountered_attr_key]) ?
-                $this->attrs_by_name[$encountered_attr_key] : null;
+            $encountered_attr_name = mb_strtolower($encountered_attr_key);
+            $parsed_attr_spec = isset($this->attrs_by_name[$encountered_attr_name]) ?
+                $this->attrs_by_name[$encountered_attr_name] : null;
             if (empty($parsed_attr_spec)) {
                 if ($this->validateAttrNotFoundInSpec($encountered_attr_name, $context, $result_for_attempt)) {
                     // the attribute, even though not found in specification, was valid
