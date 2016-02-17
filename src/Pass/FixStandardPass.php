@@ -29,7 +29,7 @@ class FixStandardPass extends FixBasePass
 
         /** @var \DOMElement $tag */
         foreach ($all_tags as $tag) {
-            $context->substituteTag($tag);
+            $context->attachDomTag($tag);
             $parsed_rules->validateTag($context, $tag->nodeName, $this->encounteredAttributes($tag), $validation_result);
         }
 

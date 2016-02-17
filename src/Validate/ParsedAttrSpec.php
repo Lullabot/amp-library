@@ -27,7 +27,6 @@ class ParsedAttrSpec
     /** @var PropertySpec[] */
     public $mandatory_value_property_names = [];
 
-    // @todo
     public function __construct(AttrSpec $attr_spec)
     {
         $this->spec = $attr_spec;

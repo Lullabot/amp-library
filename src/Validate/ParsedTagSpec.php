@@ -137,20 +137,45 @@ class ParsedTagSpec
      */
     public function validateParentTag(Context $context, SValidationResult $validation_result)
     {
-        if ($this->getSpec()->mandatory_parent) {
-            $parent = $context->getTag()->parentNode;
-            if (!empty($parent->tagName) && $parent->tagName !== $this->getSpec()->mandatory_parent) {
+        if (!empty($this->spec->mandatory_parent)) {
+            if ($context->getParentTagName() !== $this->spec->mandatory_parent) {
                 $context->addError(ValidationErrorCode::WRONG_PARENT_TAG,
-                    [$this->spec->name, $parent->tagName, $this->getSpec()->mandatory_parent],
+                    [$this->spec->name, $context->getParentTagName(), $this->getSpec()->mandatory_parent],
                     $this->spec->spec_url, $validation_result);
             }
         }
     }
 
-    public function validateAncestorTags($context, $result_for_attempt)
+    /**
+     * @param Context $context
+     * @param SValidationResult $validation_result
+     */
+    public function validateAncestorTags(Context $context, SValidationResult $validation_result)
     {
-        // @todo
-        return;
+        if (!empty($this->spec->mandatory_ancestor)) {
+            $mandatory_ancestor = $this->spec->mandatory_ancestor;
+            if (false === array_search($mandatory_ancestor, $context->getAncestorTagNames())) {
+                if (!empty($this->spec->mandatory_ancestor_suggested_alternative)) {
+                    $context->addError(ValidationErrorCode::MANDATORY_TAG_ANCESTOR_WITH_HINT,
+                        [$this->spec->name, $mandatory_ancestor, $this->spec->mandatory_ancestor_suggested_alternative],
+                        $this->spec->spec_url, $validation_result);
+                } else {
+                    $context->addError(ValidationErrorCode::MANDATORY_TAG_ANCESTOR,
+                        [$this->spec->name, $mandatory_ancestor], $this->spec->spec_url, $validation_result);
+                }
+                return;
+            }
+        }
+
+        if (!empty($this->spec->disallowed_ancestor)) {
+            foreach ($this->spec->disallowed_ancestor as $disallowed_ancestor) {
+                if (array_search($disallowed_ancestor, $context->getAncestorTagNames())) {
+                    $context->addError(ValidationErrorCode::DISALLOWED_TAG_ANCESTOR,
+                        [$this->spec->name, $disallowed_ancestor], $this->spec->spec_url, $validation_result);
+                    return;
+                }
+            }
+        }
     }
 
     /**

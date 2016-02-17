@@ -24,11 +24,13 @@ use Lullabot\AMP\Spec\ValidationError;
 class Context
 {
     /** @var \DOMElement */
-    protected $tag = null;
+    protected $dom_tag = null;
     /** @var \SplObjectStorage */
-    protected $tagspecs_validated;
+    protected $tagspecs_validated = null;
     protected $mandatory_alternatives_satisfied = []; // Set of strings
     protected $max_errors = -1;
+    protected $parent_tag_name = '';
+    protected $ancestor_tag_names = [];
 
     public function __construct($max_errors = -1)
     {
@@ -36,14 +38,64 @@ class Context
         $this->max_errors = $max_errors;
     }
 
-    public function substituteTag(\DOMElement $new_tag)
+    /**
+     * @param \DOMElement $new_dom_tag
+     */
+    public function attachDomTag(\DOMElement $new_dom_tag)
     {
-        $this->tag = $new_tag;
+        $this->dom_tag = $new_dom_tag;
+        $this->parent_tag_name = $this->_getParentTagName();
+        $this->ancestor_tag_names = $this->_getAncestorTagNames();
     }
 
-    public function getTag()
+    /**
+     * @return \DOMElement
+     */
+    public function getDomTag()
     {
-        return $this->tag;
+        return $this->dom_tag;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function _getAncestorTagNames()
+    {
+        $ancestor_tag_names = [];
+        $tag = $this->dom_tag;
+        while (($tag = $tag->parentNode) && !empty($tag->tagName)) {
+            $ancestor_tag_names[] = $tag->tagName;
+        }
+        $ancestor_tag_names[] = '$ROOT';
+        return $ancestor_tag_names;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAncestorTagNames()
+    {
+        return $this->ancestor_tag_names;
+    }
+
+    /**
+     * @return string
+     */
+    protected function _getParentTagName()
+    {
+        if (empty($this->dom_tag->parentNode->tagName)) {
+            return '$ROOT';
+        } else {
+            return $this->dom_tag->parentNode->tagName;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentTagName()
+    {
+        return $this->parent_tag_name;
     }
 
     /**
@@ -59,7 +111,7 @@ class Context
             $spec_url = '';
         }
 
-        $line = $this->tag->getLineNo();
+        $line = $this->dom_tag->getLineNo();
         return $this->addErrorWithLine($line, $code, $params, $spec_url, $validationResult);
     }
 
@@ -153,7 +205,7 @@ class Context
 
     public static function severityFor($validation_error_code)
     {
-        // @todo make more error codes less severe as we're going to be able to fix them
+        // @todo make more error codes less severe as we're going to be able to fix some of them
         if ($validation_error_code === ValidationErrorCode::DEPRECATED_TAG) {
             return ValidationErrorSeverity::WARNING;
         } else if ($validation_error_code == ValidationErrorCode::DEPRECATED_ATTR) {
