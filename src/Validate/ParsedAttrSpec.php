@@ -162,7 +162,13 @@ class ParsedAttrSpec
             $property_spec = $this->value_property_by_name[$name];
             if (!empty($property_spec->value)) {
                 if ($property_spec->value != mb_strtolower($value, 'UTF-8')) {
-                    $context->addError(ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE, [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec)], $spec_url, $result);
+                    $context->addError(ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE,
+                        [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec), $value], $spec_url, $result);
+                }
+            } else if (!empty($property_spec->value_double)) {
+                if (!is_numeric($value) || ((float)$property_spec->value_double) !== ((float)$value)) {
+                    $context->addError(ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE,
+                        [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec), $value], $spec_url, $result);
                 }
             }
         }

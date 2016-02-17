@@ -261,7 +261,7 @@ class ParsedTagSpec
                 // if it _doesn't_ match its an error
                 if (!preg_match($value_regex, $encountered_attr_value)) {
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
-                        [$encountered_attr_value, self::getDetailOrName($this->spec), $encountered_attr_value],
+                        [$encountered_attr_name, self::getDetailOrName($this->spec), $encountered_attr_value],
                         $this->spec->spec_url, $result_for_attempt);
                     return;
                 }
@@ -289,7 +289,7 @@ class ParsedTagSpec
                 // If it matches its an error
                 if (preg_match($blacklisted_value_regex, $encountered_attr_value)) {
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
-                        [$encountered_attr_value, self::getDetailOrName($this->spec), $encountered_attr_value],
+                        [$encountered_attr_name, self::getDetailOrName($this->spec), $encountered_attr_value],
                         $this->spec->spec_url, $result_for_attempt);
                     return;
                 }
