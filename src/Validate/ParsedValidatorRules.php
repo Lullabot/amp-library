@@ -20,7 +20,7 @@ class ParsedValidatorRules
 {
     /** @var ValidatorRules */
     public $rules;
-    /** @var ErrorFormat[] */
+    /** @var string[] */
     public $format_by_code = [];
     /** @var TagSpecDispatch[] */
     protected $tag_dispatch_by_tag_name = [];

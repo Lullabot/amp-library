@@ -1,6 +1,7 @@
 <?php
 namespace Lullabot\AMP\Pass;
 
+use Lullabot\AMP\Validate\RenderValidationResult;
 use Lullabot\AMP\Validate\SValidationResult;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Validate\Context;
@@ -35,10 +36,17 @@ class FixStandardPass extends FixBasePass
 
         $parsed_rules->maybeEmitGlobalTagValidationErrors($context, $validation_result);
         // For debugging only right now
+        /** @var RenderValidationResult $render_validation_result */
+        $render_validation_result = new RenderValidationResult($parsed_rules->format_by_code);
+        // For debugging only right now
         if (function_exists('dpm')) {
-            dpm($validation_result);
+            dpm('Ported PHP Validator results ---start---');
+            dpm($render_validation_result->renderValidationResult($validation_result));
+            dpm('Ported PHP Validator results ---end ---');
         } else {
-            print_r($validation_result);
+            print('Ported Validator results ---start---' . PHP_EOL);
+            print($render_validation_result->renderValidationResult($validation_result));
+            print('Ported Validator results ---end ---' . PHP_EOL);
         }
         return $this->warnings;
     }
