@@ -116,7 +116,7 @@ class AMP
         }
 
         $this->sortWarningsByLineno();
-        $this->amp_html = $qp->top()->writeHTML5();
+        $this->amp_html = $qp->top()->html5();
         return $this->amp_html;
     }
 
@@ -156,7 +156,7 @@ class AMP
         /** @var QueryPath\DOMQuery $qp */
         $qp = \QueryPath::withHTML($html);
         // @todo: Remove body at some point?
-        return $qp->top()->writeHTML5();
+        return $qp->top()->html5();
     }
 
     public function warningsHuman()
