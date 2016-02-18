@@ -2,6 +2,7 @@
 
 namespace Lullabot\AMP\Validate;
 
+use Lullabot\AMP\Spec\ValidationError;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationResult;
 use Lullabot\AMP\Spec\ValidationResultStatus;
@@ -13,8 +14,8 @@ use Lullabot\AMP\Spec\ValidationResultStatus;
  * This class is a straight PHP port of the ValidationResult class in validator.js
  * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
  *
- * The static methods specificity(), maxSpecificity() are normal top-level functions in validator.js but have
- * been incorporated into this class, when they were ported, for convenience.
+ * Some additional functions from validator.js, from outside the ValidationResult class have also been incorporated
+ * into this class for convenience when they were ported. See maxSpecificity(), specificity().
  *
  * Please note that ValidationResult class is already available from Lullabot\AMP\Spec\ValidationResult so this class
  * has been subclassed from that. The "S" in "SValidationResult" has no meaning other than to convey it is a subclass.
@@ -25,6 +26,16 @@ use Lullabot\AMP\Spec\ValidationResultStatus;
  */
 class SValidationResult extends ValidationResult
 {
+    /**
+     * Corresponds to maxSpecificity() top level function in validator.js.
+     * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+     *
+     * Ported into this class for convenience as a static member function
+     *
+     * @param SValidationResult $validation_result
+     * @return int
+     * @throws \Exception
+     */
     public static function maxSpecificity(SValidationResult $validation_result)
     {
         $max = 0;
@@ -39,6 +50,16 @@ class SValidationResult extends ValidationResult
         return $max;
     }
 
+    /**
+     * Corresponds specificity() top level function in validator.js.
+     * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+     *
+     * Ported into this class for convenience as a static member function
+     *
+     * @param $code
+     * @return int
+     * @throws \Exception
+     */
     public static function specificity($code)
     {
         switch ($code) {
@@ -121,6 +142,9 @@ class SValidationResult extends ValidationResult
         }
     }
 
+    /**
+     * @param SValidationResult $other
+     */
     public function mergeFrom(SValidationResult $other)
     {
         assert(!empty($this->status));
