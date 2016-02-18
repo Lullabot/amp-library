@@ -55,11 +55,13 @@ class AmpCommand extends Command
         if (!empty($filename)) {
             $file_html = file_get_contents($filename);
         } else {
-            $file_html = file_get_contents('php://stdin');
+            $filename = 'php://stdin';
+            $file_html = file_get_contents($filename);
         }
 
         $amp = new AMP();
-        $amp->loadHtml($file_html);
+        $options = ['filename' => $filename]; // So warnings can be printed out with filename appending to line number
+        $amp->loadHtml($file_html, $options);
         $amp_html = $amp->convertToAmpHtml();
 
         if (!$input->getOption('no-lines')) {

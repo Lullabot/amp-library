@@ -38,16 +38,18 @@ class FixStandardPass extends FixBasePass
         // For debugging only right now
         /** @var RenderValidationResult $render_validation_result */
         $render_validation_result = new RenderValidationResult($parsed_rules->format_by_code);
-        // For debugging only right now
-        if (function_exists('dpm')) {
+        // For debugging/development only right now
+        $filename = !empty($this->options['filename']) ? $this->options['filename'] : '';
+        if (function_exists('dpm')) { // running in drupal
             dpm('Ported PHP Validator results ---start---');
             dpm($render_validation_result->renderValidationResult($validation_result));
             dpm('Ported PHP Validator results ---end ---');
         } else {
-            print('Ported Validator results ---start---' . PHP_EOL);
-            print($render_validation_result->renderValidationResult($validation_result));
-            print('Ported Validator results ---end ---' . PHP_EOL);
+            print('Ported PHP Validator results ---start---' . PHP_EOL);
+            print($render_validation_result->renderValidationResult($validation_result, $filename));
+            print('Ported PHP Validator results ---end ---' . PHP_EOL);
         }
+        // end debugging/development
         return $this->warnings;
     }
 }
