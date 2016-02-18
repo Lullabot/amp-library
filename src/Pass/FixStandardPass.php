@@ -41,13 +41,13 @@ class FixStandardPass extends FixBasePass
         // For debugging/development only right now
         $filename = !empty($this->options['filename']) ? $this->options['filename'] : '';
         if (function_exists('dpm')) { // running in drupal
-            dpm('Ported PHP Validator results ---start---');
+            dpm('AMP Library ported PHP Validator output (for debugging) ---start---');
             dpm($render_validation_result->renderValidationResult($validation_result));
-            dpm('Ported PHP Validator results ---end ---');
+            dpm('AMP Library ported PHP Validator output (for debugging) ---end---');
         } else {
-            print('Ported PHP Validator results ---start---' . PHP_EOL);
+            print('AMP Library ported PHP Validator output (for debugging) ---start---' . PHP_EOL);
             print($render_validation_result->renderValidationResult($validation_result, $filename));
-            print('Ported PHP Validator results ---end ---' . PHP_EOL);
+            print('AMP Library ported PHP Validator output (for debugging) ---end---' . PHP_EOL);
         }
         // end debugging/development
         return $this->warnings;
