@@ -132,7 +132,11 @@ class RenderValidationResult
     {
         $this->annotateWithErrorCategories($validation_result);
         /** @var string $rendered */
-        $rendered = $validation_result->status . PHP_EOL;
+        if (empty($validation_result->errors)) {
+            $rendered = 'PASS' . PHP_EOL;
+        } else {
+            $rendered = $validation_result->status . PHP_EOL;
+        }
         $linenos_width = strlen((string)count($validation_result->errors));
         /** @var ValidationError $validation_error */
         foreach ($validation_result->errors as $validation_error) {

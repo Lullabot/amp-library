@@ -27,7 +27,7 @@ class AMP
     ];
 
     /** @var array */
-    protected $warnings = [];
+    protected $action_taken = [];
     /** @var string */
     protected $input_html = '';
     /** @var string */
@@ -55,7 +55,7 @@ class AMP
 
     public function getWarnings()
     {
-        return $this->warnings;
+        return $this->action_taken;
     }
 
     public function getInputHtml()
@@ -105,7 +105,7 @@ class AMP
     public function clear()
     {
         $this->input_html = '';
-        $this->warnings = [];
+        $this->action_taken = [];
         $this->amp_html = '';
         $this->options = [];
         $this->component_js = [];
@@ -132,7 +132,7 @@ class AMP
             $pass = (new $pass_name($qp_branch, $this->context, $this->validation_result, $this->parsed_rules, $this->options));
             // Run the pass
             $pass->pass();
-            $this->warnings = array_merge($this->warnings, $pass->getWarnings());
+            $this->action_taken = array_merge($this->action_taken, $pass->getWarnings());
             $this->component_js = array_merge($this->component_js, $pass->getComponentJs());
         }
 
@@ -149,7 +149,7 @@ class AMP
     protected function sortWarningsByLineno()
     {
         // Sort the warnings according to increasing line number
-        usort($this->warnings, function (ActionTakenLine $action_taken_1, ActionTakenLine $action_taken_2) {
+        usort($this->action_taken, function (ActionTakenLine $action_taken_1, ActionTakenLine $action_taken_2) {
             if ($action_taken_1->lineno > $action_taken_2->lineno) {
                 return 1;
             } else if ($action_taken_1->lineno < $action_taken_2->lineno) {
@@ -216,10 +216,6 @@ class AMP
      */
     public function warningsHumanText($no_heading = TRUE)
     {
-        if (empty($this->warnings)) {
-            return '';
-        }
-
         $warning_text = '';
         if (!$no_heading) {
             $warning_text .= PHP_EOL . 'AMP-HTML Validation Issues';
@@ -228,15 +224,16 @@ class AMP
 
         $warning_text .= $this->getValidationWarnings();
 
-        if (!$no_heading) {
-            $warning_text .= PHP_EOL . 'Fixes made based on validation issues discovered (see above)';
-            $warning_text .= PHP_EOL . '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' . PHP_EOL;
-        }
+        if (!empty($this->action_taken)) {
+            if (!$no_heading) {
+                $warning_text .= PHP_EOL . 'Fixes made based on validation issues discovered (see above)';
+                $warning_text .= PHP_EOL . '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' . PHP_EOL;
+            }
 
-        foreach ($this->warnings as $warning) {
-            $warning_text .= "- $warning->human_description" . PHP_EOL;
+            foreach ($this->action_taken as $warning) {
+                $warning_text .= "- $warning->human_description" . PHP_EOL;
+            }
         }
-
-        return htmlspecialchars_decode(strip_tags($warning_text));
+        return $warning_text;
     }
 }
