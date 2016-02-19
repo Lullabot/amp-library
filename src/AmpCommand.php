@@ -2,6 +2,7 @@
 
 namespace Lullabot\AMP;
 
+use Lullabot\AMP\Validate\Scope;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -46,6 +47,12 @@ class AmpCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 'If set, a list of custom amp components and the url to include the js is printed out'
+            )
+            ->addOption(
+                '--full-document',
+                null,
+                InputOption::VALUE_NONE,
+                'If set, assumes this is a whole document html document and not an html fragment underneath the body (which is the default)'
             );
     }
 
@@ -61,6 +68,9 @@ class AmpCommand extends Command
 
         $amp = new AMP();
         $options = ['filename' => $filename]; // So warnings can be printed out with filename appending to line number
+        if ($input->getOption('full-document')) {
+            $options += ['scope' => Scope::HTML_SCOPE];
+        }
         $amp->loadHtml($file_html, $options);
         $amp_html = $amp->convertToAmpHtml();
 
