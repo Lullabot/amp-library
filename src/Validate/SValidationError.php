@@ -19,5 +19,7 @@ class SValidationError extends ValidationError
 {
     /** @var  \DOMElement */
     public $dom_tag = null;
+    /** @var string */
+    public $attr_name = '';
     public $phase = Phase::UNKNOWN_PHASE;
 }

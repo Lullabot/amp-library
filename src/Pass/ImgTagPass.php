@@ -30,7 +30,7 @@ class ImgTagPass extends BasePass
             $new_el = $this->renameDomElement($dom_el, 'amp-img');
             $this->setAmpImgAttributes($new_el);
 
-            $this->addWarning(new Warning('img', WarningType::IMG_CONVERTED_AMP_IMG, ActionTaken::TAG_RENAMED, $lineno));
+            $this->addWarning(new Warning('img', WarningType::IMG_CONVERTED_AMP_IMG, 'IMG_TAG_CONVERTED_TO_AMP_IMG', ActionTaken::TAG_RENAMED, $lineno));
         }
 
         return $this->warnings;
@@ -41,6 +41,7 @@ class ImgTagPass extends BasePass
     {
         $fastimage = new FastImageSize();
 
+        // @todo use parse_url here?
         // Try attaching the base_uri if that does not work
         if (!empty($this->options['base_uri']) && !preg_match('/.*:\/\//', $src)) {
             $src = $this->options['base_uri'] . $src;

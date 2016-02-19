@@ -96,11 +96,11 @@ class RenderValidationResult
             $error_line .= " (see {$validation_error->spec_url})";
         }
         if (!empty($validation_error->category)) {
-            $error_line .= " [{$validation_error->category}]";
+            $error_line .= " [category: {$validation_error->category}]";
         }
-//        if (!empty($validation_error->code)) {
-//            $error_line .= " (specific code: {$validation_error->code})";
-//        }
+        if (!empty($validation_error->code)) {
+            $error_line .= " [code: {$validation_error->code}]";
+        }
         return $error_line;
     }
 

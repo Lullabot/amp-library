@@ -159,9 +159,10 @@ class Context
      * @param array $params
      * @param string $spec_url
      * @param SValidationResult $validationResult
+     * @param string $attr_name
      * @return bool
      */
-    public function addError($code, array $params, $spec_url, SValidationResult $validationResult)
+    public function addError($code, array $params, $spec_url, SValidationResult $validationResult, $attr_name = '')
     {
         if (empty($spec_url)) {
             $spec_url = '';
@@ -169,7 +170,7 @@ class Context
 
         // @todo does line number make sense if we're no longer in Phase::LOCAL_PHASE ?
         $line = $this->dom_tag->getLineNo();
-        return $this->addErrorWithLine($line, $code, $params, $spec_url, $validationResult);
+        return $this->addErrorWithLine($line, $code, $params, $spec_url, $validationResult, $attr_name);
     }
 
     /**
@@ -209,9 +210,10 @@ class Context
      * @param array $params
      * @param $spec_url
      * @param SValidationResult $validation_result
+     * @param string $attr_name
      * @return bool
      */
-    public function addErrorWithLine($line, $validation_error_code, array $params, $spec_url, SValidationResult $validation_result)
+    public function addErrorWithLine($line, $validation_error_code, array $params, $spec_url, SValidationResult $validation_result, $attr_name = '')
     {
         $progress = $this->getProgress($validation_result);
         if ($progress['complete']) {
@@ -237,6 +239,7 @@ class Context
             // dont know the column number unfortunately
             $error->spec_url = $spec_url;
             // for more context
+            $error->attr_name = $attr_name;
             $error->phase = $this->phase;
             if ($this->phase == Phase::LOCAL_PHASE) {
                 $error->dom_tag = $this->dom_tag;
