@@ -1,9 +1,11 @@
 <?php
 namespace Lullabot\AMP\Pass;
 
+use Lullabot\AMP\Validate\ParsedValidatorRules;
+use Lullabot\AMP\Validate\SValidationResult;
 use QueryPath\DOMQuery;
 use Lullabot\AMP\Warning;
-use Lullabot\AMP\Spec\ValidatorRules;
+use Lullabot\AMP\Validate\Context;
 
 abstract class BasePass
 {
@@ -11,12 +13,16 @@ abstract class BasePass
     protected $q;
     /** @var array */
     protected $warnings = [];
-    /** @var  ValidatorRules */
-    protected $rules;
+    /** @var  ParsedValidatorRules */
+    protected $parsed_rules;
     /** @var array */
     protected $options;
     /** @var array */
     protected $component_js = [];
+    /** @var Context */
+    protected $context;
+    /** @var SValidationResult */
+    protected $validation_result;
 
     protected static $component_mappings = [
         "amp-anim" => "https://cdn.ampproject.org/v0/amp-anim-0.1.js",
@@ -35,14 +41,18 @@ abstract class BasePass
     /**
      * FixBasePass constructor.
      * @param DOMQuery $q
-     * @param ValidatorRules $rules
+     * @param Context $context
+     * @param SValidationResult $validation_result
+     * @param ParsedValidatorRules $parsed_rules
      * @param array $options
      */
-    function __construct(DOMQuery $q, ValidatorRules $rules, $options = [])
+    function __construct(DOMQuery $q, Context $context, SValidationResult $validation_result, ParsedValidatorRules $parsed_rules, $options = [])
     {
         $this->q = $q;
-        $this->rules = $rules;
+        $this->parsed_rules = $parsed_rules;
         $this->options = $options;
+        $this->context = $context;
+        $this->validation_result = $validation_result;
     }
 
     function getWarnings()
@@ -67,11 +77,6 @@ abstract class BasePass
     protected function addWarning(Warning $w)
     {
         $this->warnings[] = $w;
-    }
-
-    protected function getSpecifications($tagname)
-    {
-        // @todo
     }
 
     /**

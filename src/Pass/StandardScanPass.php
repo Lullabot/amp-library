@@ -2,17 +2,10 @@
 namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Validate\RenderValidationResult;
-use Lullabot\AMP\Validate\Scope;
-use Lullabot\AMP\Validate\SValidationResult;
-use Lullabot\AMP\Spec\ValidationResultStatus;
-use Lullabot\AMP\Validate\Context;
-use Lullabot\AMP\Validate\ParsedValidatorRules;
 
 /**
- * Class FixStandardPass
+ * Class StandardScanPass
  * @package Lullabot\AMP\Pass
- *
- * @todo This pass is currently not fully implemented.
  *
  */
 class StandardScanPass extends BasePass
@@ -23,31 +16,25 @@ class StandardScanPass extends BasePass
         // See http://technosophos.com/2009/11/26/iteration-techniques-and-performance-querypath.html
         $all_tags = $this->q->find('*')->get();
 
-        // Initializing stuff
-        $context = new Context();
-        $parsed_rules = new ParsedValidatorRules($this->rules);
-        $validation_result = new SValidationResult();
-        $validation_result->status = ValidationResultStatus::FAIL;
-
         /** @var \DOMElement $tag */
         foreach ($all_tags as $tag) {
-            $context->attachDomTag($tag);
-            $parsed_rules->validateTag($context, $tag->nodeName, $this->encounteredAttributes($tag), $validation_result);
+            $this->context->attachDomTag($tag);
+            $this->parsed_rules->validateTag($this->context, $tag->nodeName, $this->encounteredAttributes($tag), $this->validation_result);
         }
 
-        $parsed_rules->maybeEmitGlobalTagValidationErrors($context, $validation_result);
+        $this->parsed_rules->maybeEmitGlobalTagValidationErrors($this->context, $this->validation_result);
         // For debugging only right now
         /** @var RenderValidationResult $render_validation_result */
-        $render_validation_result = new RenderValidationResult($parsed_rules->format_by_code);
+        $render_validation_result = new RenderValidationResult($this->parsed_rules->format_by_code);
         // For debugging/development only right now
         $filename = !empty($this->options['filename']) ? $this->options['filename'] : '';
         if (function_exists('dpm')) { // running in drupal
             dpm('AMP Library ported PHP Validator output (for debugging) ---start---');
-            dpm($render_validation_result->renderValidationResult($validation_result));
+            dpm($render_validation_result->renderValidationResult($this->validation_result));
             dpm('AMP Library ported PHP Validator output (for debugging) ---end---');
         } else {
             print('AMP Library ported PHP Validator output (for debugging) ---start---' . PHP_EOL);
-            print($render_validation_result->renderValidationResult($validation_result, $filename));
+            print($render_validation_result->renderValidationResult($this->validation_result, $filename));
             print('AMP Library ported PHP Validator output (for debugging) ---end---' . PHP_EOL);
         }
         // end debugging/development

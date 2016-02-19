@@ -2,12 +2,16 @@
 
 namespace Lullabot\AMP;
 
-use Lullabot\AMP\Pass\BasePass;
-use Lullabot\AMP\Spec\ValidatorRules;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
+use Lullabot\AMP\Pass\BasePass;
+use Lullabot\AMP\Spec\ValidatorRules;
+use Lullabot\AMP\Validate\ParsedValidatorRules;
+use Lullabot\AMP\Validate\Scope;
 use Lullabot\AMP\Spec\ValidationRulesFactory;
-use Lullabot\AMP\Spec\ValidationRules;
+use Lullabot\AMP\Validate\Context;
+use Lullabot\AMP\Validate\SValidationResult;
+use Lullabot\AMP\Spec\ValidationResultStatus;
 
 class AMP
 {
@@ -27,6 +31,15 @@ class AMP
     protected $amp_html = '';
     /** @var ValidatorRules */
     protected $rules;
+    /** @var ParsedValidatorRules */
+    protected $parsed_rules;
+    /** @var Context */
+    protected $context = null;
+    /** @var  SValidationResult */
+    protected $validation_result = null;
+    /** @var string */
+    protected $scope = Scope::BODY_SCOPE;
+
     /** @var array */
     protected $component_js = [];
     /** @var array */
@@ -61,6 +74,8 @@ class AMP
     public function __construct()
     {
         $this->rules = ValidationRulesFactory::createValidationRules();
+        // @todo put this somewhere separate as a global singleton
+        $this->parsed_rules = new ParsedValidatorRules($this->rules);
     }
 
     /**
@@ -76,10 +91,12 @@ class AMP
         $this->clear();
         $this->input_html = $html;
         $this->options = $options;
+        $this->scope = !empty($options['scope']) ? $options['scope'] : Scope::BODY_SCOPE;
+        $this->context = new Context($this->scope);
     }
 
     /**
-     * Calling this function "clears" the state of the AMP object.
+     * Calling this function "clears" the state of the AMP object and puts it into default mode
      * Call this function when you don't want anything remaining in the AMP Object
      */
     public function clear()
@@ -89,6 +106,10 @@ class AMP
         $this->amp_html = '';
         $this->options = [];
         $this->component_js = [];
+        $this->validation_result = new SValidationResult();
+        $this->validation_result->status = ValidationResultStatus::FAIL;
+        $this->context = null;
+        $this->scope = Scope::BODY_SCOPE;
     }
 
     /**
@@ -105,7 +126,7 @@ class AMP
             $qp_branch = $qp->branch();
             // Each of the $qp objects are pointing to the same DOMDocument
             /** @var BasePass $pass */
-            $pass = (new $pass_name($qp_branch, $this->rules, $this->options));
+            $pass = (new $pass_name($qp_branch, $this->context, $this->validation_result, $this->parsed_rules, $this->options));
             // Run the pass
             $pass->pass();
             $this->warnings = array_merge($this->warnings, $pass->getWarnings());
@@ -113,7 +134,12 @@ class AMP
         }
 
         $this->sortWarningsByLineno();
-        $this->amp_html = $qp->top()->html5();
+        if ($this->scope == Scope::HTML_SCOPE) {
+            $this->amp_html = $qp->top()->html5();
+        } else {
+            $this->amp_html = $qp->find($this->scope)->innerHTML5();
+        }
+
         return $this->amp_html;
     }
 
@@ -152,8 +178,11 @@ class AMP
     {
         /** @var QueryPath\DOMQuery $qp */
         $qp = \QueryPath::withHTML($html);
-        // @todo: Remove body at some point?
-        return $qp->top()->html5();
+        if ($this->scope == Scope::HTML_SCOPE) {
+            return $qp->top()->html5();
+        } else {
+            return $qp->find($this->scope)->innerHTML5();
+        }
     }
 
     public function warningsHuman()

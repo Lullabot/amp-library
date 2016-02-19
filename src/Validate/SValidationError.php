@@ -15,7 +15,6 @@ use Lullabot\AMP\Spec\ValidationError;
  * Adds some more information to the ValidationError class
  *
  */
-
 class SValidationError extends ValidationError
 {
     /** @var  \DOMElement */
