@@ -5,7 +5,6 @@ use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Validate\SValidationError;
 use Lullabot\AMP\ActionTakenLine;
 use Lullabot\AMP\ActionTakenType;
-use Lullabot\AMP\WarningType;
 
 /**
  * Class StandardFixPass

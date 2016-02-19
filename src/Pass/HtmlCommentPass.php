@@ -5,7 +5,6 @@ namespace Lullabot\AMP\Pass;
 use QueryPath\DOMQuery;
 
 use Lullabot\AMP\ActionTakenLine;
-use Lullabot\AMP\WarningType;
 use Lullabot\AMP\ActionTakenType;
 
 class HtmlCommentPass extends BasePass
