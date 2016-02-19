@@ -20,6 +20,13 @@ use Lullabot\AMP\Spec\ValidationError;
  * The main difference between the PHP Port and the js version is that the Context class here will be working with a DOM
  * style parser (PHP dom extension) while it was working with an event based/sax style in validator.js
  *
+ * Another interesting features of our validator (compared to validator.js) is our ability to only show errors within
+ * a portion of the document. Our validator is able to deal with validating with HTML fragments rather than whole
+ * documents at a time, also. The Context class plays an important role in showing only those errors that are relevant.
+ * See ignoreTagDueToScope(), ignoreErrorDueToPhase(), setAcceptableMandatoryParents(), get|setErrorScope(),
+ * set|getPhase() (and the places where these a called in this class and the rest of the validator) to see how this is
+ * implemented.
+ *
  */
 class Context
 {
@@ -31,11 +38,60 @@ class Context
     protected $max_errors = -1;
     protected $parent_tag_name = '';
     protected $ancestor_tag_names = [];
+    protected $phase = Phase::LOCAL_PHASE;
+    protected $error_scope = Scope::HTML_SCOPE;
+    protected $acceptable_mandatory_parents = [];
 
-    public function __construct($max_errors = -1)
+    public function __construct($scope = Scope::BODY_SCOPE, $max_errors = -1)
     {
         $this->tagspecs_validated = new \SplObjectStorage();
         $this->max_errors = $max_errors;
+        $this->error_scope = $scope;
+        $this->setAcceptableMandatoryParents();
+    }
+
+    /**
+     * Utility function
+     * @throws \Exception
+     */
+    protected function setAcceptableMandatoryParents()
+    {
+        if ($this->error_scope == Scope::HTML_SCOPE) {
+            $this->acceptable_mandatory_parents = ['body', 'head', 'html', '!doctype'];
+        } else if ($this->error_scope == Scope::BODY_SCOPE) {
+            $this->acceptable_mandatory_parents = ['body'];
+        } else if ($this->error_scope == Scope::HEAD_SCOPE) {
+            $this->acceptable_mandatory_parents = ['head'];
+        } else {
+            throw new \Exception("Invalid scope $this->error_scope");
+        }
+    }
+
+    /**
+     * @param Phase ::LOCAL_PHASE|Phase::GLOBAL_PHASE|Phase::UNKNOWN_PHASE $phase
+     */
+    public function setPhase($phase)
+    {
+        $this->phase = $phase;
+    }
+
+    public function getPhase()
+    {
+        return $this->phase;
+    }
+
+    public function getErrorScope()
+    {
+        return $this->error_scope;
+    }
+
+    /**
+     * @param Scope ::HTML_SCOPE|Scope::HEAD_SCOPE|Scope::BODY_SCOPE $scope
+     */
+    public function setErrorScope($scope)
+    {
+        $this->error_scope = $scope;
+        $this->setAcceptableMandatoryParents();
     }
 
     /**
@@ -44,8 +100,8 @@ class Context
     public function attachDomTag(\DOMElement $new_dom_tag)
     {
         $this->dom_tag = $new_dom_tag;
-        $this->parent_tag_name = $this->_getParentTagName();
-        $this->ancestor_tag_names = $this->_getAncestorTagNames();
+        $this->setParentTagName();
+        $this->setAncestorTagNames();
     }
 
     /**
@@ -59,7 +115,7 @@ class Context
     /**
      * @return string[]
      */
-    protected function _getAncestorTagNames()
+    protected function setAncestorTagNames()
     {
         $ancestor_tag_names = [];
         $tag = $this->dom_tag;
@@ -67,7 +123,7 @@ class Context
             $ancestor_tag_names[] = $tag->tagName;
         }
         $ancestor_tag_names[] = '!doctype';
-        return $ancestor_tag_names;
+        $this->ancestor_tag_names = $ancestor_tag_names;
     }
 
     /**
@@ -81,12 +137,12 @@ class Context
     /**
      * @return string
      */
-    protected function _getParentTagName()
+    protected function setParentTagName()
     {
         if (empty($this->dom_tag->parentNode->tagName)) {
-            return '!doctype';
+            $this->parent_tag_name = '!doctype';
         } else {
-            return $this->dom_tag->parentNode->tagName;
+            $this->parent_tag_name = $this->dom_tag->parentNode->tagName;
         }
     }
 
@@ -111,8 +167,40 @@ class Context
             $spec_url = '';
         }
 
+        // @todo does line number make sense if we're no longer in Phase::LOCAL_PHASE ?
         $line = $this->dom_tag->getLineNo();
         return $this->addErrorWithLine($line, $code, $params, $spec_url, $validationResult);
+    }
+
+    /**
+     * If the error pertains to a tag in a scope that is not relevant to us, then ignore it
+     */
+    public function ignoreErrorDueToPhase()
+    {
+        if ($this->phase == Phase::LOCAL_PHASE) {
+            // $this->ancestor_tag_names only has meaning if we're in the the LOCAL_PHASE
+            if (!in_array($this->error_scope, $this->ancestor_tag_names)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * If we want errors only in body, for instance, then ignore all head related issues and so forth
+     *
+     * @param ParsedTagSpec $parsed_tag_spec
+     * @return bool
+     */
+    public function ignoreTagDueToScope(ParsedTagSpec $parsed_tag_spec)
+    {
+        $tagspec = $parsed_tag_spec->getSpec();
+        if (!empty($tagspec->mandatory_parent) && !in_array($tagspec->mandatory_parent, $this->acceptable_mandatory_parents)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -131,19 +219,29 @@ class Context
             return false;
         }
 
+        if ($this->ignoreErrorDueToPhase()) {
+            return true; // pretend that we've added the error
+        }
+
         $severity = self::severityFor($validation_error_code);
         if ($severity !== ValidationErrorSeverity::WARNING) {
             $validation_result->status = ValidationResultStatus::FAIL;
         }
 
         if ($progress['wants_more_errors']) {
-            $error = new ValidationError();
+            $error = new SValidationError();
             $error->severity = $severity;
             $error->code = $validation_error_code;
             $error->params = $params;
             $error->line = $line;
             // dont know the column number unfortunately
             $error->spec_url = $spec_url;
+            // for more context
+            $error->phase = $this->phase;
+            if ($this->phase == Phase::LOCAL_PHASE) {
+                $error->dom_tag = $this->dom_tag;
+            }
+
             assert(isset($validation_result->errors));
             $validation_result->errors[] = $error;
         }

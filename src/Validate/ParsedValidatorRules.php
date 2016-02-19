@@ -7,7 +7,6 @@ use Lullabot\AMP\Spec\TagSpec;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Spec\ValidatorRules;
-use Lullabot\AMP\Spec\ErrorFormat;
 
 /**
  * Class ParsedValidatorRules
@@ -15,6 +14,7 @@ use Lullabot\AMP\Spec\ErrorFormat;
  *
  * This class is a straight PHP port of the ParsedValidatorRules class in validator.js
  * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ *
  */
 class ParsedValidatorRules
 {
@@ -201,6 +201,9 @@ class ParsedValidatorRules
     {
         /** @var ParsedTagSpec $parsed_tag_spec */
         foreach ($this->mandatory_tag_specs as $parsed_tag_spec) {
+            if ($context->ignoreTagDueToScope($parsed_tag_spec)) {
+                continue;
+            }
             $tagspec = $parsed_tag_spec->getSpec();
             if (!$context->getTagspecsValidated()->contains($parsed_tag_spec)) {
                 if (!$context->addError(ValidationErrorCode::MANDATORY_TAG_MISSING,
@@ -220,12 +223,23 @@ class ParsedValidatorRules
     {
         /** @var ParsedTagSpec $parsed_tag_spec */
         foreach ($context->getTagspecsValidated() as $parsed_tag_spec) {
+            // if this tag relates to a scope we're not interested in, skip
+            if ($context->ignoreTagDueToScope($parsed_tag_spec)) {
+                continue;
+            }
             /** @var TagSpec $tagspec_require */
             foreach ($parsed_tag_spec->getAlsoRequires() as $tagspec_require) {
                 $parsed_tag_spec_require = $this->all_parsed_specs_by_specs[$tagspec_require];
-                assert(!empty($parsed_tag_spec_require)); // @todo leave as an assert?
+                assert(!empty($parsed_tag_spec_require));
+                // if this also required tag relates to a scope we're not interested in, skip
+                if ($context->ignoreTagDueToScope($parsed_tag_spec_require)) {
+                    continue;
+                }
                 if (!$context->getTagspecsValidated()->contains($parsed_tag_spec_require)) {
-                    if (!$context->addError(ValidationErrorCode::TAG_REQUIRED_BY_MISSING, [ParsedTagSpec::getDetailOrName($parsed_tag_spec_require->getSpec()), ParsedTagSpec::getDetailOrName($parsed_tag_spec->getSpec())], $parsed_tag_spec->getSpec()->spec_url, $validation_result)) {
+                    if (!$context->addError(ValidationErrorCode::TAG_REQUIRED_BY_MISSING,
+                        [ParsedTagSpec::getDetailOrName($tagspec_require), ParsedTagSpec::getDetailOrName($tagspec_require)],
+                        $tagspec_require->spec_url, $validation_result)
+                    ) {
                         return;
                     }
                 }
@@ -238,8 +252,14 @@ class ParsedValidatorRules
         /** @var  $satisfied_alternatives */
         $satisfied_alternatives = $context->getMandatoryAlternativesSatisfied();
         $missing_mandatory_alternatives = [];
-        /** @var ParsedTagSpec $parsed_tag_spec */
-        foreach ($this->all_parsed_specs_by_specs as $tagspec => $parsed_tag_spec) {
+        /** @var TagSpec $tagspec */
+        // Remember that we're iterating through SplObjectStorage here
+        foreach ($this->all_parsed_specs_by_specs as $tagspec) {
+            /** @var ParsedTagSpec $parsed_tag_spec */
+            $parsed_tag_spec = $this->all_parsed_specs_by_specs[$tagspec];
+            if ($context->ignoreTagDueToScope($parsed_tag_spec)) {
+                continue;
+            }
             if (!empty($tagspec->mandatory_alternatives)) {
                 $alternative = $tagspec->mandatory_alternatives;
                 if (!isset($satisfied_alternatives[$alternative])) {
@@ -257,6 +277,7 @@ class ParsedValidatorRules
 
     public function maybeEmitGlobalTagValidationErrors(Context $context, SValidationResult $validation_result)
     {
+        $context->setPhase(Phase::GLOBAL_PHASE);
         if ($context->getProgress($validation_result)['complete']) {
             return;
         }

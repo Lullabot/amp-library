@@ -11,9 +11,8 @@ use Lullabot\AMP\Spec\ValidationErrorCode;
  * Class RenderValidationResult
  * @package Lullabot\AMP\Validate
  *
- * This class does'nt exist in validator.js (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
- * Rather, its a mishmash of some useful functions ported from validator.js into PHP, added to this class,
- * and subsequently customized for our codebase.
+ * This class doesn't exist in validator.js (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ * Rather, its a mishmash of some useful functions ported from validator.js into PHP, added to this class.
  *
  */
 class RenderValidationResult
@@ -111,9 +110,10 @@ class RenderValidationResult
      *
      * @param SValidationResult $validation_result
      */
-    public function annotateWithErrorCategories(SValidationResult $validation_result) {
+    public function annotateWithErrorCategories(SValidationResult $validation_result)
+    {
         /** @var ValidationError $error */
-        foreach($validation_result->errors as $error) {
+        foreach ($validation_result->errors as $error) {
             $error->category = $this->categorizeError($error);
         }
     }
