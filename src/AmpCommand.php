@@ -26,7 +26,7 @@ class AmpCommand extends Command
                 '--no-orig-and-warn',
                 null,
                 InputOption::VALUE_NONE,
-                'If set, the original HTML and warnings encountered during conversion will not be printed out'
+                'If set, the original HTML and warnings/messages encountered during conversion will not be printed out'
             )
             ->addOption(
                 '--no-lines',
@@ -89,17 +89,16 @@ class AmpCommand extends Command
 
         // Show the warnings by default
         if (!$input->getOption('no-orig-and-warn')) {
-            $output->writeln("\nORIGINAL HTML WITH WARNINGS");
-            $output->writeln("===========================");
+            $output->writeln("\nORIGINAL HTML");
+            $output->writeln("~~~~~~~~~~~~~~~");
             $output->writeln($this->getStringWithLineNumbers($amp->getInputHtml()));
-            $output->writeln('Warnings');
-            $output->writeln($amp->warningsHumanText());
+            $output->writeln($amp->warningsHumanText($no_heading = false));
         }
 
         // Show the components with js urls
         if ($input->getOption('js')) {
             $output->writeln("\nCOMPONENT NAMES WITH JS PATH");
-            $output->writeln("===========================");
+            $output->writeln("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             $output->writeln($this->componentList($amp->getComponentJs()));
         }
 

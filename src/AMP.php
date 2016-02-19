@@ -12,6 +12,7 @@ use Lullabot\AMP\Spec\ValidationRulesFactory;
 use Lullabot\AMP\Validate\Context;
 use Lullabot\AMP\Validate\SValidationResult;
 use Lullabot\AMP\Spec\ValidationResultStatus;
+use Lullabot\AMP\Validate\RenderValidationResult;
 
 class AMP
 {
@@ -185,19 +186,19 @@ class AMP
         }
     }
 
+    /**
+     * @return string
+     */
+    public function getValidationWarnings() {
+        /** @var RenderValidationResult $render_validation_result */
+        $render_validation_result = new RenderValidationResult($this->parsed_rules->format_by_code);
+        $filename = !empty($this->options['filename']) ? $this->options['filename'] : '';
+        return $render_validation_result->renderValidationResult($this->validation_result, $filename);
+    }
+
     public function warningsHuman()
     {
-        if (empty($this->warnings)) {
-            return '';
-        }
-
-        $warning_text = '<div><strong>Warnings</strong></div><ul>';
-        foreach ($this->warnings as $warning) {
-            $warning_text .= "<li>$warning->human_description</li>";
-        }
-        $warning_text .= '</ul>';
-
-        return $warning_text;
+        return '<pre>' . $this->warningsHumanText() . '</pre>';
     }
 
     public function getRules()
@@ -207,6 +208,8 @@ class AMP
 
     /**
      * Differs from AMP::warningsHuman() in that it outputs warnings in Text and not HTML format
+     *
+     * @param bool $no_heading
      * @return string
      */
     public function warningsHumanText($no_heading = TRUE)
@@ -217,8 +220,17 @@ class AMP
 
         $warning_text = '';
         if (!$no_heading) {
-            $warning_text .= PHP_EOL . 'Warnings' . PHP_EOL;
+            $warning_text .= PHP_EOL . 'AMP-HTML Validation Issues';
+            $warning_text .= PHP_EOL . '~~~~~~~~~~~~~~~~~~~~~~~~~~' . PHP_EOL;
         }
+
+        $warning_text .= $this->getValidationWarnings();
+
+        if (!$no_heading) {
+            $warning_text .= PHP_EOL . 'Fixes made based on validation issues discovered';
+            $warning_text .= PHP_EOL . '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' . PHP_EOL;
+        }
+
         foreach ($this->warnings as $warning) {
             $warning_text .= "- $warning->human_description" . PHP_EOL;
         }
