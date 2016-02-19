@@ -5,7 +5,7 @@ use QueryPath\DOMQuery;
 use Lullabot\AMP\Warning;
 use Lullabot\AMP\Spec\ValidatorRules;
 
-abstract class FixBasePass
+abstract class BasePass
 {
     /** @var DOMQuery */
     protected $q;

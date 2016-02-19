@@ -2,7 +2,7 @@
 
 namespace Lullabot\AMP;
 
-use Lullabot\AMP\Pass\FixBasePass;
+use Lullabot\AMP\Pass\BasePass;
 use Lullabot\AMP\Spec\ValidatorRules;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
@@ -12,14 +12,11 @@ use Lullabot\AMP\Spec\ValidationRules;
 class AMP
 {
     // We'll need to add discovery of passes etc. very basic for now
+    // The Standard Pass should be first
     public $passes = [
-//        'Lullabot\AMP\Pass\FixTagsAndAttributesPass',
-        'Lullabot\AMP\Pass\FixImgTagsPass',
-        'Lullabot\AMP\Pass\FixStandardPass',
-//        'Lullabot\AMP\Pass\FixATagsPass',
-        'Lullabot\AMP\Pass\FixHtmlCommentsPass',
-//        'Lullabot\AMP\Pass\FixScriptTagsBodyPass',
-//        'Lullabot\AMP\Pass\FixStyleTagsBodyPass'
+        'Lullabot\AMP\Pass\StandardScanPass',
+        'Lullabot\AMP\Pass\ImgTagPass',
+        'Lullabot\AMP\Pass\HtmlCommentPass',
     ];
 
     /** @var array */
@@ -107,7 +104,7 @@ class AMP
         foreach ($this->passes as $pass_name) {
             $qp_branch = $qp->branch();
             // Each of the $qp objects are pointing to the same DOMDocument
-            /** @var FixBasePass $pass */
+            /** @var BasePass $pass */
             $pass = (new $pass_name($qp_branch, $this->rules, $this->options));
             // Run the pass
             $pass->pass();

@@ -2,6 +2,7 @@
 namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Validate\RenderValidationResult;
+use Lullabot\AMP\Validate\Scope;
 use Lullabot\AMP\Validate\SValidationResult;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Validate\Context;
@@ -14,7 +15,7 @@ use Lullabot\AMP\Validate\ParsedValidatorRules;
  * @todo This pass is currently not fully implemented.
  *
  */
-class FixStandardPass extends FixBasePass
+class StandardScanPass extends BasePass
 {
     public function pass()
     {

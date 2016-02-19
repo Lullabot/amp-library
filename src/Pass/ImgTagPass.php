@@ -17,7 +17,7 @@ use FastImageSize\FastImageSize;
  * - height and width are obtained by trying to look at the image file itself via getimagesize()
  * - Currently the layout is set to responsive
  */
-class FixImgTagsPass extends FixBasePass
+class ImgTagPass extends BasePass
 {
     function pass()
     {
