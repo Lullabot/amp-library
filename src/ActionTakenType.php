@@ -4,7 +4,7 @@ namespace Lullabot\AMP;
 
 use MyCLabs\Enum\Enum;
 
-class ActionTaken extends Enum
+class ActionTakenType extends Enum
 {
     const TAG_REMOVED = 'tag was removed.';
     const ATTRIBUTE_REMOVED = 'attribute was removed.';

@@ -149,10 +149,10 @@ class AMP
     protected function sortWarningsByLineno()
     {
         // Sort the warnings according to increasing line number
-        usort($this->warnings, function (Warning $warning1, Warning $warning2) {
-            if ($warning1->lineno > $warning2->lineno) {
+        usort($this->warnings, function (ActionTakenLine $action_taken_1, ActionTakenLine $action_taken_2) {
+            if ($action_taken_1->lineno > $action_taken_2->lineno) {
                 return 1;
-            } else if ($warning1->lineno < $warning2->lineno) {
+            } else if ($action_taken_1->lineno < $action_taken_2->lineno) {
                 return -1;
             } else {
                 return 0;

@@ -1,7 +1,7 @@
 <?php
 namespace Lullabot\AMP;
 
-class Warning
+class ActionTakenLine
 {
     /** @var  integer */
     public $lineno;
@@ -11,11 +11,11 @@ class Warning
     public $tag_attr_description;
     /** @var  string */
     public $human_description;
-    /** @var  ActionTaken */
+    /** @var  ActionTakenType */
     public $action_taken;
 
     /**
-     * Warning constructor.
+     * ActionTakenLine constructor.
      * @param $tag_attr_description
      * @param $warning
      * @param $lineno
@@ -23,7 +23,7 @@ class Warning
     public function __construct($tag_attr_description, $action, $lineno)
     {
         $this->tag_attr_description = $tag_attr_description;
-        $this->action_taken = new ActionTaken($action);
+        $this->action_taken = new ActionTakenType($action);
         $this->lineno = $lineno;
         $this->human_description = "Line $lineno: $tag_attr_description " .  (string)$this->action_taken;
     }

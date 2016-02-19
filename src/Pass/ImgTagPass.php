@@ -4,9 +4,9 @@ namespace Lullabot\AMP\Pass;
 
 use QueryPath\DOMQuery;
 
-use Lullabot\AMP\Warning;
+use Lullabot\AMP\ActionTakenLine;
 use Lullabot\AMP\WarningType;
-use Lullabot\AMP\ActionTaken;
+use Lullabot\AMP\ActionTakenType;
 use FastImageSize\FastImageSize;
 
 /**
@@ -30,7 +30,7 @@ class ImgTagPass extends BasePass
             $new_el = $this->renameDomElement($dom_el, 'amp-img');
             $this->setAmpImgAttributes($new_el);
 
-            $this->addWarning(new Warning('img', ActionTaken::IMG_CONVERTED, $lineno));
+            $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno));
         }
 
         return $this->warnings;

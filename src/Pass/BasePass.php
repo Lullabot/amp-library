@@ -4,7 +4,7 @@ namespace Lullabot\AMP\Pass;
 use Lullabot\AMP\Validate\ParsedValidatorRules;
 use Lullabot\AMP\Validate\SValidationResult;
 use QueryPath\DOMQuery;
-use Lullabot\AMP\Warning;
+use Lullabot\AMP\ActionTakenLine;
 use Lullabot\AMP\Validate\Context;
 
 abstract class BasePass
@@ -74,7 +74,7 @@ abstract class BasePass
 
     abstract function pass();
 
-    protected function addWarning(Warning $w)
+    protected function addActionTaken(ActionTakenLine $w)
     {
         $this->warnings[] = $w;
     }
