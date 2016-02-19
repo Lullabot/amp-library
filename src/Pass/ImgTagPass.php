@@ -4,9 +4,9 @@ namespace Lullabot\AMP\Pass;
 
 use QueryPath\DOMQuery;
 
-use Lullabot\AMP\Warning;
+use Lullabot\AMP\ActionTakenLine;
 use Lullabot\AMP\WarningType;
-use Lullabot\AMP\ActionTaken;
+use Lullabot\AMP\ActionTakenType;
 use FastImageSize\FastImageSize;
 
 /**
@@ -17,12 +17,12 @@ use FastImageSize\FastImageSize;
  * - height and width are obtained by trying to look at the image file itself via getimagesize()
  * - Currently the layout is set to responsive
  */
-class FixImgTagsPass extends FixBasePass
+class ImgTagPass extends BasePass
 {
     function pass()
     {
         // @todo deal with animated gifs
-        $all_a = $this->q->find(':not(noscript) img');
+        $all_a = $this->q->find('img:not(noscript img)');
         /** @var \DOMElement $dom_el */
         foreach ($all_a->get() as $dom_el) {
             $lineno = $dom_el->getLineNo();
@@ -30,7 +30,7 @@ class FixImgTagsPass extends FixBasePass
             $new_el = $this->renameDomElement($dom_el, 'amp-img');
             $this->setAmpImgAttributes($new_el);
 
-            $this->addWarning(new Warning('img', WarningType::IMG_CONVERTED_AMP_IMG, ActionTaken::TAG_RENAMED, $lineno));
+            $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno));
         }
 
         return $this->warnings;
@@ -41,6 +41,7 @@ class FixImgTagsPass extends FixBasePass
     {
         $fastimage = new FastImageSize();
 
+        // @todo use parse_url here?
         // Try attaching the base_uri if that does not work
         if (!empty($this->options['base_uri']) && !preg_match('/.*:\/\//', $src)) {
             $src = $this->options['base_uri'] . $src;

@@ -1,18 +1,14 @@
 <?php
 namespace Lullabot\AMP\Pass;
 
-use Lullabot\AMP\Warning;
-use Lullabot\AMP\WarningType;
-use Lullabot\AMP\ActionTaken;
+use Lullabot\AMP\Validate\RenderValidationResult;
 
 /**
- * Class FixStandardPass
+ * Class StandardScanPass
  * @package Lullabot\AMP\Pass
  *
- * @todo This pass is currently not implemented.
- *
  */
-class FixStandardPass extends FixBasePass
+class StandardScanPass extends BasePass
 {
     public function pass()
     {
@@ -22,9 +18,11 @@ class FixStandardPass extends FixBasePass
 
         /** @var \DOMElement $tag */
         foreach ($all_tags as $tag) {
-            // @todo
+            $this->context->attachDomTag($tag);
+            $this->parsed_rules->validateTag($this->context, $tag->nodeName, $this->encounteredAttributes($tag), $this->validation_result);
         }
 
+        $this->parsed_rules->maybeEmitGlobalTagValidationErrors($this->context, $this->validation_result);
         return $this->warnings;
     }
 }

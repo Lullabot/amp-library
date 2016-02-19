@@ -2,34 +2,47 @@
 
 namespace Lullabot\AMP;
 
-use Lullabot\AMP\Pass\FixBasePass;
-use Lullabot\AMP\Spec\ValidatorRules;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
+use Lullabot\AMP\Pass\BasePass;
+use Lullabot\AMP\Spec\ValidatorRules;
+use Lullabot\AMP\Validate\ParsedValidatorRules;
+use Lullabot\AMP\Validate\Scope;
 use Lullabot\AMP\Spec\ValidationRulesFactory;
-use Lullabot\AMP\Spec\ValidationRules;
+use Lullabot\AMP\Validate\Context;
+use Lullabot\AMP\Validate\SValidationResult;
+use Lullabot\AMP\Spec\ValidationResultStatus;
+use Lullabot\AMP\Validate\RenderValidationResult;
 
 class AMP
 {
     // We'll need to add discovery of passes etc. very basic for now
+    // The StandardScanPass should be first
+    // The StandardFixPass should be second
     public $passes = [
-        'Lullabot\AMP\Pass\FixTagsAndAttributesPass',
-        'Lullabot\AMP\Pass\FixStandardPass',
-        'Lullabot\AMP\Pass\FixATagsPass',
-        'Lullabot\AMP\Pass\FixHtmlCommentsPass',
-        'Lullabot\AMP\Pass\FixScriptTagsBodyPass',
-        'Lullabot\AMP\Pass\FixStyleTagsBodyPass',
-        'Lullabot\AMP\Pass\FixImgTagsPass'
+        'Lullabot\AMP\Pass\StandardScanPass',
+        'Lullabot\AMP\Pass\StandardFixPass',
+        'Lullabot\AMP\Pass\ImgTagPass',
+        'Lullabot\AMP\Pass\HtmlCommentPass',
     ];
 
     /** @var array */
-    protected $warnings = [];
+    protected $action_taken = [];
     /** @var string */
     protected $input_html = '';
     /** @var string */
     protected $amp_html = '';
     /** @var ValidatorRules */
     protected $rules;
+    /** @var ParsedValidatorRules */
+    protected $parsed_rules;
+    /** @var Context */
+    protected $context = null;
+    /** @var  SValidationResult */
+    protected $validation_result = null;
+    /** @var string */
+    protected $scope = Scope::BODY_SCOPE;
+
     /** @var array */
     protected $component_js = [];
     /** @var array */
@@ -42,7 +55,7 @@ class AMP
 
     public function getWarnings()
     {
-        return $this->warnings;
+        return $this->action_taken;
     }
 
     public function getInputHtml()
@@ -64,6 +77,8 @@ class AMP
     public function __construct()
     {
         $this->rules = ValidationRulesFactory::createValidationRules();
+        // @todo put this somewhere separate as a global singleton
+        $this->parsed_rules = new ParsedValidatorRules($this->rules);
     }
 
     /**
@@ -79,19 +94,25 @@ class AMP
         $this->clear();
         $this->input_html = $html;
         $this->options = $options;
+        $this->scope = !empty($options['scope']) ? $options['scope'] : Scope::BODY_SCOPE;
+        $this->context = new Context($this->scope);
     }
 
     /**
-     * Calling this function "clears" the state of the AMP object.
+     * Calling this function "clears" the state of the AMP object and puts it into default mode
      * Call this function when you don't want anything remaining in the AMP Object
      */
     public function clear()
     {
         $this->input_html = '';
-        $this->warnings = [];
+        $this->action_taken = [];
         $this->amp_html = '';
         $this->options = [];
         $this->component_js = [];
+        $this->validation_result = new SValidationResult();
+        $this->validation_result->status = ValidationResultStatus::FAIL;
+        $this->context = null;
+        $this->scope = Scope::BODY_SCOPE;
     }
 
     /**
@@ -107,27 +128,31 @@ class AMP
         foreach ($this->passes as $pass_name) {
             $qp_branch = $qp->branch();
             // Each of the $qp objects are pointing to the same DOMDocument
-            /** @var FixBasePass $pass */
-            $pass = (new $pass_name($qp_branch, $this->rules, $this->options));
+            /** @var BasePass $pass */
+            $pass = (new $pass_name($qp_branch, $this->context, $this->validation_result, $this->parsed_rules, $this->options));
             // Run the pass
             $pass->pass();
-            $this->warnings = array_merge($this->warnings, $pass->getWarnings());
+            $this->action_taken = array_merge($this->action_taken, $pass->getWarnings());
             $this->component_js = array_merge($this->component_js, $pass->getComponentJs());
         }
 
         $this->sortWarningsByLineno();
-        // @todo: Remove body at some point?
-        $this->amp_html = $qp->find('body')->innerHTML();
+        if ($this->scope == Scope::HTML_SCOPE) {
+            $this->amp_html = $qp->top()->html5();
+        } else {
+            $this->amp_html = $qp->find($this->scope)->innerHTML5();
+        }
+
         return $this->amp_html;
     }
 
     protected function sortWarningsByLineno()
     {
         // Sort the warnings according to increasing line number
-        usort($this->warnings, function (Warning $warning1, Warning $warning2) {
-            if ($warning1->lineno > $warning2->lineno) {
+        usort($this->action_taken, function (ActionTakenLine $action_taken_1, ActionTakenLine $action_taken_2) {
+            if ($action_taken_1->lineno > $action_taken_2->lineno) {
                 return 1;
-            } else if ($warning1->lineno < $warning2->lineno) {
+            } else if ($action_taken_1->lineno < $action_taken_2->lineno) {
                 return -1;
             } else {
                 return 0;
@@ -156,23 +181,26 @@ class AMP
     {
         /** @var QueryPath\DOMQuery $qp */
         $qp = \QueryPath::withHTML($html);
-        // @todo: Remove body at some point?
-        return $qp->find('body')->innerHTML();
+        if ($this->scope == Scope::HTML_SCOPE) {
+            return $qp->top()->html5();
+        } else {
+            return $qp->find($this->scope)->innerHTML5();
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getValidationWarnings() {
+        /** @var RenderValidationResult $render_validation_result */
+        $render_validation_result = new RenderValidationResult($this->parsed_rules->format_by_code);
+        $filename = !empty($this->options['filename']) ? $this->options['filename'] : '';
+        return $render_validation_result->renderValidationResult($this->validation_result, $filename);
     }
 
     public function warningsHuman()
     {
-        if (empty($this->warnings)) {
-            return '';
-        }
-
-        $warning_text = '<div><strong>Warnings</strong></div><ul>';
-        foreach ($this->warnings as $warning) {
-            $warning_text .= "<li>$warning->human_description</li>";
-        }
-        $warning_text .= '</ul>';
-
-        return $warning_text;
+        return '<pre>' . $this->warningsHumanText() . '</pre>';
     }
 
     public function getRules()
@@ -182,22 +210,30 @@ class AMP
 
     /**
      * Differs from AMP::warningsHuman() in that it outputs warnings in Text and not HTML format
+     *
+     * @param bool $no_heading
      * @return string
      */
     public function warningsHumanText($no_heading = TRUE)
     {
-        if (empty($this->warnings)) {
-            return '';
-        }
-
         $warning_text = '';
         if (!$no_heading) {
-            $warning_text .= PHP_EOL . 'Warnings' . PHP_EOL;
-        }
-        foreach ($this->warnings as $warning) {
-            $warning_text .= "- $warning->human_description" . PHP_EOL;
+            $warning_text .= PHP_EOL . 'AMP-HTML Validation Issues';
+            $warning_text .= PHP_EOL . '~~~~~~~~~~~~~~~~~~~~~~~~~~' . PHP_EOL;
         }
 
-        return htmlspecialchars_decode(strip_tags($warning_text));
+        $warning_text .= $this->getValidationWarnings();
+
+        if (!empty($this->action_taken)) {
+            if (!$no_heading) {
+                $warning_text .= PHP_EOL . 'Fixes made based on validation issues discovered (see above)';
+                $warning_text .= PHP_EOL . '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' . PHP_EOL;
+            }
+
+            foreach ($this->action_taken as $warning) {
+                $warning_text .= "- $warning->human_description" . PHP_EOL;
+            }
+        }
+        return $warning_text;
     }
 }

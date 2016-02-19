@@ -2,6 +2,7 @@
 
 namespace Lullabot\AMP;
 
+use Lullabot\AMP\Validate\Scope;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,7 +26,7 @@ class AmpCommand extends Command
                 '--no-orig-and-warn',
                 null,
                 InputOption::VALUE_NONE,
-                'If set, the original HTML and warnings encountered during conversion will not be printed out'
+                'If set, the original HTML and warnings/messages encountered during conversion will not be printed out'
             )
             ->addOption(
                 '--no-lines',
@@ -46,6 +47,12 @@ class AmpCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 'If set, a list of custom amp components and the url to include the js is printed out'
+            )
+            ->addOption(
+                '--full-document',
+                null,
+                InputOption::VALUE_NONE,
+                'If set, assumes this is a whole document html document and not an html fragment underneath the body (which is the default)'
             );
     }
 
@@ -55,11 +62,16 @@ class AmpCommand extends Command
         if (!empty($filename)) {
             $file_html = file_get_contents($filename);
         } else {
-            $file_html = file_get_contents('php://stdin');
+            $filename = 'php://stdin';
+            $file_html = file_get_contents($filename);
         }
 
         $amp = new AMP();
-        $amp->loadHtml($file_html);
+        $options = ['filename' => $filename]; // So warnings can be printed out with filename appending to line number
+        if ($input->getOption('full-document')) {
+            $options += ['scope' => Scope::HTML_SCOPE];
+        }
+        $amp->loadHtml($file_html, $options);
         $amp_html = $amp->convertToAmpHtml();
 
         if (!$input->getOption('no-lines')) {
@@ -77,17 +89,16 @@ class AmpCommand extends Command
 
         // Show the warnings by default
         if (!$input->getOption('no-orig-and-warn')) {
-            $output->writeln("\nORIGINAL HTML WITH WARNINGS");
-            $output->writeln("===========================");
+            $output->writeln("\nORIGINAL HTML");
+            $output->writeln("~~~~~~~~~~~~~~~");
             $output->writeln($this->getStringWithLineNumbers($amp->getInputHtml()));
-            $output->writeln('Warnings');
-            $output->writeln($amp->warningsHumanText());
+            $output->writeln($amp->warningsHumanText($no_heading = false));
         }
 
         // Show the components with js urls
         if ($input->getOption('js')) {
             $output->writeln("\nCOMPONENT NAMES WITH JS PATH");
-            $output->writeln("===========================");
+            $output->writeln("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             $output->writeln($this->componentList($amp->getComponentJs()));
         }
 
