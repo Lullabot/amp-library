@@ -230,20 +230,29 @@ class ParsedTagSpec
             $parsed_attr_spec = isset($this->attrs_by_name[$encountered_attr_name]) ?
                 $this->attrs_by_name[$encountered_attr_name] : null;
             if (empty($parsed_attr_spec)) {
-                if ($this->validateAttrNotFoundInSpec($encountered_attr_name, $context, $result_for_attempt)) {
-                    // the attribute, even though not found in specification, was valid
-                    continue;
-                } else {
-                    return;
-                }
+                $this->validateAttrNotFoundInSpec($encountered_attr_name, $context, $result_for_attempt);
+                continue;
             }
+
             /** @var AttrSpec $attr_spec */
             $attr_spec = $parsed_attr_spec->getSpec();
+
+            // @todo changed the order of checks here. Is that ok?
+            if (!empty($attr_spec->mandatory_oneof)) {
+                // Treat as a Set
+                $mandatory_oneofs_seen[$attr_spec->mandatory_oneof] = $attr_spec->mandatory_oneof;
+            }
+
+            // @todo changed the order of checks here. Is that ok?
+            if ($attr_spec->mandatory) {
+                $mandatory_attrs_seen->attach($parsed_attr_spec);
+            }
+
             if (!empty($attr_spec->deprecation)) {
                 $context->addError(ValidationErrorCode::DEPRECATED_ATTR,
                     [$encountered_attr_name, self::getDetailOrName($this->spec), $attr_spec->deprecation],
                     $attr_spec->deprecation_url, $result_for_attempt, $encountered_attr_name);
-                // Don't exit as its not a fatal error
+                continue;
             }
 
             if (!empty($attr_spec->value)) {
@@ -251,7 +260,7 @@ class ParsedTagSpec
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
                         [$encountered_attr_name, self::getDetailOrName($this->spec), $encountered_attr_value],
                         $this->spec->spec_url, $result_for_attempt, $encountered_attr_name);
-                    return;
+                    continue;
                 }
             }
 
@@ -263,24 +272,20 @@ class ParsedTagSpec
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
                         [$encountered_attr_name, self::getDetailOrName($this->spec), $encountered_attr_value],
                         $this->spec->spec_url, $result_for_attempt, $encountered_attr_name);
-                    return;
+                    continue;
                 }
             }
 
             if (!empty($attr_spec->value_url)) {
                 $parsed_attr_spec->validateAttrValueUrl($context, $encountered_attr_name, $encountered_attr_value,
                     $this->spec, $this->spec->spec_url, $result_for_attempt);
-                if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
-                    return;
-                }
+                continue;
             }
 
             if (!empty($attr_spec->value_properties)) {
                 $parsed_attr_spec->validateAttrValueProperties($context, $encountered_attr_name, $encountered_attr_value,
                     $this->spec, $this->spec->spec_url, $result_for_attempt);
-                if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
-                    return;
-                }
+                continue;
             }
 
             if (!empty($attr_spec->blacklisted_value_regex)) {
@@ -291,12 +296,8 @@ class ParsedTagSpec
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
                         [$encountered_attr_name, self::getDetailOrName($this->spec), $encountered_attr_value],
                         $this->spec->spec_url, $result_for_attempt, $encountered_attr_name);
-                    return;
+                    continue;
                 }
-            }
-
-            if ($attr_spec->mandatory) {
-                $mandatory_attrs_seen->attach($parsed_attr_spec);
             }
 
             // if the mandatory oneofs had already been seen, its an error
@@ -304,11 +305,9 @@ class ParsedTagSpec
                 $context->addError(ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS,
                     [self::getDetailOrName($this->spec), $attr_spec->mandatory_oneof],
                     $this->spec->spec_url, $result_for_attempt, $attr_spec->name);
-                return;
+                continue;
             }
 
-            // Treat as a Set
-            $mandatory_oneofs_seen[$attr_spec->mandatory_oneof] = $attr_spec->mandatory_oneof;
         }
 
         // This is to see if any of the mandatory oneof attributes were _not_ seen. Remember, they are mandatory.
