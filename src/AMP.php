@@ -219,7 +219,7 @@ class AMP
         $warning_text = '';
         if (!$no_heading) {
             $warning_text .= PHP_EOL . 'AMP-HTML Validation Issues';
-            $warning_text .= PHP_EOL . '~~~~~~~~~~~~~~~~~~~~~~~~~~' . PHP_EOL;
+            $warning_text .= PHP_EOL . '--------------------------' . PHP_EOL;
         }
 
         $warning_text .= $this->getValidationWarnings();
@@ -227,7 +227,7 @@ class AMP
         if (!empty($this->action_taken)) {
             if (!$no_heading) {
                 $warning_text .= PHP_EOL . 'Fixes made based on validation issues discovered (see above)';
-                $warning_text .= PHP_EOL . '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' . PHP_EOL;
+                $warning_text .= PHP_EOL . '------------------------------------------------------------' . PHP_EOL;
             }
 
             foreach ($this->action_taken as $warning) {

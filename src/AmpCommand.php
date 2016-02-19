@@ -90,7 +90,7 @@ class AmpCommand extends Command
         // Show the warnings by default
         if (!$input->getOption('no-orig-and-warn')) {
             $output->writeln("\nORIGINAL HTML");
-            $output->writeln("~~~~~~~~~~~~~~~");
+            $output->writeln("---------------");
             $output->writeln($this->getStringWithLineNumbers($amp->getInputHtml()));
             $output->writeln($amp->warningsHumanText());
         }
@@ -98,7 +98,7 @@ class AmpCommand extends Command
         // Show the components with js urls
         if ($input->getOption('js')) {
             $output->writeln("\nCOMPONENT NAMES WITH JS PATH");
-            $output->writeln("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            $output->writeln("------------------------------");
             $output->writeln($this->componentList($amp->getComponentJs()));
         }
 
