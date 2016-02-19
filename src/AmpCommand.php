@@ -92,7 +92,7 @@ class AmpCommand extends Command
             $output->writeln("\nORIGINAL HTML");
             $output->writeln("~~~~~~~~~~~~~~~");
             $output->writeln($this->getStringWithLineNumbers($amp->getInputHtml()));
-            $output->writeln($amp->warningsHumanText($no_heading = false));
+            $output->writeln($amp->warningsHumanText());
         }
 
         // Show the components with js urls

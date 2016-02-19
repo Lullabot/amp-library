@@ -214,7 +214,7 @@ class AMP
      * @param bool $no_heading
      * @return string
      */
-    public function warningsHumanText($no_heading = TRUE)
+    public function warningsHumanText($no_heading = FALSE)
     {
         $warning_text = '';
         if (!$no_heading) {
