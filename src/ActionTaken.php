@@ -6,9 +6,8 @@ use MyCLabs\Enum\Enum;
 
 class ActionTaken extends Enum
 {
-    const TAG_REMOVED = 'The tag was removed.';
-    const TAG_RENAMED = 'The tag was renamed.';
-    const ATTRIBUTE_REMOVED = 'The attribute was removed.';
-    const IMG_CONVERTED = 'The &lt;img&gt; tag was converted to the &lt;amp-img&gt; tag.';
-    const IFRAME_CONVERTED = 'The &lt;iframe&gt; was converted to the &lt;amp-iframe&gt; tag.';
+    const TAG_REMOVED = 'tag was removed.';
+    const ATTRIBUTE_REMOVED = 'attribute was removed.';
+    const IMG_CONVERTED = 'tag was converted to the amp-img tag.';
+    const IFRAME_CONVERTED = 'tag was converted to the amp-iframe tag.';
 }

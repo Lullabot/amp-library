@@ -229,8 +229,8 @@ class AMP
         $warning_text .= $this->getValidationWarnings();
 
         if (!$no_heading) {
-            $warning_text .= PHP_EOL . 'Fixes made based on validation issues discovered';
-            $warning_text .= PHP_EOL . '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' . PHP_EOL;
+            $warning_text .= PHP_EOL . 'Fixes made based on validation issues discovered (see above)';
+            $warning_text .= PHP_EOL . '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' . PHP_EOL;
         }
 
         foreach ($this->warnings as $warning) {

@@ -15,7 +15,7 @@ class HtmlCommentPass extends BasePass
         $comments = $this->q->xpath('//comment()')->get();
         foreach ($comments as $comment) {
             if (preg_match('/(*UTF8)\[if/i', $comment->textContent) || preg_match('/(*UTF8)\[endif/i', $comment->textContent)) {
-                $this->addWarning(new Warning('HTML comment', WarningType::COMMENT_CONDITIONAL_NOT_ALLOWED, 'HTML_COMMENT_CHANGED', ActionTaken::TAG_REMOVED, $comment->getLineNo()));
+                $this->addWarning(new Warning('HTML conditional comments not allowed.', ActionTaken::TAG_REMOVED, $comment->getLineNo()));
                 $comment->parentNode->removeChild($comment);
             }
         }

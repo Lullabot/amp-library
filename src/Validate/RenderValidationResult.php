@@ -90,7 +90,7 @@ class RenderValidationResult
         $line = empty($validation_error->line) ? 1 : $validation_error->line;
         // We don't have col number unfortunately
 
-        $error_line = sprintf("$filename_or_url:%{$linenos_width}d:", $line);
+        $error_line = sprintf("- Line %{$linenos_width}d: ", $line);
         $error_line .= $this->renderErrorMessage($validation_error);
         if (!empty($validation_error->spec_url)) {
             $error_line .= " (see {$validation_error->spec_url})";

@@ -48,13 +48,13 @@ class StandardFixPass extends BasePass
                     continue;
                 }
                 $error->dom_tag->removeAttribute($error->attr_name);
-                $this->addWarning(new Warning("$tag_name.$error->attr_name", WarningType::ATTRIBUTE_NOT_ALLOWED, $error->code, ActionTaken::ATTRIBUTE_REMOVED, $error->line));
+                $this->addWarning(new Warning("$tag_name.$error->attr_name", ActionTaken::ATTRIBUTE_REMOVED, $error->line));
             }
 
             if (in_array($error->code, $this->remove_tags_for_codes) && !empty($error->dom_tag)) {
                 // Remove the offending tag
                 $error->dom_tag->parentNode->removeChild($error->dom_tag);
-                $this->addWarning(new Warning($tag_name, WarningType::TAG_NOT_ALLOWED, $error->code, ActionTaken::TAG_REMOVED, $error->line));
+                $this->addWarning(new Warning($tag_name, ActionTaken::TAG_REMOVED, $error->line));
             }
         }
 

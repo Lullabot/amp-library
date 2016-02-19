@@ -18,16 +18,13 @@ class Warning
      * Warning constructor.
      * @param $tag_attr_description
      * @param $warning
-     * @param $warning_code
-     * @param $action
      * @param $lineno
      */
-    public function __construct($tag_attr_description, $warning, $warning_code, $action, $lineno)
+    public function __construct($tag_attr_description, $action, $lineno)
     {
-        $this->warning_type = new WarningType($warning);
         $this->tag_attr_description = $tag_attr_description;
         $this->action_taken = new ActionTaken($action);
         $this->lineno = $lineno;
-        $this->human_description = "<strong>Line $lineno: $tag_attr_description</strong> " . (string)$this->warning_type . " [$warning_code] " . (string)$this->action_taken;
+        $this->human_description = "Line $lineno: $tag_attr_description " .  (string)$this->action_taken;
     }
 }
