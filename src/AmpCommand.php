@@ -126,7 +126,7 @@ class AmpCommand extends Command
         }
 
         foreach ($components as $name => $uri) {
-            $str .= "'$name', include path '$uri''";
+            $str .= "'$name', include path '$uri'" . PHP_EOL;
         }
 
         return $str;
