@@ -48,11 +48,18 @@ class StandardFixPass extends BasePass
                 if ($last_dom_tag === $error->dom_tag && $last_dom_attr_name === $error->attr_name) {
                     continue;
                 }
-                // Remove the offending attribute
-                $error->dom_tag->removeAttribute($error->attr_name);
-                $last_dom_attr_name = $error->attr_name;
                 $last_dom_tag = $error->dom_tag;
-                $this->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line));
+                // If src is not valid for amp-iframe and amp-img, no point keeping that tag around...
+                // Make this more generic?
+                if ($error->attr_name == 'src' && in_array($tag_name, ['amp-iframe', 'amp-img'])) {
+                    $error->dom_tag->parentNode->removeChild($error->dom_tag);
+                    $this->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line));
+                } else {
+                    // Remove the offending attribute
+                    $error->dom_tag->removeAttribute($error->attr_name);
+                    $last_dom_attr_name = $error->attr_name;
+                    $this->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line));
+                }
             }
 
             if (in_array($error->code, $this->remove_tags_for_codes) && !empty($error->dom_tag)) {
