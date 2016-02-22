@@ -122,7 +122,7 @@ class AmpCommand extends Command
     {
         $str = '';
         if (empty($components)) {
-            return 'No custom amp components found';
+            return 'No custom amp script includes required';
         }
 
         foreach ($components as $name => $uri) {
