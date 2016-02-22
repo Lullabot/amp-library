@@ -2,6 +2,7 @@
 
 namespace Lullabot\AMP\Validate;
 
+use Lullabot\AMP\Pass\BasePass;
 use Lullabot\AMP\Spec\AttrList;
 use Lullabot\AMP\Spec\TagSpec;
 use Lullabot\AMP\Spec\ValidationErrorCode;
@@ -218,8 +219,9 @@ class ParsedValidatorRules
     /**
      * @param Context $context
      * @param SValidationResult $validation_result
+     * @param BasePass $base_pass
      */
-    public function maybeEmitAlsoRequiresValidationErrors(Context $context, SValidationResult $validation_result)
+    public function maybeEmitAlsoRequiresValidationErrors(Context $context, SValidationResult $validation_result, BasePass $base_pass)
     {
         /** @var ParsedTagSpec $parsed_tag_spec */
         foreach ($context->getTagspecsValidated() as $parsed_tag_spec) {
@@ -229,8 +231,13 @@ class ParsedValidatorRules
             }
             /** @var TagSpec $tagspec_require */
             foreach ($parsed_tag_spec->getAlsoRequires() as $tagspec_require) {
+                /** @var ParsedTagSpec $parsed_tag_spec_require */
                 $parsed_tag_spec_require = $this->all_parsed_specs_by_specs[$tagspec_require];
                 assert(!empty($parsed_tag_spec_require));
+                if (preg_match('/(*UTF8)extension \.js script$/', $tagspec_require->detail)) {
+                    $base_pass->addComponent($parsed_tag_spec->getSpec()->name);
+                }
+
                 // if this also required tag relates to a scope we're not interested in, skip
                 if ($context->ignoreTagDueToScope($parsed_tag_spec_require)) {
                     continue;
@@ -275,7 +282,7 @@ class ParsedValidatorRules
         }
     }
 
-    public function maybeEmitGlobalTagValidationErrors(Context $context, SValidationResult $validation_result)
+    public function maybeEmitGlobalTagValidationErrors(Context $context, SValidationResult $validation_result, BasePass $base_pass)
     {
         $context->setPhase(Phase::GLOBAL_PHASE);
         if ($context->getProgress($validation_result)['complete']) {
@@ -285,7 +292,7 @@ class ParsedValidatorRules
         if ($context->getProgress($validation_result)['complete']) {
             return;
         }
-        $this->maybeEmitAlsoRequiresValidationErrors($context, $validation_result);
+        $this->maybeEmitAlsoRequiresValidationErrors($context, $validation_result, $base_pass);
         if ($context->getProgress($validation_result)['complete']) {
             return;
         }

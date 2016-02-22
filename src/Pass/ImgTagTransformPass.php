@@ -9,14 +9,14 @@ use Lullabot\AMP\ActionTakenType;
 use FastImageSize\FastImageSize;
 
 /**
- * Class FixImgTagsPass
+ * Class ImgTagTransformPass
  * @package Lullabot\AMP\Pass
  *
- * Transform all <img> tags to <amp-img> which don't have noscript as an ancestor
+ * Transform all <img> tags which don't have noscript as an ancestor to <amp-img> tags
  * - height and width are obtained by trying to look at the image file itself via getimagesize()
  * - Currently the layout is set to responsive
  */
-class ImgTagPass extends BasePass
+class ImgTagTransformPass extends BasePass
 {
     function pass()
     {
@@ -28,7 +28,7 @@ class ImgTagPass extends BasePass
 
             $new_el = $this->renameDomElement($dom_el, 'amp-img');
             $this->setAmpImgAttributes($new_el);
-
+            $this->context->addLineAssociation($new_el, $lineno);
             $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno));
         }
 
@@ -62,7 +62,7 @@ class ImgTagPass extends BasePass
         }
 
         // Sane default for now
-        if (!$el->getAttribute('layout')) {
+        if (!$el->hasAttribute('layout')) {
             $el->setAttribute('layout', 'responsive');
         }
     }

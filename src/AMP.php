@@ -16,13 +16,13 @@ use Lullabot\AMP\Validate\RenderValidationResult;
 
 class AMP
 {
-    // We'll need to add discovery of passes etc. very basic for now
-    // The StandardScanPass should be first
-    // The StandardFixPass should be second
+    // The StandardScanPass should be first after all transform passes
+    // The StandardFixPass should be after StandardScanPass
     public $passes = [
+        'Lullabot\AMP\Pass\ImgTagTransformPass', // Transform pass
+        'Lullabot\AMP\Pass\IframeTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
-        'Lullabot\AMP\Pass\ImgTagPass',
         'Lullabot\AMP\Pass\HtmlCommentPass',
     ];
 
@@ -136,7 +136,7 @@ class AMP
             $this->component_js = array_merge($this->component_js, $pass->getComponentJs());
         }
 
-        $this->sortWarningsByLineno();
+        $this->sortActionTakeByLineno();
         if ($this->scope == Scope::HTML_SCOPE) {
             $this->amp_html = $qp->top()->html5();
         } else {
@@ -146,16 +146,18 @@ class AMP
         return $this->amp_html;
     }
 
-    protected function sortWarningsByLineno()
+    protected function sortActionTakeByLineno()
     {
         // Sort the warnings according to increasing line number
+        // timestamp is the tie breaker
         usort($this->action_taken, function (ActionTakenLine $action_taken_1, ActionTakenLine $action_taken_2) {
             if ($action_taken_1->lineno > $action_taken_2->lineno) {
                 return 1;
             } else if ($action_taken_1->lineno < $action_taken_2->lineno) {
                 return -1;
             } else {
-                return 0;
+                $result = $action_taken_1->time_stamp < $action_taken_2->time_stamp ? -1 : 1;
+                return $result;
             }
         });
     }

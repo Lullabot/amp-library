@@ -13,6 +13,8 @@ class ActionTakenLine
     public $human_description;
     /** @var  ActionTakenType */
     public $action_taken;
+    /** @var  number */
+    public $time_stamp;
 
     /**
      * ActionTakenLine constructor.
@@ -25,6 +27,7 @@ class ActionTakenLine
         $this->tag_attr_description = $tag_attr_description;
         $this->action_taken = new ActionTakenType($action);
         $this->lineno = $lineno;
+        $this->time_stamp = microtime(true);
         $this->human_description = "Line $lineno: $tag_attr_description " .  (string)$this->action_taken;
     }
 }

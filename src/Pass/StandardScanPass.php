@@ -22,7 +22,7 @@ class StandardScanPass extends BasePass
             $this->parsed_rules->validateTag($this->context, $tag->nodeName, $this->encounteredAttributes($tag), $this->validation_result);
         }
 
-        $this->parsed_rules->maybeEmitGlobalTagValidationErrors($this->context, $this->validation_result);
+        $this->parsed_rules->maybeEmitGlobalTagValidationErrors($this->context, $this->validation_result, $this);
         return $this->warnings;
     }
 }

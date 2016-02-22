@@ -33,7 +33,7 @@ class Context
     /** @var \DOMElement */
     protected $dom_tag = null;
     /** @var \SplObjectStorage */
-    protected $tagspecs_validated = null;
+    protected $tagspecs_validated;
     protected $mandatory_alternatives_satisfied = []; // Set of strings
     protected $max_errors = -1;
     protected $parent_tag_name = '';
@@ -41,12 +41,15 @@ class Context
     protected $phase = Phase::LOCAL_PHASE;
     protected $error_scope = Scope::HTML_SCOPE;
     protected $acceptable_mandatory_parents = [];
+    /** @var \SplObjectStorage  */
+    protected $line_association;
 
     public function __construct($scope = Scope::BODY_SCOPE, $max_errors = -1)
     {
         $this->tagspecs_validated = new \SplObjectStorage();
         $this->max_errors = $max_errors;
         $this->error_scope = $scope;
+        $this->line_association = new \SplObjectStorage();
         $this->setAcceptableMandatoryParents();
     }
 
@@ -168,9 +171,22 @@ class Context
             $spec_url = '';
         }
 
-        // @todo does line number make sense if we're no longer in Phase::LOCAL_PHASE ?
-        $line = $this->dom_tag->getLineNo();
+        // This is for cases in which we dynamically substitute one tag for another
+        // The line number is not available so we try to get that from line association spobjectstorage map
+        if (isset($this->line_association[$this->dom_tag])) {
+            $line = $this->line_association[$this->dom_tag];
+        } else {
+            $line = $this->dom_tag->getLineNo();
+        }
         return $this->addErrorWithLine($line, $code, $params, $spec_url, $validationResult, $attr_name);
+    }
+
+    /**
+     * @param \DOMElement $el
+     * @param number $lineno
+     */
+    function addLineAssociation(\DOMElement $el, $lineno) {
+        $this->line_association[$el] = $lineno;
     }
 
     /**
