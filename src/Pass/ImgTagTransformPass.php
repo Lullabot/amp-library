@@ -9,14 +9,14 @@ use Lullabot\AMP\ActionTakenType;
 use FastImageSize\FastImageSize;
 
 /**
- * Class FixImgTagsPass
+ * Class ImgTagTransformPass
  * @package Lullabot\AMP\Pass
  *
  * Transform all <img> tags to <amp-img> which don't have noscript as an ancestor
  * - height and width are obtained by trying to look at the image file itself via getimagesize()
  * - Currently the layout is set to responsive
  */
-class ImgTagPass extends BasePass
+class ImgTagTransformPass extends BasePass
 {
     function pass()
     {

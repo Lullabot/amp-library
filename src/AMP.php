@@ -16,13 +16,12 @@ use Lullabot\AMP\Validate\RenderValidationResult;
 
 class AMP
 {
-    // We'll need to add discovery of passes etc. very basic for now
-    // The StandardScanPass should be first
-    // The StandardFixPass should be second
+    // The StandardScanPass should be first after all transform passes
+    // The StandardFixPass should be after StandardScanPass
     public $passes = [
+        'Lullabot\AMP\Pass\ImgTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
-        'Lullabot\AMP\Pass\ImgTagPass',
         'Lullabot\AMP\Pass\HtmlCommentPass',
     ];
 
