@@ -12,7 +12,7 @@ use FastImageSize\FastImageSize;
  * Class ImgTagTransformPass
  * @package Lullabot\AMP\Pass
  *
- * Transform all <img> tags to <amp-img> which don't have noscript as an ancestor
+ * Transform all <img> tags which don't have noscript as an ancestor to <amp-img> tags
  * - height and width are obtained by trying to look at the image file itself via getimagesize()
  * - Currently the layout is set to responsive
  */
@@ -62,7 +62,7 @@ class ImgTagTransformPass extends BasePass
         }
 
         // Sane default for now
-        if (!$el->getAttribute('layout')) {
+        if (!$el->hasAttribute('layout')) {
             $el->setAttribute('layout', 'responsive');
         }
     }
