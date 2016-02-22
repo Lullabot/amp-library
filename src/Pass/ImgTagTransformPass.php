@@ -28,7 +28,7 @@ class ImgTagTransformPass extends BasePass
 
             $new_el = $this->renameDomElement($dom_el, 'amp-img');
             $this->setAmpImgAttributes($new_el);
-
+            $this->context->addLineAssociation($new_el, $lineno);
             $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno));
         }
 

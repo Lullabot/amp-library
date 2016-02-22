@@ -24,7 +24,7 @@ class IframeTagTransformPass extends BasePass
 
             $new_el = $this->renameDomElement($dom_el, 'amp-iframe');
             $this->setAmpIframeAttributes($new_el);
-
+            $this->context->addLineAssociation($new_el, $lineno);
             $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::IFRAME_CONVERTED, $lineno));
         }
 
