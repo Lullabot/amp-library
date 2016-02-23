@@ -122,7 +122,7 @@ class AMP
     public function convertToAmpHtml()
     {
         /** @var QueryPath\DOMQuery $qp */
-        $qp = QueryPath::withHTML($this->input_html, array('convert_to_encoding' => 'UTF-8'));
+        $qp = QueryPath::withHTML($this->input_html, NULL, array('convert_to_encoding' => 'UTF-8'));
 
         $warnings = [];
         foreach ($this->passes as $pass_name) {
