@@ -40,7 +40,7 @@ abstract class BasePass
         'amp-image-lightbox' => 'https://cdn.ampproject.org/v0/amp-image-lightbox-latest.js',
         'amp-lightbox' => 'https://cdn.ampproject.org/v0/amp-lightbox-latest.js',
         'amp-list' => 'https://cdn.ampproject.org/v0/amp-list-latest.js',
-        'amp-pintrest' => 'https://cdn.ampproject.org/v0/amp-pintrest-latest.js',
+        'amp-pinterest' => 'https://cdn.ampproject.org/v0/amp-pintrest-latest.js',
         'amp-soundcloud' => 'https://cdn.ampproject.org/v0/amp-soundcloud-latest.js',
         'amp-twitter' => 'https://cdn.ampproject.org/v0/amp-twitter-latest.js',
         'amp-user-notification' => 'https://cdn.ampproject.org/v0/amp-user-notification-latest.js',
