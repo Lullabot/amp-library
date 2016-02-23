@@ -41,7 +41,7 @@ class Context
     protected $phase = Phase::LOCAL_PHASE;
     protected $error_scope = Scope::HTML_SCOPE;
     protected $acceptable_mandatory_parents = [];
-    /** @var \SplObjectStorage  */
+    /** @var \SplObjectStorage */
     protected $line_association;
 
     public function __construct($scope = Scope::BODY_SCOPE, $max_errors = -1)
@@ -173,11 +173,14 @@ class Context
 
         // This is for cases in which we dynamically substitute one tag for another
         // The line number is not available so we try to get that from line association spobjectstorage map
-        if (isset($this->line_association[$this->dom_tag])) {
+        if (!empty($this->dom_tag) && isset($this->line_association[$this->dom_tag])) {
             $line = $this->line_association[$this->dom_tag];
-        } else {
+        } else if (!empty($this->dom_tag)) {
             $line = $this->dom_tag->getLineNo();
+        } else {
+            $line = 1;
         }
+
         return $this->addErrorWithLine($line, $code, $params, $spec_url, $validationResult, $attr_name);
     }
 
@@ -185,7 +188,8 @@ class Context
      * @param \DOMElement $el
      * @param number $lineno
      */
-    function addLineAssociation(\DOMElement $el, $lineno) {
+    function addLineAssociation(\DOMElement $el, $lineno)
+    {
         $this->line_association[$el] = $lineno;
     }
 
