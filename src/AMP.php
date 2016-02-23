@@ -86,13 +86,24 @@ class AMP
      * It then "loads" up new HTML, that is ready for conversion with
      * AMP::convertToAmpHtml()
      *
-     * @param $html
-     * @param $options
+     * @param string $html
+     * @param array $options
      */
     public function loadHtml($html, $options = [])
     {
         $this->clear();
-        $this->input_html = $html;
+        // Deal with with some edge cases
+        // Ideally we should just throw an exception if we're not passed a string but we can be a bit liberal for now
+        if (is_null($html) || (is_string($html) && empty(trim($html)))) {
+            // We will deal with this case in $this->convertToAmpHtml()
+            $this->input_html = '';
+        } else if (!is_string($html)) {
+            // Try to convert it it to string; could be a number for instance
+            $this->input_html = (string)$html;
+        } else {
+            // This is the main case
+            $this->input_html = $html;
+        }
         $this->options = $options;
         $this->scope = !empty($options['scope']) ? $options['scope'] : Scope::BODY_SCOPE;
         $this->context = new Context($this->scope);
@@ -121,12 +132,23 @@ class AMP
      */
     public function convertToAmpHtml()
     {
-        /** @var QueryPath\DOMQuery $qp */
-        $qp = QueryPath::withHTML($this->input_html, array('convert_to_encoding' => 'UTF-8'));
+        $input_html_is_empty = empty($this->input_html);
+        // if we get an empty string, we return an empty string for BODY_SCOPE
+        // For full html scope the situation is more complicated, as we might still want warnings
+        if ($this->scope == Scope::BODY_SCOPE && $input_html_is_empty) {
+            return '';
+        }
 
-        $warnings = [];
+        /** @var QueryPath\DOMQuery $qp */
+        $qp = QueryPath::withHTML($this->input_html, NULL, array('convert_to_encoding' => 'UTF-8'));
+
         foreach ($this->passes as $pass_name) {
-            $qp_branch = $qp->branch();
+            if (!$input_html_is_empty) {
+                // This is the main case
+                $qp_branch = $qp->branch();
+            } else {
+                $qp_branch = $qp;
+            }
             // Each of the $qp objects are pointing to the same DOMDocument
             /** @var BasePass $pass */
             $pass = (new $pass_name($qp_branch, $this->context, $this->validation_result, $this->parsed_rules, $this->options));
@@ -193,7 +215,8 @@ class AMP
     /**
      * @return string
      */
-    public function getValidationWarnings() {
+    public function getValidationWarnings()
+    {
         /** @var RenderValidationResult $render_validation_result */
         $render_validation_result = new RenderValidationResult($this->parsed_rules->format_by_code);
         $filename = !empty($this->options['filename']) ? $this->options['filename'] : '';

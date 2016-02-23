@@ -58,6 +58,11 @@ class AmpCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // Enable PHP Notices if the --verbose or -v or -vv or -vvv options are passed on the command line
+        if ($input->getOption('verbose')) {
+            error_reporting(E_ALL);
+        }
+
         $filename = $input->getArgument('filename');
         if (!empty($filename)) {
             $file_html = file_get_contents($filename);
