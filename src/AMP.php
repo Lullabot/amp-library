@@ -94,11 +94,10 @@ class AMP
         $this->clear();
         // Deal with with some edge cases
         // Ideally we should just throw an exception if we're not passed a string but we can be a bit liberal for now
-        if (is_null($html) || (is_string($html) && empty(trim($html)))) {
-            // We will deal with this case in $this->convertToAmpHtml()
+        if (is_null($html)) {
             $this->input_html = '';
         } else if (!is_string($html)) {
-            // Try to convert it it to string; could be a number for instance
+            // Try to convert it it to string
             $this->input_html = (string)$html;
         } else {
             // This is the main case
@@ -132,26 +131,32 @@ class AMP
      */
     public function convertToAmpHtml()
     {
-        $input_html_is_empty = empty($this->input_html);
-        // if we get an empty string, we return an empty string for BODY_SCOPE
-        // For full html scope the situation is more complicated, as we might still want warnings
-        if ($this->scope == Scope::BODY_SCOPE && $input_html_is_empty) {
-            return '';
+        // If the tags were stripped out, would this be the same string?
+        $no_tags = strip_tags($this->input_html) == $this->input_html;
+        // If there are no tags and we're in BODY_SCOPE, there are no warnings and we just return
+        // For full html scope the situation is more complicated, as we might still want some warnings
+        if ($this->scope == Scope::BODY_SCOPE && $no_tags) {
+            $this->amp_html = $this->input_html;
+            return $this->amp_html;
         }
 
         /** @var QueryPath\DOMQuery $qp */
         $qp = QueryPath::withHTML($this->input_html, NULL, array('convert_to_encoding' => 'UTF-8'));
 
         foreach ($this->passes as $pass_name) {
-            if (!$input_html_is_empty) {
+            // This hack mainly to avoid an ugly warning given by QueryPath
+            if (!$no_tags) {
                 // This is the main case
                 $qp_branch = $qp->branch();
             } else {
                 $qp_branch = $qp;
             }
+            // end hack
+
             // Each of the $qp objects are pointing to the same DOMDocument
             /** @var BasePass $pass */
             $pass = (new $pass_name($qp_branch, $this->context, $this->validation_result, $this->parsed_rules, $this->options));
+
             // Run the pass
             $pass->pass();
             $this->action_taken = array_merge($this->action_taken, $pass->getWarnings());
@@ -159,8 +164,14 @@ class AMP
         }
 
         $this->sortActionTakeByLineno();
+
         if ($this->scope == Scope::HTML_SCOPE) {
-            $this->amp_html = $qp->top()->html5();
+            if (!$no_tags) {
+                // This is the main case
+                $this->amp_html = $qp->top()->html5();
+            } else {
+                $this->amp_html = $this->input_html;
+            }
         } else {
             $this->amp_html = $qp->find($this->scope)->innerHTML5();
         }
