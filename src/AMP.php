@@ -8,7 +8,6 @@ use Lullabot\AMP\Pass\BasePass;
 use Lullabot\AMP\Spec\ValidatorRules;
 use Lullabot\AMP\Validate\ParsedValidatorRules;
 use Lullabot\AMP\Validate\Scope;
-use Lullabot\AMP\Spec\ValidationRulesFactory;
 use Lullabot\AMP\Validate\Context;
 use Lullabot\AMP\Validate\SValidationResult;
 use Lullabot\AMP\Spec\ValidationResultStatus;
@@ -71,14 +70,16 @@ class AMP
     /**
      * AMP constructor.
      *
-     * The most important job of this constructor is to instantiate an object of the \Lullabot\AMP\Spec\ValidationRules class
      * @see src/Spec/validator-generated.php
      */
     public function __construct()
     {
-        $this->rules = ValidationRulesFactory::createValidationRules();
-        // @todo put this somewhere separate as a global singleton
-        $this->parsed_rules = new ParsedValidatorRules($this->rules);
+        // The ParsedValidationRules object is expensive to create. So we maintain a global singleton
+        // This way the AMP Object creation is actually cheap
+        /** @var ParsedValidatorRules parsed_rules */
+        $this->parsed_rules = ParsedValidatorRules::getSingletonParsedValidatorRules();
+        /** @var ValidatorRules rules */
+        $this->rules = $this->parsed_rules->rules;
     }
 
     /**
@@ -110,7 +111,9 @@ class AMP
 
     /**
      * Calling this function "clears" the state of the AMP object and puts it into default mode
-     * Call this function when you don't want anything remaining in the AMP Object
+     * Call this function when you don't want anything remaining in the AMP Object.
+     *
+     * Calling this function is optional.
      */
     public function clear()
     {

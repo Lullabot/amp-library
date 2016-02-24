@@ -8,6 +8,8 @@ use Lullabot\AMP\Spec\TagSpec;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Spec\ValidatorRules;
+use Lullabot\AMP\Spec\ValidationRulesFactory;
+
 
 /**
  * Class ParsedValidatorRules
@@ -31,7 +33,33 @@ class ParsedValidatorRules
     /** @var ParsedTagSpec[] */
     protected $mandatory_tag_specs = [];
 
-    public function __construct(ValidatorRules $rules)
+    /** @var ParsedValidatorRules|null */
+    public static $parsed_validator_rules_singleton = null;
+
+    /**
+     * The ParsedValidatorRules object is expensive to create so we maintain a global singleton
+     *
+     * @return ParsedValidatorRules
+     */
+    public static function getSingletonParsedValidatorRules()
+    {
+        if (!empty(self::$parsed_validator_rules_singleton)) {
+            return self::$parsed_validator_rules_singleton;
+        } else {
+            /** @var ValidatorRules $rules */
+            $rules = ValidationRulesFactory::createValidationRules();
+            self::$parsed_validator_rules_singleton = new self($rules);
+            return self::$parsed_validator_rules_singleton;
+        }
+    }
+
+    /**
+     * Note that this is deliberately protected
+     *
+     * ParsedValidatorRules constructor.
+     * @param ValidatorRules $rules
+     */
+    protected function __construct(ValidatorRules $rules)
     {
         $this->rules = $rules;
         $this->all_parsed_specs_by_specs = new \SplObjectStorage();
