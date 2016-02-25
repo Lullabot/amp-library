@@ -1,3 +1,0 @@
-All AMP PHP Library code is Copyright 2016 Google.
-
-Please see LICENSE.txt for licensing details.
