@@ -260,8 +260,8 @@ class ParsedTagSpec
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
                         [$encountered_attr_name, self::getDetailOrName($this->spec), $encountered_attr_value],
                         $this->spec->spec_url, $result_for_attempt, $encountered_attr_name);
-                    continue;
                 }
+                continue;
             }
 
             if (!empty($attr_spec->value_regex)) {
@@ -272,8 +272,8 @@ class ParsedTagSpec
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
                         [$encountered_attr_name, self::getDetailOrName($this->spec), $encountered_attr_value],
                         $this->spec->spec_url, $result_for_attempt, $encountered_attr_name);
-                    continue;
                 }
+                continue;
             }
 
             if (!empty($attr_spec->value_url)) {
@@ -296,8 +296,8 @@ class ParsedTagSpec
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
                         [$encountered_attr_name, self::getDetailOrName($this->spec), $encountered_attr_value],
                         $this->spec->spec_url, $result_for_attempt, $encountered_attr_name);
-                    continue;
                 }
+                continue;
             }
 
             // if the mandatory oneofs had already been seen, its an error
