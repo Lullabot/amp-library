@@ -50,8 +50,12 @@ class StandardFixPass extends BasePass
 
     public function pass()
     {
-        $last_dom_tag = null;
+        /** @var \DOMElement $last_rem_dom_tag_for_attr */
+        $last_rem_dom_tag_for_attr = null;
+        /** @var \DOMElement $last_rem_dom_tag */
+        $last_rem_dom_tag = null;
         $last_dom_attr_name = '';
+
         /** @var SValidationError $error */
         foreach ($this->validation_result->errors as $error) {
             if (empty($error->dom_tag)) {
@@ -62,32 +66,35 @@ class StandardFixPass extends BasePass
             $context_string = $this->getContextString($error->dom_tag);
 
             if (in_array($error->code, $this->remove_attributes_for_codes) && !empty($error->attr_name)) {
-                // Don't remove the same attribute again and again
-                if ($last_dom_tag === $error->dom_tag && $last_dom_attr_name === $error->attr_name) {
+                // No point removing attribute if we already removed the tag!
+                if (!empty($last_rem_dom_tag) && $last_rem_dom_tag->isSameNode($error->dom_tag)) {
                     continue;
                 }
-                $last_dom_tag = $error->dom_tag;
-                // If src is not valid for amp-iframe and amp-img, no point keeping that tag around...
-                // Make this more generic?
-                if ($error->attr_name == 'src' && in_array($tag_name, ['amp-iframe', 'amp-img'])) {
-                    $error->dom_tag->parentNode->removeChild($error->dom_tag);
-                    $this->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line, $context_string));
-                } else {
-                    // Remove the offending attribute
-                    $error->dom_tag->removeAttribute($error->attr_name);
-                    $last_dom_attr_name = $error->attr_name;
-                    $this->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line, $context_string));
+
+                // Don't remove the same attribute again and again
+                if (!empty($last_rem_dom_tag_for_attr) &&
+                    $error->dom_tag === $last_rem_dom_tag_for_attr &&
+                    $last_dom_attr_name === $error->attr_name
+                ) {
+                    continue;
                 }
+
+                // Remove the offending attribute
+                $last_dom_attr_name = $error->attr_name;
+                $last_rem_dom_tag_for_attr = $error->dom_tag;
+                $error->dom_tag->removeAttribute($error->attr_name);
+                $this->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line, $context_string));
             }
 
             if (in_array($error->code, $this->remove_tags_for_codes) && !empty($error->dom_tag)) {
                 // Don't remove the same tag again and again
-                if ($last_dom_tag === $error->dom_tag) {
+                if (!empty($last_rem_dom_tag) && $error->dom_tag->isSameNode($last_rem_dom_tag)) {
                     continue;
                 }
+
+                $last_rem_dom_tag = $error->dom_tag;
                 // Remove the offending tag
                 $error->dom_tag->parentNode->removeChild($error->dom_tag);
-                $last_dom_tag = $error->dom_tag;
                 $this->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line, $context_string));
             }
         }
