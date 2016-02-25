@@ -11,6 +11,8 @@ class ActionTakenLine
     public $tag_attr_description;
     /** @var  string */
     public $human_description;
+    /** @var  string */
+    public $context_string = '';
     /** @var  ActionTakenType */
     public $action_taken;
     /** @var  number */
@@ -18,16 +20,21 @@ class ActionTakenLine
 
     /**
      * ActionTakenLine constructor.
-     * @param $tag_attr_description
-     * @param $warning
-     * @param $lineno
+     * @param string $tag_attr_description
+     * @param string $action
+     * @param string|number $lineno
+     * @param string $context_string
      */
-    public function __construct($tag_attr_description, $action, $lineno)
+    public function __construct($tag_attr_description, $action, $lineno, $context_string = '')
     {
         $this->tag_attr_description = $tag_attr_description;
         $this->action_taken = new ActionTakenType($action);
         $this->lineno = $lineno;
         $this->time_stamp = microtime(true);
-        $this->human_description = "Line $lineno: $tag_attr_description " .  (string)$this->action_taken;
+        $this->context_string = $context_string;
+        $this->human_description = "Line $lineno: $tag_attr_description " . (string)$this->action_taken;
+        if (!empty($context_string)) {
+            $this->human_description .= " [context: $context_string] ";
+        }
     }
 }

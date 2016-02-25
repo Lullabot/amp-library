@@ -33,11 +33,11 @@ class ImgTagTransformPass extends BasePass
         /** @var \DOMElement $dom_el */
         foreach ($all_a->get() as $dom_el) {
             $lineno = $dom_el->getLineNo();
-
+            $context_string = $this->getContextString($dom_el);
             $new_el = $this->renameDomElement($dom_el, 'amp-img');
             $this->setAmpImgAttributes($new_el);
             $this->context->addLineAssociation($new_el, $lineno);
-            $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno));
+            $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
         }
 
         return $this->warnings;

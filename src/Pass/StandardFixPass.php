@@ -43,6 +43,8 @@ class StandardFixPass extends BasePass
             }
 
             $tag_name = $error->dom_tag->tagName;
+            $context_string = $this->getContextString($error->dom_tag);
+
             if (in_array($error->code, $this->remove_attributes_for_codes) && !empty($error->attr_name)) {
                 // Don't remove the same attribute again and again
                 if ($last_dom_tag === $error->dom_tag && $last_dom_attr_name === $error->attr_name) {
@@ -53,12 +55,12 @@ class StandardFixPass extends BasePass
                 // Make this more generic?
                 if ($error->attr_name == 'src' && in_array($tag_name, ['amp-iframe', 'amp-img'])) {
                     $error->dom_tag->parentNode->removeChild($error->dom_tag);
-                    $this->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line));
+                    $this->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line, $context_string));
                 } else {
                     // Remove the offending attribute
                     $error->dom_tag->removeAttribute($error->attr_name);
                     $last_dom_attr_name = $error->attr_name;
-                    $this->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line));
+                    $this->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line, $context_string));
                 }
             }
 
@@ -70,7 +72,7 @@ class StandardFixPass extends BasePass
                 // Remove the offending tag
                 $error->dom_tag->parentNode->removeChild($error->dom_tag);
                 $last_dom_tag = $error->dom_tag;
-                $this->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line));
+                $this->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line, $context_string));
             }
         }
 

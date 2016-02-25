@@ -92,6 +92,35 @@ abstract class BasePass
     }
 
     /**
+     * Provide some context in error messages.
+     * @param \DOMElement $dom_el
+     * @return string
+     */
+    protected function getContextString(\DOMElement $dom_el)
+    {
+        if (empty($dom_el)) {
+            return '';
+        }
+
+        /** @var string[] $attributes */
+        $attributes = $this->encounteredAttributes($dom_el);
+        $context_string = "<$dom_el->tagName";
+        foreach ($attributes as $attr_name => $attr_value) {
+            $context_string .= " $attr_name";
+            if (!empty($attr_value)) {
+                $context_string .= '="' . $attr_value . '"';
+            }
+        }
+        $context_string .= '>';
+
+        // Truncate long strings
+        if (mb_strlen($context_string) > 200) {
+            $context_string = mb_substr($context_string, 0, 200) . "...";
+        }
+        return $context_string;
+    }
+
+    /**
      * Rename $el to $tagname. Returns the renamed DOMElement.
      *
      * @param \DOMElement $el

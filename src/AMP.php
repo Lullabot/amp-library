@@ -237,9 +237,16 @@ class AMP
         return $render_validation_result->renderValidationResult($this->validation_result, $filename);
     }
 
-    public function warningsHuman()
+    /**
+     * Use this instead of warningsHumanText() in case you want to call where html needs to be shown
+     *
+     * This method makes strings html friendly with special characters escaped e.g. "<" becomes "&lt;"
+     *
+     * @return string
+     */
+    public function warningsHumanHtml()
     {
-        return '<pre>' . $this->warningsHumanText() . '</pre>';
+        return htmlspecialchars($this->warningsHumanText());
     }
 
     public function getRules()
@@ -249,6 +256,9 @@ class AMP
 
     /**
      * Differs from AMP::warningsHuman() in that it outputs warnings in Text and not HTML format
+     *
+     * Use warningsHumanHtml() if you want the string to be html friendly with special characters escaped.
+     * e.g. "<" becomes "&lt;"
      *
      * @param bool $no_heading
      * @return string

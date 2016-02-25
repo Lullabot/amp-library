@@ -21,11 +21,12 @@ class IframeTagTransformPass extends BasePass
         /** @var \DOMElement $dom_el */
         foreach ($all_a->get() as $dom_el) {
             $lineno = $dom_el->getLineNo();
+            $context_string = $this->getContextString($dom_el);
 
             $new_el = $this->renameDomElement($dom_el, 'amp-iframe');
             $this->setAmpIframeAttributes($new_el);
             $this->context->addLineAssociation($new_el, $lineno);
-            $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::IFRAME_CONVERTED, $lineno));
+            $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::IFRAME_CONVERTED, $lineno, $context_string));
         }
 
         return $this->warnings;
