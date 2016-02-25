@@ -2,6 +2,7 @@
 
 namespace Lullabot\AMP\Pass;
 
+use Lullabot\AMP\Validate\Scope;
 use QueryPath\DOMQuery;
 
 use Lullabot\AMP\ActionTakenLine;
@@ -15,13 +16,20 @@ use FastImageSize\FastImageSize;
  * Transform all <img> tags which don't have noscript as an ancestor to <amp-img> tags
  * - height and width are obtained by trying to look at the image file itself via getimagesize()
  * - Currently the layout is set to responsive
+ *
+ * This pass also make sure to insert amp attribute in an html tag. See ImgTagTransformPass::pass().
  */
 class ImgTagTransformPass extends BasePass
 {
     function pass()
     {
+        // Always make sure we do this. Somewhat of a hack
+        if ($this->context->getErrorScope() == Scope::HTML_SCOPE) {
+            $this->q->find('html')->attr('amp', '');
+        }
+
         // @todo deal with animated gifs
-        $all_a = $this->q->find('img:not(noscript img)');
+        $all_a = $this->q->top()->find('img:not(noscript img)');
         /** @var \DOMElement $dom_el */
         foreach ($all_a->get() as $dom_el) {
             $lineno = $dom_el->getLineNo();
