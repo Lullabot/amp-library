@@ -31,7 +31,7 @@ But essentially, you need to add the following snippet in your `composer.json`:
 ```json
     "repositories": [
         {
-            "type": "vcs",
+            "type": "git",
             "url": "https://github.com/Lullabot/amp-library"
         }
     ],
