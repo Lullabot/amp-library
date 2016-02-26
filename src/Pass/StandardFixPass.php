@@ -73,7 +73,7 @@ class StandardFixPass extends BasePass
 
                 // Don't remove the same attribute again and again
                 if (!empty($last_rem_dom_tag_for_attr) &&
-                    $error->dom_tag === $last_rem_dom_tag_for_attr &&
+                    $error->dom_tag->isSameNode($last_rem_dom_tag_for_attr) &&
                     $last_dom_attr_name === $error->attr_name
                 ) {
                     continue;
