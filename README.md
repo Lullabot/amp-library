@@ -167,9 +167,10 @@ print($amp->warningsHumanText());
 
 ```
 
-### Caveats
+### Caveats and Known issues
 
-- This is beta quality code. You are likely to encounter bugs and errors, both fatal and harmless. Please help us improve this library by using the GitHub issue tracker on this repository to report errors.
+- This is beta quality code. You are likely to encounter bugs and errors, both fatal and harmless. Please help us improve this library by using the GitHub issue tracker on this repository to report errors
+ - If you have `<img>`s with `https` urls _and_ they don't have height/width attributes _and_ you are using PHP 5.6 or PHP 7.0 the library may have problems converting these to `<amp-img>`. This is because of http://php.net/manual/en/migration56.openssl.php . That link also has a work around. 
 - The library is currently not hosted on [Packagist](https://packagist.org) but we plan to do that in the near future
 
 ### Sponsored by
