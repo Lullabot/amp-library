@@ -249,7 +249,8 @@ class ParsedTagSpec
                     // the attribute, even though not found in specification, was valid
                     continue;
                 } else {
-                    return;
+                    $should_not_check = true;
+                    continue;
                 }
             }
             /** @var AttrSpec $attr_spec */
@@ -266,7 +267,8 @@ class ParsedTagSpec
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
                         [$encountered_attr_name, self::getDetailOrName($this->spec), $encountered_attr_value],
                         $this->spec->spec_url, $result_for_attempt, $encountered_attr_name);
-                    return;
+                    $should_not_check = true;
+                    continue;
                 }
             }
 
@@ -278,7 +280,8 @@ class ParsedTagSpec
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
                         [$encountered_attr_name, self::getDetailOrName($this->spec), $encountered_attr_value],
                         $this->spec->spec_url, $result_for_attempt, $encountered_attr_name);
-                    return;
+                    $should_not_check = true;
+                    continue;
                 }
             }
 
@@ -286,7 +289,8 @@ class ParsedTagSpec
                 $parsed_attr_spec->validateAttrValueUrl($context, $encountered_attr_name, $encountered_attr_value,
                     $this->spec, $this->spec->spec_url, $result_for_attempt);
                 if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
-                    return;
+                    $should_not_check = true;
+                    continue;
                 }
             }
 
@@ -294,7 +298,8 @@ class ParsedTagSpec
                 $parsed_attr_spec->validateAttrValueProperties($context, $encountered_attr_name, $encountered_attr_value,
                     $this->spec, $this->spec->spec_url, $result_for_attempt);
                 if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
-                    return;
+                    $should_not_check = true;
+                    continue;
                 }
             }
 
@@ -306,7 +311,8 @@ class ParsedTagSpec
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
                         [$encountered_attr_name, self::getDetailOrName($this->spec), $encountered_attr_value],
                         $this->spec->spec_url, $result_for_attempt, $encountered_attr_name);
-                    return;
+                    $should_not_check = true;
+                    continue;
                 }
             }
 
@@ -319,11 +325,16 @@ class ParsedTagSpec
                 $context->addError(ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS,
                     [self::getDetailOrName($this->spec), $attr_spec->mandatory_oneof],
                     $this->spec->spec_url, $result_for_attempt, $attr_spec->name);
-                return;
+                $should_not_check = true;
+                continue;
             }
 
             // Treat as a Set
             $mandatory_oneofs_seen[$attr_spec->mandatory_oneof] = $attr_spec->mandatory_oneof;
+        }
+
+        if ($should_not_check) {
+            return;
         }
 
         // This is to see if any of the mandatory oneof attributes were _not_ seen. Remember, they are mandatory.
