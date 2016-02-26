@@ -287,7 +287,7 @@ class ParsedValidatorRules
                 }
                 if (!$context->getTagspecsValidated()->contains($parsed_tag_spec_require)) {
                     if (!$context->addError(ValidationErrorCode::TAG_REQUIRED_BY_MISSING,
-                        [ParsedTagSpec::getDetailOrName($tagspec_require), ParsedTagSpec::getDetailOrName($tagspec_require)],
+                        [ParsedTagSpec::getDetailOrName($tagspec_require), ParsedTagSpec::getDetailOrName($parsed_tag_spec->getSpec())],
                         $tagspec_require->spec_url, $validation_result)
                     ) {
                         return;
