@@ -119,6 +119,54 @@ Fixes made based on validation issues discovered (see above)
 
 ```
 
+### Using the library in a composer based PHP project
+
+First, follow the setup steps above if you're using this in a composer based project.
+
+Sample code to get started:
+
+```php
+<?php
+
+use Lullabot\AMP\AMP;
+use Lullabot\AMP\Validate\Scope;
+
+// Create an AMP object
+$amp = new AMP();
+
+// Notice this is a HTML fragment, i.e. anything that can appear below <body>
+$html =
+    '<p><a href="javascript:run();">Run</a></p>' . PHP_EOL .
+    '<p><a style="margin: 2px;" href="http://www.cnn.com" target="_parent">CNN</a></p>' . PHL_EOL .
+    '<p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>' . PHP_EOL .
+    '<p><INPUT type="submit" value="submit"></p>' . PHP_EOL .
+    '<p>This is a <div onmouseover="hello();">sample</div> paragraph</p>';
+
+// Load up the HTML into the AMP object
+$amp->loadHtml($html);
+
+// If you're feeding it a complete document use the following line instead
+// $amp->loadHtml($html, ['scope' => Scope::HTML_SCOPE]);
+
+// Convert to AMP HTML and store output in a variable
+$amp_html = $amp->convertToAmpHtml();
+
+// Print AMP HTML
+print($amp_html);
+
+// Print validation issues and fixes made to HTML provided in the $html string
+print($amp->warningsHumanText());
+
+// HTML escaped warnings
+// print($amp->warningsHumanHtml());
+
+// You can do the above steps all over again without having to create a fresh object
+// $amp->loadHtml($another_string)
+// ...
+// ...
+
+```
+
 ### Caveats
 
 - This is beta quality code. You are likely to encounter bugs and errors, both fatal and harmless. Please help us improve this library by using the GitHub issue tracker on this repository to report errors.
