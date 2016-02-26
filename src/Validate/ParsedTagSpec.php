@@ -270,8 +270,8 @@ class ParsedTagSpec
                 continue;
             }
 
-            if (!empty($attr_spec->value)) {
-                if ($encountered_attr_value != $attr_spec->value) {
+            if (isset($attr_spec->value)) {
+                if ($encountered_attr_value !== $attr_spec->value) {
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
                         [$encountered_attr_name, self::getDetailOrName($this->spec), $encountered_attr_value],
                         $this->spec->spec_url, $result_for_attempt, $encountered_attr_name);
@@ -279,7 +279,7 @@ class ParsedTagSpec
                 continue;
             }
 
-            if (!empty($attr_spec->value_regex)) {
+            if (isset($attr_spec->value_regex)) {
                 // notice the use of & as start and end delimiters. Want to avoid use of '/' as it will be in regex, unescaped
                 $value_regex = '&(*UTF8)^(' . $attr_spec->value_regex . ')$&';
                 // if it _doesn't_ match its an error
@@ -291,19 +291,19 @@ class ParsedTagSpec
                 continue;
             }
 
-            if (!empty($attr_spec->value_url)) {
+            if (isset($attr_spec->value_url)) {
                 $parsed_attr_spec->validateAttrValueUrl($context, $encountered_attr_name, $encountered_attr_value,
                     $this->spec, $this->spec->spec_url, $result_for_attempt);
                 continue;
             }
 
-            if (!empty($attr_spec->value_properties)) {
+            if (isset($attr_spec->value_properties)) {
                 $parsed_attr_spec->validateAttrValueProperties($context, $encountered_attr_name, $encountered_attr_value,
                     $this->spec, $this->spec->spec_url, $result_for_attempt);
                 continue;
             }
 
-            if (!empty($attr_spec->blacklisted_value_regex)) {
+            if (isset($attr_spec->blacklisted_value_regex)) {
                 // notice the use of & as start and end delimiters. Want to avoid use of '/' as it will be in regex, unescaped
                 $blacklisted_value_regex = '&(*UTF8)' . $attr_spec->blacklisted_value_regex . '&i';
                 // If it matches its an error
