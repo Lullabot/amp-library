@@ -329,8 +329,10 @@ class ParsedTagSpec
                 continue;
             }
 
-            // Treat as a Set
-            $mandatory_oneofs_seen[$attr_spec->mandatory_oneof] = $attr_spec->mandatory_oneof;
+            if (!empty($attr_spec->mandatory_oneof)) {
+                // Treat as a Set
+                $mandatory_oneofs_seen[$attr_spec->mandatory_oneof] = $attr_spec->mandatory_oneof;
+            }
         }
 
         if ($should_not_check) {
