@@ -144,6 +144,23 @@ class AMP
     }
 
     /**
+     * An HTML fragment is anything that can occur within a _body_ tag
+     * This method makes an HTML fragment a full HTML document
+     *
+     * We need to do this to avoid encoding issues.
+     * see https://github.com/technosophos/querypath/issues/94#issuecomment-8784564
+     *
+     * @param $body_fragment
+     * @return string
+     */
+    protected function makeFragmentWhole($body_fragment)
+    {
+        $pre_html = '<!DOCTYPE html><html amp><head><meta charset="UTF-8"></head><body>';
+        $post_html = '</body></html>';
+        return $pre_html . $body_fragment . $post_html;
+    }
+
+    /**
      * Convert an HTML Fragment to AMP HTML
      * @return string
      */
@@ -159,7 +176,12 @@ class AMP
         }
 
         /** @var QueryPath\DOMQuery $qp */
-        $qp = QueryPath::withHTML($this->input_html, NULL, array('convert_to_encoding' => 'UTF-8'));
+        if ($this->scope == Scope::BODY_SCOPE) {
+            $document = $this->makeFragmentWhole($this->input_html);
+        } else {
+            $document = $this->input_html;
+        }
+        $qp = QueryPath::withHTML($document, NULL, ['convert_to_encoding' => 'UTF-8']);
 
         foreach ($this->passes as $pass_name) {
             // This hack mainly to avoid an ugly warning given by QueryPath
