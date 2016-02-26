@@ -166,6 +166,15 @@ class AMP
      */
     public function convertToAmpHtml()
     {
+        // If the tags were stripped out, would this be the same string?
+        $no_tags = strip_tags($this->input_html) == $this->input_html;
+        // If there are no tags and we're in BODY_SCOPE, there are no warnings and we just return
+        // For full html scope the situation is more complicated, as we might still want some warnings
+        if ($this->scope == Scope::BODY_SCOPE && $no_tags) {
+            $this->amp_html = $this->input_html;
+            return $this->amp_html;
+        }
+
         /** @var QueryPath\DOMQuery $qp */
         if ($this->scope == Scope::BODY_SCOPE) {
             $document = $this->makeFragmentWhole($this->input_html);
@@ -175,7 +184,14 @@ class AMP
         $qp = QueryPath::withHTML($document, NULL, ['convert_to_encoding' => 'UTF-8']);
 
         foreach ($this->passes as $pass_name) {
-            $qp_branch = $qp->branch();
+            // This hack mainly to avoid an ugly warning given by QueryPath
+            if (!$no_tags) {
+                // This is the main case
+                $qp_branch = $qp->branch();
+            } else {
+                $qp_branch = $qp;
+            }
+            // end hack
 
             // Each of the $qp objects are pointing to the same DOMDocument
             /** @var BasePass $pass */
@@ -190,7 +206,12 @@ class AMP
         $this->sortActionTakeByLineno();
 
         if ($this->scope == Scope::HTML_SCOPE) {
-            $this->amp_html = $qp->top()->html5();
+            if (!$no_tags) {
+                // This is the main case
+                $this->amp_html = $qp->top()->html5();
+            } else {
+                $this->amp_html = $this->input_html;
+            }
         } else {
             $this->amp_html = $qp->find($this->scope)->innerHTML5();
         }
