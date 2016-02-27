@@ -235,6 +235,7 @@ class ParsedTagSpec
          * @var string $encountered_attr_key
          * @var string $encountered_attr_value
          */
+        $should_not_check = false;
         foreach ($encountered_attrs as $encountered_attr_key => $encountered_attr_value) {
             // if ever set something like null in weird situations, just normalize to empty string
             if ($encountered_attr_value === null) {
