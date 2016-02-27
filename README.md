@@ -85,7 +85,7 @@ Line 7:
 
 ORIGINAL HTML
 ---------------
-Line  1: <p><a href="javascript:run();">Run</a></p>
+Line  1: <p><a style="color: red;" href="javascript:run();">Run</a></p>
 Line  2: <p><a style="margin: 2px;" href="http://www.cnn.com" target="_parent">CNN</a></p>
 Line  3: <img src="http://i2.cdn.turner.com/cnnnext/dam/assets/160208081229-gaga-superbowl-exlarge-169.jpg">
 Line  4: <p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>
@@ -100,19 +100,20 @@ Line 10:
 AMP-HTML Validation Issues
 --------------------------
 FAIL
+- Line  1: The attribute 'style' may not appear in tag 'a'. [category: DISALLOWED_HTML] [code: DISALLOWED_ATTR]
 - Line  1: Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'. [category: DISALLOWED_HTML] [code: INVALID_URL_PROTOCOL]
 - Line  2: The attribute 'style' may not appear in tag 'a'. [category: DISALLOWED_HTML] [code: DISALLOWED_ATTR]
 - Line  2: The attribute 'target' in tag 'a' is set to the invalid value '_parent'. [category: DISALLOWED_HTML] [code: INVALID_ATTR_VALUE]
 - Line  5: The tag 'input' is disallowed. [category: DISALLOWED_HTML] [code: DISALLOWED_TAG]
 - Line  6: The attribute 'onmouseover' may not appear in tag 'div'. [category: DISALLOWED_HTML] [code: DISALLOWED_ATTR]
 - Line  8: The attribute 'src' in tag 'amphtml engine v0.js script' is set to the invalid value 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js'. (see https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#scrpt) [category: CUSTOM_JAVASCRIPT_DISALLOWED] [code: INVALID_ATTR_VALUE]
-- Line  8: The mandatory attribute 'async' is missing in tag 'amphtml engine v0.js script'. (see https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#scrpt) [category: DISALLOWED_HTML] [code: MANDATORY_ATTR_MISSING]
 - Line  8: The parent tag of tag 'script' is 'body', but it can only be 'head'. (see https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#scrpt) [category: DISALLOWED_HTML] [code: WRONG_PARENT_TAG]
 - Line  9: The mandatory attribute 'amp-custom' is missing in tag 'author stylesheet'. (see https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#stylesheets) [category: DISALLOWED_HTML] [code: MANDATORY_ATTR_MISSING]
 - Line  9: The parent tag of tag 'style' is 'body', but it can only be 'head'. (see https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#stylesheets) [category: DISALLOWED_HTML] [code: WRONG_PARENT_TAG]
 
 Fixes made based on validation issues discovered (see above)
 ------------------------------------------------------------
+- Line 1: a.style attribute was removed due to validation issues. [context: <a style="color: red;" href="javascript:run();">] 
 - Line 1: a.href attribute was removed due to validation issues. [context: <a href="javascript:run();">] 
 - Line 2: a.style attribute was removed due to validation issues. [context: <a style="margin: 2px;" href="http://www.cnn.com" target="_parent">] 
 - Line 2: a.target attribute was removed due to validation issues. [context: <a href="http://www.cnn.com" target="_parent">] 
@@ -124,7 +125,6 @@ Fixes made based on validation issues discovered (see above)
 - Line 8: script.src attribute was removed due to validation issues. [context: <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">] 
 - Line 8: script tag was removed due to validation issues. [context: <script>] 
 - Line 9: style tag was removed due to validation issues. [context: <style>] 
-
 ```
 
 ### Using the library in a composer based PHP project
