@@ -336,6 +336,15 @@ class ParsedTagSpec
             }
         }
 
+        // If we've already encountered an error before, then $should_not_check will be true.
+        // In that case simply return without executing mandatory one of checks and mandatory attributes
+        // In some ways this the best of both worlds: The canonical javascript validator returns as soon
+        // as it sees an error in this method. We keep 'continue'-ing and try to see issues with other
+        // attributes. In some ways our reporting is more complete and helps later on with html correction.
+        //
+        // (Note that we don't want to check for mandatory oneofs/attributes if an error has been encountered
+        // because we might get un-useful errors that will change the specificity of the validation error and clobber
+        // the most appropriate result)
         if ($should_not_check) {
             return;
         }
