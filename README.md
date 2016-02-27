@@ -5,8 +5,8 @@
 The AMP PHP Library is an open source and pure PHP Library that:
 - Works with whole or partial HTML documents (or strings). Specifically, the AMP PHP Library:
  - Reports compliance of the whole/partial HTML document with the [AMP HTML standard](https://www.ampproject.org/)
- - Implements an AMP HTML validator in pure PHP to report compliance of an arbitrary HTML document / HTML fragment with the AMP HTML standard. This validator is a ported subset of the [canonical validator](https://github.com/ampproject/amphtml/tree/master/validator) that is implemented in javascript. In particular this PHP validator does not (yet) support template, cdata, css and layout validation. Otherwise, it supports tag specification validation, attribute specification validation and will report missing, illegal, mandatory, unique (etc) tags and attributes.
- - Using the feedback given by the validator, tries to "correct" some issues found in the HTML to make it more AMP HTML compliant. This would involve removing illegal attribtes (e.g. `style`) or illegal tags (e.g. `<script>`) in the body portion of the HTML document. This correction is currently basic.
+ - Implements an AMP HTML validator in pure PHP to report compliance of an arbitrary HTML document / HTML fragment with the AMP HTML standard. This validator is a ported subset of the [canonical validator](https://github.com/ampproject/amphtml/tree/master/validator) that is implemented in javascript. In particular this PHP validator does not (yet) support template, cdata, css and layout validation. Otherwise, it supports tag specification validation, attribute specification validation and attribute property value pair validation. It will report tags and attributes that are missing, illegal, mandatory according to spec but not present, unique according to spec but multiply present, having wrong parents or ancestors and so forth.
+ - Using the feedback given by the validator, tries to "correct" some issues found in the HTML to make it more AMP HTML compliant. This would involve removing illegal attributes (e.g. `style`) or illegal tags (e.g. `<script>`) in the body portion of the HTML document. This correction is currently basic. _Note_: the library needs to be provided with well formed html. Please don't give it faulty, incorrect html (e.g. non closed `<div>` tags etc). The correction it does is related to AMP HTML standard issues only. Use a HTML tidying library if you expect your HTML to be malformed.
  - Converts some non-amp elements to their AMP equivalents automatically. So an `<img>` tag is automatically converted to an `<amp-img>` tag and `<iframe>` is converted to an `<amp-iframe>`. More such automatic conversions will be available in the future.
 - Provides both a console and programmatic interface with which to call the library. It works like this: the programmer/user provides some HTML and we return (1) The AMPized HTML (2) A list of warnings reported by the Validator (3) A list of fixes/tag conversions made by the library
 
@@ -18,17 +18,23 @@ The AMP PHP Library is an open source and pure PHP Library that:
 
 ### Setup
 
-If you're familiar with [composer](https://getcomposer.org/) then you should not have any problems in getting this to work for your PHP project. If you're not familiar with composer then please read up on it before trying to set this up!
+The project uses a [composer](https://getcomposer.org/) workflow. If you're not familiar with composer then please read up on it before trying to set this up!
 
 Using this in Drupal requires some specific steps. Please refer to the [Drupal AMP Module](https://www.drupal.org/project/amp) documentation.
 
-For all other scenarios, briefly, the setup steps are:
-- `git clone` this repo, `cd` into it and type in `$ composer install` at the command prompt to get all the dependencies of the library. Now you'll be able to use the command line AMP html converter `amp-console` (or equivalently `amp-console.php`
-- To use this in your composer based PHP project, refer to [composer docs here](https://getcomposer.org/doc/05-repositories.md#loading-a-package-from-a-vcs-repository)
+For all other scenarios, continue reading.
 
-But essentially, you need to add the following snippet in your `composer.json`:
+#### Setup for command line console
 
-```json
+`git clone` this repo, `cd` into it and type in `$ composer install` at the command prompt to get all the dependencies of the library. Now you'll be able to use the command line AMP html converter `amp-console` (or equivalently `amp-console.php`
+
+#### Setup for your composer based PHP project
+
+To use this in your composer based PHP project, refer to [composer docs here](https://getcomposer.org/doc/05-repositories.md#loading-a-package-from-a-vcs-repository)
+
+ But essentially, you need to add the following snippet in your `composer.json`:
+
+ ```json
     "repositories": [
         {
             "type": "git",
@@ -38,9 +44,11 @@ But essentially, you need to add the following snippet in your `composer.json`:
     "require": {
         "lullabot/amp": "dev-master"
     }
-```
+ ```
 
-After doing this issue `$ composer update`
+After doing this issue `$ composer update`. 
+
+The library is currently not hosted on [Packagist](https://packagist.org) but we plan to do that in the near future. After that happens you will need to do a simpler `$ composer require lullabot/amp` invocation rather than the above steps.
 
 ### Using the command line `amp-console`
 
