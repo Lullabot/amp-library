@@ -17,6 +17,7 @@
         "symfony/console": ">=2.7.0",
         "marc1706/fast-image-size": "1.*"
     },
+    "bin": ["bin/amp-console"],
     "autoload": {
         "classmap": ["src/Spec/validator-generated.php"],
         "psr-4": {"Lullabot\\AMP\\": "src"}

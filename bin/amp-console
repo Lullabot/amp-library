@@ -18,7 +18,13 @@
 
 // amp-console.php
 error_reporting(E_ALL ^ E_NOTICE);
-require __DIR__.'/vendor/autoload.php';
+
+// Check if amp-console is installed as composer package.
+if (file_exists(__DIR__ . '/../../../autoload.php')) {
+    require_once __DIR__ . '/../../../autoload.php';
+} else {
+    require_once __DIR__ . '/../vendor/autoload.php';
+}
 
 use Lullabot\AMP\AmpCommand;
 use Symfony\Component\Console\Application;
