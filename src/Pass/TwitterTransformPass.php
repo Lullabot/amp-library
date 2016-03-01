@@ -36,7 +36,14 @@ class TwitterTransformPass extends BasePass
             /** @var \DOMElement $dom_el */
             $dom_el = $el->get(0);
             $lineno = $dom_el->getLineNo();
+
             $tweet_id = $this->getTweetId($el);
+            // Very important, if we didn't find a tweet id then go to next tweet
+            // This could be just a simple blockquote
+            if (empty($tweet_id)) {
+                continue;
+            }
+
             $context_string = $this->getContextString($dom_el);
 
             // Get reference to associated <script> tag, if any.
@@ -66,7 +73,9 @@ class TwitterTransformPass extends BasePass
     }
 
     /**
-     * Get some extra attributes from the blockquote such as data-cards and data-conversation
+     * Get some extra attributes from the blockquote such as data-cards, data-conversation etc.
+     * @see https://dev.twitter.com/web/javascript/creating-widgets#create-tweet
+     *
      * If data-cards=hidden for instance, photos are now shown with the tweet
      * If data-conversation=none for instance, no conversation is shown in the tweet
      *
@@ -76,14 +85,12 @@ class TwitterTransformPass extends BasePass
     protected function getTweetAttributes(DOMQuery $el)
     {
         $tweet_attributes = '';
-        $data_cards_value = $el->attr('data-cards');
-        if (!empty($data_cards_value)) {
-            $tweet_attributes .= " data-cards='$data_cards_value' ";
-        }
+        foreach ($el->attr() as $attr_name => $attr_value) {
+            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') !== 0) {
+                continue;
+            }
 
-        $data_conversation_value = $el->attr('data-conversation');
-        if (!empty($data_conversation_value)) {
-            $tweet_attributes .= " data-conversation='$data_conversation_value' ";
+            $tweet_attributes .= " $attr_name='$attr_value' ";
         }
 
         return $tweet_attributes;
