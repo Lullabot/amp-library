@@ -35,6 +35,7 @@ class AMP
     public $passes = [
         'Lullabot\AMP\Pass\ImgTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\IframeTagTransformPass', // Transform pass
+        'Lullabot\AMP\Pass\InstagramTransformPass', // Transform pass
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
         'Lullabot\AMP\Pass\HtmlCommentPass',
