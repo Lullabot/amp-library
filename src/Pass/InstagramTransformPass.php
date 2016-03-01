@@ -91,7 +91,7 @@ class InstagramTransformPass extends BasePass
         foreach ($links as $link) {
             $href = $link->attr('href');
             $matches = [];
-            if (preg_match('&(*UTF8)instagram.com/p/(.*)/?&i', $href, $matches)) {
+            if (preg_match('&(*UTF8)instagram.com/p/([^/]+)/?&i', $href, $matches)) {
                 if (!empty($matches[1])) {
                     $shortcode = $matches[1];
                     break;
