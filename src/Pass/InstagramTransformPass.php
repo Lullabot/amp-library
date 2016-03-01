@@ -33,15 +33,12 @@ class InstagramTransformPass extends BasePass
         $all_instagram = $this->q->top()->find('blockquote[class="instagram-media"]');
         /** @var DOMQuery $el */
         foreach ($all_instagram as $el) {
+            /** @var \DOMElement $dom_el */
             $dom_el = $el->get(0);
             $lineno = $dom_el->getLineNo();
             $shortcode = $this->getShortcode($el);
             $context_string = $this->getContextString($dom_el);
-            $script_tag = $el->next('script');
-            $instagram_script_tag = null;
-            if (!empty($script_tag) && preg_match('/(*UTF8)instagram.com/i', $script_tag->attr('src'))) {
-                $instagram_script_tag = $script_tag;
-            }
+            $instagram_script_tag = $this->getInstagramScriptTag($el);
 
             /** @var \DOMElement $new_dom_el */
             $el->after("<amp-instagram layout='responsive' data-shortcode='$shortcode'></amp-instagram>");
@@ -51,13 +48,35 @@ class InstagramTransformPass extends BasePass
             $el->removeChildren()->remove();
             if (!empty($instagram_script_tag)) {
                 $instagram_script_tag->remove();
+                $this->addActionTaken(new ActionTakenLine('blockquote.instagram-media (with associated script tag)', ActionTakenType::INSTAGRAM_CONVERTED, $lineno, $context_string));
+            } else {
+                $this->addActionTaken(new ActionTakenLine('blockquote.instagram-media', ActionTakenType::INSTAGRAM_CONVERTED, $lineno, $context_string));
             }
 
             $this->context->addLineAssociation($new_dom_el, $lineno);
-            $this->addActionTaken(new ActionTakenLine('blockquote.instagram-media (with instagram script)', ActionTakenType::INSTAGRAM_CONVERTED, $lineno, $context_string));
         }
 
         return $this->warnings;
+    }
+
+    /**
+     * Get reference to associated <script> tag, if any.
+     *
+     * @param DOMQuery $el
+     * @return DOMQuery|null
+     */
+    protected function getInstagramScriptTag(DOMQuery $el)
+    {
+        $script_tags = $el->nextAll('script');
+        $instagram_script_tag = null;
+        foreach ($script_tags as $script_tag) {
+            if (!empty($script_tag) && preg_match('&(*UTF8)instagram.com/.*/embeds.js&i', $script_tag->attr('src'))) {
+                $instagram_script_tag = $script_tag;
+                break;
+            }
+        }
+
+        return $instagram_script_tag;
     }
 
     /**
