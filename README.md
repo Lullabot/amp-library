@@ -7,7 +7,11 @@ The AMP PHP Library is an open source and pure PHP Library that:
  - Reports compliance of the whole/partial HTML document with the [AMP HTML standard](https://www.ampproject.org/)
  - Implements an AMP HTML validator in pure PHP to report compliance of an arbitrary HTML document / HTML fragment with the AMP HTML standard. This validator is a ported subset of the [canonical validator](https://github.com/ampproject/amphtml/tree/master/validator) that is implemented in javascript. In particular this PHP validator does not (yet) support template, cdata, css and layout validation. Otherwise, it supports tag specification validation, attribute specification validation and attribute property value pair validation. It will report tags and attributes that are missing, illegal, mandatory according to spec but not present, unique according to spec but multiply present, having wrong parents or ancestors and so forth.
  - Using the feedback given by the validator, tries to "correct" some issues found in the HTML to make it more AMP HTML compliant. This would involve removing illegal attributes (e.g. `style`) or illegal tags (e.g. `<script>`) in the body portion of the HTML document. This correction is currently basic. _Note_: the library needs to be provided with well formed html. Please don't give it faulty, incorrect html (e.g. non closed `<div>` tags etc). The correction it does is related to AMP HTML standard issues only. Use a HTML tidying library if you expect your HTML to be malformed.
- - Converts some non-amp elements to their AMP equivalents automatically. So an `<img>` tag is automatically converted to an `<amp-img>` tag and `<iframe>` is converted to an `<amp-iframe>`. More such automatic conversions will be available in the future.
+ - Converts some non-amp elements to their AMP equivalents automatically
+    - An `<img>` tag is automatically converted to an `<amp-img>` tag
+    - An `<iframe>` tag is converted to an `<amp-iframe>`
+    - Standard twitter embed code is converted to an `<amp-twitter>` tag
+    - Standard instagram embed code is converted to an `<amp-instagram>` tag
 - Provides both a console and programmatic interface with which to call the library. It works like this: the programmer/user provides some HTML and we return (1) The AMPized HTML (2) A list of warnings reported by the Validator (3) A list of fixes/tag conversions made by the library
 
 ### Use Cases
