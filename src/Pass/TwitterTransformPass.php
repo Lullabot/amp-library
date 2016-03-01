@@ -41,9 +41,13 @@ class TwitterTransformPass extends BasePass
 
             // Get reference to associated <script> tag, if any.
             $twitter_script_tag = $this->getTwitterScriptTag($el);
+            $tweet_attributes = $this->getTweetAttributes($el);
 
+            // Dealing with height and width is going to be tricky
+            // https://github.com/ampproject/amphtml/blob/master/extensions/amp-twitter/amp-twitter.md
+            // @todo make this smarter
             /** @var \DOMElement $new_dom_el */
-            $el->after("<amp-twitter layout='responsive' data-tweetid='$tweet_id'></amp-twitter>");
+            $el->after("<amp-twitter $tweet_attributes width='400' height='600' layout='responsive' data-tweetid='$tweet_id'></amp-twitter>");
             $new_dom_el = $el->get(0);
 
             // Remove the blockquote, its children and the twitter script tag that follows after the blockquote
@@ -59,6 +63,30 @@ class TwitterTransformPass extends BasePass
         }
 
         return $this->warnings;
+    }
+
+    /**
+     * Get some extra attributes from the blockquote such as data-cards and data-conversation
+     * If data-cards=hidden for instance, photos are now shown with the tweet
+     * If data-conversation=none for instance, no conversation is shown in the tweet
+     *
+     * @param DOMQuery $el
+     * @return string
+     */
+    protected function getTweetAttributes(DOMQuery $el)
+    {
+        $tweet_attributes = '';
+        $data_cards_value = $el->attr('data-cards');
+        if (!empty($data_cards_value)) {
+            $tweet_attributes .= " data-cards='$data_cards_value' ";
+        }
+
+        $data_conversation_value = $el->attr('data-conversation');
+        if (!empty($data_conversation_value)) {
+            $tweet_attributes .= " data-conversation='$data_conversation_value' ";
+        }
+
+        return $tweet_attributes;
     }
 
     /**
