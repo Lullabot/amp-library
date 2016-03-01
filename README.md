@@ -10,8 +10,9 @@ The AMP PHP Library is an open source and pure PHP Library that:
  - Converts some non-amp elements to their AMP equivalents automatically
     - An `<img>` tag is automatically converted to an `<amp-img>` tag
     - An `<iframe>` tag is converted to an `<amp-iframe>`
-    - Standard twitter embed code is converted to an `<amp-twitter>` tag
-    - Standard instagram embed code is converted to an `<amp-instagram>` tag
+    - [Standard twitter embed code](https://raw.githubusercontent.com/Lullabot/amp-library/master/test-html/twitter-fragment.html) is converted to an `<amp-twitter>` tag. _Note_: the conversion will work even if no `<script>` tag was provided after the embed code (as shown in the example).
+    - [Standard instagram embed code](https://raw.githubusercontent.com/Lullabot/amp-library/master/test-html/instagram-fragment.html) is converted to an `<amp-instagram>` tag. _Note_: the conversion will work even if no `<script>` tag was provided after the embed code (as shown in the example).
+    - More such automatic conversions are planned for the future 
 - Provides both a console and programmatic interface with which to call the library. It works like this: the programmer/user provides some HTML and we return (1) The AMPized HTML (2) A list of warnings reported by the Validator (3) A list of fixes/tag conversions made by the library
 
 ### Use Cases
@@ -76,7 +77,7 @@ Note that you need to provide `--full-document` if you're providing a full html 
 
 Lets see the output output of the first example command above. The first few lines is the AMPized HTML provided by our library. The rest of the headings are self explanatory.
 
-```
+```html
 $ cd <amp-php-library-repo-cloned-location>
 $ ./amp-console amp:convert test-html/sample-html-fragment.html 
 Line 1: <p><a>Run</a></p>
