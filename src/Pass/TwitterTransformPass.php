@@ -50,11 +50,8 @@ class TwitterTransformPass extends BasePass
             $twitter_script_tag = $this->getTwitterScriptTag($el);
             $tweet_attributes = $this->getTweetAttributes($el);
 
-            // Dealing with height and width is going to be tricky
-            // https://github.com/ampproject/amphtml/blob/master/extensions/amp-twitter/amp-twitter.md
-            // @todo make this smarter
             /** @var \DOMElement $new_dom_el */
-            $el->after("<amp-twitter $tweet_attributes width='400' height='600' layout='responsive' data-tweetid='$tweet_id'></amp-twitter>");
+            $el->after("<amp-twitter $tweet_attributes layout=\"responsive\" data-tweetid=\"$tweet_id\"></amp-twitter>");
             $new_dom_el = $el->get(0);
 
             // Remove the blockquote, its children and the twitter script tag that follows after the blockquote
@@ -85,13 +82,48 @@ class TwitterTransformPass extends BasePass
     protected function getTweetAttributes(DOMQuery $el)
     {
         $tweet_attributes = '';
+        $height_exists = false;
+        $width_exists = false;
+        $data_cards_hidden = false;
+
         foreach ($el->attr() as $attr_name => $attr_value) {
-            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') !== 0) {
+            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') !== 0 && !in_array($attr_name, ['width', 'height'])) {
                 continue;
             }
 
-            $tweet_attributes .= " $attr_name='$attr_value' ";
+            if ($attr_name == 'height') {
+                $height_exists = true;
+            }
+
+            if ($attr_name == 'width') {
+                $width_exists = true;
+            }
+
+            if ($attr_name == 'data-cards' && trim($attr_value) == 'hidden') {
+                $data_cards_hidden = true;
+            }
+
+            $tweet_attributes .= " $attr_name = \"$attr_value\"";
         }
+
+        // Dealing with height and width is going to be tricky
+        // https://github.com/ampproject/amphtml/blob/master/extensions/amp-twitter/amp-twitter.md
+        // @todo make this smarter
+        // Twitter js widget should make it look fine
+        if (!$height_exists) {
+            // A sensible default
+            if ($data_cards_hidden) {
+                $tweet_attributes .= ' height = "223" ';
+            } else {
+                $tweet_attributes .= ' height = "694" ';
+            }
+        }
+        // Twitter js widget should make it look fine
+        if (!$width_exists) {
+            // A sensible default
+            $tweet_attributes .= ' width = "486" ';
+        }
+        // end height width hack
 
         return $tweet_attributes;
     }
@@ -106,6 +138,7 @@ class TwitterTransformPass extends BasePass
     {
         $script_tags = $el->nextAll('script');
         $twitter_script_tag = null;
+        /** @var DOMQuery $script_tag */
         foreach ($script_tags as $script_tag) {
             if (!empty($script_tag) && preg_match('&(*UTF8)twitter.com/widgets\.js&i', $script_tag->attr('src'))) {
                 $twitter_script_tag = $script_tag;
