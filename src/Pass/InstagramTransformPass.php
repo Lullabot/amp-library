@@ -23,7 +23,7 @@ use Lullabot\AMP\ActionTakenLine;
 use Lullabot\AMP\ActionTakenType;
 
 /**
- * Class InstagramTagTransformPass
+ * Class InstagramTransformPass
  * @package Lullabot\AMP\Pass
  */
 class InstagramTransformPass extends BasePass
