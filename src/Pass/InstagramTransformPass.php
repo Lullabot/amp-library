@@ -44,7 +44,7 @@ class InstagramTransformPass extends BasePass
             // https://github.com/ampproject/amphtml/blob/master/extensions/amp-instagram/amp-instagram.md
             // @todo make this smarter
             /** @var \DOMElement $new_dom_el */
-            $el->after("<amp-instagram layout='responsive' width='400' height='600' data-shortcode='$shortcode'></amp-instagram>");
+            $el->after("<amp-instagram layout=\"responsive\" width=\"400\" height=\"600\" data-shortcode=\"$shortcode\"></amp-instagram>");
             $new_dom_el = $el->get(0);
 
             // Remove the blockquote, its children and the instagram script tag that follows after the blockquote
@@ -72,6 +72,7 @@ class InstagramTransformPass extends BasePass
     {
         $script_tags = $el->nextAll('script');
         $instagram_script_tag = null;
+        /** @var DOMQuery $script_tag */
         foreach ($script_tags as $script_tag) {
             if (!empty($script_tag) && preg_match('&(*UTF8)instagram.com/.*/embeds.js&i', $script_tag->attr('src'))) {
                 $instagram_script_tag = $script_tag;

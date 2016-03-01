@@ -138,6 +138,7 @@ class TwitterTransformPass extends BasePass
     {
         $script_tags = $el->nextAll('script');
         $twitter_script_tag = null;
+        /** @var DOMQuery $script_tag */
         foreach ($script_tags as $script_tag) {
             if (!empty($script_tag) && preg_match('&(*UTF8)twitter.com/widgets\.js&i', $script_tag->attr('src'))) {
                 $twitter_script_tag = $script_tag;
