@@ -25,5 +25,6 @@ class ActionTakenType extends Enum
     const ATTRIBUTE_REMOVED = 'attribute was removed due to validation issues.';
     const IMG_CONVERTED = 'tag was converted to the amp-img tag.';
     const INSTAGRAM_CONVERTED = 'instagram embed code was converted to the amp-instagram tag.';
+    const TWITTER_CONVERTED = 'twitter embed code was converted to the amp-twitter tag.';
     const IFRAME_CONVERTED = 'tag was converted to the amp-iframe tag.';
 }
