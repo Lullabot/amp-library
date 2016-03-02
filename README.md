@@ -51,7 +51,7 @@ To use this in your composer based PHP project, refer to [composer docs here](ht
     }
  ```
 
-After doing this issue `$ composer update`. 
+After doing this issue `$ composer update lullabot/amp`. 
 
 The library is currently not hosted on [Packagist](https://packagist.org) but we plan to do that in the near future. After that happens you will need to do a simpler `$ composer require lullabot/amp` invocation rather than the above steps.
 
