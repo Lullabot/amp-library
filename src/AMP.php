@@ -34,6 +34,7 @@ class AMP
     // The StandardFixPass should be after StandardScanPass
     public $passes = [
         'Lullabot\AMP\Pass\ImgTagTransformPass', // Transform pass
+        'Lullabot\AMP\Pass\IframeYouTubeTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\IframeTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\InstagramTransformPass', // Transform pass
         'Lullabot\AMP\Pass\TwitterTransformPass', // Transform pass

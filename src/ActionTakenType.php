@@ -27,4 +27,5 @@ class ActionTakenType extends Enum
     const INSTAGRAM_CONVERTED = 'instagram embed code was converted to the amp-instagram tag.';
     const TWITTER_CONVERTED = 'twitter embed code was converted to the amp-twitter tag.';
     const IFRAME_CONVERTED = 'tag was converted to the amp-iframe tag.';
+    const YOUTUBE_IFRAME_CONVERTED = 'tag was converted to the amp-youtube tag.';
 }
