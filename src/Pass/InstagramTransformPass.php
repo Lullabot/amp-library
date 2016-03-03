@@ -28,6 +28,9 @@ use Lullabot\AMP\ActionTakenType;
  */
 class InstagramTransformPass extends BasePass
 {
+    const DEFAULT_HEIGHT = 600;
+    const DEFAULT_WIDTH = 400;
+
     function pass()
     {
         $all_instagram = $this->q->top()->find('blockquote[class="instagram-media"]');
@@ -37,6 +40,11 @@ class InstagramTransformPass extends BasePass
             $dom_el = $el->get(0);
             $lineno = $dom_el->getLineNo();
             $shortcode = $this->getShortcode($el);
+            // If we can't get the instagram shortcode, abort
+            if (empty($shortcode)) {
+                continue;
+            }
+
             $context_string = $this->getContextString($dom_el);
             $instagram_script_tag = $this->getInstagramScriptTag($el);
 
@@ -44,7 +52,7 @@ class InstagramTransformPass extends BasePass
             // https://github.com/ampproject/amphtml/blob/master/extensions/amp-instagram/amp-instagram.md
             // @todo make this smarter
             /** @var \DOMElement $new_dom_el */
-            $el->after("<amp-instagram layout=\"responsive\" width=\"400\" height=\"600\" data-shortcode=\"$shortcode\"></amp-instagram>");
+            $el->after('<amp-instagram layout="responsive" width="' . self::DEFAULT_WIDTH . '" height="' . self::DEFAULT_HEIGHT . '" data-shortcode="' . $shortcode . '"></amp-instagram>');
             $new_dom_el = $el->get(0);
 
             // Remove the blockquote, its children and the instagram script tag that follows after the blockquote
