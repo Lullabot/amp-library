@@ -297,8 +297,8 @@ class AMP
         $warning_text = '';
         if (!empty($this->action_taken)) {
             if (!$no_heading) {
-                $warning_text .= PHP_EOL . 'Embed code transformations made';
-                $warning_text .= PHP_EOL . '--------------------------------' . PHP_EOL;
+                $warning_text .= PHP_EOL . 'Transformations made to AMP custom tags';
+                $warning_text .= PHP_EOL . '-----------------------------------------' . PHP_EOL;
             }
 
             /** @var ActionTakenLine[] $action_taken */
