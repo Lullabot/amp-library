@@ -84,7 +84,7 @@ Line 1: <p><a>Run</a></p>
 Line 2: <p><a href="http://www.cnn.com">CNN</a></p>
 Line 3: <amp-img src="http://i2.cdn.turner.com/cnnnext/dam/assets/160208081229-gaga-superbowl-exlarge-169.jpg" width="780" height="438" layout="responsive"></amp-img><p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>
 Line 4: <p></p>
-Line 5: <p>This is a <!-- test comment -->  sample </p><div>sample</div> paragraph
+Line 5: <p>This is a <!-- test comment -->sample </p><div>sample</div> paragraph
 Line 6: <amp-iframe src="https://www.reddit.com" layout="responsive" sandbox="allow-scripts allow-same-origin"></amp-iframe>
 Line 7: 
 
@@ -96,41 +96,67 @@ Line  2: <p><a style="margin: 2px;" href="http://www.cnn.com" target="_parent">C
 Line  3: <img src="http://i2.cdn.turner.com/cnnnext/dam/assets/160208081229-gaga-superbowl-exlarge-169.jpg">
 Line  4: <p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>
 Line  5: <p><INPUT type="submit" value="submit"></p>
-Line  6: <p>This is a <!-- test comment --> <!-- [if IE9] --> sample <div onmouseover="hello();">sample</div> paragraph</p>
+Line  6: <p>This is a <!-- test comment -->sample <div onmouseover="hello();">sample</div> paragraph</p>
 Line  7: <iframe src="https://www.reddit.com"></iframe>
 Line  8: <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 Line  9: <style></style>
 Line 10: 
 
 
-AMP-HTML Validation Issues
---------------------------
-FAIL
-- Line  1: The attribute 'style' may not appear in tag 'a'. [category: DISALLOWED_HTML] [code: DISALLOWED_ATTR]
-- Line  1: Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'. [category: DISALLOWED_HTML] [code: INVALID_URL_PROTOCOL]
-- Line  2: The attribute 'style' may not appear in tag 'a'. [category: DISALLOWED_HTML] [code: DISALLOWED_ATTR]
-- Line  2: The attribute 'target' in tag 'a' is set to the invalid value '_parent'. [category: DISALLOWED_HTML] [code: INVALID_ATTR_VALUE]
-- Line  5: The tag 'input' is disallowed. [category: DISALLOWED_HTML] [code: DISALLOWED_TAG]
-- Line  6: The attribute 'onmouseover' may not appear in tag 'div'. [category: DISALLOWED_HTML] [code: DISALLOWED_ATTR]
-- Line  8: The attribute 'src' in tag 'amphtml engine v0.js script' is set to the invalid value 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js'. (see https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#scrpt) [category: CUSTOM_JAVASCRIPT_DISALLOWED] [code: INVALID_ATTR_VALUE]
-- Line  8: The parent tag of tag 'script' is 'body', but it can only be 'head'. (see https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#scrpt) [category: DISALLOWED_HTML] [code: WRONG_PARENT_TAG]
-- Line  9: The mandatory attribute 'amp-custom' is missing in tag 'author stylesheet'. (see https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#stylesheets) [category: DISALLOWED_HTML] [code: MANDATORY_ATTR_MISSING]
-- Line  9: The parent tag of tag 'style' is 'body', but it can only be 'head'. (see https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#stylesheets) [category: DISALLOWED_HTML] [code: WRONG_PARENT_TAG]
+Embed code transformations made
+--------------------------------
 
-Fixes made based on validation issues discovered (see above)
-------------------------------------------------------------
-- Line 1: a.style attribute was removed due to validation issues. [context: <a style="color: red;" href="javascript:run();">] 
-- Line 1: a.href attribute was removed due to validation issues. [context: <a href="javascript:run();">] 
-- Line 2: a.style attribute was removed due to validation issues. [context: <a style="margin: 2px;" href="http://www.cnn.com" target="_parent">] 
-- Line 2: a.target attribute was removed due to validation issues. [context: <a href="http://www.cnn.com" target="_parent">] 
-- Line 3: img tag was converted to the amp-img tag. [context: <img src="http://i2.cdn.turner.com/cnnnext/dam/assets/160208081229-gaga-superbowl-exlarge-169.jpg">] 
-- Line 5: input tag was removed due to validation issues. [context: <input type="submit" value="submit">] 
-- Line 6: div.onmouseover attribute was removed due to validation issues. [context: <div onmouseover="hello();">] 
-- Line 6: HTML conditional comments not allowed. tag was removed due to validation issues.
-- Line 7: iframe tag was converted to the amp-iframe tag. [context: <iframe src="https://www.reddit.com">] 
-- Line 8: script.src attribute was removed due to validation issues. [context: <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">] 
-- Line 8: script tag was removed due to validation issues. [context: <script>] 
-- Line 9: style tag was removed due to validation issues. [context: <style>] 
+<img src="http://i2.cdn.turner.com/cnnnext/dam/assets/160208081229-gaga-superbowl-exlarge-169.jpg"> at line 3
+ ACTION TAKEN: img tag was converted to the amp-img tag.
+
+<iframe src="https://www.reddit.com"> at line 7
+ ACTION TAKEN: iframe tag was converted to the amp-iframe tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<a style="color: red;" href="javascript:run();"> on line 1
+- The attribute 'style' may not appear in tag 'a'.
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   ACTION TAKEN: a.style attribute was removed due to validation issues.
+- Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   ACTION TAKEN: a.href attribute was removed due to validation issues.
+
+<a style="margin: 2px;" href="http://www.cnn.com" target="_parent"> on line 2
+- The attribute 'style' may not appear in tag 'a'.
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   ACTION TAKEN: a.style attribute was removed due to validation issues.
+- The attribute 'target' in tag 'a' is set to the invalid value '_parent'.
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   ACTION TAKEN: a.target attribute was removed due to validation issues.
+
+<input type="submit" value="submit"> on line 5
+- The tag 'input' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: input tag was removed due to validation issues.
+
+<div onmouseover="hello();"> on line 6
+- The attribute 'onmouseover' may not appear in tag 'div'.
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   ACTION TAKEN: div.onmouseover attribute was removed due to validation issues.
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> on line 8
+- The attribute 'src' in tag 'amphtml engine v0.js script' is set to the invalid value 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js'.
+   [code: INVALID_ATTR_VALUE  category: CUSTOM_JAVASCRIPT_DISALLOWED see: https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#scrpt]
+   ACTION TAKEN: script.src attribute was removed due to validation issues.
+- The parent tag of tag 'script' is 'body', but it can only be 'head'.
+   [code: WRONG_PARENT_TAG  category: DISALLOWED_HTML see: https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#scrpt]
+   ACTION TAKEN: script tag was removed due to validation issues.
+
+<style> on line 9
+- The mandatory attribute 'amp-custom' is missing in tag 'author stylesheet'.
+   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML see: https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#stylesheets]
+- The parent tag of tag 'style' is 'body', but it can only be 'head'.
+   [code: WRONG_PARENT_TAG  category: DISALLOWED_HTML see: https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#stylesheets]
+   ACTION TAKEN: style tag was removed due to validation issues.
 ```
 
 ### Using the library in a composer based PHP project
