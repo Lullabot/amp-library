@@ -83,7 +83,7 @@ class StandardFixPass extends BasePass
                 $last_dom_attr_name = $error->attr_name;
                 $last_rem_dom_tag_for_attr = $error->dom_tag;
                 $error->dom_tag->removeAttribute($error->attr_name);
-                $this->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line, $context_string));
+                $error->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line, $context_string));
             }
 
             if (in_array($error->code, $this->remove_tags_for_codes) && !empty($error->dom_tag)) {
@@ -95,10 +95,10 @@ class StandardFixPass extends BasePass
                 $last_rem_dom_tag = $error->dom_tag;
                 // Remove the offending tag
                 $error->dom_tag->parentNode->removeChild($error->dom_tag);
-                $this->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line, $context_string));
+                $error->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line, $context_string));
             }
         }
 
-        return $this->warnings;
+        return [];
     }
 }

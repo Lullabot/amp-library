@@ -77,7 +77,7 @@ class IframeYouTubeTagTransformPass extends BasePass
             $this->context->addLineAssociation($new_dom_el, $lineno);
         }
 
-        return $this->warnings;
+        return $this->transformations;
     }
 
     protected function isYouTubeIframe(DOMQuery $el)

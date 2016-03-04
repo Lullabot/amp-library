@@ -240,6 +240,55 @@ class Context
     }
 
     /**
+     * Provide some context in error messages.
+     * The same method exists in class BasePass
+     *
+     * @param \DOMElement $dom_el
+     * @return string
+     */
+    protected function getContextString(\DOMElement $dom_el)
+    {
+        if (empty($dom_el)) {
+            return '';
+        }
+
+        /** @var string[] $attributes */
+        $attributes = $this->encounteredAttributes($dom_el);
+        $context_string = "<$dom_el->tagName";
+        foreach ($attributes as $attr_name => $attr_value) {
+            $context_string .= " $attr_name";
+            if (!empty($attr_value)) {
+                $context_string .= '="' . $attr_value . '"';
+            }
+        }
+        $context_string .= '>';
+
+        // Truncate long strings
+        if (mb_strlen($context_string) > 200) {
+            $context_string = mb_substr($context_string, 0, 200) . "...";
+        }
+        return $context_string;
+    }
+
+    /**
+     * Returns all attributes and attribute values on an dom element
+     * The same method exists in class BasePass
+     *
+     * @param \DOMElement $el
+     * @return string[]
+     */
+    protected function encounteredAttributes(\DOMElement $el)
+    {
+        $encountered_attributes = [];
+        /** @var \DOMAttr $attr */
+        foreach ($el->attributes as $attr) {
+            $encountered_attributes[$attr->nodeName] = $attr->nodeValue;
+        }
+
+        return $encountered_attributes;
+    }
+
+    /**
      * @param $line
      * @param $validation_error_code
      * @param array $params
@@ -278,6 +327,9 @@ class Context
             $error->phase = $this->phase;
             if ($this->phase == Phase::LOCAL_PHASE) {
                 $error->dom_tag = $this->dom_tag;
+                $error->context_string = $this->getContextString($this->dom_tag);
+            } else {
+                $error->context_string = "GLOBAL CONTEXT";
             }
 
             assert(isset($validation_result->errors));

@@ -45,7 +45,7 @@ class IframeTagTransformPass extends BasePass
             $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::IFRAME_CONVERTED, $lineno, $context_string));
         }
 
-        return $this->warnings;
+        return $this->transformations;
     }
 
     protected function setAmpIframeAttributes(\DOMElement $el)

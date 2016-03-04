@@ -67,7 +67,7 @@ class InstagramTransformPass extends BasePass
             $this->context->addLineAssociation($new_dom_el, $lineno);
         }
 
-        return $this->warnings;
+        return $this->transformations;
     }
 
     /**
