@@ -41,7 +41,7 @@ class SValidationError extends ValidationError
     /** @var string */
     public $context_string = '';
     /** @var ActionTakenLine */
-    public $action_taken;
+    public $action_taken = null;
 
     public function addActionTaken(ActionTakenLine $a)
     {

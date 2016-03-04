@@ -48,9 +48,12 @@ class ActionTakenLine
         $this->lineno = $lineno;
         $this->time_stamp = microtime(true);
         $this->context_string = $context_string;
-        $this->human_description = "Line $lineno: $tag_attr_description " . (string)$this->action_taken;
-        if (!empty($context_string)) {
-            $this->human_description .= " [context: $context_string] ";
+        if (empty($context_string)) {
+            $this->human_description = "ACTION TAKEN: $tag_attr_description " . (string)$this->action_taken;
+        }
+        else {
+            $this->human_description = $context_string . " at line $lineno". PHP_EOL;
+            $this->human_description .= " ACTION TAKEN: $tag_attr_description " . (string)$this->action_taken;
         }
     }
 }

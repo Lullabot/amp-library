@@ -40,7 +40,8 @@ class AMP
         'Lullabot\AMP\Pass\TwitterTransformPass', // Transform pass
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
-        'Lullabot\AMP\Pass\HtmlCommentPass',
+        // Disable this for now. Canonical validator also does not seem to flagging conditional comments.
+        // 'Lullabot\AMP\Pass\HtmlCommentPass',
     ];
 
     /** @var array */
@@ -70,7 +71,16 @@ class AMP
         return $this->component_js;
     }
 
+    /**
+     * @deprecated use getActionTaken
+     * @return array
+     */
     public function getWarnings()
+    {
+        return $this->action_taken;
+    }
+
+    public function getActionTaken()
     {
         return $this->action_taken;
     }
@@ -285,23 +295,25 @@ class AMP
     public function warningsHumanText($no_heading = FALSE)
     {
         $warning_text = '';
+        if (!empty($this->action_taken)) {
+            if (!$no_heading) {
+                $warning_text .= PHP_EOL . 'Embed code transformations made';
+                $warning_text .= PHP_EOL . '--------------------------------' . PHP_EOL;
+            }
+
+            /** @var ActionTakenLine[] $action_taken */
+            foreach ($this->action_taken as $action_taken) {
+                $warning_text .= PHP_EOL . "$action_taken->human_description" . PHP_EOL;
+            }
+        }
+
         if (!$no_heading) {
-            $warning_text .= PHP_EOL . 'AMP-HTML Validation Issues';
-            $warning_text .= PHP_EOL . '--------------------------' . PHP_EOL;
+            $warning_text .= PHP_EOL . PHP_EOL . 'AMP-HTML Validation Issues and Fixes';
+            $warning_text .= PHP_EOL . '-------------------------------------' . PHP_EOL;
         }
 
         $warning_text .= $this->getValidationWarnings();
 
-        if (!empty($this->action_taken)) {
-            if (!$no_heading) {
-                $warning_text .= PHP_EOL . 'Fixes made based on validation issues discovered (see above)';
-                $warning_text .= PHP_EOL . '------------------------------------------------------------' . PHP_EOL;
-            }
-
-            foreach ($this->action_taken as $warning) {
-                $warning_text .= "- $warning->human_description" . PHP_EOL;
-            }
-        }
         return $warning_text;
     }
 }

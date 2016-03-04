@@ -329,7 +329,7 @@ class Context
                 $error->dom_tag = $this->dom_tag;
                 $error->context_string = $this->getContextString($this->dom_tag);
             } else {
-                $error->context_string = "GLOBAL CONTEXT";
+                $error->context_string = "GLOBAL WARNING";
             }
 
             assert(isset($validation_result->errors));

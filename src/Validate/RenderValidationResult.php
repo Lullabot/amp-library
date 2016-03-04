@@ -95,26 +95,29 @@ class RenderValidationResult
      *
      * Ported into this class for convenience as a member function
      *
-     * @param ValidationError $validation_error
+     * @param SValidationError $validation_error
      * @param string $filename_or_url
-     * @param number|string $linenos_width
      * @return string
      */
-    public function errorLine(ValidationError $validation_error, $filename_or_url = '', $linenos_width = '')
+    public function errorLine(SValidationError $validation_error, $filename_or_url = '')
     {
-        $line = empty($validation_error->line) ? 1 : $validation_error->line;
         // We don't have col number unfortunately
-
-        $error_line = sprintf("- Line %{$linenos_width}d: ", $line);
-        $error_line .= $this->renderErrorMessage($validation_error);
-        if (!empty($validation_error->spec_url)) {
-            $error_line .= " (see {$validation_error->spec_url})";
+        $error_line = '- '. $this->renderErrorMessage($validation_error);
+        if (!empty($validation_error->code)) {
+            $error_line .= PHP_EOL ."   [code: {$validation_error->code} ";
         }
         if (!empty($validation_error->category)) {
-            $error_line .= " [category: {$validation_error->category}]";
+            $error_line .= " category: {$validation_error->category}";
         }
-        if (!empty($validation_error->code)) {
-            $error_line .= " [code: {$validation_error->code}]";
+
+        if (!empty($validation_error->spec_url)) {
+            $error_line .= " see: {$validation_error->spec_url}";
+        }
+
+        $error_line .= ']';
+
+        if (!empty($validation_error->action_taken)) {
+            $error_line .= PHP_EOL . '   ' . $validation_error->action_taken->human_description;
         }
         return $error_line;
     }
@@ -152,10 +155,14 @@ class RenderValidationResult
         } else {
             $rendered = $validation_result->status . PHP_EOL;
         }
-        $linenos_width = strlen((string)count($validation_result->errors));
-        /** @var ValidationError $validation_error */
+        /** @var SValidationError $validation_error */
+        $context_string = null;
         foreach ($validation_result->errors as $validation_error) {
-            $rendered .= $this->errorLine($validation_error, $filename_or_url, $linenos_width) . PHP_EOL;
+            if ($context_string !== $validation_error->context_string) {
+                $rendered .= PHP_EOL . $validation_error->context_string . " on line $validation_error->line" . PHP_EOL;
+                $context_string = $validation_error->context_string;
+            }
+            $rendered .= $this->errorLine($validation_error, $filename_or_url) . PHP_EOL;
         }
         return $rendered;
     }
