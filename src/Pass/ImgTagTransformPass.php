@@ -55,7 +55,7 @@ class ImgTagTransformPass extends BasePass
             $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
         }
 
-        return $this->warnings;
+        return $this->transformations;
     }
 
     // @todo deal with failure

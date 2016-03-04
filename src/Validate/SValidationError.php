@@ -18,6 +18,7 @@
 namespace Lullabot\AMP\Validate;
 
 
+use Lullabot\AMP\ActionTakenLine;
 use Lullabot\AMP\Spec\ValidationError;
 
 /**
@@ -37,4 +38,14 @@ class SValidationError extends ValidationError
     /** @var string */
     public $attr_name = '';
     public $phase = Phase::UNKNOWN_PHASE;
+    /** @var string */
+    public $context_string = '';
+    /** @var ActionTakenLine */
+    public $action_taken = null;
+
+    public function addActionTaken(ActionTakenLine $a)
+    {
+        $this->action_taken = $a;
+    }
+
 }

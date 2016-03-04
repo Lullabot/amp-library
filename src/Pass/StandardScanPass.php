@@ -39,6 +39,6 @@ class StandardScanPass extends BasePass
         }
 
         $this->parsed_rules->maybeEmitGlobalTagValidationErrors($this->context, $this->validation_result, $this);
-        return $this->warnings;
+        return [];
     }
 }

@@ -63,7 +63,6 @@ class StandardFixPass extends BasePass
             }
 
             $tag_name = $error->dom_tag->tagName;
-            $context_string = $this->getContextString($error->dom_tag);
 
             if (in_array($error->code, $this->remove_attributes_for_codes) && !empty($error->attr_name)) {
                 // No point removing attribute if we already removed the tag!
@@ -83,7 +82,7 @@ class StandardFixPass extends BasePass
                 $last_dom_attr_name = $error->attr_name;
                 $last_rem_dom_tag_for_attr = $error->dom_tag;
                 $error->dom_tag->removeAttribute($error->attr_name);
-                $this->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line, $context_string));
+                $error->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line));
             }
 
             if (in_array($error->code, $this->remove_tags_for_codes) && !empty($error->dom_tag)) {
@@ -95,10 +94,10 @@ class StandardFixPass extends BasePass
                 $last_rem_dom_tag = $error->dom_tag;
                 // Remove the offending tag
                 $error->dom_tag->parentNode->removeChild($error->dom_tag);
-                $this->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line, $context_string));
+                $error->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line));
             }
         }
 
-        return $this->warnings;
+        return [];
     }
 }

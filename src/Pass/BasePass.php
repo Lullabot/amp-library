@@ -27,8 +27,8 @@ abstract class BasePass
 {
     /** @var DOMQuery */
     protected $q;
-    /** @var array */
-    protected $warnings = [];
+    /** @var ActionTakenLine[] */
+    protected $transformations = [];
     /** @var  ParsedValidatorRules */
     protected $parsed_rules;
     /** @var array */
@@ -85,7 +85,7 @@ abstract class BasePass
 
     function getWarnings()
     {
-        return $this->warnings;
+        return $this->transformations;
     }
 
     function getComponentJs()
@@ -104,7 +104,7 @@ abstract class BasePass
 
     protected function addActionTaken(ActionTakenLine $w)
     {
-        $this->warnings[] = $w;
+        $this->transformations[] = $w;
     }
 
     /**
@@ -166,6 +166,12 @@ abstract class BasePass
         return $new_el;
     }
 
+    /**
+     * Returns all attributes and attribute values on an dom element
+     *
+     * @param \DOMElement $el
+     * @return string[]
+     */
     protected function encounteredAttributes(\DOMElement $el)
     {
         $encountered_attributes = [];

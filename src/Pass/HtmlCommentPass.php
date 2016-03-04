@@ -35,6 +35,6 @@ class HtmlCommentPass extends BasePass
             }
         }
 
-        return $this->warnings;
+        return $this->transformations;
     }
 }
