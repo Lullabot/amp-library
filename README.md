@@ -104,8 +104,8 @@ Line  9: <style></style>
 Line 10: 
 
 
-Embed code transformations made
---------------------------------
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
 
 <img src="http://i2.cdn.turner.com/cnnnext/dam/assets/160208081229-gaga-superbowl-exlarge-169.jpg"> at line 3
  ACTION TAKEN: img tag was converted to the amp-img tag.
