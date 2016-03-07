@@ -180,7 +180,7 @@ class Context
      * @param string $attr_name
      * @return bool
      */
-    public function addError($code, array $params, $spec_url, SValidationResult $validationResult, $attr_name = '')
+    public function addError($code, array $params, $spec_url, SValidationResult $validationResult, $attr_name = '', $segment = '')
     {
         if (empty($spec_url)) {
             $spec_url = '';
@@ -196,7 +196,7 @@ class Context
             $line = 1;
         }
 
-        return $this->addErrorWithLine($line, $code, $params, $spec_url, $validationResult, $attr_name);
+        return $this->addErrorWithLine($line, $code, $params, $spec_url, $validationResult, $attr_name, $segment);
     }
 
     /**
@@ -297,7 +297,7 @@ class Context
      * @param string $attr_name
      * @return bool
      */
-    public function addErrorWithLine($line, $validation_error_code, array $params, $spec_url, SValidationResult $validation_result, $attr_name = '')
+    public function addErrorWithLine($line, $validation_error_code, array $params, $spec_url, SValidationResult $validation_result, $attr_name = '', $segment = '')
     {
         $progress = $this->getProgress($validation_result);
         if ($progress['complete']) {
@@ -324,6 +324,8 @@ class Context
             $error->spec_url = $spec_url;
             // for more context
             $error->attr_name = $attr_name;
+            // property value pairs within an attribute
+            $error->segment = $segment;
             $error->phase = $this->phase;
             if ($this->phase == Phase::LOCAL_PHASE) {
                 $error->dom_tag = $this->dom_tag;

@@ -163,19 +163,24 @@ class ParsedAttrSpec
     {
         $segments = explode(',', $attr_value);
         $properties = [];
+        $properties_segment = [];
         /** @var string $segment */
         foreach ($segments as $segment) {
             $key_value = explode('=', $segment);
             if (count($key_value) < 2) {
                 continue;
             }
-            $properties[trim(mb_strtolower($key_value[0], 'UTF-8'))] = $key_value[1];
+
+            $key_name = trim(mb_strtolower($key_value[0], 'UTF-8'));
+            $properties[$key_name] = $key_value[1];
+            $properties_segment[$key_name] = $segment;
         }
 
         foreach ($properties as $name => $value) {
+            $segment = $properties_segment[$name];
             if (!isset($this->value_property_by_name[$name])) {
                 $context->addError(ValidationErrorCode::DISALLOWED_PROPERTY_IN_ATTR_VALUE,
-                    [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec)], $spec_url, $result, $attr_name);
+                    [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec)], $spec_url, $result, $attr_name, $segment);
                 continue;
             }
             /** @var PropertySpec $property_spec */
@@ -183,12 +188,12 @@ class ParsedAttrSpec
             if (!empty($property_spec->value)) {
                 if ($property_spec->value != mb_strtolower($value, 'UTF-8')) {
                     $context->addError(ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE,
-                        [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec), $value], $spec_url, $result, $attr_name);
+                        [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec), $value], $spec_url, $result, $attr_name, $segment);
                 }
             } else if (!empty($property_spec->value_double)) {
                 if (!is_numeric($value) || ((float)$property_spec->value_double) !== ((float)$value)) {
                     $context->addError(ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE,
-                        [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec), $value], $spec_url, $result, $attr_name);
+                        [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec), $value], $spec_url, $result, $attr_name, $segment);
                 }
             }
         }

@@ -23,6 +23,7 @@ class ActionTakenType extends Enum
 {
     const TAG_REMOVED = 'tag was removed due to validation issues.';
     const ATTRIBUTE_REMOVED = 'attribute was removed due to validation issues.';
+    const PROPERTY_REMOVED = 'property value pair was removed from attribute due to validation issues.';
     const IMG_CONVERTED = 'tag was converted to the amp-img tag.';
     const INSTAGRAM_CONVERTED = 'instagram embed code was converted to the amp-instagram tag.';
     const TWITTER_CONVERTED = 'twitter embed code was converted to the amp-twitter tag.';

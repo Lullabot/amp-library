@@ -56,7 +56,7 @@ class StandardFixPass extends BasePass
         $last_rem_dom_tag_for_attr = null;
         /** @var \DOMElement $last_rem_dom_tag */
         $last_rem_dom_tag = null;
-        $last_dom_attr_name = '';
+        $last_rem_dom_attr_name = '';
 
         /** @var SValidationError $error */
         foreach ($this->validation_result->errors as $error) {
@@ -66,7 +66,29 @@ class StandardFixPass extends BasePass
 
             $tag_name = $error->dom_tag->tagName;
 
-            if (in_array($error->code, $this->remove_attributes_for_codes) && !empty($error->attr_name)) {
+            if (in_array($error->code, $this->remove_properties_for_codes)
+                && !empty($error->attr_name)
+                && !empty($error->segment)
+                && $error->dom_tag->hasAttribute($error->attr_name)
+            ) {
+                // No point removing property if we just removed the attribute
+                if (!empty($last_rem_dom_attr_name) && $last_rem_dom_attr_name === $error->attr_name) {
+                    continue;
+                }
+
+                // First try replacing with comma appended
+                // Note the str_replace is fine with utf8, we don't need an mb_ equivalent here
+                $new_attr_value = str_replace("$error->segment,", '', $error->dom_tag->getAttribute($error->attr_name));
+                $new_attr_value = str_replace($error->segment, '', $new_attr_value);
+
+                $error->dom_tag->setAttribute($error->attr_name, $new_attr_value);
+                $error->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name[\"$error->segment\"]", ActionTakenType::PROPERTY_REMOVED, $error->line));
+            }
+
+            if (in_array($error->code, $this->remove_attributes_for_codes)
+                && !empty($error->attr_name)
+                && $error->dom_tag->hasAttribute($error->attr_name)
+            ) {
                 // No point removing attribute if we already removed the tag!
                 if (!empty($last_rem_dom_tag) && $last_rem_dom_tag->isSameNode($error->dom_tag)) {
                     continue;
@@ -75,13 +97,13 @@ class StandardFixPass extends BasePass
                 // Don't remove the same attribute again and again
                 if (!empty($last_rem_dom_tag_for_attr) &&
                     $error->dom_tag->isSameNode($last_rem_dom_tag_for_attr) &&
-                    $last_dom_attr_name === $error->attr_name
+                    $last_rem_dom_attr_name === $error->attr_name
                 ) {
                     continue;
                 }
 
                 // Remove the offending attribute
-                $last_dom_attr_name = $error->attr_name;
+                $last_rem_dom_attr_name = $error->attr_name;
                 $last_rem_dom_tag_for_attr = $error->dom_tag;
                 $error->dom_tag->removeAttribute($error->attr_name);
                 $error->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line));
