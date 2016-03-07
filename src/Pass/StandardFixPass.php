@@ -35,7 +35,7 @@ class StandardFixPass extends BasePass
         ValidationErrorCode::DISALLOWED_PROPERTY_IN_ATTR_VALUE,
         ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE
     ];
-    
+
     protected $remove_attributes_for_codes = [
         ValidationErrorCode::INVALID_URL_PROTOCOL,
         ValidationErrorCode::INVALID_URL,
@@ -47,7 +47,7 @@ class StandardFixPass extends BasePass
     protected $remove_tags_for_codes = [
         ValidationErrorCode::WRONG_PARENT_TAG,
         ValidationErrorCode::DISALLOWED_TAG,
-        // @todo ValidationErrorCode::DUPLICATE_UNIQUE_TAG?
+        ValidationErrorCode::DUPLICATE_UNIQUE_TAG
     ];
 
     public function pass()
