@@ -142,7 +142,7 @@ class ParsedAttrSpec
          * @var number $always_one this is a set, value is always 1
          */
         foreach ($maybe_uris as $maybe_uri => $always_one) {
-            $unescape_maybe_uri = html_entity_decode($maybe_uri);
+            $unescape_maybe_uri = html_entity_decode($maybe_uri, ENT_HTML5);
             $this->validateUrlAndProtocol($context, $attr_name, $unescape_maybe_uri, $tagspec, $spec_url, $validation_result);
             if ($validation_result->status === ValidationResultStatus::FAIL) {
                 // No explicit $context->addError as $this->validateUrlAndProtocol would have already done that
