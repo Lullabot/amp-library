@@ -38,7 +38,6 @@ class StandardFixPass extends BasePass
         ValidationErrorCode::DISALLOWED_ATTR,
         ValidationErrorCode::DISALLOWED_PROPERTY_IN_ATTR_VALUE,
         ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE,
-        ValidationErrorCode::MANDATORY_PROPERTY_MISSING_FROM_ATTR_VALUE,
         ValidationErrorCode::MISSING_URL,
         // @todo ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS?
     ];
