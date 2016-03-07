@@ -31,13 +31,16 @@ use Lullabot\AMP\ActionTakenType;
  */
 class StandardFixPass extends BasePass
 {
+    protected $remove_properties_for_codes = [
+        ValidationErrorCode::DISALLOWED_PROPERTY_IN_ATTR_VALUE,
+        ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE
+    ];
+    
     protected $remove_attributes_for_codes = [
         ValidationErrorCode::INVALID_URL_PROTOCOL,
         ValidationErrorCode::INVALID_URL,
         ValidationErrorCode::INVALID_ATTR_VALUE,
         ValidationErrorCode::DISALLOWED_ATTR,
-        ValidationErrorCode::DISALLOWED_PROPERTY_IN_ATTR_VALUE,
-        ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE,
         ValidationErrorCode::MISSING_URL,
         // @todo ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS?
     ];
