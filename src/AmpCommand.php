@@ -80,7 +80,10 @@ class AmpCommand extends Command
 
         $filename = $input->getArgument('filename');
         if (!empty($filename)) {
-            $file_html = file_get_contents($filename);
+            $file_html = @file_get_contents($filename);
+            if (($file_html === false)) {
+                throw new \Exception("No such file or file not accessible: $filename Exiting...");
+            }
         } else {
             $filename = 'php://stdin';
             $file_html = file_get_contents($filename);
