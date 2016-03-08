@@ -183,7 +183,13 @@ class AMP
      */
     protected function bareDocument($insert)
     {
-        return "<!DOCTYPE html><html amp><body>$insert</body></html>";
+        $trimmed = trim($insert);
+        if (empty($trimmed)) {
+            $html = "<!DOCTYPE html><html></html>";
+        } else {
+            $html = "<!DOCTYPE html><html><body>$insert</body></html>";
+        }
+        return $html;
     }
 
     /**

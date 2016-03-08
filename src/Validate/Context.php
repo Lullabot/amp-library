@@ -50,12 +50,14 @@ class Context
     /** @var \SplObjectStorage */
     protected $tagspecs_validated;
     protected $mandatory_alternatives_satisfied = []; // Set of strings
+    /** @var int */
     protected $max_errors = -1;
+    /** @var string */
     protected $parent_tag_name = '';
+    /** @var string[] */
     protected $ancestor_tag_names = [];
     protected $phase = Phase::LOCAL_PHASE;
     protected $error_scope = Scope::HTML_SCOPE;
-    protected $acceptable_mandatory_parents = [];
     /** @var \SplObjectStorage */
     protected $line_association;
 
@@ -65,24 +67,6 @@ class Context
         $this->max_errors = $max_errors;
         $this->error_scope = $scope;
         $this->line_association = new \SplObjectStorage();
-        $this->setAcceptableMandatoryParents();
-    }
-
-    /**
-     * Utility function
-     * @throws \Exception
-     */
-    protected function setAcceptableMandatoryParents()
-    {
-        if ($this->error_scope == Scope::HTML_SCOPE) {
-            $this->acceptable_mandatory_parents = ['body', 'head', 'html', '!doctype'];
-        } else if ($this->error_scope == Scope::BODY_SCOPE) {
-            $this->acceptable_mandatory_parents = ['body'];
-        } else if ($this->error_scope == Scope::HEAD_SCOPE) {
-            $this->acceptable_mandatory_parents = ['head'];
-        } else {
-            throw new \Exception("Invalid scope $this->error_scope");
-        }
     }
 
     /**
@@ -109,7 +93,6 @@ class Context
     public function setErrorScope($scope)
     {
         $this->error_scope = $scope;
-        $this->setAcceptableMandatoryParents();
     }
 
     /**
@@ -186,6 +169,12 @@ class Context
             $spec_url = '';
         }
 
+        // We currently don't issue this error as we're only looking at DOMElements
+        if ($code == ValidationErrorCode::MANDATORY_TAG_MISSING && isset($params[0]) && $params[0] == 'html doctype') {
+            return true;
+        }
+
+
         // This is for cases in which we dynamically substitute one tag for another
         // The line number is not available so we try to get that from line association spobjectstorage map
         if (!empty($this->dom_tag) && isset($this->line_association[$this->dom_tag])) {
@@ -208,35 +197,9 @@ class Context
         $this->line_association[$el] = $lineno;
     }
 
-    /**
-     * If the error pertains to a tag in a scope that is not relevant to us, then ignore it
-     */
-    public function ignoreErrorDueToPhase()
+    public function skipGlobalValidationErrors()
     {
-        if ($this->phase == Phase::LOCAL_PHASE) {
-            // $this->ancestor_tag_names only has meaning if we're in the the LOCAL_PHASE
-            if (!in_array($this->error_scope, $this->ancestor_tag_names)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * If we want errors only in body, for instance, then ignore all head related issues and so forth
-     *
-     * @param ParsedTagSpec $parsed_tag_spec
-     * @return bool
-     */
-    public function ignoreTagDueToScope(ParsedTagSpec $parsed_tag_spec)
-    {
-        $tagspec = $parsed_tag_spec->getSpec();
-        if (!empty($tagspec->mandatory_parent) && !in_array($tagspec->mandatory_parent, $this->acceptable_mandatory_parents)) {
-            return true;
-        }
-
-        return false;
+        return ($this->error_scope === Scope::BODY_SCOPE);
     }
 
     /**
@@ -303,10 +266,6 @@ class Context
         if ($progress['complete']) {
             assert($validation_result->status === ValidationResultStatus::FAIL, 'Early PASS exit without full verification');
             return false;
-        }
-
-        if ($this->ignoreErrorDueToPhase()) {
-            return true; // pretend that we've added the error
         }
 
         $severity = self::severityFor($validation_error_code);
