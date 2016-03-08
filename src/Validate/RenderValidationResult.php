@@ -18,7 +18,6 @@
 namespace Lullabot\AMP\Validate;
 
 use Lullabot\AMP\Spec\ErrorCategoryCode;
-use Lullabot\AMP\Spec\ErrorFormat;
 use Lullabot\AMP\Spec\ValidationError;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 
@@ -102,9 +101,9 @@ class RenderValidationResult
     public function errorLine(SValidationError $validation_error, $filename_or_url = '')
     {
         // We don't have col number unfortunately
-        $error_line = '- '. $this->renderErrorMessage($validation_error);
+        $error_line = '- ' . $this->renderErrorMessage($validation_error);
         if (!empty($validation_error->code)) {
-            $error_line .= PHP_EOL ."   [code: {$validation_error->code} ";
+            $error_line .= PHP_EOL . "   [code: {$validation_error->code} ";
         }
         if (!empty($validation_error->category)) {
             $error_line .= " category: {$validation_error->category}";
@@ -156,11 +155,19 @@ class RenderValidationResult
             $rendered = $validation_result->status . PHP_EOL;
         }
         /** @var SValidationError $validation_error */
-        $context_string = null;
+        $last_context_string = null;
+        $last_dom_tag = null;
         foreach ($validation_result->errors as $validation_error) {
-            if ($context_string !== $validation_error->context_string) {
-                $rendered .= PHP_EOL . $validation_error->context_string . " on line $validation_error->line" . PHP_EOL;
-                $context_string = $validation_error->context_string;
+            if (($validation_error->phase == Phase::LOCAL_PHASE && !empty($last_dom_tag) && !$validation_error->dom_tag->isSameNode($last_dom_tag)) ||
+                $last_context_string !== $validation_error->context_string
+            ) {
+                if ($validation_error->context_string == 'GLOBAL WARNING') {
+                    $rendered .= PHP_EOL . 'GLOBAL WARNING' . PHP_EOL;
+                } else {
+                    $rendered .= PHP_EOL . $validation_error->context_string . " on line $validation_error->line" . PHP_EOL;
+                }
+                $last_context_string = $validation_error->context_string;
+                $last_dom_tag = $validation_error->dom_tag;
             }
             $rendered .= $this->errorLine($validation_error, $filename_or_url) . PHP_EOL;
         }

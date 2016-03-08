@@ -31,67 +31,67 @@ use Lullabot\AMP\ActionTakenType;
  */
 class StandardFixPass extends BasePass
 {
+    protected $remove_properties_for_codes = [
+        ValidationErrorCode::DISALLOWED_PROPERTY_IN_ATTR_VALUE,
+        ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE
+    ];
+
     protected $remove_attributes_for_codes = [
         ValidationErrorCode::INVALID_URL_PROTOCOL,
         ValidationErrorCode::INVALID_URL,
         ValidationErrorCode::INVALID_ATTR_VALUE,
         ValidationErrorCode::DISALLOWED_ATTR,
-        ValidationErrorCode::DISALLOWED_PROPERTY_IN_ATTR_VALUE,
-        ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE,
-        ValidationErrorCode::MANDATORY_PROPERTY_MISSING_FROM_ATTR_VALUE,
         ValidationErrorCode::MISSING_URL,
         // @todo ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS?
     ];
     protected $remove_tags_for_codes = [
         ValidationErrorCode::WRONG_PARENT_TAG,
         ValidationErrorCode::DISALLOWED_TAG,
-        // @todo ValidationErrorCode::DUPLICATE_UNIQUE_TAG?
+        ValidationErrorCode::DUPLICATE_UNIQUE_TAG
     ];
 
     public function pass()
     {
-        /** @var \DOMElement $last_rem_dom_tag_for_attr */
-        $last_rem_dom_tag_for_attr = null;
-        /** @var \DOMElement $last_rem_dom_tag */
-        $last_rem_dom_tag = null;
-        $last_dom_attr_name = '';
-
         /** @var SValidationError $error */
         foreach ($this->validation_result->errors as $error) {
-            if (empty($error->dom_tag)) {
+            // Does the tag exist?
+            if (empty($error->dom_tag) || empty($error->dom_tag->parentNode)) {
                 continue;
             }
 
             $tag_name = $error->dom_tag->tagName;
+            // Property value pairs
+            if (in_array($error->code, $this->remove_properties_for_codes)
+                && !empty($error->attr_name)
+                && !empty($error->segment)
+                && $error->dom_tag->hasAttribute($error->attr_name)
+            ) {
+                // First try replacing with comma appended
+                // Note the str_replace is fine with utf8, we don't need an mb_ equivalent here
+                $new_attr_value = str_replace("$error->segment,", '', $error->dom_tag->getAttribute($error->attr_name));
+                $new_attr_value = str_replace($error->segment, '', $new_attr_value);
 
-            if (in_array($error->code, $this->remove_attributes_for_codes) && !empty($error->attr_name)) {
-                // No point removing attribute if we already removed the tag!
-                if (!empty($last_rem_dom_tag) && $last_rem_dom_tag->isSameNode($error->dom_tag)) {
-                    continue;
+                $new_attr_value_trimmed = trim($new_attr_value);
+                if (empty($new_attr_value_trimmed)) {  // There is nothing here now so we should just remove the attribute
+                    $error->dom_tag->removeAttribute($error->attr_name);
+                    $error->addActionTaken(new ActionTakenLine("In $tag_name.$error->attr_name the \"$error->segment\"", ActionTakenType::PROPERTY_REMOVED_ATTRIBUTE_REMOVED, $error->line));
+                } else {
+                    $error->dom_tag->setAttribute($error->attr_name, $new_attr_value);
+                    $error->addActionTaken(new ActionTakenLine("In $tag_name.$error->attr_name the \"$error->segment\"", ActionTakenType::PROPERTY_REMOVED, $error->line));
                 }
+            }
 
-                // Don't remove the same attribute again and again
-                if (!empty($last_rem_dom_tag_for_attr) &&
-                    $error->dom_tag->isSameNode($last_rem_dom_tag_for_attr) &&
-                    $last_dom_attr_name === $error->attr_name
-                ) {
-                    continue;
-                }
-
-                // Remove the offending attribute
-                $last_dom_attr_name = $error->attr_name;
-                $last_rem_dom_tag_for_attr = $error->dom_tag;
+            // Attributes
+            if (in_array($error->code, $this->remove_attributes_for_codes)
+                && !empty($error->attr_name)
+                && $error->dom_tag->hasAttribute($error->attr_name)
+            ) {
                 $error->dom_tag->removeAttribute($error->attr_name);
                 $error->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line));
             }
 
+            // Tags
             if (in_array($error->code, $this->remove_tags_for_codes) && !empty($error->dom_tag)) {
-                // Don't remove the same tag again and again
-                if (!empty($last_rem_dom_tag) && $error->dom_tag->isSameNode($last_rem_dom_tag)) {
-                    continue;
-                }
-
-                $last_rem_dom_tag = $error->dom_tag;
                 // Remove the offending tag
                 $error->dom_tag->parentNode->removeChild($error->dom_tag);
                 $error->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line));

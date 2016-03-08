@@ -44,7 +44,7 @@ class AMP
         // 'Lullabot\AMP\Pass\HtmlCommentPass',
     ];
 
-    /** @var array */
+    /** @var ActionTakenLine[] */
     protected $action_taken = [];
     /** @var string */
     protected $input_html = '';
@@ -60,8 +60,7 @@ class AMP
     protected $validation_result = null;
     /** @var string */
     protected $scope = Scope::BODY_SCOPE;
-
-    /** @var array */
+    /** @var string[] */
     protected $component_js = [];
     /** @var array */
     protected $options;
@@ -117,6 +116,7 @@ class AMP
      *
      * @param string $html
      * @param array $options
+     * @throws \Exception
      */
     public function loadHtml($html, $options = [])
     {
@@ -134,6 +134,10 @@ class AMP
         }
         $this->options = $options;
         $this->scope = !empty($options['scope']) ? $options['scope'] : Scope::BODY_SCOPE;
+        // Currently we only support these two scopes
+        if (!in_array($this->scope, [Scope::HTML_SCOPE, Scope::BODY_SCOPE])) {
+            throw new \Exception("Invalid or currently unsupported scope $this->scope");
+        }
         $this->context = new Context($this->scope);
     }
 
@@ -174,17 +178,42 @@ class AMP
     }
 
     /**
+     * Provide a bare HTML document
+     * @param string
+     * @return string
+     */
+    protected function bareDocument($insert)
+    {
+        $trimmed = trim($insert);
+        if (empty($trimmed)) {
+            $html = "<!DOCTYPE html><html></html>";
+        } else {
+            $html = "<!DOCTYPE html><html><body>$insert</body></html>";
+        }
+        return $html;
+    }
+
+    /**
      * Convert an HTML Fragment to AMP HTML
      * @return string
+     * @throws \Exception
      */
     public function convertToAmpHtml()
     {
         /** @var QueryPath\DOMQuery $qp */
         if ($this->scope == Scope::BODY_SCOPE) {
             $document = $this->makeFragmentWhole($this->input_html);
+        } else if ($this->scope == Scope::HTML_SCOPE) {
+            $striped_html = strip_tags($this->input_html);
+            if ($striped_html !== $this->input_html) { // main case
+                $document = $this->input_html;
+            } else {
+                $document = $this->bareDocument($this->input_html);
+            }
         } else {
-            $document = $this->input_html;
+            throw new \Exception("Invalid or currently unsupported scope $this->scope");
         }
+
         $qp = QueryPath::withHTML($document, NULL, ['convert_to_encoding' => 'UTF-8']);
 
         foreach ($this->passes as $pass_name) {
@@ -301,7 +330,7 @@ class AMP
                 $warning_text .= PHP_EOL . '-------------------------------------------------------' . PHP_EOL;
             }
 
-            /** @var ActionTakenLine[] $action_taken */
+            /** @var ActionTakenLine $action_taken */
             foreach ($this->action_taken as $action_taken) {
                 $warning_text .= PHP_EOL . "$action_taken->human_description" . PHP_EOL;
             }

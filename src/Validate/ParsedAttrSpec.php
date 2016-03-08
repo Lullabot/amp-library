@@ -20,7 +20,6 @@ namespace Lullabot\AMP\Validate;
 use Lullabot\AMP\Spec\AttrSpec;
 use Lullabot\AMP\Spec\PropertySpec;
 use Lullabot\AMP\Spec\TagSpec;
-use Lullabot\AMP\Spec\UrlSpec;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 
@@ -46,7 +45,7 @@ class ParsedAttrSpec
     {
         $this->spec = $attr_spec;
         if (!empty($this->spec->value_url)) {
-            /** @var UrlSpec $allowed_protocol */
+            /** @var string $allowed_protocol */
             foreach ($this->spec->value_url->allowed_protocol as $allowed_protocol) {
                 $this->value_url_allowed_protocols[$allowed_protocol] = 1; // Treat as a Set
 
@@ -142,7 +141,7 @@ class ParsedAttrSpec
          * @var number $always_one this is a set, value is always 1
          */
         foreach ($maybe_uris as $maybe_uri => $always_one) {
-            $unescape_maybe_uri = html_entity_decode($maybe_uri);
+            $unescape_maybe_uri = html_entity_decode($maybe_uri, ENT_HTML5);
             $this->validateUrlAndProtocol($context, $attr_name, $unescape_maybe_uri, $tagspec, $spec_url, $validation_result);
             if ($validation_result->status === ValidationResultStatus::FAIL) {
                 // No explicit $context->addError as $this->validateUrlAndProtocol would have already done that
@@ -163,19 +162,24 @@ class ParsedAttrSpec
     {
         $segments = explode(',', $attr_value);
         $properties = [];
+        $properties_segment = [];
         /** @var string $segment */
         foreach ($segments as $segment) {
             $key_value = explode('=', $segment);
             if (count($key_value) < 2) {
                 continue;
             }
-            $properties[trim(mb_strtolower($key_value[0], 'UTF-8'))] = $key_value[1];
+
+            $key_name = trim(mb_strtolower($key_value[0], 'UTF-8'));
+            $properties[$key_name] = $key_value[1];
+            $properties_segment[$key_name] = $segment;
         }
 
         foreach ($properties as $name => $value) {
+            $segment = $properties_segment[$name];
             if (!isset($this->value_property_by_name[$name])) {
                 $context->addError(ValidationErrorCode::DISALLOWED_PROPERTY_IN_ATTR_VALUE,
-                    [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec)], $spec_url, $result, $attr_name);
+                    [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec)], $spec_url, $result, $attr_name, $segment);
                 continue;
             }
             /** @var PropertySpec $property_spec */
@@ -183,12 +187,12 @@ class ParsedAttrSpec
             if (!empty($property_spec->value)) {
                 if ($property_spec->value != mb_strtolower($value, 'UTF-8')) {
                     $context->addError(ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE,
-                        [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec), $value], $spec_url, $result, $attr_name);
+                        [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec), $value], $spec_url, $result, $attr_name, $segment);
                 }
             } else if (!empty($property_spec->value_double)) {
                 if (!is_numeric($value) || ((float)$property_spec->value_double) !== ((float)$value)) {
                     $context->addError(ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE,
-                        [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec), $value], $spec_url, $result, $attr_name);
+                        [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec), $value], $spec_url, $result, $attr_name, $segment);
                 }
             }
         }

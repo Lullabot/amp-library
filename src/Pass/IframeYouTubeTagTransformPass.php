@@ -90,6 +90,8 @@ class IframeYouTubeTagTransformPass extends BasePass
         if (preg_match('&(*UTF8)(youtube\.com|youtu\.be)&i', $href)) {
             return true;
         }
+
+        return false;
     }
 
     protected function getYouTubeAttributes(DOMQuery $el)

@@ -17,12 +17,12 @@
 
 namespace Lullabot\AMP;
 
-use MyCLabs\Enum\Enum;
-
-class ActionTakenType extends Enum
+class ActionTakenType
 {
     const TAG_REMOVED = 'tag was removed due to validation issues.';
     const ATTRIBUTE_REMOVED = 'attribute was removed due to validation issues.';
+    const PROPERTY_REMOVED = 'property value pair was removed from attribute due to validation issues.';
+    const PROPERTY_REMOVED_ATTRIBUTE_REMOVED = 'property value pair was removed from attribute due to validation issues. The resulting attribute was empty and was also removed.';
     const IMG_CONVERTED = 'tag was converted to the amp-img tag.';
     const INSTAGRAM_CONVERTED = 'instagram embed code was converted to the amp-instagram tag.';
     const TWITTER_CONVERTED = 'twitter embed code was converted to the amp-twitter tag.';

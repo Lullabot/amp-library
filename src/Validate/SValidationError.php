@@ -37,6 +37,8 @@ class SValidationError extends ValidationError
     public $dom_tag = null;
     /** @var string */
     public $attr_name = '';
+    /** @var string */
+    public $segment = '';
     public $phase = Phase::UNKNOWN_PHASE;
     /** @var string */
     public $context_string = '';

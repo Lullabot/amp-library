@@ -17,7 +17,6 @@
 
 namespace Lullabot\AMP\Validate;
 
-use Lullabot\AMP\Spec\ValidationError;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationResult;
 use Lullabot\AMP\Spec\ValidationResultStatus;

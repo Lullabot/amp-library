@@ -17,8 +17,6 @@
 
 namespace Lullabot\AMP\Pass;
 
-use Lullabot\AMP\Validate\RenderValidationResult;
-
 /**
  * Class StandardScanPass
  * @package Lullabot\AMP\Pass

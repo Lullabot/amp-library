@@ -224,7 +224,7 @@ class ParsedValidatorRules
         if ($parsed_spec->shouldRecordTagspecValidated()) {
             $is_unique = $context->recordTagspecValidated($parsed_spec);
             if ($parsed_spec->getSpec()->unique && $is_unique !== true) {
-                /** @var ParsedTagSpec $spec */
+                /** @var ParsedTagSpec $parsed_spec */
                 $spec = $parsed_spec->getSpec();
                 $context->addError(ValidationErrorCode::DUPLICATE_UNIQUE_TAG, [ParsedTagSpec::getDetailOrName($spec)], $spec->spec_url, $result_for_best_attempt);
                 return;
@@ -243,11 +243,12 @@ class ParsedValidatorRules
      */
     public function maybeEmitMandatoryTagValidationErrors(Context $context, SValidationResult $validation_result)
     {
+        if ($context->skipGlobalValidationErrors()) {
+            return;
+        }
+
         /** @var ParsedTagSpec $parsed_tag_spec */
         foreach ($this->mandatory_tag_specs as $parsed_tag_spec) {
-            if ($context->ignoreTagDueToScope($parsed_tag_spec)) {
-                continue;
-            }
             $tagspec = $parsed_tag_spec->getSpec();
             if (!$context->getTagspecsValidated()->contains($parsed_tag_spec)) {
                 if (!$context->addError(ValidationErrorCode::MANDATORY_TAG_MISSING,
@@ -268,23 +269,21 @@ class ParsedValidatorRules
     {
         /** @var ParsedTagSpec $parsed_tag_spec */
         foreach ($context->getTagspecsValidated() as $parsed_tag_spec) {
-            // if this tag relates to a scope we're not interested in, skip
-            if ($context->ignoreTagDueToScope($parsed_tag_spec)) {
-                continue;
-            }
             /** @var TagSpec $tagspec_require */
             foreach ($parsed_tag_spec->getAlsoRequires() as $tagspec_require) {
                 /** @var ParsedTagSpec $parsed_tag_spec_require */
                 $parsed_tag_spec_require = $this->all_parsed_specs_by_specs[$tagspec_require];
                 assert(!empty($parsed_tag_spec_require));
-                if (preg_match('/(*UTF8)extension \.js script$/', $tagspec_require->detail)) {
+                if (preg_match('/(*UTF8)extension \.js script$/i', $tagspec_require->detail)) {
                     $base_pass->addComponent($parsed_tag_spec->getSpec()->name);
                 }
 
-                // if this also required tag relates to a scope we're not interested in, skip
-                if ($context->ignoreTagDueToScope($parsed_tag_spec_require)) {
+                // Note that this comes after the addComponent call
+                // We don't exit as there might be other components
+                if ($context->skipGlobalValidationErrors()) {
                     continue;
                 }
+
                 if (!$context->getTagspecsValidated()->contains($parsed_tag_spec_require)) {
                     if (!$context->addError(ValidationErrorCode::TAG_REQUIRED_BY_MISSING,
                         [ParsedTagSpec::getDetailOrName($tagspec_require), ParsedTagSpec::getDetailOrName($parsed_tag_spec->getSpec())],
@@ -299,6 +298,10 @@ class ParsedValidatorRules
 
     public function maybeEmitMandatoryAlternativesSatisfiedErrors(Context $context, SValidationResult $validation_result)
     {
+        if ($context->skipGlobalValidationErrors()) {
+            return;
+        }
+
         /** @var  $satisfied_alternatives */
         $satisfied_alternatives = $context->getMandatoryAlternativesSatisfied();
         $missing_mandatory_alternatives = [];
@@ -307,9 +310,6 @@ class ParsedValidatorRules
         foreach ($this->all_parsed_specs_by_specs as $tagspec) {
             /** @var ParsedTagSpec $parsed_tag_spec */
             $parsed_tag_spec = $this->all_parsed_specs_by_specs[$tagspec];
-            if ($context->ignoreTagDueToScope($parsed_tag_spec)) {
-                continue;
-            }
             if (!empty($tagspec->mandatory_alternatives)) {
                 $alternative = $tagspec->mandatory_alternatives;
                 if (!isset($satisfied_alternatives[$alternative])) {

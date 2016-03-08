@@ -264,7 +264,9 @@ class ParsedTagSpec
             }
 
             if (isset($attr_spec->value)) {
-                if ($encountered_attr_value !== $attr_spec->value) {
+                $encountered_attr_value_lower = mb_strtolower($encountered_attr_value, 'UTF-8');
+                $attr_spec_value_lower = mb_strtolower($attr_spec->value, 'UTF-8');
+                if ($encountered_attr_value_lower !== $attr_spec_value_lower) {
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
                         [$encountered_attr_name, self::getDetailOrName($this->spec), $encountered_attr_value],
                         $this->spec->spec_url, $result_for_attempt, $encountered_attr_name);
@@ -275,7 +277,7 @@ class ParsedTagSpec
 
             if (isset($attr_spec->value_regex)) {
                 // notice the use of & as start and end delimiters. Want to avoid use of '/' as it will be in regex, unescaped
-                $value_regex = '&(*UTF8)^(' . $attr_spec->value_regex . ')$&';
+                $value_regex = '&(*UTF8)^(' . $attr_spec->value_regex . ')$&i';
                 // if it _doesn't_ match its an error
                 if (!preg_match($value_regex, $encountered_attr_value)) {
                     $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
