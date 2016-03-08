@@ -20,7 +20,6 @@ namespace Lullabot\AMP\Validate;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Spec\ValidationErrorSeverity;
 use Lullabot\AMP\Spec\ValidationErrorCode;
-use Lullabot\AMP\Spec\ValidationError;
 
 /**
  * Class Context
@@ -35,12 +34,9 @@ use Lullabot\AMP\Spec\ValidationError;
  * The main difference between the PHP Port and the js version is that the Context class here will be working with a DOM
  * style parser (PHP dom extension) while it was working with an event based/sax style in validator.js
  *
- * Another interesting features of our validator (compared to validator.js) is our ability to only show errors within
+ * Another interesting feature of our validator (compared to validator.js) is our ability to only show errors within
  * a portion of the document. Our validator is able to deal with validating with HTML fragments rather than whole
  * documents at a time, also. The Context class plays an important role in showing only those errors that are relevant.
- * See ignoreTagDueToScope(), ignoreErrorDueToPhase(), setAcceptableMandatoryParents(), get|setErrorScope(),
- * set|getPhase() (and the places where these a called in this class and the rest of the validator) to see how this is
- * implemented.
  *
  */
 class Context

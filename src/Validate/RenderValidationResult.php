@@ -18,7 +18,6 @@
 namespace Lullabot\AMP\Validate;
 
 use Lullabot\AMP\Spec\ErrorCategoryCode;
-use Lullabot\AMP\Spec\ErrorFormat;
 use Lullabot\AMP\Spec\ValidationError;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 
@@ -162,7 +161,11 @@ class RenderValidationResult
             if (($validation_error->phase == Phase::LOCAL_PHASE && !empty($last_dom_tag) && !$validation_error->dom_tag->isSameNode($last_dom_tag)) ||
                 $last_context_string !== $validation_error->context_string
             ) {
-                $rendered .= PHP_EOL . $validation_error->context_string . " on line $validation_error->line" . PHP_EOL;
+                if ($validation_error->context_string == 'GLOBAL WARNING') {
+                    $rendered .= PHP_EOL . 'GLOBAL WARNING' . PHP_EOL;
+                } else {
+                    $rendered .= PHP_EOL . $validation_error->context_string . " on line $validation_error->line" . PHP_EOL;
+                }
                 $last_context_string = $validation_error->context_string;
                 $last_dom_tag = $validation_error->dom_tag;
             }

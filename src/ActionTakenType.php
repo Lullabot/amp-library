@@ -17,9 +17,7 @@
 
 namespace Lullabot\AMP;
 
-use MyCLabs\Enum\Enum;
-
-class ActionTakenType extends Enum
+class ActionTakenType
 {
     const TAG_REMOVED = 'tag was removed due to validation issues.';
     const ATTRIBUTE_REMOVED = 'attribute was removed due to validation issues.';

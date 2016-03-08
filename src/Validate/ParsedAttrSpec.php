@@ -20,7 +20,6 @@ namespace Lullabot\AMP\Validate;
 use Lullabot\AMP\Spec\AttrSpec;
 use Lullabot\AMP\Spec\PropertySpec;
 use Lullabot\AMP\Spec\TagSpec;
-use Lullabot\AMP\Spec\UrlSpec;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 
@@ -46,7 +45,7 @@ class ParsedAttrSpec
     {
         $this->spec = $attr_spec;
         if (!empty($this->spec->value_url)) {
-            /** @var UrlSpec $allowed_protocol */
+            /** @var string $allowed_protocol */
             foreach ($this->spec->value_url->allowed_protocol as $allowed_protocol) {
                 $this->value_url_allowed_protocols[$allowed_protocol] = 1; // Treat as a Set
 

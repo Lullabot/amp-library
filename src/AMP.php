@@ -179,6 +179,7 @@ class AMP
 
     /**
      * Provide a bare HTML document
+     * @param string
      * @return string
      */
     protected function bareDocument($insert)
@@ -329,7 +330,7 @@ class AMP
                 $warning_text .= PHP_EOL . '-------------------------------------------------------' . PHP_EOL;
             }
 
-            /** @var ActionTakenLine[] $this ->action_taken */
+            /** @var ActionTakenLine $action_taken */
             foreach ($this->action_taken as $action_taken) {
                 $warning_text .= PHP_EOL . "$action_taken->human_description" . PHP_EOL;
             }

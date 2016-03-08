@@ -21,15 +21,13 @@ class ActionTakenLine
 {
     /** @var  integer */
     public $lineno;
-    /** @var  WarningType */
-    public $warning_type;
     /** @var  string */
     public $tag_attr_description;
     /** @var  string */
     public $human_description;
     /** @var  string */
     public $context_string = '';
-    /** @var  ActionTakenType */
+    /** @var string */
     public $action_taken;
     /** @var  number */
     public $time_stamp;
@@ -44,16 +42,15 @@ class ActionTakenLine
     public function __construct($tag_attr_description, $action, $lineno, $context_string = '')
     {
         $this->tag_attr_description = $tag_attr_description;
-        $this->action_taken = new ActionTakenType($action);
+        $this->action_taken = $action;
         $this->lineno = $lineno;
         $this->time_stamp = microtime(true);
         $this->context_string = $context_string;
         if (empty($context_string)) {
-            $this->human_description = "ACTION TAKEN: $tag_attr_description " . (string)$this->action_taken;
-        }
-        else {
-            $this->human_description = $context_string . " at line $lineno". PHP_EOL;
-            $this->human_description .= " ACTION TAKEN: $tag_attr_description " . (string)$this->action_taken;
+            $this->human_description = "ACTION TAKEN: $tag_attr_description " . $this->action_taken;
+        } else {
+            $this->human_description = $context_string . " at line $lineno" . PHP_EOL;
+            $this->human_description .= " ACTION TAKEN: $tag_attr_description " . $this->action_taken;
         }
     }
 }

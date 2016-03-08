@@ -71,7 +71,8 @@ class StandardFixPass extends BasePass
                 $new_attr_value = str_replace("$error->segment,", '', $error->dom_tag->getAttribute($error->attr_name));
                 $new_attr_value = str_replace($error->segment, '', $new_attr_value);
 
-                if (empty(trim($new_attr_value))) {  // There is nothing here now so we should just remove the attribute
+                $new_attr_value_trimmed = trim($new_attr_value);
+                if (empty($new_attr_value_trimmed)) {  // There is nothing here now so we should just remove the attribute
                     $error->dom_tag->removeAttribute($error->attr_name);
                     $error->addActionTaken(new ActionTakenLine("In $tag_name.$error->attr_name the \"$error->segment\"", ActionTakenType::PROPERTY_REMOVED_ATTRIBUTE_REMOVED, $error->line));
                 } else {
