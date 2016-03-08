@@ -169,12 +169,6 @@ class Context
             $spec_url = '';
         }
 
-        // We currently don't issue this error as we're only looking at DOMElements
-        if ($code == ValidationErrorCode::MANDATORY_TAG_MISSING && isset($params[0]) && $params[0] == 'html doctype') {
-            return true;
-        }
-
-
         // This is for cases in which we dynamically substitute one tag for another
         // The line number is not available so we try to get that from line association spobjectstorage map
         if (!empty($this->dom_tag) && isset($this->line_association[$this->dom_tag])) {
@@ -252,6 +246,26 @@ class Context
     }
 
     /**
+     * If the error pertains to a tag in a scope that is not relevant to us, then ignore it
+     */
+    public function ignoreError()
+    {
+        // We never ignore anything in HTML Scope
+        if ($this->error_scope == Scope::HTML_SCOPE) {
+            return false;
+        }
+
+        if ($this->phase == Phase::LOCAL_PHASE) {
+            // Note: $this->ancestor_tag_names only has meaning if we're in the the LOCAL_PHASE
+            if (!in_array($this->error_scope, $this->ancestor_tag_names)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @param $line
      * @param $validation_error_code
      * @param array $params
@@ -262,6 +276,15 @@ class Context
      */
     public function addErrorWithLine($line, $validation_error_code, array $params, $spec_url, SValidationResult $validation_result, $attr_name = '', $segment = '')
     {
+        // We currently don't issue this error as we're only looking at DOMElements
+        if ($validation_error_code == ValidationErrorCode::MANDATORY_TAG_MISSING && isset($params[0]) && $params[0] == 'html doctype') {
+            return true;
+        }
+
+        if ($this->ignoreError()) {
+            return true; // pretend we added it
+        }
+
         $progress = $this->getProgress($validation_result);
         if ($progress['complete']) {
             assert($validation_result->status === ValidationResultStatus::FAIL, 'Early PASS exit without full verification');
