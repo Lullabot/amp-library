@@ -38,8 +38,8 @@ class IframeTagTransformPass extends BasePass
      * @var float
      */
     const DEFAULT_ASPECT_RATIO = 1.7778;
-    const DEFAULT_VIDEO_WIDTH = 560;
-    const DEFAULT_VIDEO_HEIGHT = 315;
+    const DEFAULT_WIDTH = 560;
+    const DEFAULT_HEIGHT = 315;
 
     function pass()
     {
@@ -53,10 +53,14 @@ class IframeTagTransformPass extends BasePass
             $context_string = $this->getContextString($dom_el);
 
             $iframe_attributes = $this->getIframeAttributes($el);
+            // We need to do this separately. If the src has a character like '&' then $el->after has problems
+            // and we get a "Entity: line 1: parser error : EntityRef: expecting ';'" error
+            $src = $this->getIframeSrc($el);
 
             /** @var \DOMElement $new_dom_el */
             $el->after("<amp-iframe $iframe_attributes sandbox=\"allow-scripts allow-same-origin\" layout=\"responsive\"></amp-iframe>");
-            $new_dom_el = $el->get(0);
+            $new_dom_el = $el->next()->get(0);
+            $new_dom_el->setAttribute('src', $src);
 
             // Remove the iframe and its children
             $el->removeChildren()->remove();
@@ -65,6 +69,10 @@ class IframeTagTransformPass extends BasePass
         }
 
         return $this->transformations;
+    }
+
+    protected function getIframeSrc(DOMQuery $el) {
+        return $el->attr('src');
     }
 
     protected function getIframeAttributes(DOMQuery $el)
@@ -99,8 +107,8 @@ class IframeTagTransformPass extends BasePass
         }
 
         if (empty($height) && empty($width)) {
-            $width = self::DEFAULT_VIDEO_WIDTH;
-            $height = self::DEFAULT_VIDEO_HEIGHT;
+            $width = self::DEFAULT_WIDTH;
+            $height = self::DEFAULT_HEIGHT;
         }
 
         $iframe_attributes .= " height=\"$height\" width=\"$width\" ";

@@ -69,7 +69,7 @@ class IframeYouTubeTagTransformPass extends BasePass
 
             /** @var \DOMElement $new_dom_el */
             $el->after("<amp-youtube $youtube_attributes data-videoid=\"$youtube_code\" layout=\"responsive\"></amp-youtube>");
-            $new_dom_el = $el->get(0);
+            $new_dom_el = $el->next()->get(0);
 
             // Remove the iframe and its children
             $el->removeChildren()->remove();
@@ -98,9 +98,9 @@ class IframeYouTubeTagTransformPass extends BasePass
     {
         $youtube_attributes = '';
 
-        // Preserve the data-*, width and height attributes only
+        // Preserve the data-*, width, height, class attributes only
         foreach ($el->attr() as $attr_name => $attr_value) {
-            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') !== 0 && !in_array($attr_name, ['width', 'height'])) {
+            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') !== 0 && !in_array($attr_name, ['width', 'height', 'class'])) {
                 continue;
             }
 
