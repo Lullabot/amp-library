@@ -287,7 +287,7 @@ class AMP
     /**
      * @return string
      */
-    public function getValidationWarnings()
+    protected function getValidationWarnings()
     {
         /** @var RenderValidationResult $render_validation_result */
         $render_validation_result = new RenderValidationResult($this->parsed_rules->format_by_code);
@@ -297,8 +297,8 @@ class AMP
 
     /**
      * Use this instead of warningsHumanText() in case you want to call where html needs to be shown
-     *
      * This method makes strings html friendly with special characters escaped e.g. "<" becomes "&lt;"
+     * Uses htmlspecialchars() function.
      *
      * @return string
      */
