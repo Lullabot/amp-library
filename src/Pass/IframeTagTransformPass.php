@@ -28,35 +28,82 @@ use Lullabot\AMP\ActionTakenType;
  * @package Lullabot\AMP\Pass
  *
  * Transform all <iframe> tags which don't have noscript as an ancestor to <amp-iframe> tags
+ * This class is very similar to the IframeYouTubeTagTransformationPass class.
+ *
  */
 class IframeTagTransformPass extends BasePass
 {
+    /**
+     * A standard iframe aspect ratio; used when we don't have enough height/width information
+     * @var float
+     */
+    const DEFAULT_ASPECT_RATIO = 1.7778;
+    const DEFAULT_VIDEO_WIDTH = 560;
+    const DEFAULT_VIDEO_HEIGHT = 315;
+
     function pass()
     {
-        $all_a = $this->q->find('iframe:not(noscript iframe)');
-        /** @var \DOMElement $dom_el */
-        foreach ($all_a->get() as $dom_el) {
+        $all_iframes = $this->q->find('iframe:not(noscript iframe)');
+        /** @var DOMQuery $el */
+        foreach ($all_iframes as $el) {
+            /** @var \DOMElement $dom_el */
+            $dom_el = $el->get(0);
+
             $lineno = $dom_el->getLineNo();
             $context_string = $this->getContextString($dom_el);
 
-            $new_el = $this->renameDomElement($dom_el, 'amp-iframe');
-            $this->setAmpIframeAttributes($new_el);
-            $this->context->addLineAssociation($new_el, $lineno);
+            $iframe_attributes = $this->getIframeAttributes($el);
+
+            /** @var \DOMElement $new_dom_el */
+            $el->after("<amp-iframe $iframe_attributes sandbox=\"allow-scripts allow-same-origin\" layout=\"responsive\"></amp-iframe>");
+            $new_dom_el = $el->get(0);
+
+            // Remove the iframe and its children
+            $el->removeChildren()->remove();
             $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::IFRAME_CONVERTED, $lineno, $context_string));
+            $this->context->addLineAssociation($new_dom_el, $lineno);
         }
 
         return $this->transformations;
     }
 
-    protected function setAmpIframeAttributes(\DOMElement $el)
+    protected function getIframeAttributes(DOMQuery $el)
     {
-        // Sane default for now
-        if (!$el->hasAttribute('layout')) {
-            $el->setAttribute('layout', 'responsive');
+        $iframe_attributes = '';
+
+        // Preserve the data-*, width, height and class attributes only
+        foreach ($el->attr() as $attr_name => $attr_value) {
+            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') !== 0 && !in_array($attr_name, ['width', 'height', 'class'])) {
+                continue;
+            }
+
+            if ($attr_name == 'height') {
+                $height = (int)$attr_value;
+                continue;
+            }
+
+            if ($attr_name == 'width') {
+                $width = (int)$attr_value;
+                continue;
+            }
+
+            $iframe_attributes .= " $attr_name = \"$attr_value\"";
         }
 
-        if (!$el->hasAttribute('sandbox')) {
-            $el->setAttribute('sandbox', 'allow-scripts allow-same-origin');
+        if (empty($height) && !empty($width)) {
+            $height = (int)($width / self::DEFAULT_ASPECT_RATIO);
         }
+
+        if (!empty($height) && empty($width)) {
+            $width = (int)($height * self::DEFAULT_ASPECT_RATIO);
+        }
+
+        if (empty($height) && empty($width)) {
+            $width = self::DEFAULT_VIDEO_WIDTH;
+            $height = self::DEFAULT_VIDEO_HEIGHT;
+        }
+
+        $iframe_attributes .= " height=\"$height\" width=\"$width\" ";
+        return $iframe_attributes;
     }
 }
