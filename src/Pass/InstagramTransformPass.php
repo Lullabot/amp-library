@@ -53,7 +53,7 @@ class InstagramTransformPass extends BasePass
             // @todo make this smarter
             /** @var \DOMElement $new_dom_el */
             $el->after('<amp-instagram layout="responsive" width="' . self::DEFAULT_WIDTH . '" height="' . self::DEFAULT_HEIGHT . '" data-shortcode="' . $shortcode . '"></amp-instagram>');
-            $new_dom_el = $el->get(0);
+            $new_dom_el = $el->next()->get(0);
 
             // Remove the blockquote, its children and the instagram script tag that follows after the blockquote
             $el->removeChildren()->remove();

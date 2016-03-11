@@ -26,8 +26,7 @@ use Lullabot\AMP\ActionTakenType;
  * Class StandardFixPass
  * @package Lullabot\AMP\Pass
  *
- * @todo make more sophisticated
- *
+ * Basic AMP validation fixes
  */
 class StandardFixPass extends BasePass
 {
@@ -54,6 +53,14 @@ class StandardFixPass extends BasePass
     {
         /** @var SValidationError $error */
         foreach ($this->validation_result->errors as $error) {
+            // Special Case for TAG_REQUIRED_BY_MISSING
+            // Add custom component script tag
+            if ($error->code == ValidationErrorCode::TAG_REQUIRED_BY_MISSING) {
+                if (!empty($error->params[1]) && $this->addComponentJsToHead($error->params[1])) {
+                    $error->addActionTaken(new ActionTakenLine($error->params[1], ActionTakenType::COMPONENT_SCRIPT_TAG_ADDED, $error->line));
+                }
+            }
+
             // Does the tag exist?
             if (empty($error->dom_tag) || empty($error->dom_tag->parentNode)) {
                 continue;
@@ -96,6 +103,7 @@ class StandardFixPass extends BasePass
                 $error->dom_tag->parentNode->removeChild($error->dom_tag);
                 $error->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line));
             }
+
         }
 
         return [];
