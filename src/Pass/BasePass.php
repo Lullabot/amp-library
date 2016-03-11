@@ -18,6 +18,7 @@
 namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Validate\ParsedValidatorRules;
+use Lullabot\AMP\Validate\Scope;
 use Lullabot\AMP\Validate\SValidationResult;
 use QueryPath\DOMQuery;
 use Lullabot\AMP\ActionTakenLine;
@@ -183,4 +184,27 @@ abstract class BasePass
         return $encountered_attributes;
     }
 
+    /**
+     * Manually adds a <script> tag for a custom component to the HTML <head>
+     * @param string $component
+     * @return bool
+     */
+    protected function addComponentJsToHead($component)
+    {
+        if ($this->options['scope'] != Scope::HTML_SCOPE || !isset(self::$component_mappings[$component])) {
+            return false;
+        }
+
+        $qp = $this->q->branch();
+        $head = $qp->top()->find('head');
+        if (empty($head->count())) {
+            return false;
+        }
+
+        $new_script = $head->append('<script></script>')->lastChild();
+        $new_script->attr('async', '');
+        $new_script->attr('custom-element', $component);
+        $new_script->attr('src', self::$component_mappings[$component]);
+        return true;
+    }
 }
