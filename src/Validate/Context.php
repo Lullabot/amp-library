@@ -71,6 +71,10 @@ class Context
     public function setPhase($phase)
     {
         $this->phase = $phase;
+        // Clear any stored dom tag if changing the phase
+        if ($this->phase !== $phase) {
+            $this->dom_tag = null;
+        }
     }
 
     public function getPhase()
@@ -172,7 +176,7 @@ class Context
         } else if (!empty($this->dom_tag)) {
             $line = $this->dom_tag->getLineNo();
         } else {
-            $line = 1;
+            $line = -1;
         }
 
         return $this->addErrorWithLine($line, $code, $params, $spec_url, $validationResult, $attr_name, $segment);
