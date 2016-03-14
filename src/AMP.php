@@ -289,12 +289,26 @@ class AMP
      * Need this if the incoming html is to be diffed to the output html in any logical way
      * @param $html
      * @return string
+     * @throws \Exception
      */
     protected function formatSource($html)
     {
+        if ($this->scope == Scope::BODY_SCOPE) {
+            $document_html = $this->makeFragmentWhole($html);
+        } else if ($this->scope == Scope::HTML_SCOPE) {
+            $striped_html = strip_tags($html);
+            if ($striped_html !== $html) { // main case
+                $document_html = $html;
+            } else {
+                $document_html = $this->bareDocument($html);
+            }
+        } else {
+            throw new \Exception("Invalid or currently unsupported scope $this->scope");
+        }
+
         /** @var QueryPath\DOMQuery $qp */
         $html5 = new HTML5();
-        $dom_document = $html5->loadHTML($html);
+        $dom_document = $html5->loadHTML($document_html);
         $qp = qp($dom_document);
         if ($this->scope == Scope::HTML_SCOPE) {
             return $qp->top()->html5();
