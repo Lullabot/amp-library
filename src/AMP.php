@@ -17,6 +17,7 @@
 
 namespace Lullabot\AMP;
 
+use Masterminds\HTML5;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
 use Lullabot\AMP\Pass\BasePass;
@@ -231,10 +232,26 @@ class AMP
 
         $this->sortActionTakeByLineno();
 
+        // WORKAROUND
+        // The <noscript> tag in <head> allows <meta>, <link> and <style> tags
+        // (See https://html.spec.whatwg.org/multipage/scripting.html#the-noscript-element)
+        // However, the mastermind HTML5 parser treats everything in <noscript> as raw text
+        // This causes an ugly PHP notice and an empty <noscript> tag when doing $qp->top()->html5
+        // (See https://github.com/Lullabot/amp-library/issues/22 )
+        // (Also note the "5" in the method code which calls mastermind to output the html as html5)
+        //
+        // The roundabout way to avoid issues with <noscript> is to output as html, reload and output as html5
+        $html5 = new HTML5();
+        $dom_document = $html5->loadHTML($qp->top()->html());
+        // END WORKAROUND
+        // We don't need the qp object anymore, set it to null, it may help the garbage collector
+        $qp = null;
+        $new_qp = qp($dom_document);
+
         if ($this->scope == Scope::HTML_SCOPE) {
-            $this->amp_html = $qp->top()->html5();
+            $this->amp_html = $new_qp->top()->html5();
         } else {
-            $this->amp_html = $qp->find($this->scope)->innerHTML5();
+            $this->amp_html = $new_qp->find($this->scope)->innerHTML5();
         }
 
         return $this->amp_html;
@@ -276,7 +293,9 @@ class AMP
     protected function formatSource($html)
     {
         /** @var QueryPath\DOMQuery $qp */
-        $qp = \QueryPath::withHTML($html);
+        $html5 = new HTML5();
+        $dom_document = $html5->loadHTML($html);
+        $qp = qp($dom_document);
         if ($this->scope == Scope::HTML_SCOPE) {
             return $qp->top()->html5();
         } else {
