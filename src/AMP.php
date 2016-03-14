@@ -17,6 +17,7 @@
 
 namespace Lullabot\AMP;
 
+use Masterminds\HTML5;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
 use Lullabot\AMP\Pass\BasePass;
@@ -214,8 +215,10 @@ class AMP
             throw new \Exception("Invalid or currently unsupported scope $this->scope");
         }
 
-        $qp = QueryPath::withHTML($document, NULL, ['convert_to_encoding' => 'UTF-8']);
-
+        // Use the mastermind HTML5 parser to convert this into a dom document
+        $h5 = new HTML5();
+        $dom_document = $h5->loadHTML($document);
+        $qp = qp($dom_document);
         foreach ($this->passes as $pass_name) {
             $qp_branch = $qp->branch();
 
@@ -276,7 +279,9 @@ class AMP
     protected function formatSource($html)
     {
         /** @var QueryPath\DOMQuery $qp */
-        $qp = \QueryPath::withHTML($html);
+        $html5 = new HTML5();
+        $dom_document = $html5->loadHTML($html);
+        $qp = qp($dom_document);
         if ($this->scope == Scope::HTML_SCOPE) {
             return $qp->top()->html5();
         } else {
