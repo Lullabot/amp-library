@@ -56,11 +56,17 @@ class IframeTagTransformPass extends BasePass
             // We need to do this separately. If the src has a character like '&' then $el->after has problems
             // and we get a "Entity: line 1: parser error : EntityRef: expecting ';'" error
             $src = $this->getIframeSrc($el);
+            if ($el->hasAttr('class')) {
+                $class_attr = $el->attr('class');
+            }
 
             /** @var \DOMElement $new_dom_el */
             $el->after("<amp-iframe $iframe_attributes sandbox=\"allow-scripts allow-same-origin\" layout=\"responsive\"></amp-iframe>");
             $new_dom_el = $el->next()->get(0);
             $new_dom_el->setAttribute('src', $src);
+            if (!empty($class_attr)) {
+                $new_dom_el->setAttribute('class', $class_attr);
+            }
 
             // Remove the iframe and its children
             $el->removeChildren()->remove();
@@ -71,7 +77,8 @@ class IframeTagTransformPass extends BasePass
         return $this->transformations;
     }
 
-    protected function getIframeSrc(DOMQuery $el) {
+    protected function getIframeSrc(DOMQuery $el)
+    {
         return $el->attr('src');
     }
 
@@ -79,9 +86,9 @@ class IframeTagTransformPass extends BasePass
     {
         $iframe_attributes = '';
 
-        // Preserve the data-*, width, height and class attributes only
+        // Preserve the data-*, width, height attributes only
         foreach ($el->attr() as $attr_name => $attr_value) {
-            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') !== 0 && !in_array($attr_name, ['width', 'height', 'class'])) {
+            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') !== 0 && !in_array($attr_name, ['width', 'height'])) {
                 continue;
             }
 
