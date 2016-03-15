@@ -43,7 +43,6 @@ class ImgTagTransformPass extends BasePass
             $this->q->find('html')->attr('amp', '');
         }
 
-        // @todo deal with animated gifs
         $all_a = $this->q->top()->find('img:not(noscript img)');
         /** @var \DOMElement $dom_el */
         foreach ($all_a->get() as $dom_el) {
