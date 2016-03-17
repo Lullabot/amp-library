@@ -28,13 +28,6 @@ class StatisticsPass extends BasePass
 {
     function pass()
     {
-        /** @var DOMQuery $html_tag */
-        if ($this->context->getErrorScope() == Scope::BODY_SCOPE) {
-            $scope_text = 'HTML fragment';
-        } else {
-            $scope_text = 'Full HTML document';
-        }
-
         $html_tag = $this->q->find($this->context->getErrorScope());
 
         // If we don't want statistics or couldn't find tag exit
@@ -45,33 +38,12 @@ class StatisticsPass extends BasePass
         /** @var \DOMElement $html_tag_dom_el */
         $html_tag_dom_el = $html_tag->get(0);
         $stats_data = $this->context->getStatsData();
-        $end_time = microtime(true);
-        $time_taken = sprintf('%.4f micro secs (1 milli secs = 1000 micro secs)', ($end_time - $stats_data['start_time']));
-        $date = date(DATE_RFC2822);
-        $num_tags_processed = $this->context->getNumTagsProcessed();
+        $start_time = $stats_data['start_time'];
 
-        $start_memory_str = sprintf('%.3f MiB', $stats_data['start_memory'] / 1000000);
-        $start_memory_peak_str = sprintf('%.3f MiB', $stats_data['start_memory_peak'] / 1000000);
-
-        $end_memory = memory_get_usage();
-        $end_memory_str = sprintf('%.3f MiB', $end_memory / 1000000);
-        $end_memory_peak = memory_get_peak_usage();
-        $end_memory_peak_str = sprintf('%.3f MiB', $end_memory_peak / 1000000);
-
-        $peak_change = ($end_memory_peak == $stats_data['start_memory_peak']) ? '(unchanged)' : '';
-
-        $comment_start = " #START# $scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date" . PHP_EOL;
+        $comment_start = "#AMP-START-PLACEHOLDER-$start_time#";
         $this->addComment($comment_start, $html_tag_dom_el, true);
 
-        $comment_end = " $scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date" . PHP_EOL
-            . " Time Taken: $time_taken" . PHP_EOL
-            . " Number of html tags processed: $num_tags_processed" . PHP_EOL
-            //    . " PHP Memory usage before calling convertToAmpHtml: $start_memory_str" . PHP_EOL
-            //    . " PHP Memory usage at the end of  convertToAmpHtml: $end_memory_str" . PHP_EOL
-            . " PHP Peak memory usage before calling convertToAmpHtml: $start_memory_peak_str" . PHP_EOL
-            . " PHP Peak memory usage at the end of  convertToAmpHtml: $end_memory_peak_str $peak_change" . PHP_EOL
-            . " **Please note that time taken will increase significantly if you don't have opcache enabled or have XDEBUG enabled**" . PHP_EOL
-            . "#END#";
+        $comment_end = "#AMP-END-PLACEHOLDER-$start_time#";
         $this->addComment($comment_end, $html_tag_dom_el);
 
         return [];
