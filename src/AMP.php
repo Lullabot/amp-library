@@ -226,10 +226,10 @@ class AMP
         // $start_memory_str = sprintf('%.3f MiB', $stats_data['start_memory'] / 1000000);
         $start_memory_peak_str = sprintf('%.3f MiB', $stats_data['start_memory_peak'] / 1000000.0);
 
-        // $end_memory = memory_get_usage();
+        // $end_memory = memory_get_usage(true);
         // $end_memory_str = sprintf('%.3f MiB', $end_memory / 1000000);
 
-        $end_memory_peak = memory_get_peak_usage();
+        $end_memory_peak = memory_get_peak_usage(true);
         $end_memory_peak_str = sprintf('%.3f MiB', $end_memory_peak / 1000000.0);
         $peak_change = ($end_memory_peak == $stats_data['start_memory_peak']) ? '(unchanged)' : '';
 
@@ -272,8 +272,8 @@ class AMP
         // Used in the StatisticsPass
         $stats_data = [
             'start_time' => microtime(true),
-            'start_memory' => memory_get_usage(),
-            'start_memory_peak' => memory_get_peak_usage()
+            'start_memory' => memory_get_usage(true),
+            'start_memory_peak' => memory_get_peak_usage(true)
         ];
 
         $this->context->setStatsData($stats_data);
