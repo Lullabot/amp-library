@@ -56,13 +56,42 @@ class Context
     protected $error_scope = Scope::HTML_SCOPE;
     /** @var \SplObjectStorage */
     protected $line_association;
+    /** @var int */
+    protected $num_tags_processed = 0;
+    /** @var array */
+    protected $stats_data = [];
 
+    /**
+     * Context constructor.
+     * @param string $scope
+     * @param int $max_errors
+     */
     public function __construct($scope = Scope::BODY_SCOPE, $max_errors = -1)
     {
         $this->tagspecs_validated = new \SplObjectStorage();
         $this->max_errors = $max_errors;
         $this->error_scope = $scope;
         $this->line_association = new \SplObjectStorage();
+    }
+
+    public function getNumTagsProcessed()
+    {
+        return $this->num_tags_processed;
+    }
+
+    public function setNumTagsProcessed($num_tags_processed)
+    {
+        $this->num_tags_processed = $num_tags_processed;
+    }
+
+    public function getStatsData()
+    {
+        return $this->stats_data;
+    }
+
+    public function setStatsData(array $stats_data)
+    {
+        $this->stats_data = $stats_data;
     }
 
     /**

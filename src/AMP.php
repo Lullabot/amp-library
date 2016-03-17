@@ -41,9 +41,10 @@ class AMP
         'Lullabot\AMP\Pass\TwitterTransformPass', // Transform pass
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
-        'Lullabot\AMP\Pass\NoscriptTagWorkaroundPass'
+        'Lullabot\AMP\Pass\NoscriptTagWorkaroundPass',
         // Disable this for now. Canonical validator also does not seem to flagging conditional comments.
         // 'Lullabot\AMP\Pass\HtmlCommentPass',
+        'Lullabot\AMP\Pass\StatisticsPass'
     ];
 
     /** @var ActionTakenLine[] */
@@ -134,8 +135,15 @@ class AMP
             // This is the main case
             $this->input_html = $html;
         }
+
+        // Does the user want a statistics (peak memory, time taken, time generated etc) comment at the end?
+        if (empty($options['add_stats_html_comment'])) {
+            $options['add_stats_html_comment'] = true;
+        }
+
         $this->options = $options;
         $this->scope = !empty($options['scope']) ? $options['scope'] : Scope::BODY_SCOPE;
+
         // Currently we only support these two scopes
         if (!in_array($this->scope, [Scope::HTML_SCOPE, Scope::BODY_SCOPE])) {
             throw new \Exception("Invalid or currently unsupported scope $this->scope");
@@ -216,6 +224,14 @@ class AMP
             throw new \Exception("Invalid or currently unsupported scope $this->scope");
         }
 
+        // Used in the StatisticsPass
+        $stats_data = [
+            'start_time' => microtime(true),
+            'start_memory' => memory_get_usage(),
+            'start_memory_peak' => memory_get_peak_usage()
+        ];
+
+        $this->context->setStatsData($stats_data);
         $qp = QueryPath::withHTML($document, NULL, ['convert_to_encoding' => 'UTF-8']);
 
         foreach ($this->passes as $pass_name) {
