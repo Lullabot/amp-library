@@ -28,16 +28,22 @@ class StatisticsPass extends BasePass
 {
     function pass()
     {
-        /** @var DOMQuery $body */
-        $body = $this->q->find('body');
+        /** @var DOMQuery $html_tag */
+        if ($this->context->getErrorScope() == Scope::BODY_SCOPE) {
+            $scope_text = 'HTML fragment';
+        } else {
+            $scope_text = 'Full HTML document';
+        }
 
-        // If we don't want statistics or couldn't find body tag exit
-        if (empty($this->options['add_stats_html_comment']) || empty($body->count())) {
+        $html_tag = $this->q->find($this->context->getErrorScope());
+
+        // If we don't want statistics or couldn't find tag exit
+        if (empty($this->options['add_stats_html_comment']) || empty($html_tag->count())) {
             return [];
         }
 
-        /** @var \DOMElement $body_dom_el */
-        $body_dom_el = $body->get(0);
+        /** @var \DOMElement $html_tag_dom_el */
+        $html_tag_dom_el = $html_tag->get(0);
         $stats_data = $this->context->getStatsData();
         $end_time = microtime(true);
         $time_taken = sprintf('%.4f micro secs (1 milli secs = 1000 micro secs)', ($end_time - $stats_data['start_time']));
@@ -54,14 +60,8 @@ class StatisticsPass extends BasePass
 
         $peak_change = ($end_memory_peak == $stats_data['start_memory_peak']) ? '(unchanged)' : '';
 
-        if ($this->context->getErrorScope() == Scope::BODY_SCOPE) {
-            $scope_text = 'HTML fragment';
-        } else {
-            $scope_text = 'Full HTML document';
-        }
-
         $comment_start = " #START# $scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date" . PHP_EOL;
-        $this->addComment($comment_start, $body_dom_el, true);
+        $this->addComment($comment_start, $html_tag_dom_el, true);
 
         $comment_end = " $scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date" . PHP_EOL
             . " Time Taken: $time_taken" . PHP_EOL
@@ -72,7 +72,7 @@ class StatisticsPass extends BasePass
             . " PHP Peak memory usage at the end of  convertToAmpHtml: $end_memory_peak_str $peak_change" . PHP_EOL
             . " **Please note that time taken will increase significantly if you don't have opcache enabled or have XDEBUG enabled**" . PHP_EOL
             . "#END#";
-        $this->addComment($comment_end, $body_dom_el);
+        $this->addComment($comment_end, $html_tag_dom_el);
 
         return [];
     }
