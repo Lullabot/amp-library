@@ -17,7 +17,6 @@
 
 namespace Lullabot\AMP\Pass;
 
-use Lullabot\AMP\Validate\Scope;
 use QueryPath\DOMQuery;
 
 /**
