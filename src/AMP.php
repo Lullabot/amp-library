@@ -41,9 +41,10 @@ class AMP
         'Lullabot\AMP\Pass\TwitterTransformPass', // Transform pass
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
-        'Lullabot\AMP\Pass\NoscriptTagWorkaroundPass'
+        'Lullabot\AMP\Pass\NoscriptTagWorkaroundPass',
         // Disable this for now. Canonical validator also does not seem to flagging conditional comments.
         // 'Lullabot\AMP\Pass\HtmlCommentPass',
+        'Lullabot\AMP\Pass\StatisticsPass'
     ];
 
     /** @var ActionTakenLine[] */
@@ -134,8 +135,17 @@ class AMP
             // This is the main case
             $this->input_html = $html;
         }
+
+        // Does the user want a statistics (peak memory, time taken, time generated etc) comment at the end?
+        if (empty($options['add_stats_html_comment'])) {
+            $options['add_stats_html_comment'] = false;
+        } else {
+            $options['add_stats_html_comment'] = true;
+        }
+
         $this->options = $options;
         $this->scope = !empty($options['scope']) ? $options['scope'] : Scope::BODY_SCOPE;
+
         // Currently we only support these two scopes
         if (!in_array($this->scope, [Scope::HTML_SCOPE, Scope::BODY_SCOPE])) {
             throw new \Exception("Invalid or currently unsupported scope $this->scope");
@@ -196,6 +206,49 @@ class AMP
     }
 
     /**
+     * @param string $html
+     * @return string
+     */
+    protected function substituteStatisticsPlaceholders($html)
+    {
+        if ($this->context->getErrorScope() == Scope::BODY_SCOPE) {
+            $scope_text = 'HTML fragment';
+        } else {
+            $scope_text = 'Full HTML document';
+        }
+
+        $stats_data = $this->context->getStatsData();
+        $end_time = microtime(true);
+        $time_taken = sprintf('%.3f milliseconds (1 second = 1000 milliseconds)', 1000*($end_time - $stats_data['start_time']));
+        $date = date(DATE_RFC2822);
+        $num_tags_processed = $this->context->getNumTagsProcessed();
+
+        // $start_memory_str = sprintf('%.3f MiB', $stats_data['start_memory'] / 1000000);
+        $start_memory_peak_str = sprintf('%.3f MiB', $stats_data['start_memory_peak'] / 1000000.0);
+
+        // $end_memory = memory_get_usage();
+        // $end_memory_str = sprintf('%.3f MiB', $end_memory / 1000000);
+
+        $end_memory_peak = memory_get_peak_usage();
+        $end_memory_peak_str = sprintf('%.3f MiB', $end_memory_peak / 1000000.0);
+        $peak_change = ($end_memory_peak == $stats_data['start_memory_peak']) ? '(unchanged)' : '';
+
+        $comment_start = " ==START== $scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date" . PHP_EOL;
+        $comment_end = " $scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date" . PHP_EOL
+            . " Time Taken: $time_taken" . PHP_EOL
+            . " Number of html tags processed: $num_tags_processed" . PHP_EOL
+            . " PHP Peak memory usage before calling convertToAmpHtml: $start_memory_peak_str" . PHP_EOL
+            . " PHP Peak memory usage at the end of  convertToAmpHtml: $end_memory_peak_str $peak_change" . PHP_EOL
+            . " **Please note that time taken will increase significantly if you don't have opcache enabled or have XDEBUG enabled**" . PHP_EOL
+            . "==END==";
+
+        $start_replaced = str_replace("#AMP-START-PLACEHOLDER-${stats_data['start_time']}#", $comment_start, $html);
+        $end_replaced = str_replace("#AMP-END-PLACEHOLDER-${stats_data['start_time']}#", $comment_end, $start_replaced);
+
+        return $end_replaced;
+    }
+
+    /**
      * Convert an HTML Fragment to AMP HTML
      * @return string
      * @throws \Exception
@@ -216,6 +269,14 @@ class AMP
             throw new \Exception("Invalid or currently unsupported scope $this->scope");
         }
 
+        // Used in the StatisticsPass
+        $stats_data = [
+            'start_time' => microtime(true),
+            'start_memory' => memory_get_usage(),
+            'start_memory_peak' => memory_get_peak_usage()
+        ];
+
+        $this->context->setStatsData($stats_data);
         $qp = QueryPath::withHTML($document, NULL, ['convert_to_encoding' => 'UTF-8']);
 
         foreach ($this->passes as $pass_name) {
@@ -234,9 +295,15 @@ class AMP
         $this->sortActionTakeByLineno();
 
         if ($this->scope == Scope::HTML_SCOPE) {
-            $this->amp_html = $qp->top()->html5();
+            $temp_amp_html = $qp->top()->html5();
         } else {
-            $this->amp_html = $qp->find($this->scope)->innerHTML5();
+            $temp_amp_html = $qp->find($this->scope)->innerHTML5();
+        }
+
+        if ($this->options['add_stats_html_comment']) {
+            $this->amp_html = $this->substituteStatisticsPlaceholders($temp_amp_html);
+        } else {
+            $this->amp_html = $temp_amp_html;
         }
 
         return $this->amp_html;

@@ -17,12 +17,7 @@
 
 namespace Lullabot\AMP\Pass;
 
-use Lullabot\AMP\Validate\Scope;
 use QueryPath\DOMQuery;
-
-use Lullabot\AMP\ActionTakenLine;
-use Lullabot\AMP\ActionTakenType;
-use FastImageSize\FastImageSize;
 
 /**
  * Class NoscriptTagWorkaroundPass
