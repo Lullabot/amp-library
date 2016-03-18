@@ -151,6 +151,33 @@ class AMP
             throw new \Exception("Invalid or currently unsupported scope $this->scope");
         }
         $this->context = new Context($this->scope);
+
+        // Get the request scheme http, https etc.
+        if (empty($options['request_scheme'])) {
+            if (!empty($_SERVER['https'])) {
+                $this->options['request_scheme'] = 'https://';
+            } else {
+                $this->options['request_scheme'] = 'http://';
+            }
+        }
+
+        // What is the server url e.g. http://www.cnn.com (note no trailing /)
+        if (empty($options['server_url']) && !empty($_SERVER['SERVER_NAME'])) {
+            $server_url = $this->options['request_scheme'] . $_SERVER['SERVER_NAME'];
+            if (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != '80') {
+                $server_url .= ':' . $_SERVER['SERVER_PORT'];
+            }
+            $this->options['server_url'] = $server_url;
+        }
+
+        // What is the base relative directory. For http://www.cnn.com/abc/zyz?1234 it is http://www.cnn.com/abc
+        if (empty($this->options['base_url_for_relative_path']) && !empty($_SERVER['REQUEST_URI'])) {
+            $matches = [];
+            $full_url = $this->options['server_url'] . $_SERVER['REQUEST_URI'];
+            if (preg_match('&(.*/)&', $full_url, $matches)) {
+                $this->options['base_url_for_relative_path'] = $matches[1];
+            }
+        }
     }
 
     /**
@@ -219,7 +246,7 @@ class AMP
 
         $stats_data = $this->context->getStatsData();
         $end_time = microtime(true);
-        $time_taken = sprintf('%.3f milliseconds (1 second = 1000 milliseconds)', 1000*($end_time - $stats_data['start_time']));
+        $time_taken = sprintf('%.3f milliseconds (1 second = 1000 milliseconds)', 1000 * ($end_time - $stats_data['start_time']));
         $date = date(DATE_RFC2822);
         $num_tags_processed = $this->context->getNumTagsProcessed();
 
