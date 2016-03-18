@@ -18,11 +18,15 @@
 namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Validate\Scope;
-use QueryPath\DOMQuery;
-
 use Lullabot\AMP\ActionTakenLine;
 use Lullabot\AMP\ActionTakenType;
+use Lullabot\AMP\Validate\Context;
+use Lullabot\AMP\Validate\SValidationResult;
+use Lullabot\AMP\Validate\ParsedValidatorRules;
+
 use FastImageSize\FastImageSize;
+use QueryPath\DOMQuery;
+
 
 /**
  * Class ImgTagTransformPass
@@ -36,6 +40,17 @@ use FastImageSize\FastImageSize;
  */
 class ImgTagTransformPass extends BasePass
 {
+    /**
+     * @var FastImageSize
+     */
+    protected $fastimage;
+
+    function __construct(DOMQuery $q, Context $context, SValidationResult $validation_result, ParsedValidatorRules $parsed_rules, array $options)
+    {
+        $this->fastimage = new FastImageSize();
+        parent::__construct($q, $context, $validation_result, $parsed_rules, $options);
+    }
+
     function pass()
     {
         // Always make sure we do this. Somewhat of a hack
@@ -57,30 +72,64 @@ class ImgTagTransformPass extends BasePass
         return $this->transformations;
     }
 
-    // @todo deal with failure
+    /**
+     * Given an image src attribute, try to get its dimensions
+     * Returns false on failure
+     *
+     * @return bool|array
+     */
     protected function getImageWidthHeight($src)
     {
-        $fastimage = new FastImageSize();
+        $img_url = $this->getImageUrl($src);
 
-        // @todo use parse_url here?
-        // Try attaching the base_uri if that does not work
-        if (!empty($this->options['base_uri']) && !preg_match('/.*:\/\//', $src)) {
-            $src = $this->options['base_uri'] . $src;
+        if ($img_url === false) {
+            return false;
         }
 
         // Try obtaining image size without having to download the whole image
-        $size = $fastimage->getImageSize($src);
+        $size = $this->fastimage->getImageSize($img_url);
         return $size;
     }
 
-    // @todo should this call out to externally registered callbacks?
+    /**
+     * @param string $src
+     * @return boolean|string
+     */
+    protected function getImageUrl($src)
+    {
+        $src = trim($src);
+        $urlc = parse_url($src);
+        // If there is a host, path and optional scheme FastImage can simply try that URL
+        if (!empty($urlc['host']) && !empty($urlc['path'])) {
+            if (empty($urlc['scheme'])) {
+                // There will always be a value for $this->options['request_scheme']
+                $src = $this->options['request_scheme'] . $src;
+            }
+        } else if (!empty($urlc['path'])) {
+            // Is there a leading '/' then the path is absolute. Simply prefix the server url
+            if (strpos($urlc['path'], '/') === 0 && !empty($this->options['server_url'])) {
+                $src = $this->options['server_url'] . $urlc['path'];
+            } else if (!empty($this->options['base_url_for_relative_path'])) {
+                $src = $this->options['base_url_for_relative_path'] . $urlc['path'];
+            } else {
+                $src = false;
+            }
+        } else {
+            $src = false;
+        }
+
+        return $src;
+    }
+
     protected function setAmpImgAttributes(\DOMElement $el)
     {
         // If height or image is not set, get it from the image
         if (!$el->getAttribute('width') || !$el->getAttribute('height')) {
             $dimensions = $this->getImageWidthHeight($el->getAttribute('src'));
-            $el->setAttribute('width', $dimensions['width']);
-            $el->setAttribute('height', $dimensions['height']);
+            if ($dimensions !== false) {
+                $el->setAttribute('width', $dimensions['width']);
+                $el->setAttribute('height', $dimensions['height']);
+            }
         }
 
         // Sane default for now
