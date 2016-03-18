@@ -62,6 +62,10 @@ class ImgTagTransformPass extends BasePass
         /** @var \DOMElement $dom_el */
         foreach ($all_a->get() as $dom_el) {
             $lineno = $dom_el->getLineNo();
+            if ($this->isSvg($dom_el)) {
+                // This should be marked as a validation warning later
+                continue;
+            }
             $context_string = $this->getContextString($dom_el);
             $new_el = $this->renameDomElement($dom_el, 'amp-img');
             $this->setAmpImgAttributes($new_el);
@@ -89,6 +93,24 @@ class ImgTagTransformPass extends BasePass
         // Try obtaining image size without having to download the whole image
         $size = $this->fastimage->getImageSize($img_url);
         return $size;
+    }
+
+    /**
+     * Detects if the img is a SVG. In that case we simply try to skip conversion.
+     * @param \DOMElement $el
+     * @return bool
+     */
+    protected function isSvg(\DOMElement $el) {
+        if (!$el->hasAttribute('src')) {
+            return false;
+        }
+
+        $src = trim($el->getAttribute('src'));
+        if (preg_match('/.*\.svg$/', $src)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
