@@ -195,6 +195,9 @@ $amp->loadHtml($html);
 // If you're feeding it a complete document use the following line instead
 // $amp->loadHtml($html, ['scope' => Scope::HTML_SCOPE]);
 
+// If you want some performance statistics (see https://github.com/Lullabot/amp-library/issues/24)
+// $amp->loadHtml($html, ['add_stats_html_comment' => true]);
+
 // Convert to AMP HTML and store output in a variable
 $amp_html = $amp->convertToAmpHtml();
 
