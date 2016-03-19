@@ -18,7 +18,7 @@
 namespace Lullabot\AMP\Validate;
 
 
-use Lullabot\AMP\ActionTakenLine;
+use Lullabot\AMP\Utility\ActionTakenLine;
 use Lullabot\AMP\Spec\ValidationError;
 
 /**

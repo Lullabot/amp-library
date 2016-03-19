@@ -20,8 +20,8 @@ namespace Lullabot\AMP\Pass;
 
 use QueryPath\DOMQuery;
 
-use Lullabot\AMP\ActionTakenLine;
-use Lullabot\AMP\ActionTakenType;
+use Lullabot\AMP\Utility\ActionTakenLine;
+use Lullabot\AMP\Utility\ActionTakenType;
 
 /**
  * Class IframeTagTransformPass

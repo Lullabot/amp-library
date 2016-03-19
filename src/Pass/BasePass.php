@@ -21,7 +21,7 @@ use Lullabot\AMP\Validate\ParsedValidatorRules;
 use Lullabot\AMP\Validate\Scope;
 use Lullabot\AMP\Validate\SValidationResult;
 use QueryPath\DOMQuery;
-use Lullabot\AMP\ActionTakenLine;
+use Lullabot\AMP\Utility\ActionTakenLine;
 use Lullabot\AMP\Validate\Context;
 
 abstract class BasePass

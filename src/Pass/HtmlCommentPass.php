@@ -17,8 +17,8 @@
 
 namespace Lullabot\AMP\Pass;
 
-use Lullabot\AMP\ActionTakenLine;
-use Lullabot\AMP\ActionTakenType;
+use Lullabot\AMP\Utility\ActionTakenLine;
+use Lullabot\AMP\Utility\ActionTakenType;
 
 class HtmlCommentPass extends BasePass
 {

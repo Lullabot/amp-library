@@ -18,8 +18,8 @@
 namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Validate\Scope;
-use Lullabot\AMP\ActionTakenLine;
-use Lullabot\AMP\ActionTakenType;
+use Lullabot\AMP\Utility\ActionTakenLine;
+use Lullabot\AMP\Utility\ActionTakenType;
 use Lullabot\AMP\Validate\Context;
 use Lullabot\AMP\Validate\SValidationResult;
 use Lullabot\AMP\Validate\ParsedValidatorRules;

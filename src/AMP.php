@@ -28,7 +28,16 @@ use Lullabot\AMP\Validate\Context;
 use Lullabot\AMP\Validate\SValidationResult;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Validate\RenderValidationResult;
+use Lullabot\AMP\Utility\ActionTakenLine;
 
+
+/**
+ * Class AMP
+ * @package Lullabot\AMP
+ *
+ * This is the main end user facing class.
+ * All validation and HTML fixing functionality is controlled from here
+ */
 class AMP
 {
     // The StandardScanPass should be first after all transform passes

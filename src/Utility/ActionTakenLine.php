@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace Lullabot\AMP;
+namespace Lullabot\AMP\Utility;
 
 class ActionTakenLine
 {
