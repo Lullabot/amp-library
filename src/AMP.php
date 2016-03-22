@@ -17,7 +17,6 @@
 
 namespace Lullabot\AMP;
 
-use Masterminds\HTML5;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
 use Lullabot\AMP\Pass\BasePass;
@@ -397,9 +396,7 @@ class AMP
         }
 
         /** @var QueryPath\DOMQuery $qp */
-        $html5 = new HTML5();
-        $dom_document = $html5->loadHTML($document_html);
-        $qp = qp($dom_document);
+        $qp = QueryPath::withHTML($html, NULL, ['convert_to_encoding' => 'UTF-8']);
         if ($this->scope == Scope::HTML_SCOPE) {
             return $qp->top()->html5();
         } else {
