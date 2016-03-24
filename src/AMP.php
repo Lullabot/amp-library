@@ -178,7 +178,7 @@ class AMP
             $this->options['server_url'] = $server_url;
         }
 
-        // What is the base relative directory. For http://www.cnn.com/abc/zyz?1234 it is http://www.cnn.com/abc
+        // What is the base relative directory. For http://www.cnn.com/abc/zyz?1234 it is http://www.cnn.com/abc/
         if (empty($this->options['base_url_for_relative_path']) && !empty($_SERVER['REQUEST_URI'])) {
             $matches = [];
             $full_url = $this->options['server_url'] . $_SERVER['REQUEST_URI'];
