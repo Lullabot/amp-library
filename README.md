@@ -4,7 +4,7 @@
 
 The AMP PHP Library is an open source and pure PHP Library that:
 - Works with whole or partial HTML documents (or strings). Specifically, the AMP PHP Library:
- - Reports compliance of the whole/partial HTML document with the [AMP HTML standard](https://www.ampproject.org/)
+ - Reports compliance of a whole/partial HTML document with the [AMP HTML standard](https://www.ampproject.org/)
  - Implements an AMP HTML validator in pure PHP to report compliance of an arbitrary HTML document / HTML fragment with the AMP HTML standard. This validator is a ported subset of the [canonical validator](https://github.com/ampproject/amphtml/tree/master/validator) that is implemented in javascript. In particular this PHP validator does not (yet) support template, cdata, css and layout validation. Otherwise, it supports tag specification validation, attribute specification validation and attribute property value pair validation. It will report tags and attributes that are missing, illegal, mandatory according to spec but not present, unique according to spec but multiply present, having wrong parents or ancestors and so forth.
  - Using the feedback given by the validator, tries to "correct" some issues found in the HTML to make it more AMP HTML compliant. This would involve removing:
     - Illegal attributes e.g. `style` within `<body>` tag 
