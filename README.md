@@ -42,25 +42,12 @@ For all other scenarios, continue reading.
 
 #### Setup for your composer based PHP project
 
-To use this in your composer based PHP project, refer to [composer docs here](https://getcomposer.org/doc/05-repositories.md#loading-a-package-from-a-vcs-repository)
+To use this in your composer based PHP project, refer to [composer docs here](https://getcomposer.org/doc/05-repositories.md#loading-a-package-from-a-vcs-repository) to make changes to your `composer.json`
 
- But essentially, you need to add the following snippet in your `composer.json`:
+Or you can simply do `$ composer require lullabot/amp:"1.0.*"`.
 
- ```json
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/Lullabot/amp-library"
-        }
-    ],
-    "require": {
-        "lullabot/amp": "dev-master"
-    }
- ```
-
-After doing this issue `$ composer update`. 
-
-The library is currently not hosted on [Packagist](https://packagist.org) but we plan to do that in the near future. After that happens you will need to do a simpler `$ composer require lullabot/amp` invocation rather than the above steps.
+##### Advanced
+Should you wish to follow the bleeding edge you can do `$ composer require lullabot/amp:"dev-master"`. Note that this will create a `.git` folder in `vendor/lullabot/amp`. If you want to avoid that,  do `$ composer require lullabot/amp:"dev-master" --prefer-dist`
 
 ### Using the command line `amp-console`
 
@@ -221,7 +208,6 @@ print($amp->warningsHumanText());
 
 - This is beta quality code. You are likely to encounter bugs and errors, both fatal and harmless. Please help us improve this library by using the GitHub issue tracker on this repository to report errors
  - If you have `<img>`s with `https` urls _and_ they don't have height/width attributes _and_ you are using PHP 5.6 or PHP 7.0 the library may have problems converting these to `<amp-img>`. This is because of http://php.net/manual/en/migration56.openssl.php . That link also has a work around. 
-- The library is currently not hosted on [Packagist](https://packagist.org) but we plan to do that in the near future
 
 ### Sponsored by
 
