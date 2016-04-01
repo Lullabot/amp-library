@@ -209,6 +209,14 @@ print($amp->warningsHumanText());
 - This is beta quality code. You are likely to encounter bugs and errors, both fatal and harmless. Please help us improve this library by using the GitHub issue tracker on this repository to report errors
  - If you have `<img>`s with `https` urls _and_ they don't have height/width attributes _and_ you are using PHP 5.6 or PHP 7.0 the library may have problems converting these to `<amp-img>`. This is because of http://php.net/manual/en/migration56.openssl.php . That link also has a work around. 
 
+### Third-party libraries
+
+- Symfony:
+    - [takeit/amp-html-bundle](https://github.com/takeit/AmpHtmlBundle)
+
+- Drupal
+    - [Drupal AMP Module](https://www.drupal.org/project/amp)
+
 ### Sponsored by
 
 - Google for creating the AMP Project and sponsoring development
