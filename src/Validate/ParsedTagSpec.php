@@ -155,7 +155,7 @@ class ParsedTagSpec
         if (!empty($this->spec->mandatory_parent)) {
             if ($context->getParentTagName() !== $this->spec->mandatory_parent) {
                 $context->addError(ValidationErrorCode::WRONG_PARENT_TAG,
-                    [$this->spec->name, $context->getParentTagName(), $this->getSpec()->mandatory_parent],
+                    [$this->spec->tag_name, $context->getParentTagName(), $this->getSpec()->mandatory_parent],
                     $this->spec->spec_url, $validation_result);
             }
         }
@@ -172,11 +172,11 @@ class ParsedTagSpec
             if (false === array_search($mandatory_ancestor, $context->getAncestorTagNames())) {
                 if (!empty($this->spec->mandatory_ancestor_suggested_alternative)) {
                     $context->addError(ValidationErrorCode::MANDATORY_TAG_ANCESTOR_WITH_HINT,
-                        [$this->spec->name, $mandatory_ancestor, $this->spec->mandatory_ancestor_suggested_alternative],
+                        [$this->spec->tag_name, $mandatory_ancestor, $this->spec->mandatory_ancestor_suggested_alternative],
                         $this->spec->spec_url, $validation_result);
                 } else {
                     $context->addError(ValidationErrorCode::MANDATORY_TAG_ANCESTOR,
-                        [$this->spec->name, $mandatory_ancestor], $this->spec->spec_url, $validation_result);
+                        [$this->spec->tag_name, $mandatory_ancestor], $this->spec->spec_url, $validation_result);
                 }
                 return;
             }
@@ -186,7 +186,7 @@ class ParsedTagSpec
             foreach ($this->spec->disallowed_ancestor as $disallowed_ancestor) {
                 if (false !== array_search($disallowed_ancestor, $context->getAncestorTagNames())) {
                     $context->addError(ValidationErrorCode::DISALLOWED_TAG_ANCESTOR,
-                        [$this->spec->name, $disallowed_ancestor], $this->spec->spec_url, $validation_result);
+                        [$this->spec->tag_name, $disallowed_ancestor], $this->spec->spec_url, $validation_result);
                     return;
                 }
             }
@@ -447,7 +447,7 @@ class ParsedTagSpec
      */
     public static function getDetailOrName(TagSpec $tag_spec)
     {
-        return empty($tag_spec->detail) ? $tag_spec->name : $tag_spec->detail;
+        return empty($tag_spec->spec_name) ? $tag_spec->tag_name : $tag_spec->spec_name;
     }
 
     /**
