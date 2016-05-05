@@ -28,5 +28,6 @@ class ActionTakenType
     const TWITTER_CONVERTED = 'twitter embed code was converted to the amp-twitter tag.';
     const IFRAME_CONVERTED = 'tag was converted to the amp-iframe tag.';
     const YOUTUBE_IFRAME_CONVERTED = 'tag was converted to the amp-youtube tag.';
+    const SOUNDCLOUD_IFRAME_CONVERTED = 'tag was converted to the amp-soundcloud tag.';
     const COMPONENT_SCRIPT_TAG_ADDED = 'custom component script tag added to head';
 }
