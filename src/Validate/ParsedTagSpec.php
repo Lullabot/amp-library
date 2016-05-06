@@ -54,7 +54,7 @@ class ParsedTagSpec
     /** @var boolean */
     protected $should_record_tagspec_validated = false;
     /** @var TagSpec[] */
-    protected $also_requires = [];
+    protected $also_requires_tagspec = [];
     /** @var ParsedAttrSpec */
     protected $dispatch_key_attr_spec = null;
 
@@ -99,7 +99,7 @@ class ParsedTagSpec
 
         /** @var string $also_require */
         foreach ($tag_spec->also_requires as $also_require) {
-            $this->also_requires[] = $tagspec_by_detail_or_name[$also_require];
+            $this->also_requires_tagspec[] = $tagspec_by_detail_or_name[$also_require];
         }
     }
 
@@ -133,9 +133,9 @@ class ParsedTagSpec
     /**
      * @return TagSpec[]
      */
-    public function getAlsoRequires()
+    public function getAlsoRequiresTagspec()
     {
-        return $this->also_requires;
+        return $this->also_requires_tagspec;
     }
 
     /**
