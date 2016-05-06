@@ -271,7 +271,7 @@ class ParsedValidatorRules
         /** @var ParsedTagSpec $parsed_tag_spec */
         foreach ($context->getTagspecsValidated() as $parsed_tag_spec) {
             /** @var TagSpec $tagspec_require */
-            foreach ($parsed_tag_spec->getAlsoRequires() as $tagspec_require) {
+            foreach ($parsed_tag_spec->getAlsoRequiresTagspec() as $tagspec_require) {
                 /** @var ParsedTagSpec $parsed_tag_spec_require */
                 $parsed_tag_spec_require = $this->all_parsed_specs_by_specs[$tagspec_require];
                 assert(!empty($parsed_tag_spec_require));
