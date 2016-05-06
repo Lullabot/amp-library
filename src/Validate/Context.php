@@ -52,6 +52,8 @@ class Context
     protected $parent_tag_name = '';
     /** @var string[] */
     protected $ancestor_tag_names = [];
+    /** @var string[] */
+    protected $child_tag_names = [];
     protected $phase = Phase::LOCAL_PHASE;
     protected $error_scope = Scope::HTML_SCOPE;
     /** @var \SplObjectStorage */
@@ -132,6 +134,7 @@ class Context
         $this->dom_tag = $new_dom_tag;
         $this->setParentTagName();
         $this->setAncestorTagNames();
+        $this->setChildTagNames();
     }
 
     /**
@@ -142,9 +145,6 @@ class Context
         return $this->dom_tag;
     }
 
-    /**
-     * @return string[]
-     */
     protected function setAncestorTagNames()
     {
         $ancestor_tag_names = [];
@@ -154,6 +154,17 @@ class Context
         }
         $ancestor_tag_names[] = '!doctype';
         $this->ancestor_tag_names = $ancestor_tag_names;
+    }
+
+    protected function setChildTagNames()
+    {
+        $this->child_tag_names = [];
+        /** @var \DOMNode $child_node */
+        foreach ($this->dom_tag->childNodes as $child_node) {
+            if ($child_node->nodeType == XML_ELEMENT_NODE) {
+                $this->child_tag_names[] = $child_node->nodeName;
+            }
+        }
     }
 
     /**
@@ -182,6 +193,11 @@ class Context
     public function getParentTagName()
     {
         return $this->parent_tag_name;
+    }
+
+    public function getChildTagNames()
+    {
+        return $this->child_tag_names;
     }
 
     /**
