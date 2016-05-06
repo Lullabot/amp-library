@@ -19,6 +19,7 @@ namespace Lullabot\AMP\Validate;
 
 use Lullabot\AMP\Spec\AttrList;
 use Lullabot\AMP\Spec\AttrSpec;
+use Lullabot\AMP\Spec\ChildTagSpec;
 use Lullabot\AMP\Spec\TagSpec;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationResultStatus;
@@ -54,7 +55,7 @@ class ParsedTagSpec
     /** @var boolean */
     protected $should_record_tagspec_validated = false;
     /** @var TagSpec[] */
-    protected $also_requires = [];
+    protected $also_requires_tagspec = [];
     /** @var ParsedAttrSpec */
     protected $dispatch_key_attr_spec = null;
 
@@ -97,9 +98,9 @@ class ParsedTagSpec
             }
         }
 
-        /** @var string $also_require */
-        foreach ($tag_spec->also_requires as $also_require) {
-            $this->also_requires[] = $tagspec_by_detail_or_name[$also_require];
+        /** @var string $also_require_tag */
+        foreach ($tag_spec->also_requires_tag as $also_require_tag) {
+            $this->also_requires_tagspec[] = $tagspec_by_detail_or_name[$also_require_tag];
         }
     }
 
@@ -133,9 +134,9 @@ class ParsedTagSpec
     /**
      * @return TagSpec[]
      */
-    public function getAlsoRequires()
+    public function getAlsoRequiresTagspec()
     {
-        return $this->also_requires;
+        return $this->also_requires_tagspec;
     }
 
     /**
@@ -155,7 +156,7 @@ class ParsedTagSpec
         if (!empty($this->spec->mandatory_parent)) {
             if ($context->getParentTagName() !== $this->spec->mandatory_parent) {
                 $context->addError(ValidationErrorCode::WRONG_PARENT_TAG,
-                    [$this->spec->name, $context->getParentTagName(), $this->getSpec()->mandatory_parent],
+                    [$this->spec->tag_name, $context->getParentTagName(), $this->getSpec()->mandatory_parent],
                     $this->spec->spec_url, $validation_result);
             }
         }
@@ -172,11 +173,11 @@ class ParsedTagSpec
             if (false === array_search($mandatory_ancestor, $context->getAncestorTagNames())) {
                 if (!empty($this->spec->mandatory_ancestor_suggested_alternative)) {
                     $context->addError(ValidationErrorCode::MANDATORY_TAG_ANCESTOR_WITH_HINT,
-                        [$this->spec->name, $mandatory_ancestor, $this->spec->mandatory_ancestor_suggested_alternative],
+                        [$this->spec->tag_name, $mandatory_ancestor, $this->spec->mandatory_ancestor_suggested_alternative],
                         $this->spec->spec_url, $validation_result);
                 } else {
                     $context->addError(ValidationErrorCode::MANDATORY_TAG_ANCESTOR,
-                        [$this->spec->name, $mandatory_ancestor], $this->spec->spec_url, $validation_result);
+                        [$this->spec->tag_name, $mandatory_ancestor], $this->spec->spec_url, $validation_result);
                 }
                 return;
             }
@@ -186,10 +187,54 @@ class ParsedTagSpec
             foreach ($this->spec->disallowed_ancestor as $disallowed_ancestor) {
                 if (false !== array_search($disallowed_ancestor, $context->getAncestorTagNames())) {
                     $context->addError(ValidationErrorCode::DISALLOWED_TAG_ANCESTOR,
-                        [$this->spec->name, $disallowed_ancestor], $this->spec->spec_url, $validation_result);
+                        [$this->spec->tag_name, $disallowed_ancestor], $this->spec->spec_url, $validation_result);
                     return;
                 }
             }
+        }
+    }
+
+    /**
+     * @param Context $context
+     * @param SValidationResult $validation_result
+     */
+    public function validateChildTags(Context $context, SValidationResult $validation_result)
+    {
+        /** @var ChildTagSpec|null $child_tag_spec */
+        $child_tag_spec = $this->spec->child_tags;
+        if (empty($child_tag_spec)) {
+            return;
+        }
+
+        /** @var string[] $child_tag_names */
+        $child_tag_names = $context->getChildTagNames();
+        $num_child_tags = count($child_tag_names);
+
+        /** @var string[]|null $first_name_oneof */
+        $first_name_oneof = $child_tag_spec->first_child_tag_name_oneof;
+        if (!empty($first_name_oneof) && !in_array($child_tag_names[0], $first_name_oneof)) {
+            $allowed_names = '[' . join(',', $first_name_oneof) . ']';
+            $context->addError(ValidationErrorCode::DISALLOWED_FIRST_CHILD_TAG_NAME,
+                [$child_tag_names[0], $this->spec->tag_name, $allowed_names], $this->spec->spec_url, $validation_result);
+        }
+
+        /** @var string[]|null $child_tag_name_oneof */
+        $child_tag_name_oneof = $child_tag_spec->child_tag_name_oneof;
+        if (!empty($child_tag_name_oneof)) {
+            foreach ($child_tag_names as $child_tag_name) {
+                if (!in_array($child_tag_name, $child_tag_name_oneof)) {
+                    $allowed_names = '[' . join(',', $child_tag_name_oneof) . ']';
+                    $context->addError(ValidationErrorCode::DISALLOWED_CHILD_TAG_NAME,
+                        [$child_tag_name, $this->spec->tag_name, $allowed_names], $this->spec->spec_url, $validation_result);
+                }
+            }
+        }
+
+        /** @var number|null $mandatory_num_child_tags */
+        $mandatory_num_child_tags = $child_tag_spec->mandatory_num_child_tags;
+        if (is_numeric($mandatory_num_child_tags) && $num_child_tags < $mandatory_num_child_tags) {
+            $context->addError(ValidationErrorCode::INCORRECT_NUM_CHILD_TAGS,
+                [$this->spec->tag_name, $mandatory_num_child_tags, $num_child_tags], $this->spec->spec_url, $validation_result);
         }
     }
 
@@ -447,7 +492,7 @@ class ParsedTagSpec
      */
     public static function getDetailOrName(TagSpec $tag_spec)
     {
-        return empty($tag_spec->detail) ? $tag_spec->name : $tag_spec->detail;
+        return empty($tag_spec->spec_name) ? $tag_spec->tag_name : $tag_spec->spec_name;
     }
 
     /**
