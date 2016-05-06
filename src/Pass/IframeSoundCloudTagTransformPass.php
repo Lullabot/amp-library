@@ -29,8 +29,8 @@ use Lullabot\AMP\Utility\ActionTakenType;
  *
  * Sample SoundCloud embed
  * <iframe width="100%" height="450" scrolling="no" frameborder="no"
-   src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/238184768&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true">
-   </iframe>
+ * src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/238184768&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true">
+ * </iframe>
  *
  * Sample <amp-soundcloud> tags:
  * Visual Mode:
@@ -38,9 +38,13 @@ use Lullabot\AMP\Utility\ActionTakenType;
  *
  * Classic Mode:
  * <amp-soundcloud height=657 layout="fixed-height" data-trackid="243169232" data-color="ff5500"></amp-soundcloud>
+ *
+ * @see https://www.ampproject.org/docs/reference/extended/amp-soundcloud.html
  */
 class IframeSoundCloudTagTransformPass extends BasePass
 {
+    const DEFAULT_HEIGHT = 450;
+
     function pass()
     {
         $all_iframes = $this->q->find('iframe:not(noscript iframe)');
@@ -61,11 +65,15 @@ class IframeSoundCloudTagTransformPass extends BasePass
                 continue;
             }
 
+            $attributes = $this->getTrackAttributes($el);
+
             if ($el->hasAttr('class')) {
                 $class_attr = $el->attr('class');
             }
+
+            $tag_string = "<amp-soundcloud data-trackid=\"$track_id\" layout=\"fixed-height\" $attributes ></amp-soundcloud>";
             /** @var \DOMElement $new_dom_el */
-            $el->after("<amp-soundcloud data-trackid=\"$track_id\" layout=\"fixed-height\"></amp-soundcloud>");
+            $el->after($tag_string);
             $new_dom_el = $el->next()->get(0);
             if (!empty($class_attr)) {
                 $new_dom_el->setAttribute('class', $class_attr);
@@ -96,6 +104,33 @@ class IframeSoundCloudTagTransformPass extends BasePass
 
     protected function getTrackAttributes(DOMQuery $el)
     {
+        $attributes = '';
+        $query_arr = $this->getQueryArray($el);
+
+        if (isset($query_arr['visual'])) {
+            $attributes = " data-visual=\"{$query_arr['visual']}\" ";
+        }
+
+        // Preserve the data-*, height attributes only
+        foreach ($el->attr() as $attr_name => $attr_value) {
+            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') !== 0 && !in_array($attr_name, ['height'])) {
+                continue;
+            }
+
+            if ($attr_name == 'height') {
+                $height = (int)$attr_value;
+                continue;
+            }
+
+            $attributes .= " $attr_name = \"$attr_value\"";
+        }
+
+        if (empty($height)) {
+            $height = self::DEFAULT_HEIGHT;
+        }
+
+        $attributes .= " height=\"$height\" ";
+        return $attributes;
 
     }
 
