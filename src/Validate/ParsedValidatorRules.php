@@ -209,6 +209,7 @@ class ParsedValidatorRules
         $parsed_spec->validateAttributes($context, $encountered_attributes, $result_for_attempt);
         $parsed_spec->validateParentTag($context, $result_for_attempt);
         $parsed_spec->validateAncestorTags($context, $result_for_attempt);
+        $parsed_spec->validateChildTags($context, $result_for_attempt);
 
         if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
             if (SValidationResult::maxSpecificity($result_for_attempt) > SValidationResult::maxSpecificity($result_for_best_attempt)) {
