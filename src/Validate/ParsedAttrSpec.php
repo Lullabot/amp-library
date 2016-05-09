@@ -40,6 +40,8 @@ class ParsedAttrSpec
     public $value_property_by_name = [];
     /** @var PropertySpec[] */
     public $mandatory_value_property_names = [];
+    /** @var ParsedAttrTriggerSpec|null */
+    public $trigger_spec = null;
 
     public function __construct(AttrSpec $attr_spec)
     {
@@ -61,6 +63,26 @@ class ParsedAttrSpec
                 }
             }
         }
+
+        if (!empty($this->spec->trigger)) {
+            $this->trigger_spec = new ParsedAttrTriggerSpec($this->spec);
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTriggerSpec()
+    {
+        return $this->trigger_spec !== null;
+    }
+
+    /**
+     * @return ParsedAttrTriggerSpec|null
+     */
+    public function getTriggerSpec()
+    {
+        return $this->trigger_spec;
     }
 
     /**

@@ -58,6 +58,8 @@ class ParsedTagSpec
     protected $also_requires_tagspec = [];
     /** @var ParsedAttrSpec */
     protected $dispatch_key_attr_spec = null;
+    /** @var TagSpec[] */
+    protected $implicit_attr_specs = [];
 
     /**
      * ParsedTagSpec constructor.
@@ -95,6 +97,10 @@ class ParsedTagSpec
 
             if ($parsed_attr_spec->getSpec()->dispatch_key) {
                 $this->dispatch_key_attr_spec = $parsed_attr_spec;
+            }
+
+            if (!empty($parsed_attr_spec->getSpec()->implicit)) {
+                $this->implicit_attr_specs[] = $parsed_attr_spec;
             }
         }
 
@@ -276,6 +282,12 @@ class ParsedTagSpec
         /** @var \SplObjectStorage $mandatory_attrs_seen */
         $mandatory_attrs_seen = new \SplObjectStorage(); // Treat as a set of objects
         $mandatory_oneofs_seen = []; // Treat as Set of strings
+        $parsed_attr_specs_validated = new \SplObjectStorage(); // Treat as a set of objects
+        $parsed_trigger_specs = [];
+
+        foreach ($this->implicit_attr_specs as $parsed_attr_spec) {
+            $parsed_attr_specs_validated->attach($parsed_attr_spec);
+        }
         /**
          * @var string $encountered_attr_key
          * @var string $encountered_attr_value
@@ -381,6 +393,16 @@ class ParsedTagSpec
                 // Treat as a Set
                 $mandatory_oneofs_seen[$attr_spec->mandatory_oneof] = $attr_spec->mandatory_oneof;
             }
+
+            if ($parsed_attr_spec->hasTriggerSpec() && $parsed_attr_spec->getTriggerSpec()->hasIfValueRegex()) {
+                $if_value_regex = $parsed_attr_spec->getTriggerSpec()->getIfValueRegex();
+                if (preg_match($if_value_regex, $encountered_attr_value)) {
+                    $parsed_trigger_specs[] = $parsed_attr_spec->getTriggerSpec();
+                }
+            }
+
+            // Treat as a Set
+            $parsed_attr_specs_validated->attach($parsed_attr_spec);
         }
 
         // If we've already encountered an error before, then $should_not_check will be true.
@@ -406,12 +428,28 @@ class ParsedTagSpec
             }
         }
 
-        /** @var ParsedTagSpec $mandatory_attr */
+        /** @var ParsedAttrSpec $mandatory_attr */
         foreach ($this->mandatory_attrs as $mandatory_attr) {
             if (!$mandatory_attrs_seen->contains($mandatory_attr)) {
                 $context->addError(ValidationErrorCode::MANDATORY_ATTR_MISSING,
                     [$mandatory_attr->getSpec()->name, self::getDetailOrName($this->spec)],
                     $this->spec->spec_url, $result_for_attempt, $mandatory_attr->getSpec()->name);
+            }
+        }
+
+        /** @var ParsedAttrTriggerSpec $parsed_trigger_spec */
+        foreach ($parsed_trigger_specs as $parsed_trigger_spec) {
+            foreach($parsed_trigger_spec->getSpec()->also_requires_attr as $required_attr_name) {
+                $parsed_attr_spec = isset($this->attrs_by_name[$required_attr_name]) ?
+                    $this->attrs_by_name[$required_attr_name] : null;
+                if ($parsed_attr_spec === null) {
+                    continue;
+                }
+                if (!$parsed_attr_specs_validated->contains($parsed_attr_spec)) {
+                    $context->addError(ValidationErrorCode::ATTR_REQUIRED_BUT_MISSING,
+                        [$parsed_attr_spec->getSpec()->name, self::getDetailOrName($this->spec), $parsed_trigger_spec->getAttrName()],
+                        $this->spec->spec_url, $result_for_attempt, $parsed_attr_spec->getSpec()->name);
+                }
             }
         }
     }
