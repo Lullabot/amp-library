@@ -132,9 +132,16 @@ class ParsedTagSpec
     public function getDispatchKey()
     {
         assert($this->hasDispatchKey() === true);
-        $key = $this->dispatch_key_attr_spec->getSpec()->name;
-        $value = $this->dispatch_key_attr_spec->getSpec()->value;
-        return "$key=$value";
+        /** @var string $attr_name */
+        $attr_name = $this->dispatch_key_attr_spec->getSpec()->name;
+        assert(!empty($attr_name));
+        /** @var string $mandatory_parent */
+        $mandatory_parent = empty($this->spec->mandatory_parent) ? '' : $this->spec->mandatory_parent;
+        $attr_value = $this->dispatch_key_attr_spec->getSpec()->value;
+        if (empty(($attr_value))) {
+            $attr_value = '';
+        }
+        return TagSpecDispatch::makeDispatchKey($attr_name, $attr_value, $mandatory_parent);
     }
 
     /**
@@ -439,7 +446,7 @@ class ParsedTagSpec
 
         /** @var ParsedAttrTriggerSpec $parsed_trigger_spec */
         foreach ($parsed_trigger_specs as $parsed_trigger_spec) {
-            foreach($parsed_trigger_spec->getSpec()->also_requires_attr as $required_attr_name) {
+            foreach ($parsed_trigger_spec->getSpec()->also_requires_attr as $required_attr_name) {
                 $parsed_attr_spec = isset($this->attrs_by_name[$required_attr_name]) ?
                     $this->attrs_by_name[$required_attr_name] : null;
                 if ($parsed_attr_spec === null) {
