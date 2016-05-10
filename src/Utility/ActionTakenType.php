@@ -26,6 +26,7 @@ class ActionTakenType
     const IMG_CONVERTED = 'tag was converted to the amp-img tag.';
     const INSTAGRAM_CONVERTED = 'instagram embed code was converted to the amp-instagram tag.';
     const VINE_CONVERTED = 'vine embed code was converted to the amp-vine tag.';
+    const DAILYMOTION_CONVERTED = 'dailymotion embed code was converted to the amp-dailymotion tag.';
     const TWITTER_CONVERTED = 'twitter embed code was converted to the amp-twitter tag.';
     const IFRAME_CONVERTED = 'tag was converted to the amp-iframe tag.';
     const YOUTUBE_IFRAME_CONVERTED = 'tag was converted to the amp-youtube tag.';
