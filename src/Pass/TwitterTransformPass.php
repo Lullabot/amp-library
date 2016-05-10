@@ -47,7 +47,7 @@ class TwitterTransformPass extends BasePass
             $context_string = $this->getContextString($dom_el);
 
             // Get reference to associated <script> tag, if any.
-            $twitter_script_tag = $this->getTwitterScriptTag($el);
+            $twitter_script_tag = $this->getScriptTag($el, '&(*UTF8)twitter.com/widgets\.js&i');
             $tweet_attributes = $this->getTweetAttributes($el);
 
             /** @var \DOMElement $new_dom_el */
@@ -126,27 +126,6 @@ class TwitterTransformPass extends BasePass
         // end height width hack
 
         return $tweet_attributes;
-    }
-
-    /**
-     * Get reference to associated <script> tag, if any.
-     *
-     * @param DOMQuery $el
-     * @return DOMQuery|null
-     */
-    protected function getTwitterScriptTag(DOMQuery $el)
-    {
-        $script_tags = $el->nextAll('script');
-        $twitter_script_tag = null;
-        /** @var DOMQuery $script_tag */
-        foreach ($script_tags as $script_tag) {
-            if (!empty($script_tag) && preg_match('&(*UTF8)twitter.com/widgets\.js&i', $script_tag->attr('src'))) {
-                $twitter_script_tag = $script_tag;
-                break;
-            }
-        }
-
-        return $twitter_script_tag;
     }
 
     /**

@@ -207,4 +207,74 @@ abstract class BasePass
         $new_script->attr('src', self::$component_mappings[$component]);
         return true;
     }
+
+    /**
+     * Get reference to associated <script> tag, if any.
+     *
+     * @param DOMQuery $el
+     * @param string $regex
+     * @return DOMQuery|null
+     */
+    protected function getScriptTag(DOMQuery $el, $regex)
+    {
+        $script_tags = $el->nextAll('script');
+        $found_script_tag = null;
+        /** @var DOMQuery $script_tag */
+        foreach ($script_tags as $script_tag) {
+            if (!empty($script_tag) && preg_match($regex, $script_tag->attr('src'))) {
+                $found_script_tag = $script_tag;
+                break;
+            }
+        }
+
+        return $found_script_tag;
+    }
+
+    /**
+     * @param DOMQuery $el
+     * @param int $default_width
+     * @param int $default_height
+     * @param double $default_aspect_ratio
+     * @return string
+     */
+    protected function getStandardAttributes(DOMQuery $el, $default_width, $default_height, $default_aspect_ratio)
+    {
+        $standard_attributes = '';
+
+        // Preserve the data-*, width, height attributes only
+        foreach ($el->attr() as $attr_name => $attr_value) {
+            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') !== 0 && !in_array($attr_name, ['width', 'height'])) {
+                continue;
+            }
+
+            if ($attr_name == 'height') {
+                $height = (int)$attr_value;
+                continue;
+            }
+
+            if ($attr_name == 'width') {
+                $width = (int)$attr_value;
+                continue;
+            }
+
+            $standard_attributes .= " $attr_name = \"$attr_value\"";
+        }
+
+        if (empty($height) && !empty($width)) {
+            $height = (int)($width / $default_aspect_ratio);
+        }
+
+        if (!empty($height) && empty($width)) {
+            $width = (int)($height * $default_aspect_ratio);
+        }
+
+        if (empty($height) && empty($width)) {
+            $width = $default_width;
+            $height = $default_height;
+        }
+
+        $standard_attributes .= " height=\"$height\" width=\"$width\" ";
+        return $standard_attributes;
+    }
+
 }
