@@ -299,4 +299,26 @@ abstract class BasePass
 
         return false;
     }
+
+    /**
+     * @param DOMQuery $el
+     * @return array|bool
+     */
+    protected function getQueryArray(DOMQuery $el)
+    {
+        $href = $el->attr('src');
+        if (empty($href)) {
+            return false;
+        }
+
+        $query = parse_url($href, PHP_URL_QUERY);
+        if ($query === null) {
+            return false;
+        }
+
+        $arr = [];
+        parse_str($query, $arr);
+
+        return $arr;
+    }
 }
