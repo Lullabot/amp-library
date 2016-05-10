@@ -52,7 +52,7 @@ class IframeTagTransformPass extends BasePass
             $lineno = $dom_el->getLineNo();
             $context_string = $this->getContextString($dom_el);
 
-            $iframe_attributes = $this->getIframeAttributes($el);
+            $iframe_attributes = $this->getStandardAttributes($el, self::DEFAULT_WIDTH, self::DEFAULT_HEIGHT, self::DEFAULT_ASPECT_RATIO);
             // We need to do this separately. If the src has a character like '&' then $el->after has problems
             // and we get a "Entity: line 1: parser error : EntityRef: expecting ';'" error
             $src = $this->getIframeSrc($el);
@@ -80,45 +80,5 @@ class IframeTagTransformPass extends BasePass
     protected function getIframeSrc(DOMQuery $el)
     {
         return $el->attr('src');
-    }
-
-    protected function getIframeAttributes(DOMQuery $el)
-    {
-        $iframe_attributes = '';
-
-        // Preserve the data-*, width, height attributes only
-        foreach ($el->attr() as $attr_name => $attr_value) {
-            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') !== 0 && !in_array($attr_name, ['width', 'height'])) {
-                continue;
-            }
-
-            if ($attr_name == 'height') {
-                $height = (int)$attr_value;
-                continue;
-            }
-
-            if ($attr_name == 'width') {
-                $width = (int)$attr_value;
-                continue;
-            }
-
-            $iframe_attributes .= " $attr_name = \"$attr_value\"";
-        }
-
-        if (empty($height) && !empty($width)) {
-            $height = (int)($width / self::DEFAULT_ASPECT_RATIO);
-        }
-
-        if (!empty($height) && empty($width)) {
-            $width = (int)($height * self::DEFAULT_ASPECT_RATIO);
-        }
-
-        if (empty($height) && empty($width)) {
-            $width = self::DEFAULT_WIDTH;
-            $height = self::DEFAULT_HEIGHT;
-        }
-
-        $iframe_attributes .= " height=\"$height\" width=\"$width\" ";
-        return $iframe_attributes;
     }
 }
