@@ -25,6 +25,7 @@ class ActionTakenType
     const PROPERTY_REMOVED_ATTRIBUTE_REMOVED = 'property value pair was removed from attribute due to validation issues. The resulting attribute was empty and was also removed.';
     const IMG_CONVERTED = 'tag was converted to the amp-img tag.';
     const INSTAGRAM_CONVERTED = 'instagram embed code was converted to the amp-instagram tag.';
+    const PINTEREST_CONVERTED = 'pinterest embed code was converted to the amp-pinterest tag.';
     const VINE_CONVERTED = 'vine embed code was converted to the amp-vine tag.';
     const DAILYMOTION_CONVERTED = 'dailymotion embed code was converted to the amp-dailymotion tag.';
     const TWITTER_CONVERTED = 'twitter embed code was converted to the amp-twitter tag.';

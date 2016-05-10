@@ -281,11 +281,13 @@ abstract class BasePass
      * Get track/video/etc. id
      *
      * @param DOMQuery $el
+     * @param string $regex
+     * @param string $attr_name
      * @return bool|string
      */
-    protected function getArtifactId(DOMQuery $el, $regex)
+    protected function getArtifactId(DOMQuery $el, $regex, $attr_name = 'src')
     {
-        $href = $el->attr('src');
+        $href = $el->attr($attr_name);
         if (empty($href)) {
             return false;
         }
