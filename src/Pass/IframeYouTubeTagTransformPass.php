@@ -65,7 +65,7 @@ class IframeYouTubeTagTransformPass extends BasePass
                 continue;
             }
 
-            $youtube_attributes = $this->getYouTubeAttributes($el);
+            $youtube_attributes = $this->getStandardAttributes($el, self::DEFAULT_VIDEO_WIDTH, self::DEFAULT_VIDEO_HEIGHT, self::DEFAULT_ASPECT_RATIO);
             if ($el->hasAttr('class')) {
                 $class_attr = $el->attr('class');
             }
@@ -99,47 +99,7 @@ class IframeYouTubeTagTransformPass extends BasePass
 
         return false;
     }
-
-    protected function getYouTubeAttributes(DOMQuery $el)
-    {
-        $youtube_attributes = '';
-
-        // Preserve the data-*, width, height attributes only
-        foreach ($el->attr() as $attr_name => $attr_value) {
-            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') !== 0 && !in_array($attr_name, ['width', 'height'])) {
-                continue;
-            }
-
-            if ($attr_name == 'height') {
-                $height = (int)$attr_value;
-                continue;
-            }
-
-            if ($attr_name == 'width') {
-                $width = (int)$attr_value;
-                continue;
-            }
-
-            $youtube_attributes .= " $attr_name = \"$attr_value\"";
-        }
-
-        if (empty($height) && !empty($width)) {
-            $height = (int)($width / self::DEFAULT_ASPECT_RATIO);
-        }
-
-        if (!empty($height) && empty($width)) {
-            $width = (int)($height * self::DEFAULT_ASPECT_RATIO);
-        }
-
-        if (empty($height) && empty($width)) {
-            $width = self::DEFAULT_VIDEO_WIDTH;
-            $height = self::DEFAULT_VIDEO_HEIGHT;
-        }
-
-        $youtube_attributes .= " height=\"$height\" width=\"$width\" ";
-        return $youtube_attributes;
-    }
-
+    
     /**
      *
      * Get the youtube videoid
