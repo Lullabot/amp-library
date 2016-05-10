@@ -59,7 +59,7 @@ class IframeVineTagTransformPass extends BasePass
             /** @var \DOMElement $dom_el */
             $dom_el = $el->get(0);
             $lineno = $dom_el->getLineNo();
-            $vineid = $this->getVineid($el);
+            $vineid = $this->getArtifactId($el, '&(*UTF8)vine\.co/v/([^/]+)/?&i');
             // If we can't get the vineid, abort
             if (empty($vineid)) {
                 continue;
@@ -84,28 +84,5 @@ class IframeVineTagTransformPass extends BasePass
         }
 
         return $this->transformations;
-    }
-
-    /**
-     * Get vineid
-     *
-     * @param DOMQuery $el
-     * @return bool|string
-     */
-    protected function getVineid(DOMQuery $el)
-    {
-        $href = $el->attr('src');
-        if (empty($href)) {
-            return false;
-        }
-
-        $matches = [];
-        if (preg_match('&(*UTF8)vine\.co/v/([^/]+)/?&i', $href, $matches)) {
-            if (!empty($matches[1])) {
-                return $matches[1];
-            }
-        }
-
-        return false;
     }
 }

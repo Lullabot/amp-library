@@ -277,4 +277,26 @@ abstract class BasePass
         return $standard_attributes;
     }
 
+    /**
+     * Get track/video/etc. id
+     *
+     * @param DOMQuery $el
+     * @return bool|string
+     */
+    protected function getArtifactId(DOMQuery $el, $regex)
+    {
+        $href = $el->attr('src');
+        if (empty($href)) {
+            return false;
+        }
+
+        $matches = [];
+        if (preg_match($regex, $href, $matches)) {
+            if (!empty($matches[1])) {
+                return $matches[1];
+            }
+        }
+
+        return false;
+    }
 }
