@@ -51,9 +51,11 @@ class PinterestTagTransformPass extends BasePass
 
             $context_string = $this->getContextString($dom_el);
             $script_tag = $this->getScriptTag($el, '&(*UTF8)pinterest\.com/js/pinit\.js&i');
+            $pinterest_dimensions = $this->getPinterestDimensions($el);
 
             // hard code width and height for now (medium size pin)
-            $el->after('<amp-pinterest width="236" height="345" data-url="' . $data_url . '" data-do="embedPin"></amp-pinterest>');
+            // layout="responsive" is not the way to go. Omit that.
+            $el->after('<amp-pinterest ' . $pinterest_dimensions . ' data-url="' . $data_url . '" data-do="embedPin"></amp-pinterest>');
             $new_dom_el = $el->next()->get(0);
 
             // Remove the a, its children and the script tag that may follow after the a tag
@@ -69,5 +71,21 @@ class PinterestTagTransformPass extends BasePass
         }
 
         return $this->transformations;
+    }
+
+    /**
+     * @param DOMQuery $el
+     * @return string
+     */
+    protected function getPinterestDimensions($el)
+    {
+        $pin_width = trim($el->attr('data-pin-width'));
+        if ($pin_width == 'medium') {
+            return ' width="345" height="426" data-width="medium" ';
+        } else if ($pin_width == 'large') {
+            return ' width="562" height="627" data-width="large" ';
+        } else {
+            return ' width="236" height="345" data-width="small" ';
+        }
     }
 }
