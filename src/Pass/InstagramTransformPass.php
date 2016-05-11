@@ -33,7 +33,7 @@ class InstagramTransformPass extends BasePass
 
     function pass()
     {
-        $all_instagram = $this->q->top()->find('blockquote[class="instagram-media"]');
+        $all_instagram = $this->q->find('blockquote[class="instagram-media"]');
         /** @var DOMQuery $el */
         foreach ($all_instagram as $el) {
             /** @var \DOMElement $dom_el */

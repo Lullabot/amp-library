@@ -49,6 +49,7 @@ class AMP
         'Lullabot\AMP\Pass\IframeYouTubeTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\IframeTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\InstagramTransformPass', // Transform pass
+        'Lullabot\AMP\Pass\PinterestTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\TwitterTransformPass', // Transform pass
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
