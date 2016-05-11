@@ -57,7 +57,7 @@ class IframeVimeoTagTransformPass extends BasePass
             $new_dom_el = $el->next()->get(0);
 
             $el->removeChildren()->remove();
-            $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::VINE_CONVERTED, $lineno, $context_string));
+            $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::VIMEO_CONVERTED, $lineno, $context_string));
 
             $this->context->addLineAssociation($new_dom_el, $lineno);
         }
