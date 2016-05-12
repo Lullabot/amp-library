@@ -32,9 +32,17 @@ class AmpTest extends PHPUnit_Framework_TestCase
         $this->amp = new AMP();
     }
 
-    public function testFragments() {
+    public function testFragments()
+    {
         $output = $this->amp->consoleOutput('tests/test-data/fragment-html/sample-html-fragment.html', false, true);
         $expected_output = file_get_contents('tests/test-data/fragment-html/sample-html-fragment.html.out');
+        $this->assertEquals($expected_output, $output);
+    }
+
+    public function testFullHtml()
+    {
+        $output = $this->amp->consoleOutput('tests/test-data/full-html/several_errors.html', true, true);
+        $expected_output = file_get_contents('tests/test-data/full-html/several_errors.html.out');
         $this->assertEquals($expected_output, $output);
     }
 }
