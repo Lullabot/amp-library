@@ -32,17 +32,45 @@ class AmpTest extends PHPUnit_Framework_TestCase
         $this->amp = new AMP();
     }
 
-    public function testFragments()
+    /**
+     * @dataProvider filenameProvider
+     * @param $test_filename
+     * @param $fragment
+     * @throws Exception
+     */
+    public function testFiles($test_filename, $fragment)
     {
-        $output = $this->amp->consoleOutput('tests/test-data/fragment-html/sample-html-fragment.html', false, true);
-        $expected_output = file_get_contents('tests/test-data/fragment-html/sample-html-fragment.html.out');
+        $output = $this->amp->consoleOutput($test_filename, $fragment, true);
+        $expected_output = file_get_contents("$test_filename.out");
         $this->assertEquals($expected_output, $output);
     }
 
-    public function testFullHtml()
+    public function filenameProvider()
     {
-        $output = $this->amp->consoleOutput('tests/test-data/full-html/several_errors.html', true, true);
-        $expected_output = file_get_contents('tests/test-data/full-html/several_errors.html.out');
-        $this->assertEquals($expected_output, $output);
+        $all_tests = [];
+        foreach ($this->getTestFiles('tests/test-data/fragment-html/') as $test_filename) {
+            $all_tests[$test_filename] = [$test_filename, false];
+        }
+
+        foreach ($this->getTestFiles('tests/test-data/full-html/') as $test_filename) {
+            $all_tests[$test_filename] = [$test_filename, true];
+        }
+
+        return $all_tests;
+    }
+
+    protected function getTestFiles($subdirectory)
+    {
+        /** @var DirectoryIterator $fileitem */
+        foreach (new DirectoryIterator($subdirectory) as $fileitem) {
+            if (!$fileitem->isFile()) {
+                continue;
+            }
+
+            $file_pathname = $fileitem->getPathname();
+            if (preg_match('/\.html$/', $file_pathname)) {
+                yield $file_pathname;
+            }
+        }
     }
 }
