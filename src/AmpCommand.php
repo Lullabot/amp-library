@@ -72,85 +72,19 @@ class AmpCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // Enable PHP Notices if the --verbose or -v or -vv or -vvv options are passed on the command line
-        if ($input->getOption('verbose')) {
-            error_reporting(E_ALL);
-        }
-
-        $filename = $input->getArgument('filename');
-        if (!empty($filename)) {
-            $file_html = @file_get_contents($filename);
-            if (($file_html === false)) {
-                throw new \Exception("No such file or file not accessible: $filename Exiting...");
-            }
-        } else {
-            $filename = 'php://stdin';
-            $file_html = file_get_contents($filename);
-        }
-
         $amp = new AMP();
-        $options = ['filename' => $filename]; // So warnings can be printed out with filename appending to line number
-        if ($input->getOption('full-document')) {
-            $options += ['scope' => Scope::HTML_SCOPE];
-        }
-        $amp->loadHtml($file_html, $options);
-        $amp_html = $amp->convertToAmpHtml();
+        // consoleOutput($filename = 'php://stdin', $full_document = false, $js = false, $no_lines = false, $diff = false, $no_orig_and_warn = false, $verbose = false)
+        /** @var string $console_output */
+        $console_output = $amp->consoleOutput(
+            $input->getArgument('filename'),
+            $input->getOption('full-document'),
+            $input->getOption('js'),
+            $input->getOption('no-lines'),
+            $input->getOption('diff'),
+            $input->getOption('no-orig-and-warn'),
+            $input->getOption('verbose')
+        );
 
-        if (!$input->getOption('no-lines')) {
-            // now this is our new output html
-            $amp_html = $this->getStringWithLineNumbers($amp_html);
-        }
-
-        // Show the diff if the option is set
-        if (!$input->getOption('diff')) {
-            $output->writeln($amp_html);
-        } else {
-            // $escape_html is FALSE since we're outputting to the console
-            $output->writeln($amp->getInputOutputHtmlDiff($escape_html = FALSE));
-        }
-
-        // Show the warnings by default
-        if (!$input->getOption('no-orig-and-warn')) {
-            $output->writeln("\nORIGINAL HTML");
-            $output->writeln("---------------");
-            $output->writeln($this->getStringWithLineNumbers($amp->getInputHtml()));
-            $output->writeln($amp->warningsHumanText());
-        }
-
-        // Show the components with js urls
-        if ($input->getOption('js')) {
-            $output->writeln("\nCOMPONENT NAMES WITH JS PATH");
-            $output->writeln("------------------------------");
-            $output->writeln($this->componentList($amp->getComponentJs()));
-        }
-
-    }
-
-    protected function getStringWithLineNumbers($string_input)
-    {
-        $lines = explode(PHP_EOL, $string_input);
-        $string_output = '';
-        $n = strlen((string)count($lines));
-        $lineno = 0;
-        foreach ($lines as $line) {
-            $lineno++;
-            $string_output .= sprintf("Line %{$n}d: %s" . PHP_EOL, $lineno, $line);
-        }
-
-        return $string_output;
-    }
-
-    protected function componentList($components)
-    {
-        $str = '';
-        if (empty($components)) {
-            return 'No custom amp script includes required';
-        }
-
-        foreach ($components as $name => $uri) {
-            $str .= "'$name', include path '$uri'" . PHP_EOL;
-        }
-
-        return $str;
+        $output->write($console_output);
     }
 }
