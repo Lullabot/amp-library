@@ -60,7 +60,7 @@ FAIL
 
 <script type="javascript"> on line 26
 - The tag 'script' is disallowed except in specific forms.
-   [code: GENERAL_DISALLOWED_TAG  category: GENERIC]
+   [code: GENERAL_DISALLOWED_TAG  category: CUSTOM_JAVASCRIPT_DISALLOWED]
    ACTION TAKEN: script tag was removed due to validation issues.
 
 <amp-ad width="100%" height="300"> on line 34
