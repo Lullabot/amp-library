@@ -3,6 +3,7 @@
 Note: An explicit commit is noted as these files can change.
 
 * `test-data/full-html/several_errors.html` from https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/several_errors.html
+* `test-data/full-html/urls.html` from https://github.com/ampproject/amphtml/blob/eddc6fd2224559cb7ccc6a1e27484e52de3d9301/validator/testdata/feature_tests/urls.html
 
 AMP Project github URL https://github.com/ampproject/amphtml/tree/master/validator
 
