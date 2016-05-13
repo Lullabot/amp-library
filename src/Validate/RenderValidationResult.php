@@ -290,6 +290,10 @@ class RenderValidationResult
                 return ErrorCategoryCode::CUSTOM_JAVASCRIPT_DISALLOWED;
             }
 
+            if (isset($error->params[1]) && ($error->params[1] === "style" || $error->params[1] === 'link rel=stylesheet for fonts')) {
+                return ErrorCategoryCode::AUTHOR_STYLESHEET_PROBLEM;
+            }
+
             return ErrorCategoryCode::DISALLOWED_HTML;
         }
 
