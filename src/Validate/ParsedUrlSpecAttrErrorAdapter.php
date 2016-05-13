@@ -49,7 +49,7 @@ class ParsedUrlSpecAttrErrorAdapter
     public function missingUrl(Context $context, TagSpec $tagspec, SValidationResult $result)
     {
         $context->addError(ValidationErrorCode::MISSING_URL,
-            [$this->attr_name, ParsedTagSpec::getDetailOrName($tagspec)], $tagspec->spec_url, $result, $this->attr_name);
+            [$this->attr_name, ParsedTagSpec::getTagSpecName($tagspec)], $tagspec->spec_url, $result, $this->attr_name);
     }
 
     /**
@@ -61,7 +61,7 @@ class ParsedUrlSpecAttrErrorAdapter
     public function invalidUrl(Context $context, $url, TagSpec $tagspec, SValidationResult $result)
     {
         $context->addError(ValidationErrorCode::INVALID_URL,
-            [$this->attr_name, ParsedTagSpec::getDetailOrName($tagspec), $url], $tagspec->spec_url, $result, $this->attr_name);
+            [$this->attr_name, ParsedTagSpec::getTagSpecName($tagspec), $url], $tagspec->spec_url, $result, $this->attr_name);
     }
 
     /**
@@ -73,7 +73,7 @@ class ParsedUrlSpecAttrErrorAdapter
     public function invalidUrlProtocol(Context $context, $uri_scheme, TagSpec $tagspec, SValidationResult $result)
     {
         $context->addError(ValidationErrorCode::INVALID_URL_PROTOCOL,
-            [$this->attr_name, ParsedTagSpec::getDetailOrName($tagspec), $uri_scheme], $tagspec->spec_url, $result, $this->attr_name);
+            [$this->attr_name, ParsedTagSpec::getTagSpecName($tagspec), $uri_scheme], $tagspec->spec_url, $result, $this->attr_name);
     }
 
     /**
@@ -85,6 +85,6 @@ class ParsedUrlSpecAttrErrorAdapter
     public function disallowedRelativeUrl(Context $context, $url, TagSpec $tagspec, $result)
     {
         $context->addError(ValidationErrorCode::DISALLOWED_RELATIVE_URL,
-            [$this->attr_name, ParsedTagSpec::getDetailOrName($tagspec), $url], $tagspec->spec_url, $result, $this->attr_name);
+            [$this->attr_name, ParsedTagSpec::getTagSpecName($tagspec), $url], $tagspec->spec_url, $result, $this->attr_name);
     }
 }

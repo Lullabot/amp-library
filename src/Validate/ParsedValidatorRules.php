@@ -90,11 +90,11 @@ class ParsedValidatorRules
         $detail_or_names_to_track = [];
         /** @var TagSpec $tagspec */
         foreach ($this->rules->tags as $tagspec) {
-            assert(empty($tagspec_by_detail_or_name[ParsedTagSpec::getDetailOrName($tagspec)]));
-            $tagspec_by_detail_or_name[ParsedTagSpec::getDetailOrName($tagspec)] = $tagspec;
+            assert(empty($tagspec_by_detail_or_name[ParsedTagSpec::getTagSpecName($tagspec)]));
+            $tagspec_by_detail_or_name[ParsedTagSpec::getTagSpecName($tagspec)] = $tagspec;
 
             if (!empty($tagspec->also_requires_tag)) {
-                $detail_or_names_to_track[ParsedTagSpec::getDetailOrName($tagspec)] = 1;
+                $detail_or_names_to_track[ParsedTagSpec::getTagSpecName($tagspec)] = 1;
             }
 
             /** @var string $require */
@@ -227,7 +227,7 @@ class ParsedValidatorRules
             if ($parsed_spec->getSpec()->unique && $is_unique !== true) {
                 /** @var ParsedTagSpec $parsed_spec */
                 $spec = $parsed_spec->getSpec();
-                $context->addError(ValidationErrorCode::DUPLICATE_UNIQUE_TAG, [ParsedTagSpec::getDetailOrName($spec)], $spec->spec_url, $result_for_best_attempt);
+                $context->addError(ValidationErrorCode::DUPLICATE_UNIQUE_TAG, [ParsedTagSpec::getTagSpecName($spec)], $spec->spec_url, $result_for_best_attempt);
                 return;
             }
         }
@@ -253,7 +253,7 @@ class ParsedValidatorRules
             $tagspec = $parsed_tag_spec->getSpec();
             if (!$context->getTagspecsValidated()->contains($parsed_tag_spec)) {
                 if (!$context->addError(ValidationErrorCode::MANDATORY_TAG_MISSING,
-                    [ParsedTagSpec::getDetailOrName($tagspec)], $tagspec->spec_url, $validation_result)
+                    [ParsedTagSpec::getTagSpecName($tagspec)], $tagspec->spec_url, $validation_result)
                 ) {
                     return;
                 };
@@ -287,7 +287,7 @@ class ParsedValidatorRules
 
                 if (!$context->getTagspecsValidated()->contains($parsed_tag_spec_require)) {
                     if (!$context->addError(ValidationErrorCode::TAG_REQUIRED_BY_MISSING,
-                        [ParsedTagSpec::getDetailOrName($tagspec_require), ParsedTagSpec::getDetailOrName($parsed_tag_spec->getSpec())],
+                        [ParsedTagSpec::getTagSpecName($tagspec_require), ParsedTagSpec::getTagSpecName($parsed_tag_spec->getSpec())],
                         $tagspec_require->spec_url, $validation_result)
                     ) {
                         return;
