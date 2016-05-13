@@ -42,9 +42,9 @@ class ParsedUrlSpec
     public function __construct($spec)
     {
         $this->spec = $spec;
-        if (!empty($this->spec->value_url)) {
+        if (!empty($this->spec->allowed_protocol)) {
             /** @var string $allowed_protocol */
-            foreach ($this->spec->value_url->allowed_protocol as $allowed_protocol) {
+            foreach ($this->spec->allowed_protocol as $allowed_protocol) {
                 $this->allowed_protocols[$allowed_protocol] = 1; // Treat as a Set
             }
         }

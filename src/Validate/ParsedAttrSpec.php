@@ -41,6 +41,8 @@ class ParsedAttrSpec
     public $mandatory_value_property_names = [];
     /** @var ParsedAttrTriggerSpec|null */
     public $trigger_spec = null;
+    /** @var ParsedUrlSpec */
+    public $value_url_spec;
 
     public function __construct(AttrSpec $attr_spec)
     {
