@@ -35,7 +35,6 @@ class ParsedAttrSpec
 {
     /** @var  AttrSpec */
     public $spec;
-    public $value_url_allowed_protocols = []; // Set with keys as strings
     /** @var PropertySpec[] */
     public $value_property_by_name = [];
     /** @var PropertySpec[] */
@@ -46,13 +45,8 @@ class ParsedAttrSpec
     public function __construct(AttrSpec $attr_spec)
     {
         $this->spec = $attr_spec;
-        if (!empty($this->spec->value_url)) {
-            /** @var string $allowed_protocol */
-            foreach ($this->spec->value_url->allowed_protocol as $allowed_protocol) {
-                $this->value_url_allowed_protocols[$allowed_protocol] = 1; // Treat as a Set
-
-            }
-        }
+        // Can pass null
+        $this->value_url_spec = new ParsedUrlSpec($this->spec->value_url);
 
         if (!empty($this->spec->value_properties)) {
             /** @var PropertySpec $property */
@@ -96,39 +90,6 @@ class ParsedAttrSpec
     /**
      * @param Context $context
      * @param string $attr_name
-     * @param string $url
-     * @param TagSpec $tagspec
-     * @param string $spec_url
-     * @param SValidationResult $validation_result
-     */
-    public function validateUrlAndProtocol(Context $context, $attr_name, $url, TagSpec $tagspec, $spec_url, SValidationResult $validation_result)
-    {
-        if (empty(trim($url))) {
-            $context->addError(ValidationErrorCode::MISSING_URL,
-                [$attr_name, ParsedTagSpec::getDetailOrName($tagspec)], $spec_url, $validation_result, $attr_name);
-            return;
-        }
-
-        $url_components = parse_url($url);
-        if ($url_components === FALSE) {
-            $context->addError(ValidationErrorCode::INVALID_URL,
-                [$attr_name, ParsedTagSpec::getDetailOrName($tagspec), $url], $spec_url, $validation_result, $attr_name);
-            return;
-        }
-
-        if (!empty($url_components['scheme'])) {
-            $scheme = mb_strtolower($url_components['scheme'], 'UTF-8');
-            if (!isset($this->value_url_allowed_protocols[$scheme])) {
-                $context->addError(ValidationErrorCode::INVALID_URL_PROTOCOL,
-                    [$attr_name, ParsedTagSpec::getDetailOrName($tagspec), $scheme], $spec_url, $validation_result, $attr_name);
-                return;
-            }
-        }
-    }
-
-    /**
-     * @param Context $context
-     * @param string $attr_name
      * @param string $attr_value
      * @param TagSpec $tagspec
      * @param string $spec_url
@@ -164,7 +125,7 @@ class ParsedAttrSpec
          */
         foreach ($maybe_uris as $maybe_uri => $always_one) {
             $unescape_maybe_uri = html_entity_decode($maybe_uri, ENT_HTML5);
-            $this->validateUrlAndProtocol($context, $attr_name, $unescape_maybe_uri, $tagspec, $spec_url, $validation_result);
+            $this->value_url_spec->validateUrlAndProtocolInAttr($context, $attr_name, $unescape_maybe_uri, $tagspec, $validation_result);
             if ($validation_result->status === ValidationResultStatus::FAIL) {
                 // No explicit $context->addError as $this->validateUrlAndProtocol would have already done that
                 return;
