@@ -63,7 +63,7 @@ FAIL
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> on line 8
 - The tag 'script' is disallowed except in specific forms.
-   [code: GENERAL_DISALLOWED_TAG  category: GENERIC]
+   [code: GENERAL_DISALLOWED_TAG  category: CUSTOM_JAVASCRIPT_DISALLOWED]
    ACTION TAKEN: script tag was removed due to validation issues.
 
 <style> on line 9
