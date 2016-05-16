@@ -49,7 +49,6 @@ class AMP
         'Lullabot\AMP\Pass\TwitterTransformPass', // Transform pass
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
-        'Lullabot\AMP\Pass\NoscriptTagWorkaroundPass',
         // Disable this for now. Canonical validator also does not seem to flagging conditional comments.
         // 'Lullabot\AMP\Pass\HtmlCommentPass',
         'Lullabot\AMP\Pass\StatisticsPass'
