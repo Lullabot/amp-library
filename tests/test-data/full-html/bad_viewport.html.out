@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS-IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the license.
+--><html amp><head><meta charset="utf-8"><link rel="canonical" href="./regular-html-version.html"><!--
+    Test Description:
+    Tests what happens when bad viewport properties are specified.
+  --><meta name="viewport"><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script></head><body>
+Hello, world.
+</body></html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+Line  3: 
+Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
+Line  5:   you may not use this file except in compliance with the License.
+Line  6:   You may obtain a copy of the License at
+Line  7: 
+Line  8:       http://www.apache.org/licenses/LICENSE-2.0
+Line  9: 
+Line 10:   Unless required by applicable law or agreed to in writing, software
+Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
+Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Line 13:   See the License for the specific language governing permissions and
+Line 14:   limitations under the license.
+Line 15: -->
+Line 16: <!doctype html>
+Line 17: <html ⚡>
+Line 18: <head>
+Line 19:   <meta charset="utf-8">
+Line 20:   <link rel="canonical" href="./regular-html-version.html" />
+Line 21:   <!--
+Line 22:     Test Description:
+Line 23:     Tests what happens when bad viewport properties are specified.
+Line 24:   -->
+Line 25:   <meta name="viewport" content="minimum-scale=not-a-number,foo=bar">
+Line 26:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 27:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line 28: </head>
+Line 29: <body>
+Line 30: Hello, world.
+Line 31: </body>
+Line 32: </html>
+Line 33: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<meta name="viewport" content="minimum-scale=not-a-number,foo=bar"> on line 25
+- The property 'minimum-scale' in attribute 'content' in tag 'meta name=viewport' is set to 'not-a-number', which is invalid.
+   [code: INVALID_PROPERTY_VALUE_IN_ATTR_VALUE  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
+   ACTION TAKEN: In meta.content the "minimum-scale=not-a-number" property value pair was removed from attribute due to validation issues.
+- The property 'foo' in attribute 'content' in tag 'meta name=viewport' is disallowed.
+   [code: DISALLOWED_PROPERTY_IN_ATTR_VALUE  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
+   ACTION TAKEN: In meta.content the "foo=bar" property value pair was removed from attribute due to validation issues. The resulting attribute was empty and was also removed.
+- The property 'width' is missing from attribute 'content' in tag 'meta name=viewport'.
+   [code: MANDATORY_PROPERTY_MISSING_FROM_ATTR_VALUE  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
+
+GLOBAL WARNING
+- The mandatory tag 'meta name=viewport' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required
