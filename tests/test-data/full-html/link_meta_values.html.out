@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS-IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the license.
+--><html amp><head><meta charset="utf-8"><link rel="canonical" href="./regular-html-version.html"><meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui"><!--
+    Test Description:
+    Tests that various link and meta tags are blacklisted/whitelisted as expected.
+  --><meta name="foo" content="bar"><meta property="foo" content="bar"><link rel="shortcut icon" type="a" href="b" sizes="c"><link rel="author" href="me"><link rel="DCTERMS.any" href="foo"><meta content="any"><link rel="unknown" href="foo"><link rel="comment cite map" href="foo"><link itemprop="foo" href="bar"><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script><!-- Invalid as we need some additional attributes e.g. "rel=canonical" --><link href="foo"></head><body>
+Hello, world.
+</body></html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+Line  3: 
+Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
+Line  5:   you may not use this file except in compliance with the License.
+Line  6:   You may obtain a copy of the License at
+Line  7: 
+Line  8:       http://www.apache.org/licenses/LICENSE-2.0
+Line  9: 
+Line 10:   Unless required by applicable law or agreed to in writing, software
+Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
+Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Line 13:   See the License for the specific language governing permissions and
+Line 14:   limitations under the license.
+Line 15: -->
+Line 16: <!doctype html>
+Line 17: <html ⚡>
+Line 18: <head>
+Line 19:   <meta charset="utf-8">
+Line 20:   <link rel="canonical" href="./regular-html-version.html" />
+Line 21:   <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+Line 22:   <!--
+Line 23:     Test Description:
+Line 24:     Tests that various link and meta tags are blacklisted/whitelisted as expected.
+Line 25:   -->
+Line 26:   <meta name="foo" content="bar">
+Line 27:   <meta property="foo" content="bar">
+Line 28:   <link rel="shortcut icon" type="a" href="b" sizes="c">
+Line 29:   <link rel="author" href="me">
+Line 30:   <link rel="DCTERMS.any" href="foo">
+Line 31: 
+Line 32:   <meta name="content-disposition" content="any">
+Line 33:   <link rel="unknown" href="foo">
+Line 34: 
+Line 35:   <link rel="comment cite map" href="foo">
+Line 36: 
+Line 37:   <link itemprop="foo" href="bar">
+Line 38: 
+Line 39:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 40:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line 41: 
+Line 42:   <!-- Invalid as we need some additional attributes e.g. "rel=canonical" -->
+Line 43:   <link href="foo">
+Line 44: </head>
+Line 45: <body>
+Line 46: Hello, world.
+Line 47: </body>
+Line 48: </html>
+Line 49: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<meta name="content-disposition" content="any"> on line 32
+- The attribute 'name' in tag 'meta name= and content=' is set to the invalid value 'content-disposition'.
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta.name attribute was removed due to validation issues.
+
+<link href="foo"> on line 43
+- The mandatory attribute 'rel' is missing in tag 'link rel='.
+   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML]
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required
