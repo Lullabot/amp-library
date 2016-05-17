@@ -40,7 +40,7 @@ class AmpTest extends PHPUnit_Framework_TestCase
      */
     public function testFiles($test_filename, $fragment)
     {
-        $output = $this->amp->consoleOutput($test_filename, $fragment, true);
+        $output = $this->amp->consoleOutput($test_filename, $fragment, true, true);
         $expected_output = file_get_contents("$test_filename.out");
         $this->assertEquals($expected_output, $output);
     }
