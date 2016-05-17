@@ -46,7 +46,7 @@ class AmpCommand extends Command
                 '--no-lines',
                 null,
                 InputOption::VALUE_NONE,
-                'If set, the line numbers will be not printed the AMPized HTML. Option makes sense only when --no-orig-and-warn is not used'
+                'If set, the line numbers will be not printed alongside the AMPized HTML.'
             )
             ->addOption(
                 '--diff',
