@@ -46,7 +46,8 @@ class StandardFixPass extends BasePass
     protected $remove_tags_for_codes = [
         ValidationErrorCode::WRONG_PARENT_TAG,
         ValidationErrorCode::DISALLOWED_TAG,
-        ValidationErrorCode::DUPLICATE_UNIQUE_TAG
+        ValidationErrorCode::DUPLICATE_UNIQUE_TAG,
+        ValidationErrorCode::GENERAL_DISALLOWED_TAG
     ];
 
     public function pass()

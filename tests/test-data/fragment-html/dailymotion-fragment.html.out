@@ -1,0 +1,27 @@
+<amp-dailymotion height="270" width="480" layout="responsive" data-videoid="x494jb9" data-start="120" data-mute="false"></amp-dailymotion><br><a href="http://www.dailymotion.com/video/x494jb9_the-hulk-vs-iron-man-mark-46_videogames" target="_blank">The Hulk vs
+    Iron Man - Mark 46</a> <i>by <a href="http://www.dailymotion.com/KjraGaming" target="_blank">KjraGaming</a></i>
+
+ORIGINAL HTML
+---------------
+Line 1: <iframe frameborder="0" width="480" height="270" src="//www.dailymotion.com/embed/video/x494jb9?start=120&mute=false"
+Line 2:         allowfullscreen></iframe><br/>
+Line 3: <a href="http://www.dailymotion.com/video/x494jb9_the-hulk-vs-iron-man-mark-46_videogames" target="_blank">The Hulk vs
+Line 4:     Iron Man - Mark 46</a> <i>by <a href="http://www.dailymotion.com/KjraGaming" target="_blank">KjraGaming</a></i>
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<iframe frameborder width="480" height="270" src="//www.dailymotion.com/embed/video/x494jb9?start=120&mute=false" allowfullscreen> at line 2
+ ACTION TAKEN: iframe dailymotion embed code was converted to the amp-dailymotion tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-dailymotion', include path 'https://cdn.ampproject.org/v0/amp-dailymotion-0.1.js'
+

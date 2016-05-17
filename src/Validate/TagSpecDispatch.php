@@ -28,7 +28,72 @@ namespace Lullabot\AMP\Validate;
 class TagSpecDispatch
 {
     /** @var ParsedTagSpec[] */
-    public $all_tag_specs = [];
+    protected $all_tag_specs = [];
     /** @var ParsedTagSpec[] */
-    public $tag_specs_by_dispatch = [];
+    protected $tag_specs_by_dispatch = [];
+
+    /**
+     * @param string $dispatch_key
+     * @param ParsedTagSpec $parsed_tag_spec
+     */
+    public function registerDispatchKey($dispatch_key, ParsedTagSpec $parsed_tag_spec)
+    {
+        assert(!isset($this->tag_specs_by_dispatch[$dispatch_key]));
+        $this->tag_specs_by_dispatch[$dispatch_key] = $parsed_tag_spec;
+    }
+
+    public function registerTagSpec(ParsedTagSpec $parsed_tag_spec)
+    {
+        $this->all_tag_specs[] = $parsed_tag_spec;
+    }
+
+    public function hasDispatchKeys()
+    {
+        return !empty($this->tag_specs_by_dispatch);
+    }
+
+    /**
+     * @param string $attr_name
+     * @param string $attr_value
+     * @param string $mandatory_parent
+     * @return ParsedTagSpec|null
+     */
+    public function matchingDispatchKey($attr_name, $attr_value, $mandatory_parent)
+    {
+        $dispatch_key = self::makeDispatchKey($attr_name, $attr_value, $mandatory_parent);
+        if (isset($this->tag_specs_by_dispatch[$dispatch_key])) {
+            return $this->tag_specs_by_dispatch[$dispatch_key];
+        }
+
+        $dispatch_key = self::makeDispatchKey($attr_name, $attr_value, "");
+        if (isset($this->tag_specs_by_dispatch[$dispatch_key])) {
+            return $this->tag_specs_by_dispatch[$dispatch_key];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $attr_name
+     * @param string $attr_value
+     * @param string $mandatory_parent
+     * @return string
+     *
+     * Corresponds to the global javascript function makeDispatchKey() in canonical validator.
+     */
+    public static function makeDispatchKey($attr_name, $attr_value, $mandatory_parent)
+    {
+        return "$attr_name^$attr_value^$mandatory_parent";
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTagSpecs() {
+        return !empty($this->all_tag_specs);
+    }
+
+    public function allTagSpecs() {
+        return $this->all_tag_specs;
+    }
 }

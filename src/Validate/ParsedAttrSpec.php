@@ -35,22 +35,20 @@ class ParsedAttrSpec
 {
     /** @var  AttrSpec */
     public $spec;
-    public $value_url_allowed_protocols = []; // Set with keys as strings
     /** @var PropertySpec[] */
     public $value_property_by_name = [];
     /** @var PropertySpec[] */
     public $mandatory_value_property_names = [];
+    /** @var ParsedAttrTriggerSpec|null */
+    public $trigger_spec = null;
+    /** @var ParsedUrlSpec */
+    public $value_url_spec;
 
     public function __construct(AttrSpec $attr_spec)
     {
         $this->spec = $attr_spec;
-        if (!empty($this->spec->value_url)) {
-            /** @var string $allowed_protocol */
-            foreach ($this->spec->value_url->allowed_protocol as $allowed_protocol) {
-                $this->value_url_allowed_protocols[$allowed_protocol] = 1; // Treat as a Set
-
-            }
-        }
+        // Can pass null
+        $this->value_url_spec = new ParsedUrlSpec($this->spec->value_url);
 
         if (!empty($this->spec->value_properties)) {
             /** @var PropertySpec $property */
@@ -61,6 +59,26 @@ class ParsedAttrSpec
                 }
             }
         }
+
+        if (!empty($this->spec->trigger)) {
+            $this->trigger_spec = new ParsedAttrTriggerSpec($this->spec);
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTriggerSpec()
+    {
+        return $this->trigger_spec !== null;
+    }
+
+    /**
+     * @return ParsedAttrTriggerSpec|null
+     */
+    public function getTriggerSpec()
+    {
+        return $this->trigger_spec;
     }
 
     /**
@@ -69,39 +87,6 @@ class ParsedAttrSpec
     public function getSpec()
     {
         return $this->spec;
-    }
-
-    /**
-     * @param Context $context
-     * @param string $attr_name
-     * @param string $url
-     * @param TagSpec $tagspec
-     * @param string $spec_url
-     * @param SValidationResult $validation_result
-     */
-    public function validateUrlAndProtocol(Context $context, $attr_name, $url, TagSpec $tagspec, $spec_url, SValidationResult $validation_result)
-    {
-        if (empty(trim($url))) {
-            $context->addError(ValidationErrorCode::MISSING_URL,
-                [$attr_name, ParsedTagSpec::getDetailOrName($tagspec)], $spec_url, $validation_result, $attr_name);
-            return;
-        }
-
-        $url_components = parse_url($url);
-        if ($url_components === FALSE) {
-            $context->addError(ValidationErrorCode::INVALID_URL,
-                [$attr_name, ParsedTagSpec::getDetailOrName($tagspec), $url], $spec_url, $validation_result, $attr_name);
-            return;
-        }
-
-        if (!empty($url_components['scheme'])) {
-            $scheme = mb_strtolower($url_components['scheme'], 'UTF-8');
-            if (!isset($this->value_url_allowed_protocols[$scheme])) {
-                $context->addError(ValidationErrorCode::INVALID_URL_PROTOCOL,
-                    [$attr_name, ParsedTagSpec::getDetailOrName($tagspec), $scheme], $spec_url, $validation_result, $attr_name);
-                return;
-            }
-        }
     }
 
     /**
@@ -132,7 +117,7 @@ class ParsedAttrSpec
 
         if (empty($maybe_uris)) {
             $context->addError(ValidationErrorCode::MISSING_URL,
-                [$attr_name, ParsedTagSpec::getDetailOrName($tagspec)], $spec_url, $validation_result, $attr_name);
+                [$attr_name, ParsedTagSpec::getTagSpecName($tagspec)], $spec_url, $validation_result, $attr_name);
             return;
         }
 
@@ -142,7 +127,7 @@ class ParsedAttrSpec
          */
         foreach ($maybe_uris as $maybe_uri => $always_one) {
             $unescape_maybe_uri = html_entity_decode($maybe_uri, ENT_HTML5);
-            $this->validateUrlAndProtocol($context, $attr_name, $unescape_maybe_uri, $tagspec, $spec_url, $validation_result);
+            $this->value_url_spec->validateUrlAndProtocolInAttr($context, $attr_name, $unescape_maybe_uri, $tagspec, $validation_result);
             if ($validation_result->status === ValidationResultStatus::FAIL) {
                 // No explicit $context->addError as $this->validateUrlAndProtocol would have already done that
                 return;
@@ -179,7 +164,7 @@ class ParsedAttrSpec
             $segment = $properties_segment[$name];
             if (!isset($this->value_property_by_name[$name])) {
                 $context->addError(ValidationErrorCode::DISALLOWED_PROPERTY_IN_ATTR_VALUE,
-                    [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec)], $spec_url, $result, $attr_name, $segment);
+                    [$name, $attr_name, ParsedTagSpec::getTagSpecName($tagspec)], $spec_url, $result, $attr_name, $segment);
                 continue;
             }
             /** @var PropertySpec $property_spec */
@@ -187,12 +172,12 @@ class ParsedAttrSpec
             if (!empty($property_spec->value)) {
                 if ($property_spec->value != mb_strtolower($value, 'UTF-8')) {
                     $context->addError(ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE,
-                        [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec), $value], $spec_url, $result, $attr_name, $segment);
+                        [$name, $attr_name, ParsedTagSpec::getTagSpecName($tagspec), $value], $spec_url, $result, $attr_name, $segment);
                 }
             } else if (!empty($property_spec->value_double)) {
                 if (!is_numeric($value) || ((float)$property_spec->value_double) !== ((float)$value)) {
                     $context->addError(ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE,
-                        [$name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec), $value], $spec_url, $result, $attr_name, $segment);
+                        [$name, $attr_name, ParsedTagSpec::getTagSpecName($tagspec), $value], $spec_url, $result, $attr_name, $segment);
                 }
             }
         }
@@ -202,7 +187,7 @@ class ParsedAttrSpec
         foreach ($this->mandatory_value_property_names as $mandatory_value_property_name) {
             if (false === array_search($mandatory_value_property_name->name, $names)) {
                 $context->addError(ValidationErrorCode::MANDATORY_PROPERTY_MISSING_FROM_ATTR_VALUE,
-                    [$mandatory_value_property_name->name, $attr_name, ParsedTagSpec::getDetailOrName($tagspec)],
+                    [$mandatory_value_property_name->name, $attr_name, ParsedTagSpec::getTagSpecName($tagspec)],
                     $spec_url, $result, $attr_name);
             }
         }

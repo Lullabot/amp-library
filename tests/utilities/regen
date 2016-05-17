@@ -1,0 +1,112 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * Copyright 2016 Google
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+require '../../../vendor/autoload.php';
+
+use Lullabot\AMP\AMP;
+
+/**
+ * Small utility class to regenerate .out files from html
+ * Usage (first "cd" into the AMP PHP Library folder):
+ *   (To regenerate all .out files)
+ *   $ test-data/utilities/regen
+ *   (To regenerate a specific .out file e.g.)
+ *   $ test-data/utilities/regen tests/test-data/fragment-html/sample-html-fragment.html
+ */
+
+/**
+ * Generate output files
+ */
+$regen = new Regen();
+if (!empty($argv[1])) {
+    $full_document = true;
+    if (preg_match('&/fragment-html/&i', $argv[1])) {
+        $full_document = false;
+    }
+    $regen->genFile($argv[1], $full_document);
+} else {
+    $regen->genAllFiles();
+}
+
+/**
+ * Class Regen
+ */
+class Regen
+{
+    /** @var AMP|null */
+    protected $amp = null;
+
+    public function __construct()
+    {
+        $this->amp = new AMP();
+    }
+
+    /**
+     * @param $test_filename
+     * @param $fragment
+     * @throws Exception
+     */
+    public function genFile($test_filename, $fragment)
+    {
+        $output = $this->amp->consoleOutput($test_filename, $fragment, true, true);
+        $expected_out_filename = "$test_filename.out";
+        $handle = fopen($expected_out_filename, 'w+');
+        if ($handle === false) {
+            throw new \Exception("Could not open $expected_out_filename for writing");
+        }
+        fwrite($handle, $output);
+        print("Wrote $expected_out_filename" . PHP_EOL);
+    }
+
+    public function genAllFiles()
+    {
+        foreach ($this->filenameProvider() as $test_filename => $fragment) {
+            $this->genFile($test_filename, $fragment);
+        }
+    }
+
+    protected function filenameProvider()
+    {
+        $all_tests = [];
+        foreach ($this->getTestFiles('tests/test-data/fragment-html/') as $test_filename) {
+            yield $test_filename => false;
+        }
+
+        foreach ($this->getTestFiles('tests/test-data/full-html/') as $test_filename) {
+            yield $test_filename => true;
+        }
+
+        return $all_tests;
+    }
+
+    protected function getTestFiles($subdirectory)
+    {
+        /** @var DirectoryIterator $fileitem */
+        foreach (new DirectoryIterator($subdirectory) as $fileitem) {
+            if (!$fileitem->isFile()) {
+                continue;
+            }
+
+            $file_pathname = $fileitem->getPathname();
+            if (preg_match('/\.html$/', $file_pathname)) {
+                yield $file_pathname;
+            }
+        }
+    }
+}

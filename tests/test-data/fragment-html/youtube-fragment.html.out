@@ -1,0 +1,27 @@
+<amp-youtube height="315" width="560" data-videoid="MnR9AVs6Q_c" layout="responsive"></amp-youtube>
+
+
+
+ORIGINAL HTML
+---------------
+Line 1: <iframe width="560" height="315" src="https://www.youtube.com/embed/MnR9AVs6Q_c" frameborder="0" allowfullscreen></iframe>
+Line 2: 
+Line 3: 
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/MnR9AVs6Q_c" frameborder allowfullscreen> at line 1
+ ACTION TAKEN: iframe tag was converted to the amp-youtube tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-youtube', include path 'https://cdn.ampproject.org/v0/amp-youtube-0.1.js'
+

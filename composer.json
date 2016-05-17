@@ -20,5 +20,9 @@
     "autoload": {
         "classmap": ["src/Spec/validator-generated.php"],
         "psr-4": {"Lullabot\\AMP\\": "src"}
+    },
+    "require-dev": {
+        "php" : ">=5.5.0",
+        "phpunit/phpunit": "4.8.*"
     }
 }

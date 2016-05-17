@@ -90,14 +90,15 @@ class ParsedValidatorRules
         $detail_or_names_to_track = [];
         /** @var TagSpec $tagspec */
         foreach ($this->rules->tags as $tagspec) {
-            assert(empty($tagspec_by_detail_or_name[ParsedTagSpec::getDetailOrName($tagspec)]));
-            $tagspec_by_detail_or_name[ParsedTagSpec::getDetailOrName($tagspec)] = $tagspec;
+            assert(empty($tagspec_by_detail_or_name[ParsedTagSpec::getTagSpecName($tagspec)]));
+            $tagspec_by_detail_or_name[ParsedTagSpec::getTagSpecName($tagspec)] = $tagspec;
 
-            if (!empty($tagspec->also_requires)) {
-                $detail_or_names_to_track[ParsedTagSpec::getDetailOrName($tagspec)] = 1;
+            if (!empty($tagspec->also_requires_tag)) {
+                $detail_or_names_to_track[ParsedTagSpec::getTagSpecName($tagspec)] = 1;
             }
 
-            foreach ($tagspec->also_requires as $require) {
+            /** @var string $require */
+            foreach ($tagspec->also_requires_tag as $require) {
                 $detail_or_names_to_track[$require] = 1;
             }
         }
@@ -106,20 +107,20 @@ class ParsedValidatorRules
         foreach ($this->rules->tags as $tagspec) {
             /** @var ParsedTagSpec $parsed_tag_spec */
             $parsed_tag_spec = new ParsedTagSpec($attr_lists_by_name, $tagspec_by_detail_or_name, ParsedTagSpec::shouldRecordTagspecValidatedTest($tagspec, $detail_or_names_to_track), $tagspec);
-            assert(!empty($tagspec->name));
+            assert(!empty($tagspec->tag_name));
             $this->all_parsed_specs_by_specs[$tagspec] = $parsed_tag_spec;
 
-            if (!isset($this->tag_dispatch_by_tag_name[$tagspec->name])) {
-                $this->tag_dispatch_by_tag_name[$tagspec->name] = new TagSpecDispatch();
+            if (!isset($this->tag_dispatch_by_tag_name[$tagspec->tag_name])) {
+                $this->tag_dispatch_by_tag_name[$tagspec->tag_name] = new TagSpecDispatch();
             }
 
             /** @var TagSpecDispatch $tagname_dispatch */
-            $tagname_dispatch = $this->tag_dispatch_by_tag_name[$tagspec->name];
+            $tagname_dispatch = $this->tag_dispatch_by_tag_name[$tagspec->tag_name];
             if ($parsed_tag_spec->hasDispatchKey()) {
-                $tagname_dispatch->tag_specs_by_dispatch[$parsed_tag_spec->getDispatchKey()] = $parsed_tag_spec;
+                $tagname_dispatch->registerDispatchKey($parsed_tag_spec->getDispatchKey(), $parsed_tag_spec);
+            } else {
+                $tagname_dispatch->registerTagSpec($parsed_tag_spec);
             }
-
-            $tagname_dispatch->all_tag_specs[] = $parsed_tag_spec;
 
             if ($tagspec->mandatory) {
                 $this->mandatory_tag_specs[] = $parsed_tag_spec;
@@ -155,37 +156,36 @@ class ParsedValidatorRules
         $result_for_best_attempt = new SValidationResult();
         $result_for_best_attempt->status = ValidationResultStatus::FAIL;
 
-        // Try to validate against a specfication if we're able to dipatch based on attribute key and value
-        if (!empty($tag_spec_dispatch->tag_specs_by_dispatch)) {
+        // Try to validate against a specification if we're able to dispatch based on attribute key, value and optionally, parent name
+        if ($tag_spec_dispatch->hasDispatchKeys()) {
             foreach ($encountered_attributes as $attr_name => $attr_value) {
                 if (empty($attr_value)) {
                     $attr_value = '';
                 }
                 $attr_name = mb_strtolower($attr_name, 'UTF-8');
-                $dispatch_pattern = "$attr_name=$attr_value";
-                /** @var ParsedTagSpec $match_spec */
-                $match_spec = isset($tag_spec_dispatch->tag_specs_by_dispatch[$dispatch_pattern]) ?
-                    $tag_spec_dispatch->tag_specs_by_dispatch[$dispatch_pattern] : null;
-                if ($match_spec) {
+                $attr_value = mb_strtolower($attr_value, 'UTF-8');
+
+                /** @var ParsedTagSpec|null $match_spec */
+                $match_spec = $tag_spec_dispatch->matchingDispatchKey($attr_name, $attr_value, $context->getParentTagName());
+                if (!empty($match_spec)) {
                     $this->validateTagAgainstSpec($match_spec, $context, $encountered_attributes, $result_for_best_attempt);
-                    // If we succeeded
-                    if ($result_for_best_attempt->status !== ValidationResultStatus::FAIL) {
-                        $validation_result->mergeFrom($result_for_best_attempt);
-                        return;
-                    }
+                    $validation_result->mergeFrom($result_for_best_attempt);
+                    return;
                 }
+            }
+
+            if (!$tag_spec_dispatch->hasTagSpecs()) {
+                $context->addError(ValidationErrorCode::GENERAL_DISALLOWED_TAG, [$tag_name], '', $validation_result);
+                return;
             }
         }
 
         // we were not able to dispatch based on a dispatch key, try all matching parsed specfications for that tag name
-        if ($result_for_best_attempt->status === ValidationResultStatus::FAIL) {
-            foreach ($tag_spec_dispatch->all_tag_specs as $parsed_spec) {
-                $this->validateTagAgainstSpec($parsed_spec, $context, $encountered_attributes, $result_for_best_attempt);
-                // If we succeeded
-                if ($result_for_best_attempt->status !== ValidationResultStatus::FAIL) {
-                    $validation_result->mergeFrom($result_for_best_attempt);
-                    return;
-                }
+        foreach ($tag_spec_dispatch->allTagSpecs() as $parsed_spec) {
+            $this->validateTagAgainstSpec($parsed_spec, $context, $encountered_attributes, $result_for_best_attempt);
+            // If we succeeded
+            if ($result_for_best_attempt->status !== ValidationResultStatus::FAIL) {
+                break;
             }
         }
 
@@ -208,7 +208,11 @@ class ParsedValidatorRules
         $parsed_spec->validateAttributes($context, $encountered_attributes, $result_for_attempt);
         $parsed_spec->validateParentTag($context, $result_for_attempt);
         $parsed_spec->validateAncestorTags($context, $result_for_attempt);
+        $parsed_spec->validateChildTags($context, $result_for_attempt);
 
+        // This is an important piece of code. Essentially, if the only errors you got were highly specific then that
+        // means that you choose the correct tagspec to validate against. (This becomes useful when we don't have dispatch
+        // keys. e.g. source tag). Since the errors were highly specific, make this your "best result"
         if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
             if (SValidationResult::maxSpecificity($result_for_attempt) > SValidationResult::maxSpecificity($result_for_best_attempt)) {
                 $result_for_best_attempt->status = $result_for_attempt->status;
@@ -226,7 +230,7 @@ class ParsedValidatorRules
             if ($parsed_spec->getSpec()->unique && $is_unique !== true) {
                 /** @var ParsedTagSpec $parsed_spec */
                 $spec = $parsed_spec->getSpec();
-                $context->addError(ValidationErrorCode::DUPLICATE_UNIQUE_TAG, [ParsedTagSpec::getDetailOrName($spec)], $spec->spec_url, $result_for_best_attempt);
+                $context->addError(ValidationErrorCode::DUPLICATE_UNIQUE_TAG, [ParsedTagSpec::getTagSpecName($spec)], $spec->spec_url, $result_for_best_attempt);
                 return;
             }
         }
@@ -252,7 +256,7 @@ class ParsedValidatorRules
             $tagspec = $parsed_tag_spec->getSpec();
             if (!$context->getTagspecsValidated()->contains($parsed_tag_spec)) {
                 if (!$context->addError(ValidationErrorCode::MANDATORY_TAG_MISSING,
-                    [ParsedTagSpec::getDetailOrName($tagspec)], $tagspec->spec_url, $validation_result)
+                    [ParsedTagSpec::getTagSpecName($tagspec)], $tagspec->spec_url, $validation_result)
                 ) {
                     return;
                 };
@@ -270,12 +274,12 @@ class ParsedValidatorRules
         /** @var ParsedTagSpec $parsed_tag_spec */
         foreach ($context->getTagspecsValidated() as $parsed_tag_spec) {
             /** @var TagSpec $tagspec_require */
-            foreach ($parsed_tag_spec->getAlsoRequires() as $tagspec_require) {
+            foreach ($parsed_tag_spec->getAlsoRequiresTagspec() as $tagspec_require) {
                 /** @var ParsedTagSpec $parsed_tag_spec_require */
                 $parsed_tag_spec_require = $this->all_parsed_specs_by_specs[$tagspec_require];
                 assert(!empty($parsed_tag_spec_require));
-                if (preg_match('/(*UTF8)extension \.js script$/i', $tagspec_require->detail)) {
-                    $base_pass->addComponent($parsed_tag_spec->getSpec()->name);
+                if (preg_match('/(*UTF8)extension \.js script$/i', $tagspec_require->spec_name)) {
+                    $base_pass->addComponent($parsed_tag_spec->getSpec()->tag_name);
                 }
 
                 // Note that this comes after the addComponent call
@@ -286,7 +290,7 @@ class ParsedValidatorRules
 
                 if (!$context->getTagspecsValidated()->contains($parsed_tag_spec_require)) {
                     if (!$context->addError(ValidationErrorCode::TAG_REQUIRED_BY_MISSING,
-                        [ParsedTagSpec::getDetailOrName($tagspec_require), ParsedTagSpec::getDetailOrName($parsed_tag_spec->getSpec())],
+                        [ParsedTagSpec::getTagSpecName($tagspec_require), ParsedTagSpec::getTagSpecName($parsed_tag_spec->getSpec())],
                         $tagspec_require->spec_url, $validation_result)
                     ) {
                         return;

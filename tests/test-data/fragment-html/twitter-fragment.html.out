@@ -1,0 +1,29 @@
+<amp-twitter data-cards="hidden" data-lang="en" height="223" width="486" layout="responsive" data-tweetid="704420904437043200"></amp-twitter>
+
+
+ORIGINAL HTML
+---------------
+Line 1: <blockquote data-cards="hidden" class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Lorraine and I had an amazing time at the <a
+Line 2:         href="https://twitter.com/hashtag/Oscars?src=hash">#Oscars</a>! Congrats to all of the nominees on a job
+Line 3:     well-done! <a href="https://t.co/xyrO7kQBzH">pic.twitter.com/xyrO7kQBzH</a></p>&mdash; Andy Serkis (@andyserkis) <a
+Line 4:         href="https://twitter.com/andyserkis/status/704420904437043200">February 29, 2016</a></blockquote>
+Line 5: <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+Line 6: 
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<blockquote data-cards="hidden" class="twitter-tweet" data-lang="en"> at line 1
+ ACTION TAKEN: blockquote.twitter-tweet (with twitter script tag) twitter embed code was converted to the amp-twitter tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-twitter', include path 'https://cdn.ampproject.org/v0/amp-twitter-0.1.js'
+

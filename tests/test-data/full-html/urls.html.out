@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS-IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the license.
+--><!--
+  Test Description:
+    This tests looks at specific errors related to URLs in href and src
+    attributes.
+--><html amp><head><meta charset="utf-8"><link rel="canonical"><meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui"><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script src="https://cdn.ampproject.org/v0.js" async></script></head><body>
+  <a href="https://google.com/">Valid URL</a>
+  <a href=" http://google.com/ ">Valid URL</a>
+  <a href="foo">Valid URL</a>
+  <a href="/bar">Valid URL</a>
+  <a href="#foobar">Valid URL</a>
+  <a href="https://⚡">Valid URL</a>
+  <a>Valid URL</a>
+  <a href="HtTpS://Google.com/">Valid URL</a>
+  <a>Invalid protocol</a>
+  <a>Invalid protocol</a>
+  <a>Invalid protocol</a>
+  <a>Invalid protocol</a>
+  <a>Invalid protocol</a>
+  <a href="ftp://google.com/">Valid protocol</a>
+  <a>Malformed URL</a>
+  <!-- invalid (javascript is not an allowed protocol: singluar src element) -->
+  <amp-img layout="fill"></amp-img><!-- invalid (javascript is not an allwoed protocol: second src element) --><amp-img layout="fill"></amp-img><!-- valid --><amp-img srcset="image-1x.png 1x, image-2x.png 2x" layout="fill"></amp-img><!-- valid --><amp-img srcset="image-1x.png 1x, image-2x.png 2x," layout="fill"></amp-img><!-- valid (commas are valid in URLs) --><amp-img srcset="image-1,x.png 1x, image-2,x.png 2x" layout="fill"></amp-img><!-- invalid (javascript is not an allowed protocol: multi src element) --><amp-img layout="fill"></amp-img><!-- invalid (javascript is not an allowed protocol: case insensitive) --><amp-img layout="fill"></amp-img><!-- invalid (not a valid URL) --><amp-img layout="fill"></amp-img><!-- invalid (empty) --><amp-img layout="fill"></amp-img><!-- invalid (duplicate pixel density) --><amp-img srcset="image-1x.png 1x, image-2x.png 1x" layout="fill"></amp-img><!-- invalid (URL has spaces that are not encoded) --><amp-img srcset="image 1x.png 1x, image 2x.png 2x" layout="fill"></amp-img><!-- valid (URL has encoded spaces) --><amp-img srcset=", image%201x.png 1x, image%202x.png 2x" layout="fill"></amp-img><!-- Missing src --><amp-ad width="42" height="42" type></amp-ad><amp-anim width="42" height="42"></amp-anim><amp-audio layout="fixed" width="42"></amp-audio><amp-iframe width="42" height="42"></amp-iframe><amp-img layout="responsive" width="42" height="42"></amp-img><amp-pixel layout="fixed" width="42"></amp-pixel><amp-video width="42" height="42"></amp-video><!-- Invalid protocol --><amp-ad width="42" height="42" type></amp-ad><amp-iframe width="42" height="42"></amp-iframe><amp-pixel layout="fixed" width="42"></amp-pixel><amp-video width="42" height="42"></amp-video></body></html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+Line  3: 
+Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
+Line  5:   you may not use this file except in compliance with the License.
+Line  6:   You may obtain a copy of the License at
+Line  7: 
+Line  8:       http://www.apache.org/licenses/LICENSE-2.0
+Line  9: 
+Line 10:   Unless required by applicable law or agreed to in writing, software
+Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
+Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Line 13:   See the License for the specific language governing permissions and
+Line 14:   limitations under the license.
+Line 15: -->
+Line 16: <!--
+Line 17:   Test Description:
+Line 18:     This tests looks at specific errors related to URLs in href and src
+Line 19:     attributes.
+Line 20: -->
+Line 21: <!doctype html>
+Line 22: <html ⚡>
+Line 23: <head>
+Line 24:   <meta charset="utf-8">
+Line 25:   <link rel="canonical" href="javascript://llamas" />
+Line 26:   <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+Line 27:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 28:   <script src="https://cdn.ampproject.org/v0.js" async></script>
+Line 29: </head>
+Line 30: <body>
+Line 31:   <a href="https://google.com/">Valid URL</a>
+Line 32:   <a href=" http://google.com/ ">Valid URL</a>
+Line 33:   <a href="foo">Valid URL</a>
+Line 34:   <a href="/bar">Valid URL</a>
+Line 35:   <a href="#foobar">Valid URL</a>
+Line 36:   <a href="https://⚡">Valid URL</a>
+Line 37:   <a href="https://">Valid URL</a>
+Line 38:   <a href="HtTpS://Google.com/">Valid URL</a>
+Line 39:   <a href="javascript:alert('boo')">Invalid protocol</a>
+Line 40:   <a href="JavaScript:alert('boo')">Invalid protocol</a>
+Line 41:   <a href="javascript&colon;alert(1)">Invalid protocol</a>
+Line 42:   <a href="vbscript:bar">Invalid protocol</a>
+Line 43:   <a href="data:baz">Invalid protocol</a>
+Line 44:   <a href="ftp://google.com/">Valid protocol</a>
+Line 45:   <a href="http://site:80808/%AFpage">Malformed URL</a>
+Line 46:   <!-- invalid (javascript is not an allowed protocol: singluar src element) -->
+Line 47:   <amp-img srcset="javascript:alert(1)" layout="fill"></amp-img>
+Line 48:   <!-- invalid (javascript is not an allwoed protocol: second src element) -->
+Line 49:   <amp-img srcset="image-1.png 1x, javascript:alert(1)" layout="fill"></amp-img>
+Line 50:   <!-- valid -->
+Line 51:   <amp-img srcset="image-1x.png 1x, image-2x.png 2x" layout="fill"></amp-img>
+Line 52:   <!-- valid -->
+Line 53:   <amp-img srcset="image-1x.png 1x, image-2x.png 2x," layout="fill"></amp-img>
+Line 54:   <!-- valid (commas are valid in URLs) -->
+Line 55:   <amp-img srcset="image-1,x.png 1x, image-2,x.png 2x" layout="fill"></amp-img>
+Line 56:   <!-- invalid (javascript is not an allowed protocol: multi src element) -->
+Line 57:   <amp-img srcset="javascript:alert('boo') 1x, foo 2x" layout="fill"></amp-img>
+Line 58:   <!-- invalid (javascript is not an allowed protocol: case insensitive) -->
+Line 59:   <amp-img srcset="image-1x.png 1x, JavaScript:baz 2x" layout="fill"></amp-img>
+Line 60:   <!-- invalid (not a valid URL) -->
+Line 61:   <amp-img srcset="http://site:80808/%AFimg 1x, img 2x" layout="fill"></amp-img>
+Line 62:   <!-- invalid (empty) -->
+Line 63:   <amp-img srcset="" layout="fill"></amp-img>
+Line 64:   <!-- invalid (duplicate pixel density) -->
+Line 65:   <amp-img srcset="image-1x.png 1x, image-2x.png 1x" layout="fill"></amp-img>
+Line 66:   <!-- invalid (URL has spaces that are not encoded) -->
+Line 67:   <amp-img srcset="image 1x.png 1x, image 2x.png 2x" layout="fill"></amp-img>
+Line 68:   <!-- valid (URL has encoded spaces) -->
+Line 69:   <amp-img srcset=", image%201x.png 1x, image%202x.png 2x" layout="fill"></amp-img>
+Line 70: 
+Line 71:   <!-- Missing src -->
+Line 72:   <amp-ad src="" width="42" height="42" type=""></amp-ad>
+Line 73:   <amp-anim src="" width="42" height="42"></amp-anim>
+Line 74:   <amp-audio src="" layout="fixed" width="42"></amp-audio>
+Line 75:   <amp-iframe src="" width="42" height="42"></amp-iframe>
+Line 76:   <amp-img src="" layout="responsive" width="42" height="42"></amp-img>
+Line 77:   <amp-pixel src="" layout="fixed" width="42"></amp-pixel>
+Line 78:   <amp-video src="" width="42" height="42"></amp-video>
+Line 79:   <!-- Invalid protocol -->
+Line 80:   <amp-ad src="http://amp-ad" width="42" height="42" type=""></amp-ad>
+Line 81:   <amp-iframe src="http://amp-iframe" width="42" height="42"></amp-iframe>
+Line 82:   <amp-pixel src="http://amp-pixel" layout="fixed" width="42"></amp-pixel>
+Line 83:   <amp-video src="http://amp-video" width="42" height="42"></amp-video>
+Line 84: </body>
+Line 85: </html>
+Line 86: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<link rel="canonical" href="javascript://llamas"> on line 25
+- Invalid URL protocol 'javascript:' for attribute 'href' in tag 'link rel=canonical'.
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
+   ACTION TAKEN: link.href attribute was removed due to validation issues.
+
+<a href="https://"> on line 37
+- Malformed URL 'https://' for attribute 'href' in tag 'a'.
+   [code: INVALID_URL  category: DISALLOWED_HTML]
+   ACTION TAKEN: a.href attribute was removed due to validation issues.
+
+<a href="javascript:alert('boo')"> on line 39
+- Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   ACTION TAKEN: a.href attribute was removed due to validation issues.
+
+<a href="JavaScript:alert('boo')"> on line 40
+- Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   ACTION TAKEN: a.href attribute was removed due to validation issues.
+
+<a href="javascript&colon;alert(1)"> on line 41
+- Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   ACTION TAKEN: a.href attribute was removed due to validation issues.
+
+<a href="vbscript:bar"> on line 42
+- Invalid URL protocol 'vbscript:' for attribute 'href' in tag 'a'.
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   ACTION TAKEN: a.href attribute was removed due to validation issues.
+
+<a href="data:baz"> on line 43
+- Invalid URL protocol 'data:' for attribute 'href' in tag 'a'.
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   ACTION TAKEN: a.href attribute was removed due to validation issues.
+
+<a href="http://site:80808/%AFpage"> on line 45
+- Malformed URL 'http://site:80808/%AFpage' for attribute 'href' in tag 'a'.
+   [code: INVALID_URL  category: DISALLOWED_HTML]
+   ACTION TAKEN: a.href attribute was removed due to validation issues.
+
+<amp-img srcset="javascript:alert(1)" layout="fill"> on line 47
+- Invalid URL protocol 'javascript:' for attribute 'srcset' in tag 'amp-img'.
+   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.srcset attribute was removed due to validation issues.
+
+<amp-img srcset="image-1.png 1x, javascript:alert(1)" layout="fill"> on line 49
+- Invalid URL protocol 'javascript:' for attribute 'srcset' in tag 'amp-img'.
+   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.srcset attribute was removed due to validation issues.
+
+<amp-img srcset="javascript:alert('boo') 1x, foo 2x" layout="fill"> on line 57
+- Invalid URL protocol 'javascript:' for attribute 'srcset' in tag 'amp-img'.
+   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.srcset attribute was removed due to validation issues.
+
+<amp-img srcset="image-1x.png 1x, JavaScript:baz 2x" layout="fill"> on line 59
+- Invalid URL protocol 'javascript:' for attribute 'srcset' in tag 'amp-img'.
+   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.srcset attribute was removed due to validation issues.
+
+<amp-img srcset="http://site:80808/%AFimg 1x, img 2x" layout="fill"> on line 61
+- Malformed URL 'http://site:80808/%AFimg' for attribute 'srcset' in tag 'amp-img'.
+   [code: INVALID_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.srcset attribute was removed due to validation issues.
+
+<amp-img srcset layout="fill"> on line 63
+- Missing URL for attribute 'srcset' in tag 'amp-img'.
+   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.srcset attribute was removed due to validation issues.
+
+<amp-ad src width="42" height="42" type> on line 72
+- Missing URL for attribute 'src' in tag 'amp-ad'.
+   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-ad.html]
+   ACTION TAKEN: amp-ad.src attribute was removed due to validation issues.
+
+<amp-anim src width="42" height="42"> on line 73
+- Missing URL for attribute 'src' in tag 'amp-anim'.
+   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-anim.html]
+   ACTION TAKEN: amp-anim.src attribute was removed due to validation issues.
+
+<amp-audio src layout="fixed" width="42"> on line 74
+- Missing URL for attribute 'src' in tag 'amp-audio'.
+   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
+   ACTION TAKEN: amp-audio.src attribute was removed due to validation issues.
+
+<amp-iframe src width="42" height="42"> on line 75
+- Missing URL for attribute 'src' in tag 'amp-iframe'.
+   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-iframe.html]
+   ACTION TAKEN: amp-iframe.src attribute was removed due to validation issues.
+
+<amp-img src layout="responsive" width="42" height="42"> on line 76
+- Missing URL for attribute 'src' in tag 'amp-img'.
+   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.src attribute was removed due to validation issues.
+
+<amp-pixel src layout="fixed" width="42"> on line 77
+- Missing URL for attribute 'src' in tag 'amp-pixel'.
+   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-pixel.html]
+   ACTION TAKEN: amp-pixel.src attribute was removed due to validation issues.
+
+<amp-video src width="42" height="42"> on line 78
+- Missing URL for attribute 'src' in tag 'amp-video'.
+   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-video.html]
+   ACTION TAKEN: amp-video.src attribute was removed due to validation issues.
+
+<amp-ad src="http://amp-ad" width="42" height="42" type> on line 80
+- Invalid URL protocol 'http:' for attribute 'src' in tag 'amp-ad'.
+   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-ad.html]
+   ACTION TAKEN: amp-ad.src attribute was removed due to validation issues.
+
+<amp-iframe src="http://amp-iframe" width="42" height="42"> on line 81
+- Invalid URL protocol 'http:' for attribute 'src' in tag 'amp-iframe'.
+   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-iframe.html]
+   ACTION TAKEN: amp-iframe.src attribute was removed due to validation issues.
+
+<amp-pixel src="http://amp-pixel" layout="fixed" width="42"> on line 82
+- Invalid URL protocol 'http:' for attribute 'src' in tag 'amp-pixel'.
+   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-pixel.html]
+   ACTION TAKEN: amp-pixel.src attribute was removed due to validation issues.
+
+<amp-video src="http://amp-video" width="42" height="42"> on line 83
+- Invalid URL protocol 'http:' for attribute 'src' in tag 'amp-video'.
+   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-video.html]
+   ACTION TAKEN: amp-video.src attribute was removed due to validation issues.
+
+GLOBAL WARNING
+- The mandatory tag 'link rel=canonical' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required

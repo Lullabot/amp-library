@@ -1,0 +1,25 @@
+<amp-soundcloud data-trackid="238184768" layout="fixed-height" data-visual="true" height="450"></amp-soundcloud>
+
+ORIGINAL HTML
+---------------
+Line 1: <iframe width="100%" height="450" scrolling="no" frameborder="no"
+Line 2:         src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/238184768&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true">
+Line 3: </iframe>
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/238184768&auto_play=false&hide_related=false&show_commen... at line 2
+ ACTION TAKEN: iframe tag was converted to the amp-soundcloud tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-soundcloud', include path 'https://cdn.ampproject.org/v0/amp-soundcloud-0.1.js'
+

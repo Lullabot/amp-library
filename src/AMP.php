@@ -43,14 +43,17 @@ class AMP
     // The StandardFixPass should be after StandardScanPass
     public $passes = [
         'Lullabot\AMP\Pass\ImgTagTransformPass', // Transform pass
+        'Lullabot\AMP\Pass\IframeSoundCloudTagTransformPass', // Transform Pass
+        'Lullabot\AMP\Pass\IframeVimeoTagTransformPass', // Transform Pass
+        'Lullabot\AMP\Pass\IframeVineTagTransformPass', // Transform Pass
+        'Lullabot\AMP\Pass\IframeDailymotionTagTransformPass', // Transform Pass
         'Lullabot\AMP\Pass\IframeYouTubeTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\IframeTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\InstagramTransformPass', // Transform pass
+        'Lullabot\AMP\Pass\PinterestTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\TwitterTransformPass', // Transform pass
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
-        // Disable this for now. Canonical validator also does not seem to flagging conditional comments.
-        // 'Lullabot\AMP\Pass\HtmlCommentPass',
         'Lullabot\AMP\Pass\StatisticsPass'
     ];
 
@@ -463,5 +466,95 @@ class AMP
         $warning_text .= $this->getValidationWarnings();
 
         return $warning_text;
+    }
+
+    /**
+     * @param string $filename
+     * @param bool $full_document
+     * @param bool $no_lines
+     * @param bool $diff
+     * @param bool $no_orig_and_warn
+     * @param bool $js
+     * @param bool $verbose
+     * @return string
+     * @throws \Exception
+     */
+    public function consoleOutput($filename = 'php://stdin', $full_document = false, $js = false, $no_lines = false, $diff = false, $no_orig_and_warn = false, $verbose = false)
+    {
+        if ($verbose) {
+            error_reporting(E_ALL);
+        }
+
+        $file_html = @file_get_contents($filename);
+        if ($file_html === false) {
+            throw new \Exception("No such file or file not accessible: $filename Exiting...");
+        }
+
+        $options = ['filename' => $filename]; // So warnings can be printed out with filename appending to line number
+        if ($full_document) {
+            $options += ['scope' => Scope::HTML_SCOPE];
+        }
+
+        $this->loadHtml($file_html, $options);
+        $amp_html = $this->convertToAmpHtml();
+
+        if (!$no_lines) {
+            // now this is our new output html
+            $amp_html = $this->getStringWithLineNumbers($amp_html);
+        }
+
+        $output = '';
+        // Show the diff if the option is set
+        if (!$diff) {
+            $output .= $amp_html . PHP_EOL;
+        } else {
+            // $escape_html is FALSE since we're outputting to the console
+            $output .= $this->getInputOutputHtmlDiff($escape_html = FALSE) . PHP_EOL;
+        }
+
+        // Show the warnings by default
+        if (!$no_orig_and_warn) {
+            $output .= PHP_EOL . 'ORIGINAL HTML' . PHP_EOL;
+            $output .= '---------------' . PHP_EOL;
+            $output .= $this->getStringWithLineNumbers($this->getInputHtml()) . PHP_EOL;
+            $output .= $this->warningsHumanText() . PHP_EOL;
+        }
+
+        // Show the components with js urls
+        if ($js) {
+            $output .= PHP_EOL . 'COMPONENT NAMES WITH JS PATH' . PHP_EOL;
+            $output .= '------------------------------' . PHP_EOL;
+            $output .= $this->componentList($this->getComponentJs()) . PHP_EOL;
+        }
+
+        return $output;
+    }
+
+    protected function getStringWithLineNumbers($string_input)
+    {
+        $lines = explode(PHP_EOL, $string_input);
+        $string_output = '';
+        $n = strlen((string)count($lines));
+        $lineno = 0;
+        foreach ($lines as $line) {
+            $lineno++;
+            $string_output .= sprintf("Line %{$n}d: %s" . PHP_EOL, $lineno, $line);
+        }
+
+        return $string_output;
+    }
+
+    protected function componentList($components)
+    {
+        $str = '';
+        if (empty($components)) {
+            return 'No custom amp script includes required';
+        }
+
+        foreach ($components as $name => $uri) {
+            $str .= "'$name', include path '$uri'" . PHP_EOL;
+        }
+
+        return $str;
     }
 }

@@ -206,6 +206,36 @@ class RenderValidationResult
             return ErrorCategoryCode::DISALLOWED_HTML_WITH_AMP_EQUIVALENT;
         }
 
+        if ($error->code === ValidationErrorCode::MANDATORY_TAG_ANCESTOR) {
+            if ((isset($error->params[0]) && strpos($error->params[0], 'amp-') === 0) ||
+                (isset($error->params[1]) && strpos($error->params[1], 'amp-') === 0)
+            ) {
+                return ErrorCategoryCode::AMP_TAG_PROBLEM;
+            }
+
+            return ErrorCategoryCode::DISALLOWED_HTML;
+        }
+
+        if ($error->code == ValidationErrorCode::INCORRECT_NUM_CHILD_TAGS) {
+            if (isset($error->params[0]) && strpos($error->params[0], 'amp-') === 0) {
+                return ErrorCategoryCode::AMP_TAG_PROBLEM;
+            }
+
+            return ErrorCategoryCode::DISALLOWED_HTML;
+        }
+
+        if ($error->code === ValidationErrorCode::DISALLOWED_CHILD_TAG_NAME ||
+            $error->code === ValidationErrorCode::DISALLOWED_FIRST_CHILD_TAG_NAME
+        ) {
+            if ((isset($error->params[0]) && strpos($error->params[0], 'amp-') === 0) ||
+                (isset($error->params[1]) && strpos($error->params[1], 'amp-') === 0)
+            ) {
+                return ErrorCategoryCode::AMP_TAG_PROBLEM;
+            }
+
+            return ErrorCategoryCode::DISALLOWED_HTML;
+        }
+
         // @todo check
         if ($error->code === ValidationErrorCode::MANDATORY_TAG_MISSING ||
             ($error->code === ValidationErrorCode::MANDATORY_ATTR_MISSING &&
@@ -235,9 +265,15 @@ class RenderValidationResult
             return ErrorCategoryCode::CUSTOM_JAVASCRIPT_DISALLOWED;
         }
 
+        if ($error->code === ValidationErrorCode::GENERAL_DISALLOWED_TAG &&
+            isset($error->params[0]) && $error->params[0] === 'script'
+        ) {
+            return ErrorCategoryCode::CUSTOM_JAVASCRIPT_DISALLOWED;
+        }
+
         if (($error->code === ValidationErrorCode::INVALID_ATTR_VALUE) &&
-            isset($error->params[1]) && mb_strpos($error->params[1], 'script', 0, 'UTF-8') === 0 &&
-            isset($error->params[0]) && $error->params[0] == 'type'
+            isset($error->params[1]) && strpos($error->params[1], 'script') === 0 &&
+            isset($error->params[0]) && $error->params[0] === 'type'
         ) {
             return ErrorCategoryCode::CUSTOM_JAVASCRIPT_DISALLOWED;
         }
@@ -246,8 +282,16 @@ class RenderValidationResult
             ValidationErrorCode::DISALLOWED_ATTR,
             ValidationErrorCode::MANDATORY_ATTR_MISSING])
         ) {
-            if (isset($error->params[1]) && mb_strpos($error->params[1], 'amp-', 0, 'UTF-8') === 0) {
+            if (isset($error->params[1]) && strpos($error->params[1], 'amp-') === 0) {
                 return ErrorCategoryCode::AMP_TAG_PROBLEM;
+            }
+
+            if (isset($error->params[1]) && strpos($error->params[1], 'on') === 0) {
+                return ErrorCategoryCode::CUSTOM_JAVASCRIPT_DISALLOWED;
+            }
+
+            if (isset($error->params[1]) && ($error->params[1] === "style" || $error->params[1] === 'link rel=stylesheet for fonts')) {
+                return ErrorCategoryCode::AUTHOR_STYLESHEET_PROBLEM;
             }
 
             return ErrorCategoryCode::DISALLOWED_HTML;
@@ -264,9 +308,9 @@ class RenderValidationResult
         }
 
         if ($error->code === ValidationErrorCode::WRONG_PARENT_TAG) {
-            if ((isset($error->params[0]) && mb_strpos($error->params[0], 'amp-', 0, 'UTF-8') === 0) ||
-                (isset($error->params[1]) && mb_strpos($error->params[1], 'amp-', 0, 'UTF-8') === 0) ||
-                (isset($error->params[2]) && mb_strpos($error->params[2], 'amp-', 0, 'UTF-8') === 0)
+            if ((isset($error->params[0]) && strpos($error->params[0], 'amp-') === 0) ||
+                (isset($error->params[1]) && strpos($error->params[1], 'amp-') === 0) ||
+                (isset($error->params[2]) && strpos($error->params[2], 'amp-') === 0)
             ) {
                 return ErrorCategoryCode::AMP_TAG_PROBLEM;
             }
@@ -275,13 +319,17 @@ class RenderValidationResult
         }
 
         if ($error->code === ValidationErrorCode::TAG_REQUIRED_BY_MISSING &&
-            (isset($error->params[1]) && mb_strpos($error->params[1], 'amp-', 0, 'UTF-8') === 0)
+            (isset($error->params[1]) && strpos($error->params[1], 'amp-') === 0)
         ) {
             return ErrorCategoryCode::AMP_TAG_PROBLEM;
         }
 
+        if ($error->code === ValidationErrorCode::ATTR_REQUIRED_BUT_MISSING) {
+            return ErrorCategoryCode::DISALLOWED_HTML;
+        }
+
         if ($error->code === ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS &&
-            (isset($error->params[0]) && mb_strpos($error->params[0], 'amp-', 0, 'UTF-8') === 0)
+            (isset($error->params[0]) && strpos($error->params[0], 'amp-') === 0)
         ) {
             return ErrorCategoryCode::AMP_TAG_PROBLEM;
         }
@@ -292,9 +340,10 @@ class RenderValidationResult
 
         if ((in_array($error->code, [ValidationErrorCode::MISSING_URL,
             ValidationErrorCode::INVALID_URL,
-            ValidationErrorCode::INVALID_URL_PROTOCOL]))
+            ValidationErrorCode::INVALID_URL_PROTOCOL,
+            ValidationErrorCode::DISALLOWED_RELATIVE_URL]))
         ) {
-            if (isset($error->params[1]) && mb_strpos($error->params[1], 'amp-', 0, 'UTF-8') === 0) {
+            if (isset($error->params[1]) && strpos($error->params[1], 'amp-') === 0) {
                 return ErrorCategoryCode::AMP_TAG_PROBLEM;
             }
             return ErrorCategoryCode::DISALLOWED_HTML;

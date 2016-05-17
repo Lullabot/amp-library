@@ -33,7 +33,7 @@ class InstagramTransformPass extends BasePass
 
     function pass()
     {
-        $all_instagram = $this->q->top()->find('blockquote[class="instagram-media"]');
+        $all_instagram = $this->q->find('blockquote[class="instagram-media"]');
         /** @var DOMQuery $el */
         foreach ($all_instagram as $el) {
             /** @var \DOMElement $dom_el */
@@ -46,7 +46,7 @@ class InstagramTransformPass extends BasePass
             }
 
             $context_string = $this->getContextString($dom_el);
-            $instagram_script_tag = $this->getInstagramScriptTag($el);
+            $instagram_script_tag = $this->getScriptTag($el, '&(*UTF8)instagram\.com/.*/embeds.js&i');
 
             // Dealing with height and width is going to be tricky
             // https://github.com/ampproject/amphtml/blob/master/extensions/amp-instagram/amp-instagram.md
@@ -68,27 +68,6 @@ class InstagramTransformPass extends BasePass
         }
 
         return $this->transformations;
-    }
-
-    /**
-     * Get reference to associated <script> tag, if any.
-     *
-     * @param DOMQuery $el
-     * @return DOMQuery|null
-     */
-    protected function getInstagramScriptTag(DOMQuery $el)
-    {
-        $script_tags = $el->nextAll('script');
-        $instagram_script_tag = null;
-        /** @var DOMQuery $script_tag */
-        foreach ($script_tags as $script_tag) {
-            if (!empty($script_tag) && preg_match('&(*UTF8)instagram.com/.*/embeds.js&i', $script_tag->attr('src'))) {
-                $instagram_script_tag = $script_tag;
-                break;
-            }
-        }
-
-        return $instagram_script_tag;
     }
 
     /**
