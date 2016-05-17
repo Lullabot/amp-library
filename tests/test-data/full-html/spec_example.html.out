@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS-IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the license.
+--><!--
+  Test Description:
+  This is the sample document from the AMP spec.
+  https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md
+--><html amp><head><meta charset="utf-8"><title>Sample document</title><link rel="canonical" href="./regular-html-version.html"><meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1"><style amp-custom>
+      h1 {color: red}
+    </style><script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "NewsArticle",
+      "headline": "Article headline",
+      "image": [
+        "thumbnail1.jpg"
+      ],
+      "datePublished": "2015-02-05T08:00:00+08:00"
+    }
+    </script><script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script></head><body>
+    <h1>Sample document</h1>
+    <p>
+      Some text
+      <amp-img src="sample.jpg" width="300" height="300"></amp-img></p>
+    <amp-ad width="300" height="250" type="a9" data-aax_size="300x250" data-aax_pubname="test123" data-aax_src="302"></amp-ad></body></html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+Line  3: 
+Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
+Line  5:   you may not use this file except in compliance with the License.
+Line  6:   You may obtain a copy of the License at
+Line  7: 
+Line  8:       http://www.apache.org/licenses/LICENSE-2.0
+Line  9: 
+Line 10:   Unless required by applicable law or agreed to in writing, software
+Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
+Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Line 13:   See the License for the specific language governing permissions and
+Line 14:   limitations under the license.
+Line 15: -->
+Line 16: <!--
+Line 17:   Test Description:
+Line 18:   This is the sample document from the AMP spec.
+Line 19:   https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md
+Line 20: -->
+Line 21: <!doctype html>
+Line 22: <html ⚡>
+Line 23:   <head>
+Line 24:     <meta charset="utf-8">
+Line 25:     <title>Sample document</title>
+Line 26:     <link rel="canonical" href="./regular-html-version.html">
+Line 27:     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+Line 28:     <style amp-custom>
+Line 29:       h1 {color: red}
+Line 30:     </style>
+Line 31:     <script type="application/ld+json">
+Line 32:     {
+Line 33:       "@context": "http://schema.org",
+Line 34:       "@type": "NewsArticle",
+Line 35:       "headline": "Article headline",
+Line 36:       "image": [
+Line 37:         "thumbnail1.jpg"
+Line 38:       ],
+Line 39:       "datePublished": "2015-02-05T08:00:00+08:00"
+Line 40:     }
+Line 41:     </script>
+Line 42:     <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
+Line 43:     <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 44:     <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line 45:   </head>
+Line 46:   <body>
+Line 47:     <h1>Sample document</h1>
+Line 48:     <p>
+Line 49:       Some text
+Line 50:       <amp-img src=sample.jpg width=300 height=300></amp-img>
+Line 51:     </p>
+Line 52:     <amp-ad width=300 height=250
+Line 53:         type="a9"
+Line 54:         data-aax_size="300x250"
+Line 55:         data-aax_pubname="test123"
+Line 56:         data-aax_src="302">
+Line 57:     </amp-ad>
+Line 58:   </body>
+Line 59: </html>
+Line 60: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required
