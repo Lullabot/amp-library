@@ -54,7 +54,6 @@ class AMP
         'Lullabot\AMP\Pass\TwitterTransformPass', // Transform pass
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
-        'Lullabot\AMP\Pass\NoscriptTagWorkaroundPass',
         'Lullabot\AMP\Pass\StatisticsPass'
     ];
 
