@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS-IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the license.
+--><!--
+  Test Description:
+  This tests the logic for <noscript> tags and it's child tags.
+--><html amp><head><meta charset="utf-8"><link rel="canonical" href="./regular-html-version.html"><meta name="viewport" content="width=device-width,minimum-scale=1"><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script></head><body>
+  <!-- Example of a valid noscript -->
+  <noscript>
+    <audio controls><source src="https://example.com/howl-of-the-lemur.mp3" type="audio/mpeg"></audio><img alt="Iconic Lemurs" height="200" src="https://example.com/lemurs.png" width="80"><video controls height="480" width="640"><source src="https://example.com/island-of-lemurs.mp4" type="video/mp4"></video></noscript>
+  <!-- Invalid: audio's source must have src and type; controls are optional -->
+  <noscript>
+    <audio><source></audio></noscript>
+  <!-- Invalid: img must have src; alt, height and width are optional -->
+  <noscript>
+    <img alt="Iconic Lemurs"></noscript>
+  <!-- Invalid: audio must be in a noscript tag -->
+  <audio controls><source src="https://example.com/howl-of-the-lemur.mp3" type="audio/mpeg"></audio><!-- Invalid: img must be in a noscript tag --><amp-img alt="Iconic Lemurs" height="200" src="https://example.com/lemurs.png" width="80" layout="responsive"></amp-img><!-- Invalid: video must be in a noscript tag --><video controls height="480" width="640"><source src="https://example.com/island-of-lemurs.mp4" type="video/mp4"></video><!-- Invalid: nested noscript tags don't correctly parse. --><noscript> <noscript> </noscript> </noscript>
+</body></html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+Line  3: 
+Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
+Line  5:   you may not use this file except in compliance with the License.
+Line  6:   You may obtain a copy of the License at
+Line  7: 
+Line  8:       http://www.apache.org/licenses/LICENSE-2.0
+Line  9: 
+Line 10:   Unless required by applicable law or agreed to in writing, software
+Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
+Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Line 13:   See the License for the specific language governing permissions and
+Line 14:   limitations under the license.
+Line 15: -->
+Line 16: <!--
+Line 17:   Test Description:
+Line 18:   This tests the logic for <noscript> tags and it's child tags.
+Line 19: -->
+Line 20: <!doctype html>
+Line 21: <html ⚡>
+Line 22: <head>
+Line 23:   <meta charset="utf-8">
+Line 24:   <link rel="canonical" href="./regular-html-version.html" />
+Line 25:   <meta name="viewport" content="width=device-width,minimum-scale=1">
+Line 26:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 27:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line 28: </head>
+Line 29: <body>
+Line 30:   <!-- Example of a valid noscript -->
+Line 31:   <noscript>
+Line 32:     <audio controls>
+Line 33:       <source src="https://example.com/howl-of-the-lemur.mp3" type="audio/mpeg">
+Line 34:     </audio>
+Line 35:     <img alt="Iconic Lemurs" height="200" src="https://example.com/lemurs.png" width="80">
+Line 36:     <video controls height="480" width="640">
+Line 37:       <source src="https://example.com/island-of-lemurs.mp4" type="video/mp4">
+Line 38:     </video>
+Line 39:   </noscript>
+Line 40:   <!-- Invalid: audio's source must have src and type; controls are optional -->
+Line 41:   <noscript>
+Line 42:     <audio>
+Line 43:       <source>
+Line 44:     </audio>
+Line 45:   </noscript>
+Line 46:   <!-- Invalid: img must have src; alt, height and width are optional -->
+Line 47:   <noscript>
+Line 48:     <img alt="Iconic Lemurs">
+Line 49:   </noscript>
+Line 50:   <!-- Invalid: audio must be in a noscript tag -->
+Line 51:   <audio controls>
+Line 52:     <source src="https://example.com/howl-of-the-lemur.mp3" type="audio/mpeg">
+Line 53:   </audio>
+Line 54:   <!-- Invalid: img must be in a noscript tag -->
+Line 55:   <img alt="Iconic Lemurs" height="200" src="https://example.com/lemurs.png" width="80">
+Line 56:   <!-- Invalid: video must be in a noscript tag -->
+Line 57:   <video controls height="480" width="640">
+Line 58:     <source src="https://example.com/island-of-lemurs.mp4" type="video/mp4">
+Line 59:   </video>
+Line 60:   <!-- Invalid: nested noscript tags don't correctly parse. -->
+Line 61:   <noscript> <noscript> </noscript> </noscript>
+Line 62: </body>
+Line 63: </html>
+Line 64: 
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<img alt="Iconic Lemurs" height="200" src="https://example.com/lemurs.png" width="80"> at line 55
+ ACTION TAKEN: img tag was converted to the amp-img tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<source> on line 43
+- The mandatory attribute 'src' is missing in tag 'audio > source'.
+   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML]
+- The mandatory attribute 'type' is missing in tag 'audio > source'.
+   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML]
+
+<img alt="Iconic Lemurs"> on line 48
+- The mandatory attribute 'src' is missing in tag 'img'.
+   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/amp-img.html]
+
+<audio controls> on line 51
+- The tag 'audio' may only appear as a descendant of tag 'noscript'. Did you mean 'amp-audio'?
+   [code: MANDATORY_TAG_ANCESTOR_WITH_HINT  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
+
+<video controls height="480" width="640"> on line 57
+- The tag 'video' may only appear as a descendant of tag 'noscript'. Did you mean 'amp-video'?
+   [code: MANDATORY_TAG_ANCESTOR_WITH_HINT  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT see: https://www.ampproject.org/docs/reference/amp-video.html]
+
+<noscript> on line 61
+- The tag 'noscript' may not appear as a descendant of tag 'noscript'.
+   [code: DISALLOWED_TAG_ANCESTOR  category: GENERIC]
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required
