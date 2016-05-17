@@ -1,0 +1,29 @@
+<amp-vimeo width="16" height="9" layout="responsive" data-videoid="18352872"></amp-vimeo>
+<p><a href="https://vimeo.com/18352872">Drupal 7 Marketing Video</a> from <a href="https://vimeo.com/lullabot">Lullabot</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+
+ORIGINAL HTML
+---------------
+Line 1: <iframe src="https://player.vimeo.com/video/18352872" width="640" height="360" frameborder="0" webkitallowfullscreen
+Line 2:         mozallowfullscreen allowfullscreen></iframe>
+Line 3: <p><a href="https://vimeo.com/18352872">Drupal 7 Marketing Video</a> from <a
+Line 4:         href="https://vimeo.com/lullabot">Lullabot</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+Line 5: 
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<iframe src="https://player.vimeo.com/video/18352872" width="640" height="360" frameborder webkitallowfullscreen mozallowfullscreen allowfullscreen> at line 2
+ ACTION TAKEN: iframe vimeo embed code was converted to the amp-vimeo tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-vimeo', include path 'https://cdn.ampproject.org/v0/amp-vimeo-0.1.js'
+
