@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS-IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the license.
+--><!--
+  Test Description:
+  This example exercises tag spec rules that allow only one instance of a tag
+  per doc, and rules that require specific parent tags.
+--><html amp><head><style amp-custom>a.style {}</style><meta charset="utf-8"><link rel="canonical" href="./regular-html-version.html"><meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui"><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script><!-- This tag is duplicate, but must be unique. --></head><body>
+<!-- Style isn't allowed inside body -->
+</body></html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+Line  3: 
+Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
+Line  5:   you may not use this file except in compliance with the License.
+Line  6:   You may obtain a copy of the License at
+Line  7: 
+Line  8:       http://www.apache.org/licenses/LICENSE-2.0
+Line  9: 
+Line 10:   Unless required by applicable law or agreed to in writing, software
+Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
+Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Line 13:   See the License for the specific language governing permissions and
+Line 14:   limitations under the license.
+Line 15: -->
+Line 16: <!--
+Line 17:   Test Description:
+Line 18:   This example exercises tag spec rules that allow only one instance of a tag
+Line 19:   per doc, and rules that require specific parent tags.
+Line 20: -->
+Line 21: <!doctype html>
+Line 22: <html ⚡>
+Line 23: <head>
+Line 24:   <style amp-custom>a.style {}</style>
+Line 25:   <meta charset="utf-8">
+Line 26:   <link rel="canonical" href="./regular-html-version.html" />
+Line 27:   <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+Line 28:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 29:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line 30:   <!-- This tag is duplicate, but must be unique. -->
+Line 31:   <style amp-custom>a { second: style; }</style>
+Line 32: </head>
+Line 33: <body>
+Line 34: <!-- Style isn't allowed inside body -->
+Line 35: <style amp-custom>Wrong parent tag.</style>
+Line 36: </body>
+Line 37: </html>
+Line 38: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<style amp-custom> on line 31
+- The tag 'style amp-custom' appears more than once in the document.
+   [code: DUPLICATE_UNIQUE_TAG  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+   ACTION TAKEN: style tag was removed due to validation issues.
+
+<style amp-custom> on line 35
+- The attribute 'amp-custom' may not appear in tag 'head > style : boilerplate - old variant'.
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
+   ACTION TAKEN: style.amp-custom attribute was removed due to validation issues.
+- The parent tag of tag 'style' is 'body', but it can only be 'head'.
+   [code: WRONG_PARENT_TAG  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
+   ACTION TAKEN: style tag was removed due to validation issues.
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required
