@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS-IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the license.
+--><!--
+  Test Description:
+    This tests looks at specific errors related to positive and negative
+    regexps used inside the validator.
+--><html amp><head><meta charset="utf-8"><link rel="canonical" href="./regular-html-version.html"><meta name="viewport" content="width=device-width,minimum-scale=1"><style>invalid body</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script><!--
+  src value_regex: "https://cdn\\.ampproject\\.org/v0/amp-vine-(latest|0\\.1).js"
+  The first example is valid. The latter two examples are invalid.
+  --><script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-latest.js"></script><script async custom-element="amp-vine"></script><script async custom-element="amp-vine"></script><!--
+  href value_regex: "https://fonts\\.googleapis\\.com/css\\?.*|https://fast\\.fonts\\.net/.*"
+  The first example is valid, the second example is invalid.
+  --><link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?foobar"><link rel="stylesheet" type="text/css"><!--
+  rel value_regex: lenghty, see protoascii
+  The first three examples are valid. The latter three examples are invalid.
+  --><link rel="accessibility"><link rel="accessibility alternate"><link rel="accessibility alternate archives"><link><link><link><!--
+  name blacklisted_value_regex: "(^|\\s)(viewport|content-disposition|revisit-after)($|\\s)"
+  The first two examples are valid. The latter two examples are invalid.
+  --><meta name="valid" content><meta name="validcontent-disposition" content><meta content><meta content><script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js"></script></head><body>
+
+  <!--
+  autoplay value_regex: "^$|desktop|tablet|mobile"
+  The first two examples are valid, the latter three examples are invalid.
+  -->
+  <amp-audio src="https://exmaple.com/audio" layout="fixed" autoplay></amp-audio><amp-audio src="https://example.com/audio" layout="fixed" autoplay="desktop"></amp-audio><amp-audio src="https://example.com/audio" layout="fixed"></amp-audio><amp-audio src="https://example.com/audio" layout="fixed"></amp-audio><amp-audio src="https://example.com/audio" layout="fixed"></amp-audio></body></html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+Line  3: 
+Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
+Line  5:   you may not use this file except in compliance with the License.
+Line  6:   You may obtain a copy of the License at
+Line  7: 
+Line  8:       http://www.apache.org/licenses/LICENSE-2.0
+Line  9: 
+Line 10:   Unless required by applicable law or agreed to in writing, software
+Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
+Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Line 13:   See the License for the specific language governing permissions and
+Line 14:   limitations under the license.
+Line 15: -->
+Line 16: <!--
+Line 17:   Test Description:
+Line 18:     This tests looks at specific errors related to positive and negative
+Line 19:     regexps used inside the validator.
+Line 20: -->
+Line 21: <!doctype html>
+Line 22: <html ⚡>
+Line 23: <head>
+Line 24:   <meta charset="utf-8">
+Line 25:   <link rel="canonical" href="./regular-html-version.html" />
+Line 26:   <meta name="viewport" content="width=device-width,minimum-scale=1">
+Line 27:   <style>invalid body</style>
+Line 28:   <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 29:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line 30: 
+Line 31:   <!--
+Line 32:   src value_regex: "https://cdn\\.ampproject\\.org/v0/amp-vine-(latest|0\\.1).js"
+Line 33:   The first example is valid. The latter two examples are invalid.
+Line 34:   -->
+Line 35:   <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-latest.js"></script>
+Line 36:   <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"></script>
+Line 37:   <script async custom-element="amp-vine" src="http://xss.com/https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"></script>
+Line 38: 
+Line 39:   <!--
+Line 40:   href value_regex: "https://fonts\\.googleapis\\.com/css\\?.*|https://fast\\.fonts\\.net/.*"
+Line 41:   The first example is valid, the second example is invalid.
+Line 42:   -->
+Line 43:   <link rel="stylesheet" type="text/css"
+Line 44:         href="https://fonts.googleapis.com/css?foobar">
+Line 45:   <link rel="stylesheet" type="text/css"
+Line 46:         href="http://xss.com/https://fonts.googleapis.com/css?foobar">
+Line 47: 
+Line 48:   <!--
+Line 49:   rel value_regex: lenghty, see protoascii
+Line 50:   The first three examples are valid. The latter three examples are invalid.
+Line 51:   -->
+Line 52:   <link rel="accessibility">
+Line 53:   <link rel="accessibility alternate">
+Line 54:   <link rel="accessibility alternate archives">
+Line 55:   <link rel="import">
+Line 56:   <link rel="accessibility subresource">
+Line 57:   <link rel="manifest accessibility">
+Line 58: 
+Line 59:   <!--
+Line 60:   name blacklisted_value_regex: "(^|\\s)(viewport|content-disposition|revisit-after)($|\\s)"
+Line 61:   The first two examples are valid. The latter two examples are invalid.
+Line 62:   -->
+Line 63:   <meta name="valid" content="">
+Line 64:   <meta name="validcontent-disposition" content="">
+Line 65:   <meta name="content-disposition" content="">
+Line 66:   <meta name="invalid content-disposition" content="">
+Line 67: 
+Line 68: </head>
+Line 69: <body>
+Line 70: 
+Line 71:   <!--
+Line 72:   autoplay value_regex: "^$|desktop|tablet|mobile"
+Line 73:   The first two examples are valid, the latter three examples are invalid.
+Line 74:   -->
+Line 75:   <amp-audio src="https://exmaple.com/audio" layout="fixed" autoplay=""></amp-audio>
+Line 76:   <amp-audio src="https://example.com/audio" layout="fixed" autoplay="desktop"></amp-audio>
+Line 77:   <amp-audio src="https://example.com/audio" layout="fixed" autoplay="invalid"></amp-audio>
+Line 78:   <amp-audio src="https://example.com/audio" layout="fixed" autoplay="desktopfoo"></amp-audio>
+Line 79:   <amp-audio src="https://example.com/audio" layout="fixed" autoplay="foodesktop"></amp-audio>
+Line 80: 
+Line 81: </body>
+Line 82: </html>
+Line 83: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"> on line 36
+- The attribute 'src' in tag 'amp-vine extension .js script' is set to the invalid value 'https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar'.
+   [code: INVALID_ATTR_VALUE  category: CUSTOM_JAVASCRIPT_DISALLOWED see: https://www.ampproject.org/docs/reference/extended/amp-vine.html]
+   ACTION TAKEN: script.src attribute was removed due to validation issues.
+
+<script async custom-element="amp-vine" src="http://xss.com/https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"> on line 37
+- The attribute 'src' in tag 'amp-vine extension .js script' is set to the invalid value 'http://xss.com/https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar'.
+   [code: INVALID_ATTR_VALUE  category: CUSTOM_JAVASCRIPT_DISALLOWED see: https://www.ampproject.org/docs/reference/extended/amp-vine.html]
+   ACTION TAKEN: script.src attribute was removed due to validation issues.
+
+<link rel="stylesheet" type="text/css" href="http://xss.com/https://fonts.googleapis.com/css?foobar"> on line 46
+- The attribute 'href' in tag 'link rel=stylesheet for fonts' is set to the invalid value 'http://xss.com/https://fonts.googleapis.com/css?foobar'.
+   [code: INVALID_ATTR_VALUE  category: AUTHOR_STYLESHEET_PROBLEM]
+   ACTION TAKEN: link.href attribute was removed due to validation issues.
+
+<link rel="import"> on line 55
+- The attribute 'rel' in tag 'link rel=' is set to the invalid value 'import'.
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   ACTION TAKEN: link.rel attribute was removed due to validation issues.
+
+<link rel="accessibility subresource"> on line 56
+- The attribute 'rel' in tag 'link rel=' is set to the invalid value 'accessibility subresource'.
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   ACTION TAKEN: link.rel attribute was removed due to validation issues.
+
+<link rel="manifest accessibility"> on line 57
+- The attribute 'rel' in tag 'link rel=' is set to the invalid value 'manifest accessibility'.
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   ACTION TAKEN: link.rel attribute was removed due to validation issues.
+
+<meta name="content-disposition" content> on line 65
+- The attribute 'name' in tag 'meta name= and content=' is set to the invalid value 'content-disposition'.
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta.name attribute was removed due to validation issues.
+
+<meta name="invalid content-disposition" content> on line 66
+- The attribute 'name' in tag 'meta name= and content=' is set to the invalid value 'invalid content-disposition'.
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta.name attribute was removed due to validation issues.
+
+<amp-audio src="https://example.com/audio" layout="fixed" autoplay="invalid"> on line 77
+- The attribute 'autoplay' in tag 'amp-audio' is set to the invalid value 'invalid'.
+   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
+   ACTION TAKEN: amp-audio.autoplay attribute was removed due to validation issues.
+
+<amp-audio src="https://example.com/audio" layout="fixed" autoplay="desktopfoo"> on line 78
+- The attribute 'autoplay' in tag 'amp-audio' is set to the invalid value 'desktopfoo'.
+   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
+   ACTION TAKEN: amp-audio.autoplay attribute was removed due to validation issues.
+
+<amp-audio src="https://example.com/audio" layout="fixed" autoplay="foodesktop"> on line 79
+- The attribute 'autoplay' in tag 'amp-audio' is set to the invalid value 'foodesktop'.
+   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
+   ACTION TAKEN: amp-audio.autoplay attribute was removed due to validation issues.
+
+GLOBAL WARNING
+- The tag 'head > style : boilerplate' is missing or incorrect, but required by 'noscript > style : boilerplate'.
+   [code: TAG_REQUIRED_BY_MISSING  category: GENERIC see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
+- The tag 'amp-audio extension .js script' is missing or incorrect, but required by 'amp-audio'.
+   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
+   ACTION TAKEN: amp-audio custom component script tag added to head
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-audio', include path 'https://cdn.ampproject.org/v0/amp-audio-0.1.js'
+
