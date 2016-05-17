@@ -1,0 +1,25 @@
+<amp-pinterest width="345" height="426" data-width="medium" data-url="https://www.pinterest.com/pin/99360735500167749/" data-do="embedPin"></amp-pinterest>
+
+
+ORIGINAL HTML
+---------------
+Line 1: <a data-pin-do="embedPin" data-pin-width="medium" href="https://www.pinterest.com/pin/99360735500167749/"></a>
+Line 2: <script async defer src="//assets.pinterest.com/js/pinit.js"></script>
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<a data-pin-do="embedPin" data-pin-width="medium" href="https://www.pinterest.com/pin/99360735500167749/"> at line 1
+ ACTION TAKEN: a (with associated script tag) pinterest embed code was converted to the amp-pinterest tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-pinterest', include path 'https://cdn.ampproject.org/v0/amp-pinterest-0.1.js'
+
