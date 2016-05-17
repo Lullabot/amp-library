@@ -210,6 +210,9 @@ class ParsedValidatorRules
         $parsed_spec->validateAncestorTags($context, $result_for_attempt);
         $parsed_spec->validateChildTags($context, $result_for_attempt);
 
+        // This is an important piece of code. Essentially, if the only errors you got were highly specific then that
+        // means that you choose the correct tagspec to validate against. (This becomes useful when we don't have dispatch
+        // keys. e.g. source tag). Since the errors were highly specific, make this your "best result"
         if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
             if (SValidationResult::maxSpecificity($result_for_attempt) > SValidationResult::maxSpecificity($result_for_best_attempt)) {
                 $result_for_best_attempt->status = $result_for_attempt->status;
