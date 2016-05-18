@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS-IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the license.
+--><!--
+  Test Description:
+  This is a test for the rules surrounding the <track> tag:
+   - Must be a child of <audio>, <video>, <amp-audio>, or <amp-video>
+   - If attribute kind has value 'subtitles', attribute srcland must
+     be specified.
+   - 'src' attribute must be https.
+  This is the minimum valid AMP document; it includes all of the required
+  fields from the spec, but nothing else.
+--><html amp><head><meta charset="utf-8"><link rel="canonical" href="./regular-html-version.html"><meta name="viewport" content="width=device-width,minimum-scale=1"><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script><script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-latest.js"></script></head><body>
+
+  <amp-audio src="https://example.com/audio" layout="fixed"><!-- Valid examples --><track src="https://example.com/track"><track src="https://example.com/track" kind="captions"><track src="https://example.com/track" kind="descriptions"><track src="https://example.com/track" kind="subtitles" srclang="en"><!-- Invalid: http URL --><track><!-- Invalid: subtitles but no srclang --><track src="https://example.com/track" kind="subtitles"></amp-audio><!-- Invalid examples to make sure the error messages look right --><noscript>
+    <audio><track src="https://a.com/" kind="subtitles"></audio><video><track src="https://a.com/" kind="subtitles"></video></noscript>
+  <amp-video src="https://example.com/audio" layout="fixed" height="42" width="42"><track src="https://a.com/" kind="subtitles"></amp-video></body></html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+Line  3: 
+Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
+Line  5:   you may not use this file except in compliance with the License.
+Line  6:   You may obtain a copy of the License at
+Line  7: 
+Line  8:       http://www.apache.org/licenses/LICENSE-2.0
+Line  9: 
+Line 10:   Unless required by applicable law or agreed to in writing, software
+Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
+Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Line 13:   See the License for the specific language governing permissions and
+Line 14:   limitations under the license.
+Line 15: -->
+Line 16: <!--
+Line 17:   Test Description:
+Line 18:   This is a test for the rules surrounding the <track> tag:
+Line 19:    - Must be a child of <audio>, <video>, <amp-audio>, or <amp-video>
+Line 20:    - If attribute kind has value 'subtitles', attribute srcland must
+Line 21:      be specified.
+Line 22:    - 'src' attribute must be https.
+Line 23:   This is the minimum valid AMP document; it includes all of the required
+Line 24:   fields from the spec, but nothing else.
+Line 25: -->
+Line 26: <!doctype html>
+Line 27: <html ⚡>
+Line 28: <head>
+Line 29:   <meta charset="utf-8">
+Line 30:   <link rel="canonical" href="./regular-html-version.html" />
+Line 31:   <meta name="viewport" content="width=device-width,minimum-scale=1">
+Line 32:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 33:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line 34:   <script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-latest.js"></script>
+Line 35: </head>
+Line 36: <body>
+Line 37: 
+Line 38:   <amp-audio src="https://example.com/audio" layout="fixed">
+Line 39:     <!-- Valid examples -->
+Line 40:     <track src="https://example.com/track"></track>
+Line 41:     <track src="https://example.com/track" kind="captions"></track>
+Line 42:     <track src="https://example.com/track" kind="descriptions"></track>
+Line 43:     <track src="https://example.com/track"
+Line 44:            kind="subtitles"
+Line 45:            srclang="en"></track>
+Line 46: 
+Line 47:     <!-- Invalid: http URL -->
+Line 48:     <track src="http://example.com/track"></track>
+Line 49:     <!-- Invalid: subtitles but no srclang -->
+Line 50:     <track src="https://example.com/track" kind="subtitles"></track>
+Line 51:   </amp-audio>
+Line 52: 
+Line 53:   <!-- Invalid examples to make sure the error messages look right -->
+Line 54:   <noscript>
+Line 55:     <audio><track src="https://a.com/" kind="subtitles"></track></audio>
+Line 56:     <video><track src="https://a.com/" kind="subtitles"></track></video>
+Line 57:   </noscript>
+Line 58:   <amp-video src="https://example.com/audio" layout="fixed" height=42 width=42>
+Line 59:     <track src="https://a.com/" kind="subtitles"></track>
+Line 60:   </amp-video>
+Line 61: 
+Line 62: </body>
+Line 63: </html>
+Line 64: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<track src="http://example.com/track"> on line 48
+- Invalid URL protocol 'http:' for attribute 'src' in tag 'amp-audio > track'.
+   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM]
+   ACTION TAKEN: track.src attribute was removed due to validation issues.
+
+<track src="https://example.com/track" kind="subtitles"> on line 50
+- The mandatory attribute 'srclang' is missing in tag 'amp-audio > track[kind=subtitles]'.
+   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM]
+
+<track src="https://a.com/" kind="subtitles"> on line 55
+- The mandatory attribute 'srclang' is missing in tag 'audio > track[kind=subtitles]'.
+   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML]
+
+<track src="https://a.com/" kind="subtitles"> on line 56
+- The mandatory attribute 'srclang' is missing in tag 'video > track[kind=subtitles]'.
+   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML]
+
+<track src="https://a.com/" kind="subtitles"> on line 59
+- The mandatory attribute 'srclang' is missing in tag 'amp-video > track[kind=subtitles]'.
+   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM]
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-audio', include path 'https://cdn.ampproject.org/v0/amp-audio-0.1.js'
+
