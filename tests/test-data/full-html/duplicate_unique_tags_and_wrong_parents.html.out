@@ -75,11 +75,8 @@ FAIL
    ACTION TAKEN: style tag was removed due to validation issues.
 
 <style amp-custom> on line 35
-- The attribute 'amp-custom' may not appear in tag 'head > style : boilerplate - old variant'.
-   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
-   ACTION TAKEN: style.amp-custom attribute was removed due to validation issues.
 - The parent tag of tag 'style' is 'body', but it can only be 'head'.
-   [code: WRONG_PARENT_TAG  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
+   [code: WRONG_PARENT_TAG  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
    ACTION TAKEN: style tag was removed due to validation issues.
 
 

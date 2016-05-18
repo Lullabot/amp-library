@@ -22,7 +22,7 @@
     <audio controls><source src="https://example.com/howl-of-the-lemur.mp3" type="audio/mpeg"></audio><img alt="Iconic Lemurs" height="200" src="https://example.com/lemurs.png" width="80"><video controls height="480" width="640"><source src="https://example.com/island-of-lemurs.mp4" type="video/mp4"></video></noscript>
   <!-- Invalid: audio's source must have src and type; controls are optional -->
   <noscript>
-    <audio><source></audio></noscript>
+    <audio></audio></noscript>
   <!-- Invalid: img must have src; alt, height and width are optional -->
   <noscript>
     <img alt="Iconic Lemurs"></noscript>
@@ -111,10 +111,9 @@ AMP-HTML Validation Issues and Fixes
 FAIL
 
 <source> on line 43
-- The mandatory attribute 'src' is missing in tag 'audio > source'.
-   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML]
-- The mandatory attribute 'type' is missing in tag 'audio > source'.
-   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML]
+- The parent tag of tag 'source' is 'audio', but it can only be 'amp-video'.
+   [code: WRONG_PARENT_TAG  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-video.html]
+   ACTION TAKEN: source tag was removed due to validation issues.
 
 <img alt="Iconic Lemurs"> on line 48
 - The mandatory attribute 'src' is missing in tag 'img'.
