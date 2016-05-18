@@ -214,10 +214,31 @@ class ParsedValidatorRules
         // means that you choose the correct tagspec to validate against. (This becomes useful when we don't have dispatch
         // keys. e.g. source tag). Since the errors were highly specific, make this your "best result"
         if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
+            if (empty($result_for_best_attempt->errors)) {
+                $result_for_best_attempt->status = $result_for_attempt->status;
+                $result_for_best_attempt->errors = $result_for_attempt->errors;
+                return;
+            }
+
+            // Least errors is better
+            if (count($result_for_best_attempt->errors) > count($result_for_attempt->errors)) {
+                $result_for_best_attempt->status = $result_for_attempt->status;
+                $result_for_best_attempt->errors = $result_for_attempt->errors;
+                return;
+            }
+
+            // Skip if more errors
+            if (count($result_for_best_attempt->errors) < count($result_for_attempt->errors)) {
+                return;
+            }
+
+            // If we're here then it means that number of errors is the same
+            // Choose the case with most specific errors
             if (SValidationResult::maxSpecificity($result_for_attempt) > SValidationResult::maxSpecificity($result_for_best_attempt)) {
                 $result_for_best_attempt->status = $result_for_attempt->status;
                 $result_for_best_attempt->errors = $result_for_attempt->errors;
             }
+
             return;
         }
 
