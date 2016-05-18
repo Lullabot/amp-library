@@ -16,10 +16,17 @@ The AMP PHP Library is an open source and pure PHP Library that:
  - Converts some non-amp elements to their AMP equivalents automatically
     - An `<img>` tag is automatically converted to an `<amp-img>` tag
     - An `<iframe>` tag is converted to an `<amp-iframe>`
-    - [Standard Twitter embed code](https://raw.githubusercontent.com/Lullabot/amp-library/master/test-html/twitter-fragment.html) is converted to an `<amp-twitter>` tag. _Note_: the conversion will work even if no `<script>` tag was provided after the embed code (as shown in the example)
-    - [Standard Instagram embed code](https://raw.githubusercontent.com/Lullabot/amp-library/master/test-html/instagram-fragment.html) is converted to an `<amp-instagram>` tag. _Note_: the conversion will work even if no `<script>` tag was provided after the embed code (as shown in the example)
-    - [Standard Youtube embed code](https://raw.githubusercontent.com/Lullabot/amp-library/master/test-html/youtube-fragment.html) is converted to an `<amp-youtube>` tag
-    - File an issue if you would like more such automatic conversions 
+    - [Standard Twitter embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/twitter-fragment.html) is converted to an `<amp-twitter>` tag.
+    - [Standard Instagram embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/instagram-fragment.html) is converted to an `<amp-instagram>` tag.
+    - [Standard Youtube embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/youtube-fragment.html) is converted to an `<amp-youtube>` tag
+    - [Standard Dailymotion embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/dailymotion-fragment.html) is converted to an `<amp-dailymotion>` tag
+    - [Standard Pinterest embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/pinterest-fragment.html) is converted to an `<amp-pinterest>` tag
+    - [Standard Soundcloud embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/soundcloud-fragment.html) is converted to an `<amp-soundcloud>` tag
+    - [Standard Vimeo embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/vimeo-fragment.html) is converted to an `<amp-vimeo>` tag
+    - [Standard Vine embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/vine-fragment.html) is converted to an `<amp-vine>` tag
+    - _Notes_: 
+       - Some of these embed code conversions may not have the advanced features you may require. File an issue if you need enhancements to the functionality already provided or new embed code conversions.
+       - Some of the embed codes have an associated `<script>` tag. These conversions will work even if no `<script>` tag was provided after the embed code.
 - Provides both a console and programmatic interface with which to call the library. It works like this: the programmer/user provides some HTML and we return (1) The AMPized HTML (2) A list of warnings reported by the Validator (3) A list of fixes/tag conversions made by the library
 
 ### Use Cases
