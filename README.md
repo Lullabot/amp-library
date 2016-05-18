@@ -16,10 +16,17 @@ The AMP PHP Library is an open source and pure PHP Library that:
  - Converts some non-amp elements to their AMP equivalents automatically
     - An `<img>` tag is automatically converted to an `<amp-img>` tag
     - An `<iframe>` tag is converted to an `<amp-iframe>`
-    - [Standard Twitter embed code](https://raw.githubusercontent.com/Lullabot/amp-library/master/test-html/twitter-fragment.html) is converted to an `<amp-twitter>` tag. _Note_: the conversion will work even if no `<script>` tag was provided after the embed code (as shown in the example)
-    - [Standard Instagram embed code](https://raw.githubusercontent.com/Lullabot/amp-library/master/test-html/instagram-fragment.html) is converted to an `<amp-instagram>` tag. _Note_: the conversion will work even if no `<script>` tag was provided after the embed code (as shown in the example)
-    - [Standard Youtube embed code](https://raw.githubusercontent.com/Lullabot/amp-library/master/test-html/youtube-fragment.html) is converted to an `<amp-youtube>` tag
-    - File an issue if you would like more such automatic conversions 
+    - [Standard Twitter embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/twitter-fragment.html) is converted to an `<amp-twitter>` tag.
+    - [Standard Instagram embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/instagram-fragment.html) is converted to an `<amp-instagram>` tag.
+    - [Standard Youtube embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/youtube-fragment.html) is converted to an `<amp-youtube>` tag
+    - [Standard Dailymotion embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/dailymotion-fragment.html) is converted to an `<amp-dailymotion>` tag
+    - [Standard Pinterest embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/pinterest-fragment.html) is converted to an `<amp-pinterest>` tag
+    - [Standard Soundcloud embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/soundcloud-fragment.html) is converted to an `<amp-soundcloud>` tag
+    - [Standard Vimeo embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/vimeo-fragment.html) is converted to an `<amp-vimeo>` tag
+    - [Standard Vine embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/vine-fragment.html) is converted to an `<amp-vine>` tag
+    - _Notes_: 
+       - Some of these embed code conversions may not have the advanced features you may require. File an issue if you need enhancements to the functionality already provided or new embed code conversions.
+       - Some of the embed codes have an associated `<script>` tag. These conversions will work even if no `<script>` tag was provided after the embed code.
 - Provides both a console and programmatic interface with which to call the library. It works like this: the programmer/user provides some HTML and we return (1) The AMPized HTML (2) A list of warnings reported by the Validator (3) A list of fixes/tag conversions made by the library
 
 ### Use Cases
@@ -39,6 +46,14 @@ For all other scenarios, continue reading.
 #### Setup for command line console
 
 `git clone` this repo, `cd` into it and type in `$ composer install` at the command prompt to get all the dependencies of the library. Now you'll be able to use the command line AMP html converter `amp-console` (or equivalently `amp-console.php`
+
+##### Running phpunit tests
+
+After doing a `$ composer install` for setting up the command line console, you can run some [phpunit](https://phpunit.de/) tests
+
+```bash
+$ vendor/bin/phpunit tests
+```
 
 #### Setup for your composer based PHP project
 
@@ -64,8 +79,8 @@ Please note that the `--help` command line option is your friend. Use that when 
 A few example HTML files are available in the test-html folder for you to test drive so that you can get a flavor of the AMP PHP library.
 
 ```bash
-$ ./amp-console amp:convert test-html/sample-html-fragment.html
-$ ./amp-console amp:convert test-html/regexps.html --full-document
+$ ./amp-console amp:convert sample-html/sample-html-fragment.html
+$ ./amp-console amp:convert sample-html/several_errors.html --full-document
 ```
 Note that you need to provide `--full-document` if you're providing a full html document file for conversion.
 
@@ -73,13 +88,13 @@ Lets see the output output of the first example command above. The first few lin
 
 ```html
 $ cd <amp-php-library-repo-cloned-location>
-$ ./amp-console amp:convert test-html/sample-html-fragment.html 
+$ ./amp-console amp:convert sample-html/sample-html-fragment.html 
 Line 1: <p><a>Run</a></p>
 Line 2: <p><a href="http://www.cnn.com">CNN</a></p>
 Line 3: <amp-img src="http://i2.cdn.turner.com/cnnnext/dam/assets/160208081229-gaga-superbowl-exlarge-169.jpg" width="780" height="438" layout="responsive"></amp-img><p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>
 Line 4: <p></p>
 Line 5: <p>This is a <!-- test comment -->sample </p><div>sample</div> paragraph
-Line 6: <amp-iframe src="https://www.reddit.com" layout="responsive" sandbox="allow-scripts allow-same-origin"></amp-iframe>
+Line 6: <amp-iframe height="315" width="560" sandbox="allow-scripts allow-same-origin" layout="responsive" src="https://www.reddit.com"></amp-iframe>
 Line 7: 
 
 
@@ -138,18 +153,13 @@ FAIL
    ACTION TAKEN: div.onmouseover attribute was removed due to validation issues.
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> on line 8
-- The attribute 'src' in tag 'amphtml engine v0.js script' is set to the invalid value 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js'.
-   [code: INVALID_ATTR_VALUE  category: CUSTOM_JAVASCRIPT_DISALLOWED see: https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#scrpt]
-   ACTION TAKEN: script.src attribute was removed due to validation issues.
-- The parent tag of tag 'script' is 'body', but it can only be 'head'.
-   [code: WRONG_PARENT_TAG  category: DISALLOWED_HTML see: https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#scrpt]
+- The tag 'script' is disallowed except in specific forms.
+   [code: GENERAL_DISALLOWED_TAG  category: CUSTOM_JAVASCRIPT_DISALLOWED]
    ACTION TAKEN: script tag was removed due to validation issues.
 
 <style> on line 9
-- The mandatory attribute 'amp-custom' is missing in tag 'author stylesheet'.
-   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML see: https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#stylesheets]
 - The parent tag of tag 'style' is 'body', but it can only be 'head'.
-   [code: WRONG_PARENT_TAG  category: DISALLOWED_HTML see: https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md#stylesheets]
+   [code: WRONG_PARENT_TAG  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
    ACTION TAKEN: style tag was removed due to validation issues.
 ```
 
@@ -207,7 +217,7 @@ print($amp->warningsHumanText());
 ### Caveats and Known issues
 
 - This is beta quality code. You are likely to encounter bugs and errors, both fatal and harmless. Please help us improve this library by using the GitHub issue tracker on this repository to report errors
- - If you have `<img>`s with `https` urls _and_ they don't have height/width attributes _and_ you are using PHP 5.6 or PHP 7.0 the library may have problems converting these to `<amp-img>`. This is because of http://php.net/manual/en/migration56.openssl.php . That link also has a work around. 
+ - If you have `<img>`s with `https` urls _and_ they don't have height/width attributes _and_ you are using PHP 5.6 or higher _and_ you have not listed any certificate authorities (`cafile`) in your `php.ini` file  _then_ the library may have problems converting these to `<amp-img>`. This is because of http://php.net/manual/en/migration56.openssl.php . That link also has a work around. 
 
 ### Sponsored by
 
