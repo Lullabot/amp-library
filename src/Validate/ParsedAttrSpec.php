@@ -207,19 +207,28 @@ class ParsedAttrSpec
         /** @var AttrSpec $attr_spec */
         $attr_spec = $this->getSpec();
         if (isset($attr_spec->value)) {
-            $encountered_attr_value_lower = mb_strtolower($encountered_attr_value, 'UTF-8');
-            $attr_spec_value_lower = mb_strtolower($attr_spec->value, 'UTF-8');
-            if ($encountered_attr_value_lower !== $attr_spec_value_lower) {
-                $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
-                    [$encountered_attr_name, ParsedTagSpec::getTagSpecName($tag_spec), $encountered_attr_value],
-                    $tag_spec->spec_url, $result_for_attempt, $encountered_attr_name);
-                return false;
+            // Note: Made case sensitive as this seems to be the way its done in canonical validator
+            if ($encountered_attr_value === $attr_spec->value) {
+                return true;
             }
-        }
 
-        if (isset($attr_spec->value_regex)) {
+            if ($attr_spec->value === '' && $encountered_attr_value == $encountered_attr_name) {
+                return true;
+            }
+
+            $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
+                [$encountered_attr_name, ParsedTagSpec::getTagSpecName($tag_spec), $encountered_attr_value],
+                $tag_spec->spec_url, $result_for_attempt, $encountered_attr_name);
+
+            return false;
+        } else if (isset($attr_spec->value_regex) || isset($attr_spec->value_regex_casei)) {
             // notice the use of & as start and end delimiters. Want to avoid use of '/' as it will be in regex, unescaped
-            $value_regex = '&(*UTF8)^(' . $attr_spec->value_regex . ')$&i';
+            if (isset($attr_spec->value_regex)) {
+                $value_regex = '&(*UTF8)^(' . $attr_spec->value_regex . ')$&'; // case sensitive
+            } else {
+                $value_regex = '&(*UTF8)^(' . $attr_spec->value_regex_casei . ')$&i'; // case insensitive
+            }
+
             // if it _doesn't_ match its an error
             if (!preg_match($value_regex, $encountered_attr_value)) {
                 $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
@@ -227,17 +236,13 @@ class ParsedAttrSpec
                     $tag_spec->spec_url, $result_for_attempt, $encountered_attr_name);
                 return false;
             }
-        }
-
-        if (isset($attr_spec->value_url)) {
+        } else if (isset($attr_spec->value_url)) {
             $this->validateAttrValueUrl($context, $encountered_attr_name, $encountered_attr_value,
                 $tag_spec, $tag_spec->spec_url, $result_for_attempt);
             if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
                 return false;
             }
-        }
-
-        if (isset($attr_spec->value_properties)) {
+        } else if (isset($attr_spec->value_properties)) {
             $this->validateAttrValueProperties($context, $encountered_attr_name, $encountered_attr_value,
                 $tag_spec, $tag_spec->spec_url, $result_for_attempt);
             if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
