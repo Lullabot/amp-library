@@ -245,7 +245,7 @@ class ParsedTagSpec
 
         /** @var number|null $mandatory_num_child_tags */
         $mandatory_num_child_tags = $child_tag_spec->mandatory_num_child_tags;
-        if (is_numeric($mandatory_num_child_tags) && $num_child_tags < $mandatory_num_child_tags) {
+        if (is_numeric($mandatory_num_child_tags) && $num_child_tags !== $mandatory_num_child_tags) {
             $context->addError(ValidationErrorCode::INCORRECT_NUM_CHILD_TAGS,
                 [$this->spec->tag_name, $mandatory_num_child_tags, $num_child_tags], $this->spec->spec_url, $validation_result);
         }
