@@ -193,4 +193,58 @@ class ParsedAttrSpec
         }
 
     }
+
+    /**
+     * @param Context $context
+     * @param string $encountered_attr_name
+     * @param string $encountered_attr_value
+     * @param TagSpec $tag_spec
+     * @param SValidationResult $result_for_attempt
+     * @return bool
+     */
+    public function validateNonTemplateAttrValueAgainstSpec(Context $context, $encountered_attr_name, $encountered_attr_value, TagSpec $tag_spec, SValidationResult $result_for_attempt)
+    {
+        /** @var AttrSpec $attr_spec */
+        $attr_spec = $this->getSpec();
+        if (isset($attr_spec->value)) {
+            $encountered_attr_value_lower = mb_strtolower($encountered_attr_value, 'UTF-8');
+            $attr_spec_value_lower = mb_strtolower($attr_spec->value, 'UTF-8');
+            if ($encountered_attr_value_lower !== $attr_spec_value_lower) {
+                $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
+                    [$encountered_attr_name, ParsedTagSpec::getTagSpecName($tag_spec), $encountered_attr_value],
+                    $tag_spec->spec_url, $result_for_attempt, $encountered_attr_name);
+                return false;
+            }
+        }
+
+        if (isset($attr_spec->value_regex)) {
+            // notice the use of & as start and end delimiters. Want to avoid use of '/' as it will be in regex, unescaped
+            $value_regex = '&(*UTF8)^(' . $attr_spec->value_regex . ')$&i';
+            // if it _doesn't_ match its an error
+            if (!preg_match($value_regex, $encountered_attr_value)) {
+                $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
+                    [$encountered_attr_name, ParsedTagSpec::getTagSpecName($tag_spec), $encountered_attr_value],
+                    $tag_spec->spec_url, $result_for_attempt, $encountered_attr_name);
+                return false;
+            }
+        }
+
+        if (isset($attr_spec->value_url)) {
+            $this->validateAttrValueUrl($context, $encountered_attr_name, $encountered_attr_value,
+                $tag_spec, $tag_spec->spec_url, $result_for_attempt);
+            if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
+                return false;
+            }
+        }
+
+        if (isset($attr_spec->value_properties)) {
+            $this->validateAttrValueProperties($context, $encountered_attr_name, $encountered_attr_value,
+                $tag_spec, $tag_spec->spec_url, $result_for_attempt);
+            if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
