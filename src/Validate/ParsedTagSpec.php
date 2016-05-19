@@ -327,47 +327,9 @@ class ParsedTagSpec
                 // Don't exit as its not a fatal error
             }
 
-            if (isset($attr_spec->value)) {
-                $encountered_attr_value_lower = mb_strtolower($encountered_attr_value, 'UTF-8');
-                $attr_spec_value_lower = mb_strtolower($attr_spec->value, 'UTF-8');
-                if ($encountered_attr_value_lower !== $attr_spec_value_lower) {
-                    $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
-                        [$encountered_attr_name, self::getTagSpecName($this->spec), $encountered_attr_value],
-                        $this->spec->spec_url, $result_for_attempt, $encountered_attr_name);
-                    $should_not_check = true;
-                    continue;
-                }
-            }
-
-            if (isset($attr_spec->value_regex)) {
-                // notice the use of & as start and end delimiters. Want to avoid use of '/' as it will be in regex, unescaped
-                $value_regex = '&(*UTF8)^(' . $attr_spec->value_regex . ')$&i';
-                // if it _doesn't_ match its an error
-                if (!preg_match($value_regex, $encountered_attr_value)) {
-                    $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
-                        [$encountered_attr_name, self::getTagSpecName($this->spec), $encountered_attr_value],
-                        $this->spec->spec_url, $result_for_attempt, $encountered_attr_name);
-                    $should_not_check = true;
-                    continue;
-                }
-            }
-
-            if (isset($attr_spec->value_url)) {
-                $parsed_attr_spec->validateAttrValueUrl($context, $encountered_attr_name, $encountered_attr_value,
-                    $this->spec, $this->spec->spec_url, $result_for_attempt);
-                if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
-                    $should_not_check = true;
-                    continue;
-                }
-            }
-
-            if (isset($attr_spec->value_properties)) {
-                $parsed_attr_spec->validateAttrValueProperties($context, $encountered_attr_name, $encountered_attr_value,
-                    $this->spec, $this->spec->spec_url, $result_for_attempt);
-                if ($result_for_attempt->status === ValidationResultStatus::FAIL) {
-                    $should_not_check = true;
-                    continue;
-                }
+            if (!$parsed_attr_spec->validateNonTemplateAttrValueAgainstSpec($context, $encountered_attr_name, $encountered_attr_value, $this->getSpec(), $result_for_attempt)) {
+                $should_not_check = true;
+                continue;
             }
 
             if (isset($attr_spec->blacklisted_value_regex)) {

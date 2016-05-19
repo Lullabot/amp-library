@@ -16,6 +16,15 @@ Note: An explicit commit is noted as these files can change.
 * `test-data/full-html/no_custom_js.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/no_custom_js.html
 * `test-data/full-html/duplicate_unique_tags_and_wrong_parent.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/duplicate_unique_tags_and_wrong_parents.html
 * `test-data/full-html/track_tag.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/validator/testdata/feature_tests/track_tag.html
+* `test-data/full-html/validator-amp-youtube.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-youtube/0.1/test/validator-amp-youtube.html
+* `test-data/full-html/validator-amp-vimeo.html` https://github.com/ampproject/amphtml/raw/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-vimeo/0.1/test/validator-amp-vimeo.html
+* `test-data/full-html/validator-amp-springboard-player.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-springboard-player/0.1/test/validator-amp-springboard-player.html
+* `test-data/full-html/validator-amp-soundcloud.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-soundcloud/0.1/test/validator-amp-soundcloud.html
+* `test-data/full-html/validator-amp-sidebar.html` https://github.com/ampproject/amphtml/tree/68e287b5269ed956e8e7694b1e8da5ab478458df/extensions/amp-sidebar/0.1/test/validator-amp-sidebar.html
+* `test-data/full-html/validator-amp-pinterest.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-pinterest/0.1/test/validator-amp-pinterest.html
+* `test-data/full-html/validator-amp-jwplayer.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-jwplayer/0.1/test/validator-amp-jwplayer.html
+* `test-data/full-html/validator-amp-facebook.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-facebook/0.1/test/validator-amp-facebook.html
+* `test-data/full-html/validator-amp-carousel.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-carousel/0.1/test/validator-amp-carousel.html
 
 AMP Project github URL https://github.com/ampproject/amphtml/tree/master/validator
 
