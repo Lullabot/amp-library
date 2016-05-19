@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2016 The AMP HTML Authors. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS-IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the license.
+--><!--
+  Test Description:
+  Tests for the amp-carousel tag. See the inline comments.
+--><html amp><head><meta charset="utf-8"><link rel="canonical" href="./regular-html-version.html"><meta name="viewport" content="width=device-width,minimum-scale=1"><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script><script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script></head><body>
+  <!-- invalid delay attribute usage -->
+  <amp-carousel layout="fixed" width="500" height="500" autoplay></amp-carousel><!-- valid delay attribute usage --><amp-carousel layout="fixed" width="500" height="500" autoplay delay="5000"></amp-carousel><!-- default carousel autoplay usage w/o delay --><amp-carousel layout="fixed" width="500" height="500" autoplay></amp-carousel></body></html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   Copyright 2016 The AMP HTML Authors. All Rights Reserved.
+Line  3: 
+Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
+Line  5:   you may not use this file except in compliance with the License.
+Line  6:   You may obtain a copy of the License at
+Line  7: 
+Line  8:       http://www.apache.org/licenses/LICENSE-2.0
+Line  9: 
+Line 10:   Unless required by applicable law or agreed to in writing, software
+Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
+Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Line 13:   See the License for the specific language governing permissions and
+Line 14:   limitations under the license.
+Line 15: -->
+Line 16: <!--
+Line 17:   Test Description:
+Line 18:   Tests for the amp-carousel tag. See the inline comments.
+Line 19: -->
+Line 20: <!doctype html>
+Line 21: <html ⚡>
+Line 22: <head>
+Line 23:   <meta charset="utf-8">
+Line 24:   <link rel="canonical" href="./regular-html-version.html" />
+Line 25:   <meta name="viewport" content="width=device-width,minimum-scale=1">
+Line 26:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 27:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line 28: </head>
+Line 29: <body>
+Line 30:   <!-- invalid delay attribute usage -->
+Line 31:   <amp-carousel layout="fixed" width=500 height=500 autoplay delay>
+Line 32:   </amp-carousel>
+Line 33:   <!-- valid delay attribute usage -->
+Line 34:   <amp-carousel layout="fixed" width=500 height=500 autoplay delay=5000>
+Line 35:   </amp-carousel>
+Line 36:   <!-- default carousel autoplay usage w/o delay -->
+Line 37:   <amp-carousel layout="fixed" width=500 height=500 autoplay>
+Line 38:   </amp-carousel>
+Line 39: </body>
+Line 40: </html>
+Line 41: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<amp-carousel layout="fixed" width="500" height="500" autoplay delay> on line 31
+- The attribute 'delay' in tag 'amp-carousel' is set to the invalid value ''.
+   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-carousel.html]
+   ACTION TAKEN: amp-carousel.delay attribute was removed due to validation issues.
+
+GLOBAL WARNING
+- The tag 'amp-carousel extension .js script' is missing or incorrect, but required by 'amp-carousel'.
+   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-carousel.html]
+   ACTION TAKEN: amp-carousel custom component script tag added to head
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-carousel', include path 'https://cdn.ampproject.org/v0/amp-carousel-0.1.js'
+

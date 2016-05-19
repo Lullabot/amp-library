@@ -21,6 +21,10 @@ Note: An explicit commit is noted as these files can change.
 * `test-data/full-html/validator-amp-springboard-player.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-springboard-player/0.1/test/validator-amp-springboard-player.html
 * `test-data/full-html/validator-amp-soundcloud.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-soundcloud/0.1/test/validator-amp-soundcloud.html
 * `test-data/full-html/validator-amp-sidebar.html` https://github.com/ampproject/amphtml/tree/68e287b5269ed956e8e7694b1e8da5ab478458df/extensions/amp-sidebar/0.1/test/validator-amp-sidebar.html
+* `test-data/full-html/validator-amp-pinterest.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-pinterest/0.1/test/validator-amp-pinterest.html
+* `test-data/full-html/validator-amp-jwplayer.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-jwplayer/0.1/test/validator-amp-jwplayer.html
+* `test-data/full-html/validator-amp-facebook.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-facebook/0.1/test/validator-amp-facebook.html
+* `test-data/full-html/validator-amp-carousel.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-carousel/0.1/test/validator-amp-carousel.html
 
 AMP Project github URL https://github.com/ampproject/amphtml/tree/master/validator
 
