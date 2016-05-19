@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS-IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the license.
+--><!--
+  Test Description:
+  This tests validation for the amp-vimeo tag.
+--><html amp><head><meta charset="utf-8"><title>Vimeo examples</title><link rel="canonical" href="amps.html"><meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1"><link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet" type="text/css"><script async custom-element="amp-vimeo" src="https://cdn.ampproject.org/v0/amp-vimeo-0.1.js"></script><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script></head><body>
+<h2>Vimeo</h2>
+
+<!-- valid -->
+<amp-vimeo data-videoid="27246366" width="500" height="281"></amp-vimeo><!-- valid --><amp-vimeo data-videoid="27246366" width="500" height="281" layout="responsive" noloading></amp-vimeo><!-- valid --><amp-vimeo data-videoid="27246366" width="500" height="281" layout="responsive" noloading="noloading"></amp-vimeo><!-- invalid videoid --><amp-vimeo width="500" height="281" layout="responsive"></amp-vimeo><!-- videoid missing --><amp-vimeo width="500" height="281" layout="responsive"></amp-vimeo><!-- noloading must not have a value other than "" or noloading--><amp-vimeo width="500" height="281" layout="responsive"></amp-vimeo></body></html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+Line  3: 
+Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
+Line  5:   you may not use this file except in compliance with the License.
+Line  6:   You may obtain a copy of the License at
+Line  7: 
+Line  8:       http://www.apache.org/licenses/LICENSE-2.0
+Line  9: 
+Line 10:   Unless required by applicable law or agreed to in writing, software
+Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
+Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Line 13:   See the License for the specific language governing permissions and
+Line 14:   limitations under the license.
+Line 15: -->
+Line 16: <!--
+Line 17:   Test Description:
+Line 18:   This tests validation for the amp-vimeo tag.
+Line 19: -->
+Line 20: <!doctype html>
+Line 21: <html ⚡>
+Line 22: <head>
+Line 23:     <meta charset="utf-8">
+Line 24:     <title>Vimeo examples</title>
+Line 25:     <link rel="canonical" href="amps.html">
+Line 26:     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+Line 27:     <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet" type="text/css">
+Line 28:     <script async custom-element="amp-vimeo" src="https://cdn.ampproject.org/v0/amp-vimeo-0.1.js"></script>
+Line 29:      <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 30:     <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line 31: </head>
+Line 32: <body>
+Line 33: <h2>Vimeo</h2>
+Line 34: 
+Line 35: <!-- valid -->
+Line 36: <amp-vimeo data-videoid="27246366" width="500" height="281"></amp-vimeo>
+Line 37: 
+Line 38: <!-- valid -->
+Line 39: <amp-vimeo data-videoid="27246366" width="500" height="281" layout="responsive" noloading></amp-vimeo>
+Line 40: 
+Line 41: <!-- valid -->
+Line 42: <amp-vimeo data-videoid="27246366" width="500" height="281" layout="responsive" noloading="noloading"></amp-vimeo>
+Line 43: 
+Line 44: <!-- invalid videoid -->
+Line 45: <amp-vimeo data-videoid="i don't think so" width="500" height="281" layout="responsive"></amp-vimeo>
+Line 46: 
+Line 47: <!-- videoid missing -->
+Line 48: <amp-vimeo width="500" height="281" layout="responsive"></amp-vimeo>
+Line 49: 
+Line 50: <!-- noloading must not have a value other than "" or noloading-->
+Line 51: <amp-vimeo width="500" height="281" layout="responsive" noloading="foo"></amp-vimeo>
+Line 52: </body>
+Line 53: </html>
+Line 54: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<amp-vimeo data-videoid="i don't think so" width="500" height="281" layout="responsive"> on line 45
+- The attribute 'data-videoid' in tag 'amp-vimeo' is set to the invalid value 'i don't think so'.
+   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-vimeo.html]
+   ACTION TAKEN: amp-vimeo.data-videoid attribute was removed due to validation issues.
+
+<amp-vimeo width="500" height="281" layout="responsive"> on line 48
+- The mandatory attribute 'data-videoid' is missing in tag 'amp-vimeo'.
+   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-vimeo.html]
+
+<amp-vimeo width="500" height="281" layout="responsive" noloading="foo"> on line 51
+- The attribute 'noloading' in tag 'amp-vimeo' is set to the invalid value 'foo'.
+   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-vimeo.html]
+   ACTION TAKEN: amp-vimeo.noloading attribute was removed due to validation issues.
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-vimeo', include path 'https://cdn.ampproject.org/v0/amp-vimeo-0.1.js'
+

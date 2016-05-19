@@ -16,6 +16,8 @@ Note: An explicit commit is noted as these files can change.
 * `test-data/full-html/no_custom_js.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/no_custom_js.html
 * `test-data/full-html/duplicate_unique_tags_and_wrong_parent.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/duplicate_unique_tags_and_wrong_parents.html
 * `test-data/full-html/track_tag.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/validator/testdata/feature_tests/track_tag.html
+* `test-data/full-html/validator-amp-youtube.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-youtube/0.1/test/validator-amp-youtube.html
+* `test-data/full-html/validator-amp-vimeo.html` https://github.com/ampproject/amphtml/raw/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-vimeo/0.1/test/validator-amp-vimeo.html
 
 AMP Project github URL https://github.com/ampproject/amphtml/tree/master/validator
 
