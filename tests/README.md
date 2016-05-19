@@ -18,6 +18,9 @@ Note: An explicit commit is noted as these files can change.
 * `test-data/full-html/track_tag.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/validator/testdata/feature_tests/track_tag.html
 * `test-data/full-html/validator-amp-youtube.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-youtube/0.1/test/validator-amp-youtube.html
 * `test-data/full-html/validator-amp-vimeo.html` https://github.com/ampproject/amphtml/raw/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-vimeo/0.1/test/validator-amp-vimeo.html
+* `test-data/full-html/validator-amp-springboard-player.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-springboard-player/0.1/test/validator-amp-springboard-player.html
+* `test-data/full-html/validator-amp-soundcloud.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-soundcloud/0.1/test/validator-amp-soundcloud.html
+* `test-data/full-html/validator-amp-sidebar.html` https://github.com/ampproject/amphtml/tree/68e287b5269ed956e8e7694b1e8da5ab478458df/extensions/amp-sidebar/0.1/test/validator-amp-sidebar.html
 
 AMP Project github URL https://github.com/ampproject/amphtml/tree/master/validator
 
