@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS-IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the license.
+--><!--
+  Test Description:
+  Tests amp-accordion.
+--><html amp><head><meta charset="utf-8"><link rel="canonical" href="./regular-html-version.html"><meta name="viewport" content="width=device-width,minimum-scale=1"><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script><script async custom-element="amp-accordion" src="https://cdn.ampproject.org/v0/amp-accordion-0.1.js"></script></head><body>
+  <!-- a valid example -->
+  <amp-accordion animate><section><h2>Section 1</h2>
+      <p>Bunch of awesome content</p>
+    </section><section expanded><h2>Section 2</h2>
+      <div>Bunch of awesome content</div>
+    </section><section expanded><h2>Section 3</h2>
+      <amp-img src="/awesome.png" width="300" height="300"></amp-img></section><section><h2>Properly nested amp-accordion</h2>
+      <amp-accordion><section><h2>Nested section</h2>
+          <p>It's possible to nest amp-accordions.</p>
+        </section></amp-accordion></section><section><header>The header tag is supported as well.</header><p>Even more awesome.</p>
+    </section></amp-accordion><!-- invalid example --><amp-accordion><amp-accordion><!-- can't nest amp-accordion --></amp-accordion><p>Some paragraph of text that doesn't belong here.</p>
+    <section><div>header which isn't h1-h6.</div>
+      <div>a second child</div>
+      <div>a third child</div>
+    </section></amp-accordion></body></html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+Line  3: 
+Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
+Line  5:   you may not use this file except in compliance with the License.
+Line  6:   You may obtain a copy of the License at
+Line  7: 
+Line  8:       http://www.apache.org/licenses/LICENSE-2.0
+Line  9: 
+Line 10:   Unless required by applicable law or agreed to in writing, software
+Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
+Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Line 13:   See the License for the specific language governing permissions and
+Line 14:   limitations under the license.
+Line 15: -->
+Line 16: <!--
+Line 17:   Test Description:
+Line 18:   Tests amp-accordion.
+Line 19: -->
+Line 20: <!doctype html>
+Line 21: <html ⚡>
+Line 22: <head>
+Line 23:   <meta charset="utf-8">
+Line 24:   <link rel="canonical" href="./regular-html-version.html" />
+Line 25:   <meta name="viewport" content="width=device-width,minimum-scale=1">
+Line 26:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 27:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line 28:   <script async custom-element="amp-accordion" src="https://cdn.ampproject.org/v0/amp-accordion-0.1.js"></script>
+Line 29: </head>
+Line 30: <body>
+Line 31:   <!-- a valid example -->
+Line 32:   <amp-accordion animate>
+Line 33:     <section>
+Line 34:       <h2>Section 1</h2>
+Line 35:       <p>Bunch of awesome content</p>
+Line 36:     </section>
+Line 37:     <section expanded>
+Line 38:       <h2>Section 2</h2>
+Line 39:       <div>Bunch of awesome content</div>
+Line 40:     </section>
+Line 41:     <section expanded>
+Line 42:       <h2>Section 3</h2>
+Line 43:       <amp-img src="/awesome.png" width="300" height="300"></amp-img>
+Line 44:     </section>
+Line 45:     <section>
+Line 46:       <h2>Properly nested amp-accordion</h2>
+Line 47:       <amp-accordion>
+Line 48:         <section>
+Line 49:           <h2>Nested section</h2>
+Line 50:           <p>It's possible to nest amp-accordions.</p>
+Line 51:         </section>
+Line 52:       </amp-accordion>
+Line 53:     </section>
+Line 54:     <section>
+Line 55:       <header>The header tag is supported as well.</header>
+Line 56:       <p>Even more awesome.</p>
+Line 57:     </section>
+Line 58:   </amp-accordion>
+Line 59: 
+Line 60:   <!-- invalid example -->
+Line 61:   <amp-accordion>
+Line 62:     <amp-accordion> <!-- can't nest amp-accordion -->
+Line 63:     </amp-accordion>
+Line 64:     <p>Some paragraph of text that doesn't belong here.</p>
+Line 65:     <section>
+Line 66:       <div>header which isn't h1-h6.</div>
+Line 67:       <div>a second child</div>
+Line 68:       <div>a third child</div>
+Line 69:     </section>
+Line 70:   </amp-accordion>
+Line 71: </body>
+Line 72: </html>
+Line 73: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<amp-accordion> on line 61
+- Tag 'amp-accordion' is disallowed as child of tag 'amp-accordion'. Child tag must be one of [section].
+   [code: DISALLOWED_CHILD_TAG_NAME  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-accordion.html]
+- Tag 'p' is disallowed as child of tag 'amp-accordion'. Child tag must be one of [section].
+   [code: DISALLOWED_CHILD_TAG_NAME  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-accordion.html]
+
+<section> on line 65
+- Tag 'div' is disallowed as first child of tag 'section'. First child tag must be one of [h1,h2,h3,h4,h5,h6,header].
+   [code: DISALLOWED_FIRST_CHILD_TAG_NAME  category: DISALLOWED_HTML]
+- Tag 'section' must have 2 child tags - saw 3 child tags.
+   [code: INCORRECT_NUM_CHILD_TAGS  category: DISALLOWED_HTML]
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required

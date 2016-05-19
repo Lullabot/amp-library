@@ -208,7 +208,6 @@ class ParsedValidatorRules
         $parsed_spec->validateAttributes($context, $encountered_attributes, $result_for_attempt);
         $parsed_spec->validateParentTag($context, $result_for_attempt);
         $parsed_spec->validateAncestorTags($context, $result_for_attempt);
-        $parsed_spec->validateChildTags($context, $result_for_attempt);
 
         // This is an important piece of code. Essentially, if the only errors you got were highly specific then that
         // means that you choose the correct tagspec to validate against. (This becomes useful when we don't have dispatch
@@ -255,6 +254,10 @@ class ParsedValidatorRules
                 return;
             }
         }
+
+        // This is much below validateParentTag(), validateAttributes() etc. (See above).
+        // Called from ValidationHandler.exitTag() in canonical validator so we place this here
+        $parsed_spec->validateChildTags($context, $result_for_best_attempt);
 
         if (!empty($parsed_spec->getSpec()->mandatory_alternatives)) {
             $satisfied = $parsed_spec->getSpec()->mandatory_alternatives;
