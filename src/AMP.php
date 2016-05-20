@@ -316,7 +316,7 @@ class AMP
         ];
 
         $this->context->setStatsData($stats_data);
-        $qp = QueryPath::withHTML($document, NULL, ['convert_to_encoding' => 'UTF-8']);
+        $qp = QueryPath::withHTML5($document, NULL, ['convert_to_encoding' => 'UTF-8']);
 
         foreach ($this->passes as $pass_name) {
             $qp_branch = $qp->branch();
