@@ -44,7 +44,7 @@ class ParsedAttrTriggerSpec
         $this->attr_name = $attr_spec->name;
 
         if (!empty($this->spec) && !empty($this->spec->if_value_regex)) {
-            $this->if_value_regex = "&(*UTF8)$this->spec->if_value_regex&i";
+            $this->if_value_regex = "&(*UTF8){$this->spec->if_value_regex}&i";
         }
     }
 
