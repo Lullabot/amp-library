@@ -25,7 +25,8 @@ Note: An explicit commit is noted as these files can change.
 * `test-data/full-html/validator-amp-jwplayer.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-jwplayer/0.1/test/validator-amp-jwplayer.html
 * `test-data/full-html/validator-amp-facebook.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-facebook/0.1/test/validator-amp-facebook.html
 * `test-data/full-html/validator-amp-carousel.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-carousel/0.1/test/validator-amp-carousel.html
-* `test-data/full-html/validator-amp-accordion.html`https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-accordion/0.1/test/validator-amp-accordion.html
+* `test-data/full-html/validator-amp-accordion.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-accordion/0.1/test/validator-amp-accordion.html
+* `test-data/full-html/aria.html` https://github.com/ampproject/amphtml/blob/59a990001071daae6d7ee901ec742b16d700bec2/validator/testdata/feature_tests/aria.html
 
 AMP Project github URL https://github.com/ampproject/amphtml/tree/master/validator
 
