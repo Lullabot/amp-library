@@ -59,17 +59,20 @@ class ImgTagTransformPass extends BasePass
         }
 
         $all_a = $this->q->top()->find('img:not(noscript img)');
-        /** @var \DOMElement $dom_el */
-        foreach ($all_a->get() as $dom_el) {
+        /** @var DOMQuery $dom_el */
+        foreach ($all_a as $el) {
+            $dom_el = $el->get(0);
             $lineno = $dom_el->getLineNo();
             if ($this->isSvg($dom_el)) {
-                // This should be marked as a validation warning later
+                // @TODO This should be marked as a validation warning later?
                 continue;
             }
             $context_string = $this->getContextString($dom_el);
-            $new_el = $this->renameDomElement($dom_el, 'amp-img');
-            $this->setAmpImgAttributes($new_el);
-            $this->context->addLineAssociation($new_el, $lineno);
+            $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
+            $el->remove(); // remove the old img tag
+
+            $this->setAmpImgAttributes($new_dom_el);
+            $this->context->addLineAssociation($new_dom_el, $lineno);
             $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
         }
 

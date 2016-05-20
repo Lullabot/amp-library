@@ -138,20 +138,21 @@ abstract class BasePass
     }
 
     /**
-     * Rename $el to $tagname. Returns the renamed DOMElement.
+     * clone $el and then rename tag to $tagname. Returns the cloned DOMElement.
      *
      * @param \DOMElement $el
      * @param $tagname
      * @return \DOMElement
      */
-    protected function renameDomElement(\DOMElement $el, $tagname)
+    protected function cloneAndRenameDomElement(\DOMElement $el, $tagname)
     {
         $new_el = $el->ownerDocument->createElement($tagname);
 
         // Renamed DOMElement should have the same children as original
         /** @var \DOMElement $child */
         foreach ($el->childNodes as $child) {
-            $new_el->appendChild($child);
+            // @TODO must we cloneNode(true) ?
+            $new_el->appendChild($child->cloneNode(true));
         }
 
         // Renamed DOMElement should have the same attributes as original
@@ -162,7 +163,6 @@ abstract class BasePass
 
         // Replace the old element with new element
         $el->parentNode->insertBefore($new_el, $el);
-        $el->parentNode->removeChild($el);
 
         return $new_el;
     }
