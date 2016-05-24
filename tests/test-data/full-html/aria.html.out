@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS-IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the license.
+--><!--
+  Test Description:
+    This tests looks at specific errors related to ARIA rules.
+--><html amp><head><meta charset="utf-8"><link rel="canonical" href="./regular-html-version.html"><meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui"><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script src="https://cdn.ampproject.org/v0.js" async></script></head><body>
+  <!-- valid -->
+  <amp-img on="tap:lightbox" role="button" tabindex="1" layout="fill" src="img"></amp-img><!-- valid --><a href="#" on="tap:amp-access.login">Login</a>
+  <!-- valid -->
+  <button on="tap:amp-user-notification.dismiss">Dismiss</button>
+  <!-- invalid: missing role -->
+  <amp-img on="tap:lightbox" tabindex="1" layout="fill" src="img"></amp-img><!-- invalid: missing tabindex --><amp-img on="tap:lightbox" role="button" layout="fill" src="img"></amp-img><!-- invalid: missing both role and tabindex --><amp-img on="tap:lightbox" layout="fill" src="img"></amp-img></body></html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+Line  3: 
+Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
+Line  5:   you may not use this file except in compliance with the License.
+Line  6:   You may obtain a copy of the License at
+Line  7: 
+Line  8:       http://www.apache.org/licenses/LICENSE-2.0
+Line  9: 
+Line 10:   Unless required by applicable law or agreed to in writing, software
+Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
+Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Line 13:   See the License for the specific language governing permissions and
+Line 14:   limitations under the license.
+Line 15: -->
+Line 16: <!--
+Line 17:   Test Description:
+Line 18:     This tests looks at specific errors related to ARIA rules.
+Line 19: -->
+Line 20: <!doctype html>
+Line 21: <html ⚡>
+Line 22: <head>
+Line 23:   <meta charset="utf-8">
+Line 24:   <link rel="canonical" href="./regular-html-version.html" />
+Line 25:   <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+Line 26:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 27:   <script src="https://cdn.ampproject.org/v0.js" async></script>
+Line 28: </head>
+Line 29: <body>
+Line 30:   <!-- valid -->
+Line 31:   <amp-img on="tap:lightbox" role="button" tabindex="1" layout="fill" src="img"></amp-img>
+Line 32:   <!-- valid -->
+Line 33:   <a href="#" on="tap:amp-access.login">Login</a>
+Line 34:   <!-- valid -->
+Line 35:   <button on="tap:amp-user-notification.dismiss">Dismiss</button>
+Line 36:   <!-- invalid: missing role -->
+Line 37:   <amp-img on="tap:lightbox" tabindex="1" layout="fill" src="img"></amp-img>
+Line 38:   <!-- invalid: missing tabindex -->
+Line 39:   <amp-img on="tap:lightbox" role="button" layout="fill" src="img"></amp-img>
+Line 40:   <!-- invalid: missing both role and tabindex -->
+Line 41:   <amp-img on="tap:lightbox" layout="fill" src="img"></amp-img>
+Line 42: </body>
+Line 43: </html>
+Line 44: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<amp-img on="tap:lightbox" tabindex="1" layout="fill" src="img"> on line 37
+- The attribute 'role' in tag 'amp-img' is missing or incorrect, but required by attribute 'on'.
+   [code: ATTR_REQUIRED_BUT_MISSING  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/amp-img.html]
+
+<amp-img on="tap:lightbox" role="button" layout="fill" src="img"> on line 39
+- The attribute 'tabindex' in tag 'amp-img' is missing or incorrect, but required by attribute 'on'.
+   [code: ATTR_REQUIRED_BUT_MISSING  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/amp-img.html]
+
+<amp-img on="tap:lightbox" layout="fill" src="img"> on line 41
+- The attribute 'role' in tag 'amp-img' is missing or incorrect, but required by attribute 'on'.
+   [code: ATTR_REQUIRED_BUT_MISSING  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/amp-img.html]
+- The attribute 'tabindex' in tag 'amp-img' is missing or incorrect, but required by attribute 'on'.
+   [code: ATTR_REQUIRED_BUT_MISSING  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/amp-img.html]
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required
