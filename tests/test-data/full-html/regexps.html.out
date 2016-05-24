@@ -17,25 +17,66 @@
   Test Description:
     This tests looks at specific errors related to positive and negative
     regexps used inside the validator.
---><html amp><head><meta charset="utf-8"><link rel="canonical" href="./regular-html-version.html"><meta name="viewport" content="width=device-width,minimum-scale=1"><style>invalid body</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script><!--
+--><html amp><head>
+  <meta charset="utf-8">
+  <link rel="canonical" href="./regular-html-version.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+  <style>invalid body</style>
+  <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+
+  <!--
   src value_regex: "https://cdn\\.ampproject\\.org/v0/amp-vine-(latest|0\\.1).js"
   The first example is valid. The latter two examples are invalid.
-  --><script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-latest.js"></script><script async custom-element="amp-vine"></script><script async custom-element="amp-vine"></script><!--
+  -->
+  <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-latest.js"></script>
+  <script async custom-element="amp-vine"></script>
+  <script async custom-element="amp-vine"></script>
+
+  <!--
   href value_regex: "https://fonts\\.googleapis\\.com/css\\?.*|https://fast\\.fonts\\.net/.*"
   The first example is valid, the second example is invalid.
-  --><link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?foobar"><link rel="stylesheet" type="text/css"><!--
+  -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?foobar">
+  <link rel="stylesheet" type="text/css">
+
+  <!--
   rel value_regex: lenghty, see protoascii
   The first three examples are valid. The latter three examples are invalid.
-  --><link rel="accessibility"><link rel="accessibility alternate"><link rel="accessibility alternate archives"><link><link><link><!--
+  -->
+  <link rel="accessibility">
+  <link rel="accessibility alternate">
+  <link rel="accessibility alternate archives">
+  <link>
+  <link>
+  <link>
+
+  <!--
   name blacklisted_value_regex: "(^|\\s)(viewport|content-disposition|revisit-after)($|\\s)"
   The first two examples are valid. The latter two examples are invalid.
-  --><meta name="valid" content><meta name="validcontent-disposition" content><meta content><meta content><script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js"></script></head><body>
+  -->
+  <meta name="valid" content="">
+  <meta name="validcontent-disposition" content="">
+  <meta content="">
+  <meta content="">
+
+<script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js"></script></head>
+<body>
 
   <!--
   autoplay value_regex: "^$|desktop|tablet|mobile"
   The first two examples are valid, the latter three examples are invalid.
   -->
-  <amp-audio src="https://exmaple.com/audio" layout="fixed" autoplay></amp-audio><amp-audio src="https://example.com/audio" layout="fixed" autoplay="desktop"></amp-audio><amp-audio src="https://example.com/audio" layout="fixed"></amp-audio><amp-audio src="https://example.com/audio" layout="fixed"></amp-audio><amp-audio src="https://example.com/audio" layout="fixed"></amp-audio></body></html>
+  <amp-audio src="https://exmaple.com/audio" layout="fixed" autoplay></amp-audio>
+  <amp-audio src="https://example.com/audio" layout="fixed" autoplay="desktop"></amp-audio>
+  <amp-audio src="https://example.com/audio" layout="fixed"></amp-audio>
+  <amp-audio src="https://example.com/audio" layout="fixed"></amp-audio>
+  <amp-audio src="https://example.com/audio" layout="fixed"></amp-audio>
+
+</body>
+
+
+</html>
 
 
 ORIGINAL HTML
