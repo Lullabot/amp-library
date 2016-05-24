@@ -123,6 +123,11 @@ abstract class BasePass
         $attributes = $this->encounteredAttributes($dom_el);
         $context_string = "<$dom_el->tagName";
         foreach ($attributes as $attr_name => $attr_value) {
+            // Skip embedded line numbers
+            if ($attr_name == 'data-amp-library-linenum') {
+                continue;
+            }
+
             $context_string .= " $attr_name";
             if (!empty($attr_value)) {
                 $context_string .= '="' . $attr_value . '"';
@@ -322,5 +327,19 @@ abstract class BasePass
         parse_str($query, $arr);
 
         return $arr;
+    }
+
+    /**
+     * @param \DOMElement $dom_el
+     * @return int
+     */
+    public function getLineNo(\DOMElement $dom_el)
+    {
+        $line_no = $dom_el->getAttribute('data-amp-library-linenum');
+        if (is_numeric($line_no)) {
+            return (int)$line_no;
+        } else {
+            return 0;
+        }
     }
 }

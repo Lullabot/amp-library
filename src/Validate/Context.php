@@ -138,6 +138,16 @@ class Context
     }
 
     /**
+     * Performs some cleanup
+     */
+    public function detachDomTag()
+    {
+        // Remove the embedded line number; we won't need this anymore
+        $this->dom_tag->removeAttribute('data-amp-library-linenum');
+        $this->dom_tag = null;
+    }
+
+    /**
      * @return \DOMElement
      */
     public function getDomTag()
@@ -201,6 +211,19 @@ class Context
     }
 
     /**
+     * @return int
+     */
+    public function getCurrentLineNo()
+    {
+        $line_no = $this->dom_tag->getAttribute('data-amp-library-linenum');
+        if (is_numeric($line_no)) {
+            return (int)$line_no;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
      * @param $code
      * @param array $params
      * @param string $spec_url
@@ -219,7 +242,7 @@ class Context
         if (!empty($this->dom_tag) && isset($this->line_association[$this->dom_tag])) {
             $line = $this->line_association[$this->dom_tag];
         } else if (!empty($this->dom_tag)) {
-            $line = $this->dom_tag->getLineNo();
+            $line = $this->getCurrentLineNo();
         } else {
             $line = -1;
         }
@@ -244,6 +267,7 @@ class Context
     /**
      * Provide some context in error messages.
      * The same method exists in class BasePass
+     * @TODO refactor repeated code
      *
      * @param \DOMElement $dom_el
      * @return string
@@ -258,7 +282,12 @@ class Context
         $attributes = $this->encounteredAttributes($dom_el);
         $context_string = "<$dom_el->tagName";
         foreach ($attributes as $attr_name => $attr_value) {
+            // Skip embedded line numbers
+            if ($attr_name == 'data-amp-library-linenum') {
+                continue;
+            }
             $context_string .= " $attr_name";
+            // Skip empty attribute values
             if (!empty($attr_value)) {
                 $context_string .= '="' . $attr_value . '"';
             }
@@ -275,6 +304,7 @@ class Context
     /**
      * Returns all attributes and attribute values on an dom element
      * The same method exists in class BasePass
+     * @TODO refactor repeated code
      *
      * @param \DOMElement $el
      * @return string[]

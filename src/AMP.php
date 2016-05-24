@@ -154,6 +154,11 @@ class AMP
             $options['add_stats_html_comment'] = true;
         }
 
+        // By default the html5 parser is enabled
+        if (!isset($options['use_html5_parser'])) {
+            $options['use_html5_parser'] = true;
+        }
+
         $this->options = $options;
         $this->scope = !empty($options['scope']) ? $options['scope'] : Scope::BODY_SCOPE;
 
@@ -317,7 +322,12 @@ class AMP
         ];
 
         $this->context->setStatsData($stats_data);
-        $qp = QueryPath::withHTML5($document, NULL, ['convert_to_encoding' => 'UTF-8']);
+        $html_processed = $this->addInternalLineNumbers($document);
+        if (!empty($this->options['use_html5_parser'])) {
+            $qp = QueryPath::withHTML5($html_processed, NULL, ['convert_to_encoding' => 'UTF-8']);
+        } else {
+            $qp = QueryPath::withHTML($html_processed, NULL, ['convert_to_encoding' => 'UTF-8']);
+        }
 
         foreach ($this->passes as $pass_name) {
             $qp_branch = $qp->branch();
@@ -347,6 +357,23 @@ class AMP
         }
 
         return $this->amp_html;
+    }
+
+    /**
+     * @param string $input_html
+     * @return string
+     *
+     * @TODO: Deal with potentially more edge cases and make this cross platform.
+     */
+    protected function addInternalLineNumbers($input_html)
+    {
+        $output_html = '';
+        $lines = explode("\n", $input_html);
+        foreach ($lines as $linenum => $input_line) {
+            $output_html .= preg_replace('&(*UTF8)(<[^!/>]*?)(\s|>|$)&', '${1} data-amp-library-linenum="' . ($linenum + 1) . '"${2}', $input_line) . "\n";
+        }
+
+        return $output_html;
     }
 
     protected function sortActionTakeByLineno()

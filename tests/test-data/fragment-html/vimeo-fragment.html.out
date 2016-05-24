@@ -14,7 +14,7 @@ Line 5:
 Transformations made from HTML tags to AMP custom tags
 -------------------------------------------------------
 
-<iframe src="https://player.vimeo.com/video/18352872" width="640" height="360" frameborder webkitallowfullscreen mozallowfullscreen allowfullscreen> at line 2
+<iframe src="https://player.vimeo.com/video/18352872" width="640" height="360" frameborder webkitallowfullscreen mozallowfullscreen allowfullscreen> at line 1
  ACTION TAKEN: iframe vimeo embed code was converted to the amp-vimeo tag.
 
 

@@ -1,9 +1,12 @@
 <p><a>Run</a></p>
 <p><a href="http://www.cnn.com">CNN</a></p>
-<amp-img src="http://i2.cdn.turner.com/cnnnext/dam/assets/160208081229-gaga-superbowl-exlarge-169.jpg" width="780" height="438" layout="responsive"></amp-img><p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>
+<amp-img src="http://i2.cdn.turner.com/cnnnext/dam/assets/160208081229-gaga-superbowl-exlarge-169.jpg" width="780" height="438" layout="responsive"></amp-img>
+<p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>
 <p></p>
 <p>This is a <!-- test comment -->sample </p><div>sample</div> paragraph
 <amp-iframe height="315" width="560" sandbox="allow-scripts allow-same-origin" layout="responsive" src="https://www.reddit.com"></amp-iframe>
+
+
 
 
 ORIGINAL HTML

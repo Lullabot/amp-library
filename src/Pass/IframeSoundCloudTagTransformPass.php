@@ -56,7 +56,7 @@ class IframeSoundCloudTagTransformPass extends BasePass
                 continue;
             }
 
-            $lineno = $dom_el->getLineNo();
+            $lineno = $this->getLineNo($dom_el);
             $context_string = $this->getContextString($dom_el);
             $track_id = $this->getTrackId($el);
 
