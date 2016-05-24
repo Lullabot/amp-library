@@ -369,7 +369,7 @@ class AMP
         $output_html = '';
         $lines = explode("\n", $input_html);
         foreach ($lines as $linenum => $input_line) {
-            $output_html .= preg_replace('&(*UTF8)(<[^!/>]*?)(\s|>)&', '${1} data-amp-library-linenum="' . ($linenum + 1) . '"${2}', $input_line) . "\n";
+            $output_html .= preg_replace('&(*UTF8)(<[^!/>]*?)(\s|>|$)&', '${1} data-amp-library-linenum="' . ($linenum + 1) . '"${2}', $input_line) . "\n";
         }
 
         return $output_html;
