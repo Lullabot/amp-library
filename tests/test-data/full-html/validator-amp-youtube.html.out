@@ -86,11 +86,11 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
 
-<amp-youtube width="480" height="270" video-id="https://www.youtube.com/watch?v=9bZkp7q19f0"> on line 33
+<amp-youtube width="480" height="270" video-id="https://www.youtube.com/watch?v=9bZkp7q19f0"> on line 32
 - The attribute 'video-id' in tag 'amp-youtube' is deprecated - use 'data-videoid' instead.
    [code: DEPRECATED_ATTR  category: DEPRECATION see: https://www.ampproject.org/docs/reference/extended/amp-youtube.html]
 
-<amp-youtube width="480" height="270" video-id="9bZkp7q19f0"> on line 36
+<amp-youtube width="480" height="270" video-id="9bZkp7q19f0"> on line 35
 - The attribute 'video-id' in tag 'amp-youtube' is deprecated - use 'data-videoid' instead.
    [code: DEPRECATED_ATTR  category: DEPRECATION see: https://www.ampproject.org/docs/reference/extended/amp-youtube.html]
 
@@ -98,7 +98,7 @@ FAIL
 - The tag 'amp-youtube' is missing a mandatory attribute - pick one of ['src', 'data-videoid'].
    [code: MANDATORY_ONEOF_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-youtube.html]
 
-<amp-youtube width="480" height="270" video-id="https://www.youtube.com/watch?v=9bZkp7q19f0" data-videoid="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> on line 51
+<amp-youtube width="480" height="270" video-id="https://www.youtube.com/watch?v=9bZkp7q19f0" data-videoid="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> on line 49
 - The attribute 'video-id' in tag 'amp-youtube' is deprecated - use 'data-videoid' instead.
    [code: DEPRECATED_ATTR  category: DEPRECATION see: https://www.ampproject.org/docs/reference/extended/amp-youtube.html]
 - Mutually exclusive attributes encountered in tag 'amp-youtube' - pick one of ['src', 'data-videoid'].

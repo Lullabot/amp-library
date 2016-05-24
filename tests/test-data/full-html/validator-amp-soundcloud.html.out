@@ -82,12 +82,12 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
 
-<amp-soundcloud height="166" data-trackid="243169232" data-visual layout="fixed-height"> on line 40
+<amp-soundcloud height="166" data-trackid="243169232" data-visual layout="fixed-height"> on line 39
 - The attribute 'data-visual' in tag 'amp-soundcloud' is set to the invalid value ''.
    [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-soundcloud.html]
    ACTION TAKEN: amp-soundcloud.data-visual attribute was removed due to validation issues.
 
-<amp-soundcloud height="166" data-trackid="mahler_number_6.ogg" data-visual="false" layout="fixed-height"> on line 43
+<amp-soundcloud height="166" data-trackid="mahler_number_6.ogg" data-visual="false" layout="fixed-height"> on line 42
 - The attribute 'data-trackid' in tag 'amp-soundcloud' is set to the invalid value 'mahler_number_6.ogg'.
    [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-soundcloud.html]
    ACTION TAKEN: amp-soundcloud.data-trackid attribute was removed due to validation issues.
