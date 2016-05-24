@@ -35,6 +35,7 @@ class StandardScanPass extends BasePass
             $count++;
             $this->context->attachDomTag($tag);
             $this->parsed_rules->validateTag($this->context, $tag->nodeName, $this->encounteredAttributes($tag), $this->validation_result);
+            $this->context->detachDomTag();
         }
 
         // This will be used by the StatisticsPass
