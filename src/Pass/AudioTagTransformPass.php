@@ -37,7 +37,7 @@ class AudioTagTransformPass extends BasePass
             /** @var \DOMElement $dom_el */
             $dom_el = $el->get(0);
 
-            $lineno = $dom_el->getLineNo();
+            $lineno = $this->getLineNo($dom_el);
             $context_string = $this->getContextString($dom_el);
 
             $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-audio');
