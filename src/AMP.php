@@ -17,6 +17,7 @@
 
 namespace Lullabot\AMP;
 
+use Lullabot\AMP\Utility\AMPHTML5;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
 use Lullabot\AMP\Pass\BasePass;
@@ -28,7 +29,7 @@ use Lullabot\AMP\Validate\SValidationResult;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Validate\RenderValidationResult;
 use Lullabot\AMP\Utility\ActionTakenLine;
-
+use QueryPath\DOMQuery;
 
 /**
  * Class AMP
@@ -321,11 +322,12 @@ class AMP
         ];
 
         $this->context->setStatsData($stats_data);
-        $html_processed = $this->addInternalLineNumbers($document);
         if (!empty($this->options['use_html5_parser'])) {
-            $qp = QueryPath::withHTML5($html_processed, NULL, ['convert_to_encoding' => 'UTF-8']);
+            $amphtml5 = new AMPHTML5();
+            $html5_dom = $amphtml5->loadHTML($document);
+            $qp = new DOMQuery($html5_dom, null, ['convert_to_encoding' => 'UTF-8']);
         } else {
-            $qp = QueryPath::withHTML($html_processed, NULL, ['convert_to_encoding' => 'UTF-8']);
+            $qp = QueryPath::withHTML($document, null, ['convert_to_encoding' => 'UTF-8']);
         }
 
         foreach ($this->passes as $pass_name) {
@@ -357,24 +359,7 @@ class AMP
 
         return $this->amp_html;
     }
-
-    /**
-     * @param string $input_html
-     * @return string
-     *
-     * @TODO: Deal with potentially more edge cases and make this cross platform.
-     */
-    protected function addInternalLineNumbers($input_html)
-    {
-        $output_html = '';
-        $lines = explode("\n", $input_html);
-        foreach ($lines as $linenum => $input_line) {
-            $output_html .= preg_replace('&(*UTF8)(<[^!/>]*?)(\s|>|$)&', '${1} data-amp-library-linenum="' . ($linenum + 1) . '"${2}', $input_line) . "\n";
-        }
-
-        return $output_html;
-    }
-
+    
     protected function sortActionTakeByLineno()
     {
         // Sort the warnings according to increasing line number
