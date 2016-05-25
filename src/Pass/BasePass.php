@@ -115,31 +115,7 @@ abstract class BasePass
      */
     protected function getContextString(\DOMElement $dom_el)
     {
-        if (empty($dom_el)) {
-            return '';
-        }
-
-        /** @var string[] $attributes */
-        $attributes = $this->encounteredAttributes($dom_el);
-        $context_string = "<$dom_el->tagName";
-        foreach ($attributes as $attr_name => $attr_value) {
-            // Skip embedded line numbers
-            if ($attr_name == 'data-amp-library-linenum') {
-                continue;
-            }
-
-            $context_string .= " $attr_name";
-            if (!empty($attr_value)) {
-                $context_string .= '="' . $attr_value . '"';
-            }
-        }
-        $context_string .= '>';
-
-        // Truncate long strings
-        if (mb_strlen($context_string) > 200) {
-            $context_string = mb_substr($context_string, 0, 200) . "...";
-        }
-        return $context_string;
+        return $this->context->getContextString($dom_el);
     }
 
     /**
@@ -180,13 +156,7 @@ abstract class BasePass
      */
     protected function encounteredAttributes(\DOMElement $el)
     {
-        $encountered_attributes = [];
-        /** @var \DOMAttr $attr */
-        foreach ($el->attributes as $attr) {
-            $encountered_attributes[$attr->nodeName] = $attr->nodeValue;
-        }
-
-        return $encountered_attributes;
+        return $this->context->encounteredAttributes($el);
     }
 
     /**
@@ -335,11 +305,6 @@ abstract class BasePass
      */
     public function getLineNo(\DOMElement $dom_el)
     {
-        $line_no = $dom_el->getAttribute('data-amp-library-linenum');
-        if (is_numeric($line_no)) {
-            return (int)$line_no;
-        } else {
-            return 0;
-        }
+        return $this->context->getLineNo($dom_el);
     }
 }

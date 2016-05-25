@@ -75,7 +75,6 @@
 
 </body>
 
-
 </html>
 
 
@@ -181,7 +180,7 @@ FAIL
    [code: INVALID_ATTR_VALUE  category: CUSTOM_JAVASCRIPT_DISALLOWED see: https://www.ampproject.org/docs/reference/extended/amp-vine.html]
    ACTION TAKEN: script.src attribute was removed due to validation issues.
 
-<link rel="stylesheet" type="text/css" href="http://xss.com/https://fonts.googleapis.com/css?foobar"> on line 45
+<link rel="stylesheet" type="text/css" href="http://xss.com/https://fonts.googleapis.com/css?foobar"> on line 46
 - The attribute 'href' in tag 'link rel=stylesheet for fonts' is set to the invalid value 'http://xss.com/https://fonts.googleapis.com/css?foobar'.
    [code: INVALID_ATTR_VALUE  category: AUTHOR_STYLESHEET_PROBLEM]
    ACTION TAKEN: link.href attribute was removed due to validation issues.
