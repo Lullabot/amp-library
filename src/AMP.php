@@ -166,7 +166,6 @@ class AMP
         if (!in_array($this->scope, [Scope::HTML_SCOPE, Scope::BODY_SCOPE])) {
             throw new \Exception("Invalid or currently unsupported scope $this->scope");
         }
-        $this->context = new Context($this->scope);
 
         // Get the request scheme http, https etc.
         if (empty($options['request_scheme'])) {
@@ -194,6 +193,9 @@ class AMP
                 $this->options['base_url_for_relative_path'] = $matches[1];
             }
         }
+
+        // Finally, create a new Context
+        $this->context = new Context($this->scope, $this->options);
     }
 
     /**
@@ -359,7 +361,7 @@ class AMP
 
         return $this->amp_html;
     }
-    
+
     protected function sortActionTakeByLineno()
     {
         // Sort the warnings according to increasing line number
