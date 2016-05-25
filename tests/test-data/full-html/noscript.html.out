@@ -22,7 +22,7 @@
   <meta name="viewport" content="width=device-width,minimum-scale=1">
   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
   <script async src="https://cdn.ampproject.org/v0.js"></script>
-</head>
+<script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js"></script></head>
 <body>
   <!-- Example of a valid noscript -->
   <noscript>
@@ -45,9 +45,9 @@
     <img alt="Iconic Lemurs">
   </noscript>
   <!-- Invalid: audio must be in a noscript tag -->
-  <audio controls>
+  <amp-audio controls>
     <source src="https://example.com/howl-of-the-lemur.mp3" type="audio/mpeg">
-  </audio>
+  <div placeholder>A standard placeholder here</div></amp-audio>
   <!-- Invalid: img must be in a noscript tag -->
   <amp-img alt="Iconic Lemurs" height="200" src="https://example.com/lemurs.png" width="80" layout="responsive"></amp-img>
   <!-- Invalid: video must be in a noscript tag -->
@@ -132,6 +132,9 @@ Line 64:
 Transformations made from HTML tags to AMP custom tags
 -------------------------------------------------------
 
+<audio controls> at line 51
+ ACTION TAKEN: audio tag was converted to the amp-audio tag.
+
 <img alt="Iconic Lemurs" height="200" src="https://example.com/lemurs.png" width="80"> at line 55
  ACTION TAKEN: img tag was converted to the amp-img tag.
 
@@ -149,10 +152,6 @@ FAIL
 - The mandatory attribute 'src' is missing in tag 'img'.
    [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/amp-img.html]
 
-<audio controls> on line 51
-- The tag 'audio' may only appear as a descendant of tag 'noscript'. Did you mean 'amp-audio'?
-   [code: MANDATORY_TAG_ANCESTOR_WITH_HINT  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
-
 <video controls height="480" width="640"> on line 57
 - The tag 'video' may only appear as a descendant of tag 'noscript'. Did you mean 'amp-video'?
    [code: MANDATORY_TAG_ANCESTOR_WITH_HINT  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT see: https://www.ampproject.org/docs/reference/amp-video.html]
@@ -161,7 +160,13 @@ FAIL
 - The tag 'noscript' may not appear as a descendant of tag 'noscript'.
    [code: DISALLOWED_TAG_ANCESTOR  category: GENERIC]
 
+GLOBAL WARNING
+- The tag 'amp-audio extension .js script' is missing or incorrect, but required by 'amp-audio'.
+   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
+   ACTION TAKEN: amp-audio custom component script tag added to head
+
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-No custom amp script includes required
+'amp-audio', include path 'https://cdn.ampproject.org/v0/amp-audio-0.1.js'
+
