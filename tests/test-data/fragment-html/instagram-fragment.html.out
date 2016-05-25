@@ -29,7 +29,7 @@ Line 20:
 Transformations made from HTML tags to AMP custom tags
 -------------------------------------------------------
 
-<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0... at line 1
+<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0... at line 2
  ACTION TAKEN: blockquote.instagram-media (with associated script tag) instagram embed code was converted to the amp-instagram tag.
 
 

@@ -15,8 +15,8 @@
   limitations under the license.
 --><!--
   Test Description:
-  This is a test for the rules surrounding the <track data-amp-library-linenum="18"> tag:
-   - Must be a child of <audio data-amp-library-linenum="19">, <video data-amp-library-linenum="19">, <amp-audio data-amp-library-linenum="19">, or <amp-video data-amp-library-linenum="19">
+  This is a test for the rules surrounding the <track> tag:
+   - Must be a child of <audio>, <video>, <amp-audio>, or <amp-video>
    - If attribute kind has value 'subtitles', attribute srcland must
      be specified.
    - 'src' attribute must be https.
@@ -55,7 +55,6 @@
   </amp-video>
 
 </body>
-
 
 </html>
 

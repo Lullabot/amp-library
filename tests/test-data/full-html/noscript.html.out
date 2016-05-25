@@ -15,7 +15,7 @@
   limitations under the license.
 --><!--
   Test Description:
-  This tests the logic for <noscript data-amp-library-linenum="18"> tags and it's child tags.
+  This tests the logic for <noscript> tags and it's child tags.
 --><html amp><head>
   <meta charset="utf-8">
   <link rel="canonical" href="./regular-html-version.html">
@@ -57,7 +57,6 @@
   <!-- Invalid: nested noscript tags don't correctly parse. -->
   <noscript> <noscript> </noscript> </noscript>
 </body>
-
 
 </html>
 
