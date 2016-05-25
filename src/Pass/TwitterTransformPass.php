@@ -35,7 +35,7 @@ class TwitterTransformPass extends BasePass
         foreach ($all_tweets as $el) {
             /** @var \DOMElement $dom_el */
             $dom_el = $el->get(0);
-            $lineno = $dom_el->getLineNo();
+            $lineno = $this->getLineNo($dom_el);
 
             $tweet_id = $this->getTweetId($el);
             // Very important, if we didn't find a tweet id then go to next tweet

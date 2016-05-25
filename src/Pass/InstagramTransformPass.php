@@ -38,7 +38,7 @@ class InstagramTransformPass extends BasePass
         foreach ($all_instagram as $el) {
             /** @var \DOMElement $dom_el */
             $dom_el = $el->get(0);
-            $lineno = $dom_el->getLineNo();
+            $lineno = $this->getLineNo($dom_el);
             $shortcode = $this->getShortcode($el);
             // If we can't get the instagram shortcode, abort
             if (empty($shortcode)) {

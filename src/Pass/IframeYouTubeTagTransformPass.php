@@ -56,7 +56,7 @@ class IframeYouTubeTagTransformPass extends BasePass
                 continue;
             }
 
-            $lineno = $dom_el->getLineNo();
+            $lineno = $this->getLineNo($dom_el);
             $context_string = $this->getContextString($dom_el);
             $youtube_code = $this->getYouTubeCode($el);
 

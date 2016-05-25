@@ -62,18 +62,22 @@ class Context
     protected $num_tags_processed = 0;
     /** @var array */
     protected $stats_data = [];
+    /** @var array */
+    protected $options = [];
 
     /**
      * Context constructor.
      * @param string $scope
+     * @param array $options
      * @param int $max_errors
      */
-    public function __construct($scope = Scope::BODY_SCOPE, $max_errors = -1)
+    public function __construct($scope = Scope::BODY_SCOPE, $options = [], $max_errors = -1)
     {
         $this->tagspecs_validated = new \SplObjectStorage();
         $this->max_errors = $max_errors;
         $this->error_scope = $scope;
         $this->line_association = new \SplObjectStorage();
+        $this->options = $options;
     }
 
     public function getNumTagsProcessed()
@@ -135,6 +139,16 @@ class Context
         $this->setParentTagName();
         $this->setAncestorTagNames();
         $this->setChildTagNames();
+    }
+
+    /**
+     * Performs some cleanup
+     */
+    public function detachDomTag()
+    {
+        // Remove the embedded line number; we won't need this anymore
+        $this->dom_tag->removeAttribute('data-amp-library-linenum');
+        $this->dom_tag = null;
     }
 
     /**
@@ -201,6 +215,24 @@ class Context
     }
 
     /**
+     * @param \DOMElement $dom_el
+     * @return int
+     */
+    public function getLineNo(\DOMElement $dom_el)
+    {
+        if (empty($this->options['use_html5_parser'])) {
+            return $dom_el->getLineNo();
+        } else {
+            $line_no = $dom_el->getAttribute('data-amp-library-linenum');
+            if (is_numeric($line_no)) {
+                return (int)$line_no;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    /**
      * @param $code
      * @param array $params
      * @param string $spec_url
@@ -219,7 +251,7 @@ class Context
         if (!empty($this->dom_tag) && isset($this->line_association[$this->dom_tag])) {
             $line = $this->line_association[$this->dom_tag];
         } else if (!empty($this->dom_tag)) {
-            $line = $this->dom_tag->getLineNo();
+            $line = $this->getLineNo($this->dom_tag);
         } else {
             $line = -1;
         }
@@ -248,7 +280,7 @@ class Context
      * @param \DOMElement $dom_el
      * @return string
      */
-    protected function getContextString(\DOMElement $dom_el)
+    public function getContextString(\DOMElement $dom_el)
     {
         if (empty($dom_el)) {
             return '';
@@ -258,7 +290,12 @@ class Context
         $attributes = $this->encounteredAttributes($dom_el);
         $context_string = "<$dom_el->tagName";
         foreach ($attributes as $attr_name => $attr_value) {
+            // Skip embedded line numbers
+            if ($attr_name == 'data-amp-library-linenum') {
+                continue;
+            }
             $context_string .= " $attr_name";
+            // Skip empty attribute values
             if (!empty($attr_value)) {
                 $context_string .= '="' . $attr_value . '"';
             }
@@ -279,7 +316,7 @@ class Context
      * @param \DOMElement $el
      * @return string[]
      */
-    protected function encounteredAttributes(\DOMElement $el)
+    public function encounteredAttributes(\DOMElement $el)
     {
         $encountered_attributes = [];
         /** @var \DOMAttr $attr */

@@ -61,7 +61,7 @@ class ImgTagTransformPass extends BasePass
         $all_a = $this->q->top()->find('img:not(noscript img)');
         /** @var \DOMElement $dom_el */
         foreach ($all_a->get() as $dom_el) {
-            $lineno = $dom_el->getLineNo();
+            $lineno = $this->getLineNo($dom_el);
             if ($this->isSvg($dom_el)) {
                 // This should be marked as a validation warning later
                 continue;

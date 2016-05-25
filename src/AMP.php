@@ -17,6 +17,7 @@
 
 namespace Lullabot\AMP;
 
+use Lullabot\AMP\Utility\AMPHTML5;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
 use Lullabot\AMP\Pass\BasePass;
@@ -28,7 +29,7 @@ use Lullabot\AMP\Validate\SValidationResult;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Validate\RenderValidationResult;
 use Lullabot\AMP\Utility\ActionTakenLine;
-
+use QueryPath\DOMQuery;
 
 /**
  * Class AMP
@@ -153,6 +154,11 @@ class AMP
             $options['add_stats_html_comment'] = true;
         }
 
+        // By default the html5 parser is enabled
+        if (!isset($options['use_html5_parser'])) {
+            $options['use_html5_parser'] = true;
+        }
+
         $this->options = $options;
         $this->scope = !empty($options['scope']) ? $options['scope'] : Scope::BODY_SCOPE;
 
@@ -160,7 +166,6 @@ class AMP
         if (!in_array($this->scope, [Scope::HTML_SCOPE, Scope::BODY_SCOPE])) {
             throw new \Exception("Invalid or currently unsupported scope $this->scope");
         }
-        $this->context = new Context($this->scope);
 
         // Get the request scheme http, https etc.
         if (empty($options['request_scheme'])) {
@@ -188,6 +193,9 @@ class AMP
                 $this->options['base_url_for_relative_path'] = $matches[1];
             }
         }
+
+        // Finally, create a new Context
+        $this->context = new Context($this->scope, $this->options);
     }
 
     /**
@@ -316,7 +324,13 @@ class AMP
         ];
 
         $this->context->setStatsData($stats_data);
-        $qp = QueryPath::withHTML($document, NULL, ['convert_to_encoding' => 'UTF-8']);
+        if (!empty($this->options['use_html5_parser'])) {
+            $amphtml5 = new AMPHTML5();
+            $html5_dom = $amphtml5->loadHTML($document);
+            $qp = new DOMQuery($html5_dom, null, ['convert_to_encoding' => 'UTF-8']);
+        } else {
+            $qp = QueryPath::withHTML($document, null, ['convert_to_encoding' => 'UTF-8']);
+        }
 
         foreach ($this->passes as $pass_name) {
             $qp_branch = $qp->branch();

@@ -58,7 +58,7 @@ class IframeVineTagTransformPass extends BasePass
         foreach ($all_iframes as $el) {
             /** @var \DOMElement $dom_el */
             $dom_el = $el->get(0);
-            $lineno = $dom_el->getLineNo();
+            $lineno = $this->getLineNo($dom_el);
             $vineid = $this->getArtifactId($el, '&(*UTF8)vine\.co/v/([^/]+)/?&i');
             // If we can't get the vineid, abort
             if (empty($vineid)) {

@@ -49,7 +49,7 @@ class IframeTagTransformPass extends BasePass
             /** @var \DOMElement $dom_el */
             $dom_el = $el->get(0);
 
-            $lineno = $dom_el->getLineNo();
+            $lineno = $this->getLineNo($dom_el);
             $context_string = $this->getContextString($dom_el);
 
             $iframe_attributes = $this->getStandardAttributes($el, self::DEFAULT_WIDTH, self::DEFAULT_HEIGHT, self::DEFAULT_ASPECT_RATIO);

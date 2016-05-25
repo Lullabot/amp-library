@@ -43,7 +43,7 @@ class PinterestTagTransformPass extends BasePass
         foreach ($all_pinterest as $el) {
             /** @var \DOMElement $dom_el */
             $dom_el = $el->get(0);
-            $lineno = $dom_el->getLineNo();
+            $lineno = $this->getLineNo($dom_el);
             $data_url = $el->attr('href');
             if (empty($data_url)) {
                 continue;
