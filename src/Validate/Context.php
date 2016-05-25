@@ -211,11 +211,12 @@ class Context
     }
 
     /**
+     * @param \DOMElement $dom_el
      * @return int
      */
-    public function getCurrentLineNo()
+    public function getLineNo(\DOMElement $dom_el)
     {
-        $line_no = $this->dom_tag->getAttribute('data-amp-library-linenum');
+        $line_no = $dom_el->getAttribute('data-amp-library-linenum');
         if (is_numeric($line_no)) {
             return (int)$line_no;
         } else {
@@ -242,7 +243,7 @@ class Context
         if (!empty($this->dom_tag) && isset($this->line_association[$this->dom_tag])) {
             $line = $this->line_association[$this->dom_tag];
         } else if (!empty($this->dom_tag)) {
-            $line = $this->getCurrentLineNo();
+            $line = $this->getLineNo($this->dom_tag);
         } else {
             $line = -1;
         }
@@ -267,12 +268,11 @@ class Context
     /**
      * Provide some context in error messages.
      * The same method exists in class BasePass
-     * @TODO refactor repeated code
      *
      * @param \DOMElement $dom_el
      * @return string
      */
-    protected function getContextString(\DOMElement $dom_el)
+    public function getContextString(\DOMElement $dom_el)
     {
         if (empty($dom_el)) {
             return '';
@@ -304,12 +304,11 @@ class Context
     /**
      * Returns all attributes and attribute values on an dom element
      * The same method exists in class BasePass
-     * @TODO refactor repeated code
      *
      * @param \DOMElement $el
      * @return string[]
      */
-    protected function encounteredAttributes(\DOMElement $el)
+    public function encounteredAttributes(\DOMElement $el)
     {
         $encountered_attributes = [];
         /** @var \DOMAttr $attr */
