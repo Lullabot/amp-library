@@ -19,13 +19,15 @@
 namespace Lullabot\AMP\Pass;
 
 use QueryPath\DOMQuery;
-
 use Lullabot\AMP\Utility\ActionTakenLine;
 use Lullabot\AMP\Utility\ActionTakenType;
 
 /**
  * Class AudioTagTransformPass
  * @package Lullabot\AMP\Pass
+ *
+ * @see https://github.com/ampproject/amphtml/blob/master/extensions/amp-audio/amp-audio.md
+ * @see https://developer.mozilla.org/en/docs/Web/HTML/Element/audio
  */
 class AudioTagTransformPass extends BasePass
 {
@@ -57,15 +59,15 @@ class AudioTagTransformPass extends BasePass
      */
     function addFallbackAndPlaceholder(DOMQuery $el)
     {
-        /** @var DOMQuery $child_el */
-        foreach ($el->children() as $child_el) {
-            if ($child_el->is('source')) {
-                continue;
-            }
+        /** @var DOMQuery $wrap_this */
+        $wrap_this = $el->children()->not('source')->not('track');
 
-            $child_el->wrap('<div fallback=""></div>');
+        if ($wrap_this->count()) {
+            $wrap_this->wrapAll('<div fallback=""></div>');
         }
 
-        $el->append('<div placeholder="">A standard placeholder here</div>');
+        if (isset($this->options['audio_placeholder_html'])) {
+            $el->prepend('<div placeholder="">' . $this->options['audio_placeholder_html'] . '</div>');
+        }
     }
 }
