@@ -47,7 +47,7 @@
   <!-- Invalid: audio must be in a noscript tag -->
   <amp-audio controls>
     <source src="https://example.com/howl-of-the-lemur.mp3" type="audio/mpeg">
-  <div placeholder>A standard placeholder here</div></amp-audio>
+  </amp-audio>
   <!-- Invalid: img must be in a noscript tag -->
   <amp-img alt="Iconic Lemurs" height="200" src="https://example.com/lemurs.png" width="80" layout="responsive"></amp-img>
   <!-- Invalid: video must be in a noscript tag -->
