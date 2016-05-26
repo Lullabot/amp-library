@@ -40,6 +40,8 @@ use QueryPath\DOMQuery;
  */
 class AMP
 {
+    const AMP_LINENUM_ATTRIBUTE = 'data-amp-library-linenum';
+
     // The StandardScanPass should be first after all transform passes
     // The StandardFixPass should be after StandardScanPass
     public $passes = [
@@ -450,7 +452,7 @@ class AMP
     protected function possiblyRemoveLinenumAttributes(DOMQuery $qp)
     {
         if (!empty($this->options['use_html5_parser'])) {
-            $qp->top()->find('*')->removeAttr('data-amp-library-linenum');
+            $qp->top()->find('*')->removeAttr(AMP::AMP_LINENUM_ATTRIBUTE);
         }
     }
 
