@@ -228,7 +228,7 @@ print($amp->warningsHumanText());
 - AMP Project [Homepage](https://www.ampproject.org/)
 - AMP Project [code repository](https://github.com/ampproject/amphtml) on Github
 - [AMP HTML JavaScript validator subtree](https://github.com/ampproject/amphtml/tree/master/validator) on Github within the AMP Project code repository
-- [Technical Specification](https://github.com/ampproject/amphtml/blob/master/validator/validator-main.protoascii) of AMP HTML in [Protocol Buffers](https://developers.google.com/protocol-buffers/) format
+- [Technical Specification](https://github.com/ampproject/amphtml/blob/master/validator/validator-main.protoascii) of AMP HTML in [Protocol Buffers](https://developers.google.com/protocol-buffers/) ASCII message format. See [here](https://github.com/ampproject/amphtml/blob/master/validator/validator.proto) for the Schema definition of the technical specification
 
 ### Sponsored by
 
