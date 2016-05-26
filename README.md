@@ -6,7 +6,7 @@ Open source PHP library and console utility to convert HTML to [AMP HTML](https:
 
 The AMP PHP Library is an open source and pure PHP Library that:
 - Works with whole or partial HTML documents (or strings). Specifically, the AMP PHP Library:
- - Reports compliance of a whole/partial HTML document with the [AMP HTML specification](https://www.ampproject.org/). We Implement an AMP HTML validator in pure PHP to report compliance of an arbitrary HTML document / HTML fragment with the AMP HTML standard. This validator is a ported subset of the [canonical validator](https://github.com/ampproject/amphtml/tree/master/validator) that is implemented in javascript. In particular this PHP validator does not (yet) support template, cdata, css and layout validation. Otherwise, it supports tag specification validation, attribute specification validation and attribute property value pair validation. It will report tags and attributes that are missing, illegal, mandatory according to spec but not present, unique according to spec but multiply present, having wrong parents or ancestors and so forth.
+ - Reports compliance of a whole/partial HTML document with the [AMP HTML specification](https://www.ampproject.org/). We implement an AMP HTML validator in pure PHP to report compliance of an arbitrary HTML document / HTML fragment with the AMP HTML standard. This validator is a ported subset of the [canonical validator](https://github.com/ampproject/amphtml/tree/master/validator) that is implemented in JavaScript. In particular this PHP validator does not (yet) support template, cdata, css and layout validation. Otherwise, it supports tag specification validation, attribute specification validation and attribute property value pair validation. It will report tags and attributes that are missing, illegal, mandatory according to spec but not present, unique according to spec but multiply present, having wrong parents or ancestors and so forth.
  - Using the feedback given by the validator, tries to "correct" some issues found in the HTML to make it more AMP HTML compliant. This would involve removing:
     - Illegal attributes e.g. `style` within `<body>` tag 
     - Illegal tags e.g. `<script>` within `<body>` tag 
@@ -34,7 +34,7 @@ The AMP PHP Library is an open source and pure PHP Library that:
 
 - Currently the AMP PHP Library is used by the [Drupal AMP Module](https://www.drupal.org/project/amp) to report issues with user entered, arbitrary HTML (originating from Rich Text Editors) and converting the HTML to AMPized HTML (as much as possible)
 - The AMP PHP Library command line validator can be used for experimentation and to do HTML to AMP HTML conversion of HTML files. While the [canonical validator](https://github.com/ampproject/amphtml/tree/master/validator) only validates, our library tries to make corrections too. As noted above, our validator is a subset of the canonical validator but already covers a lot of cases
-- The AMP PHP Library can be used in any other PHP project to "convert" HTML to AMP HTML and report validation issues. It does not have any non-PHP dependencies and will work in PHP 5.5+
+- The AMP PHP Library can be used in any other PHP project to "convert" HTML to AMP HTML and report validation issues. It does not have any non-PHP dependencies and will work in PHP 5.5 and higher
 
 ### Setup
 
@@ -60,7 +60,7 @@ $ vendor/bin/phpunit tests
 
 To use this in your composer based PHP project, refer to [composer docs here](https://getcomposer.org/doc/05-repositories.md#loading-a-package-from-a-vcs-repository) to make changes to your `composer.json`
 
-Or you can simply do `$ composer require lullabot/amp:"1.0.*"`.
+Or you can simply do `$ composer require lullabot/amp:"1.0.*"` to fetch the library from [here](https://packagist.org/packages/lullabot/amp) and automatically update your `composer.json`
 
 ##### Advanced
 Should you wish to follow the bleeding edge you can do `$ composer require lullabot/amp:"dev-master"`. Note that this will create a `.git` folder in `vendor/lullabot/amp`. If you want to avoid that,  do `$ composer require lullabot/amp:"dev-master" --prefer-dist`
@@ -90,13 +90,16 @@ Lets see the output output of the first example command above. The first few lin
 ```html
 $ cd <amp-php-library-repo-cloned-location>
 $ ./amp-console amp:convert sample-html/sample-html-fragment.html 
-Line 1: <p><a>Run</a></p>
-Line 2: <p><a href="http://www.cnn.com">CNN</a></p>
-Line 3: <amp-img src="http://i2.cdn.turner.com/cnnnext/dam/assets/160208081229-gaga-superbowl-exlarge-169.jpg" width="780" height="438" layout="responsive"></amp-img><p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>
-Line 4: <p></p>
-Line 5: <p>This is a <!-- test comment -->sample </p><div>sample</div> paragraph
-Line 6: <amp-iframe height="315" width="560" sandbox="allow-scripts allow-same-origin" layout="responsive" src="https://www.reddit.com"></amp-iframe>
-Line 7: 
+Line  1: <p><a>Run</a></p>
+Line  2: <p><a href="http://www.cnn.com">CNN</a></p>
+Line  3: <amp-img src="http://i2.cdn.turner.com/cnnnext/dam/assets/160208081229-gaga-superbowl-exlarge-169.jpg" width="780" height="438" layout="responsive"></amp-img>
+Line  4: <p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>
+Line  5: <p></p>
+Line  6: <p>This is a <!-- test comment -->sample </p><div>sample</div> paragraph
+Line  7: <amp-iframe height="315" width="560" sandbox="allow-scripts allow-same-origin" layout="responsive" src="https://www.reddit.com"></amp-iframe>
+Line  8: 
+Line  9: 
+Line 10: 
 
 
 ORIGINAL HTML
@@ -221,9 +224,11 @@ print($amp->warningsHumanText());
  - If you have `<img>`s with `https` urls _and_ they don't have height/width attributes _and_ you are using PHP 5.6 or higher _and_ you have not listed any certificate authorities (`cafile`) in your `php.ini` file  _then_ the library may have problems converting these to `<amp-img>`. This is because of http://php.net/manual/en/migration56.openssl.php . That link also has a work around. 
 
 ### Useful Links
-- AMM Project [Homepage](https://www.ampproject.org/)
-- AMP Project on [Github](https://github.com/ampproject/amphtml)
-- [Technical Specification](https://github.com/ampproject/amphtml/blob/master/validator/validator-main.protoascii) of AMP HTML in [protocol buffers](https://developers.google.com/protocol-buffers/) format
+- [Composer homepage](https://packagist.org/packages/lullabot/amp) for the AMP PHP Library on [Packagist](https://packagist.org/), the PHP package repository
+- AMP Project [Homepage](https://www.ampproject.org/)
+- AMP Project [code repository](https://github.com/ampproject/amphtml) on Github
+- [AMP HTML JavaScript validator subtree](https://github.com/ampproject/amphtml/tree/master/validator) on Github within the AMP Project code repository
+- [Technical Specification](https://github.com/ampproject/amphtml/blob/master/validator/validator-main.protoascii) of AMP HTML in [Protocol Buffers](https://developers.google.com/protocol-buffers/) format
 
 ### Sponsored by
 
