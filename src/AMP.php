@@ -296,25 +296,67 @@ class AMP
     }
 
     /**
+     * @param $input_html
+     * @return string
+     * @throws \Exception
+     */
+    protected function makeFullDocument($input_html)
+    {
+        /** @var QueryPath\DOMQuery $qp */
+        if ($this->scope == Scope::BODY_SCOPE) {
+            $document_html = $this->makeFragmentWhole($input_html);
+        } else if ($this->scope == Scope::HTML_SCOPE) {
+            $striped_html = strip_tags($input_html);
+            if ($striped_html !== $input_html) { // main case
+                $document_html = $input_html;
+            } else {
+                $document_html = $this->bareDocument($input_html);
+            }
+        } else {
+            throw new \Exception("Invalid or currently unsupported scope $this->scope");
+        }
+
+        return $document_html;
+    }
+
+    /**
+     * @param $document_html
+     * @return DOMQuery
+     */
+    protected function getDOMQuery($document_html)
+    {
+        if (!empty($this->options['use_html5_parser'])) {
+            $amphtml5 = new AMPHTML5();
+            $html5_dom = $amphtml5->loadHTML($document_html);
+            $qp = new DOMQuery($html5_dom, null, ['convert_to_encoding' => 'UTF-8']);
+        } else {
+            $qp = QueryPath::withHTML($document_html, null, ['convert_to_encoding' => 'UTF-8']);
+        }
+
+        return $qp;
+    }
+
+    /**
+     * @param DOMQuery $qp
+     * @return null|string
+     */
+    protected function getOutputHTML(DOMQuery $qp)
+    {
+        if ($this->scope == Scope::HTML_SCOPE) {
+            return $qp->top()->html5();
+        } else {
+            return $qp->find($this->scope)->innerHTML5();
+        }
+    }
+
+    /**
      * Convert an HTML Fragment to AMP HTML
      * @return string
      * @throws \Exception
      */
     public function convertToAmpHtml()
     {
-        /** @var QueryPath\DOMQuery $qp */
-        if ($this->scope == Scope::BODY_SCOPE) {
-            $document = $this->makeFragmentWhole($this->input_html);
-        } else if ($this->scope == Scope::HTML_SCOPE) {
-            $striped_html = strip_tags($this->input_html);
-            if ($striped_html !== $this->input_html) { // main case
-                $document = $this->input_html;
-            } else {
-                $document = $this->bareDocument($this->input_html);
-            }
-        } else {
-            throw new \Exception("Invalid or currently unsupported scope $this->scope");
-        }
+        $document_html = $this->makeFullDocument($this->input_html);
 
         // Used in the StatisticsPass
         $stats_data = [
@@ -324,13 +366,7 @@ class AMP
         ];
 
         $this->context->setStatsData($stats_data);
-        if (!empty($this->options['use_html5_parser'])) {
-            $amphtml5 = new AMPHTML5();
-            $html5_dom = $amphtml5->loadHTML($document);
-            $qp = new DOMQuery($html5_dom, null, ['convert_to_encoding' => 'UTF-8']);
-        } else {
-            $qp = QueryPath::withHTML($document, null, ['convert_to_encoding' => 'UTF-8']);
-        }
+        $qp = $this->getDOMQuery($document_html);
 
         foreach ($this->passes as $pass_name) {
             $qp_branch = $qp->branch();
@@ -346,20 +382,23 @@ class AMP
         }
 
         $this->sortActionTakeByLineno();
-
-        if ($this->scope == Scope::HTML_SCOPE) {
-            $temp_amp_html = $qp->top()->html5();
-        } else {
-            $temp_amp_html = $qp->find($this->scope)->innerHTML5();
-        }
-
-        if ($this->options['add_stats_html_comment']) {
-            $this->amp_html = $this->substituteStatisticsPlaceholders($temp_amp_html);
-        } else {
-            $this->amp_html = $temp_amp_html;
-        }
+        $temp_amp_html = $this->getOutputHTML($qp);
+        $this->amp_html = $this->addStatisticsIfEnabled($temp_amp_html);
 
         return $this->amp_html;
+    }
+
+    /**
+     * @param $document_html
+     * @return string
+     */
+    protected function addStatisticsIfEnabled($document_html)
+    {
+        if ($this->options['add_stats_html_comment']) {
+            return $this->substituteStatisticsPlaceholders($document_html);
+        } else {
+            return $document_html;
+        }
     }
 
     protected function sortActionTakeByLineno()
