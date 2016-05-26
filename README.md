@@ -1,13 +1,12 @@
 # AMP PHP Library
 
-Open source PHP library and console utility to convert html to AMP HTML (See https://www.ampproject.org/).
+Open source PHP library and console utility to convert HTML to [AMP HTML](https://www.ampproject.org/) and report HTML compliance with the AMP HTML specification.
 
 ### What is the AMP PHP Library?
 
 The AMP PHP Library is an open source and pure PHP Library that:
 - Works with whole or partial HTML documents (or strings). Specifically, the AMP PHP Library:
- - Reports compliance of a whole/partial HTML document with the [AMP HTML standard](https://www.ampproject.org/)
- - Implements an AMP HTML validator in pure PHP to report compliance of an arbitrary HTML document / HTML fragment with the AMP HTML standard. This validator is a ported subset of the [canonical validator](https://github.com/ampproject/amphtml/tree/master/validator) that is implemented in javascript. In particular this PHP validator does not (yet) support template, cdata, css and layout validation. Otherwise, it supports tag specification validation, attribute specification validation and attribute property value pair validation. It will report tags and attributes that are missing, illegal, mandatory according to spec but not present, unique according to spec but multiply present, having wrong parents or ancestors and so forth.
+ - Reports compliance of a whole/partial HTML document with the [AMP HTML specification](https://www.ampproject.org/). We Implement an AMP HTML validator in pure PHP to report compliance of an arbitrary HTML document / HTML fragment with the AMP HTML standard. This validator is a ported subset of the [canonical validator](https://github.com/ampproject/amphtml/tree/master/validator) that is implemented in javascript. In particular this PHP validator does not (yet) support template, cdata, css and layout validation. Otherwise, it supports tag specification validation, attribute specification validation and attribute property value pair validation. It will report tags and attributes that are missing, illegal, mandatory according to spec but not present, unique according to spec but multiply present, having wrong parents or ancestors and so forth.
  - Using the feedback given by the validator, tries to "correct" some issues found in the HTML to make it more AMP HTML compliant. This would involve removing:
     - Illegal attributes e.g. `style` within `<body>` tag 
     - Illegal tags e.g. `<script>` within `<body>` tag 
@@ -221,7 +220,13 @@ print($amp->warningsHumanText());
 - This is beta quality code. You are likely to encounter bugs and errors, both fatal and harmless. Please help us improve this library by using the GitHub issue tracker on this repository to report errors
  - If you have `<img>`s with `https` urls _and_ they don't have height/width attributes _and_ you are using PHP 5.6 or higher _and_ you have not listed any certificate authorities (`cafile`) in your `php.ini` file  _then_ the library may have problems converting these to `<amp-img>`. This is because of http://php.net/manual/en/migration56.openssl.php . That link also has a work around. 
 
+### Useful Links
+- AMM Project [Homepage](https://www.ampproject.org/)
+- AMP Project on [Github](https://github.com/ampproject/amphtml)
+- [Technical Specification](https://github.com/ampproject/amphtml/blob/master/validator/validator-main.protoascii) of AMP HTML in [protocol buffers](https://developers.google.com/protocol-buffers/) format
+
 ### Sponsored by
 
 - Google for creating the AMP Project and sponsoring development
 - Lullabot for development of the module, theme, and library to work with the specifications
+
