@@ -349,7 +349,7 @@ class AMP
         if ($this->scope == Scope::HTML_SCOPE) {
             return $qp->top()->html5();
         } else {
-            return $qp->find($this->scope)->innerHTML5();
+            return $qp->top()->find($this->scope)->innerHTML5();
         }
     }
 
