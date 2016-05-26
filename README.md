@@ -17,6 +17,7 @@ The AMP PHP Library is an open source and pure PHP Library that:
  - Converts some non-amp elements to their AMP equivalents automatically
     - An `<img>` tag is automatically converted to an `<amp-img>` tag
     - An `<iframe>` tag is converted to an `<amp-iframe>`
+    - An [`<audio>`](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/audio-to-amp-audio-conversion-fragment.html) tag is converted to an `<amp-audio>` tag    
     - [Standard Twitter embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/twitter-fragment.html) is converted to an `<amp-twitter>` tag.
     - [Standard Instagram embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/instagram-fragment.html) is converted to an `<amp-instagram>` tag.
     - [Standard Youtube embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/youtube-fragment.html) is converted to an `<amp-youtube>` tag
@@ -26,8 +27,9 @@ The AMP PHP Library is an open source and pure PHP Library that:
     - [Standard Vimeo embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/vimeo-fragment.html) is converted to an `<amp-vimeo>` tag
     - [Standard Vine embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/vine-fragment.html) is converted to an `<amp-vine>` tag
     - _Notes_: 
-       - Some of these embed code conversions may not have the advanced features you may require. File an issue if you need enhancements to the functionality already provided or new embed code conversions.
-       - Some of the embed codes have an associated `<script>` tag. These conversions will work even if no `<script>` tag was provided after the embed code.
+       - Some of these embed code conversions may not have the advanced features you may require. File an issue if you need enhancements to the functionality already provided or new embed code conversions
+       - Some of the embed codes have an associated `<script>` tag. These conversions will work even if no `<script>` tag was provided after the embed code
+       - You may experiment with the command line utility `amp-console` on the above HTML fragments to see how the converted HTML looks
 - Provides both a console and programmatic interface with which to call the library. It works like this: the programmer/user provides some HTML and we return (1) The AMPized HTML (2) A list of warnings reported by the Validator (3) A list of fixes/tag conversions made by the library
 
 ### Use Cases
