@@ -1,0 +1,50 @@
+<amp-audio controls autoplay>
+    <div fallback><div>Your browser does not support the <strong>audio</strong> tag</div><p>Try using recent versions of Google Chrome or Firefox</p></div>
+    
+    <source src="//example.dd:8088/sites/default/files/drums.mp3" type="audio/mpeg">
+    <source type="audio/ogg">
+    <source src="https://example.dd:8088/sites/default/files/drums.wav" type="audio/wav">
+    <track kind="captions" src="//example.dd:8088/sites/default/files/drums.en.vtt" srclang="en" label="English">
+    <track kind="captions" src="https://example.dd:8088/sites/default/files/drums.hi.vtt" srclang="hi" label="Hindi">
+</amp-audio>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <audio controls autoplay>
+Line  2:     <div>Your browser does not support the <strong>audio</strong> tag</div>
+Line  3:     <p>Try using recent versions of Google Chrome or Firefox</p>
+Line  4:     <source src="//example.dd:8088/sites/default/files/drums.mp3" type="audio/mpeg">
+Line  5:     <source src="http://example.dd:8088/sites/default/files/drums.ogg" type="audio/ogg">
+Line  6:     <source src="https://example.dd:8088/sites/default/files/drums.wav" type="audio/wav">
+Line  7:     <track kind="captions" src="//example.dd:8088/sites/default/files/drums.en.vtt" srclang="en" label="English">
+Line  8:     <track kind="captions" src="https://example.dd:8088/sites/default/files/drums.hi.vtt" srclang="hi" label="Hindi">
+Line  9: </audio>
+Line 10: 
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<audio controls autoplay> at line 1
+ ACTION TAKEN: audio tag was converted to the amp-audio tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<source src="http://example.dd:8088/sites/default/files/drums.ogg" type="audio/ogg"> on line 5
+- Invalid URL protocol 'http:' for attribute 'src' in tag 'amp-audio > source'.
+   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
+   ACTION TAKEN: source.src attribute was removed due to validation issues.
+
+<track kind="captions" src="//example.dd:8088/sites/default/files/drums.en.vtt" srclang="en" label="English"> on line 7
+- The relative URL '//example.dd:8088/sites/default/files/drums.en.vtt' for attribute 'src' in tag 'amp-audio > track' is disallowed.
+   [code: DISALLOWED_RELATIVE_URL  category: AMP_TAG_PROBLEM]
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-audio', include path 'https://cdn.ampproject.org/v0/amp-audio-0.1.js'
+

@@ -755,7 +755,7 @@ class ValidationRulesFactory {
   $o_99->attrs[] = $o_100;
   $o_99->spec_url = 'https://www.ampproject.org/docs/reference/spec.html#required-markup';
   $o_101 = new CdataSpec();
-  $o_101->cdata_regex = 'body{-webkit-animation:-amp-start\\s+8s\\s+steps\\(1,end\\)\\s+0s\\s+1\\s+normal\\s+both;-moz-animation:-amp-start\\s+8s\\s+steps\\(1,end\\)\\s+0s\\s+1\\s+normal\\s+both;-ms-animation:-amp-start\\s+8s\\s+steps\\(1,end\\)\\s+0s\\s+1\\s+normal\\s+both;animation:-amp-start\\s+8s\\s+steps\\(1,end\\)\\s+0s\\s+1\\s+normal\\s+both}@-webkit-keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}';
+  $o_101->cdata_regex = '\\s*body{-webkit-animation:-amp-start\\s+8s\\s+steps\\(1,end\\)\\s+0s\\s+1\\s+normal\\s+both;-moz-animation:-amp-start\\s+8s\\s+steps\\(1,end\\)\\s+0s\\s+1\\s+normal\\s+both;-ms-animation:-amp-start\\s+8s\\s+steps\\(1,end\\)\\s+0s\\s+1\\s+normal\\s+both;animation:-amp-start\\s+8s\\s+steps\\(1,end\\)\\s+0s\\s+1\\s+normal\\s+both}@-webkit-keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}\\s*';
   $o_99->cdata = $o_101;
   $o_99->also_requires_tag = ['noscript > style : boilerplate'];
   $o_0->tags[] = $o_99;
@@ -773,7 +773,7 @@ class ValidationRulesFactory {
   $o_102->attrs[] = $o_103;
   $o_102->spec_url = 'https://www.ampproject.org/docs/reference/spec.html#required-markup';
   $o_104 = new CdataSpec();
-  $o_104->mandatory_cdata = 'body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}';
+  $o_104->cdata_regex = '\\s*body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}\\s*';
   $o_102->cdata = $o_104;
   $o_102->also_requires_tag = ['head > style : boilerplate'];
   $o_0->tags[] = $o_102;
@@ -4076,7 +4076,7 @@ class ValidationRulesFactory {
   $o_938 = new AttrSpec();
   $o_938->name = 'data-share-endpoint';
   $o_939 = new UrlSpec();
-  $o_939->allowed_protocol = ['ftp', 'http', 'https', 'mailto', 'snapchat', 'sms', 'tel', 'viber', 'whatsapp'];
+  $o_939->allowed_protocol = ['ftp', 'http', 'https', 'mailto', 'fb-messenger', 'snapchat', 'sms', 'tel', 'viber', 'whatsapp'];
   $o_939->allow_relative = false;
   $o_938->value_url = $o_939;
   $o_936->attrs[] = $o_938;
@@ -4462,7 +4462,7 @@ class ValidationRulesFactory {
   $o_1016->also_requires_tag = ['amp-youtube extension .js script'];
   $o_0->tags[] = $o_1016;
   $o_0->min_validator_revision_required = 135;
-  $o_0->spec_file_revision = 219;
+  $o_0->spec_file_revision = 220;
   $o_1022 = new AttrList();
   $o_1022->name = 'common-link-attrs';
   $o_1023 = new AttrSpec();
