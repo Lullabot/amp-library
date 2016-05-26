@@ -20,6 +20,7 @@ namespace Lullabot\AMP\Validate;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Spec\ValidationErrorSeverity;
 use Lullabot\AMP\Spec\ValidationErrorCode;
+use Lullabot\AMP\AMP;
 
 /**
  * Class Context
@@ -147,7 +148,7 @@ class Context
     public function detachDomTag()
     {
         // Remove the embedded line number; we won't need this anymore
-        $this->dom_tag->removeAttribute('data-amp-library-linenum');
+        $this->dom_tag->removeAttribute(AMP::AMP_LINENUM_ATTRIBUTE);
         $this->dom_tag = null;
     }
 
@@ -223,7 +224,7 @@ class Context
         if (empty($this->options['use_html5_parser'])) {
             return $dom_el->getLineNo();
         } else {
-            $line_no = $dom_el->getAttribute('data-amp-library-linenum');
+            $line_no = $dom_el->getAttribute(AMP::AMP_LINENUM_ATTRIBUTE);
             if (is_numeric($line_no)) {
                 return (int)$line_no;
             } else {
@@ -291,7 +292,7 @@ class Context
         $context_string = "<$dom_el->tagName";
         foreach ($attributes as $attr_name => $attr_value) {
             // Skip embedded line numbers
-            if ($attr_name == 'data-amp-library-linenum') {
+            if ($attr_name == AMP::AMP_LINENUM_ATTRIBUTE) {
                 continue;
             }
             $context_string .= " $attr_name";
