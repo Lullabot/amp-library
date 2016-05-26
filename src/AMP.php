@@ -321,11 +321,12 @@ class AMP
 
     /**
      * @param $document_html
+     * @param bool $use_html5_parser
      * @return DOMQuery
      */
-    protected function getDOMQuery($document_html)
+    protected function getDOMQuery($document_html, $use_html5_parser = true)
     {
-        if (!empty($this->options['use_html5_parser'])) {
+        if ($use_html5_parser) {
             $amphtml5 = new AMPHTML5();
             $html5_dom = $amphtml5->loadHTML($document_html);
             $qp = new DOMQuery($html5_dom, null, ['convert_to_encoding' => 'UTF-8']);
@@ -366,7 +367,7 @@ class AMP
         ];
 
         $this->context->setStatsData($stats_data);
-        $qp = $this->getDOMQuery($document_html);
+        $qp = $this->getDOMQuery($document_html, $this->options['use_html5_parser']);
 
         foreach ($this->passes as $pass_name) {
             $qp_branch = $qp->branch();
@@ -437,25 +438,19 @@ class AMP
      */
     protected function formatSource($html)
     {
-        if ($this->scope == Scope::BODY_SCOPE) {
-            $document_html = $this->makeFragmentWhole($html);
-        } else if ($this->scope == Scope::HTML_SCOPE) {
-            $striped_html = strip_tags($html);
-            if ($striped_html !== $html) { // main case
-                $document_html = $html;
-            } else {
-                $document_html = $this->bareDocument($html);
-            }
-        } else {
-            throw new \Exception("Invalid or currently unsupported scope $this->scope");
-        }
+        $document_html = $this->makeFullDocument($html);
+        $qp = $this->getDOMQuery($document_html);
+        $this->possiblyRemoveLinenumAttributes($qp);
+        return $this->getOutputHTML($qp);
+    }
 
-        /** @var QueryPath\DOMQuery $qp */
-        $qp = QueryPath::withHTML($html, NULL, ['convert_to_encoding' => 'UTF-8']);
-        if ($this->scope == Scope::HTML_SCOPE) {
-            return $qp->top()->html5();
-        } else {
-            return $qp->find($this->scope)->innerHTML5();
+    /**
+     * @param DOMQuery $qp
+     */
+    protected function possiblyRemoveLinenumAttributes(DOMQuery $qp)
+    {
+        if (!empty($this->options['use_html5_parser'])) {
+            $qp->top()->find('*')->removeAttr('data-amp-library-linenum');
         }
     }
 
