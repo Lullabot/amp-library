@@ -89,11 +89,13 @@ class TagSpecDispatch
     /**
      * @return bool
      */
-    public function hasTagSpecs() {
+    public function hasTagSpecs()
+    {
         return !empty($this->all_tag_specs);
     }
 
-    public function allTagSpecs() {
+    public function allTagSpecs()
+    {
         return $this->all_tag_specs;
     }
 }

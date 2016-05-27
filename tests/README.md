@@ -5,6 +5,7 @@ Note: An explicit commit is noted as these files can change.
 * `test-data/full-html/aria.html` https://github.com/ampproject/amphtml/blob/59a990001071daae6d7ee901ec742b16d700bec2/validator/testdata/feature_tests/aria.html
 * `test-data/full-html/bad_viewport.html` from https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/bad_viewport.html
 * `test-data/full-html/duplicate_unique_tags_and_wrong_parent.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/duplicate_unique_tags_and_wrong_parents.html
+* `test-data/full-html/incorrect_mandatory_style.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/incorrect_mandatory_style.html
 * `test-data/full-html/javascript_xss.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/javascript_xss.html
 * `test-data/full-html/link_meta_values.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/link_meta_values.html
 * `test-data/full-html/minimum_valid_amp.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/minimum_valid_amp.html

@@ -17,6 +17,7 @@
 
 namespace Lullabot\AMP\Validate;
 
+use Lullabot\AMP\Spec\TagSpec;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Spec\ValidationErrorSeverity;
 use Lullabot\AMP\Spec\ValidationErrorCode;
@@ -65,6 +66,10 @@ class Context
     protected $stats_data = [];
     /** @var array */
     protected $options = [];
+    /** @var CdataMatcher */
+    protected $cdata_matcher = null;
+    /** @var ChildTagMatcher */
+    protected $child_tag_matcher = null;
 
     /**
      * Context constructor.
@@ -79,8 +84,45 @@ class Context
         $this->error_scope = $scope;
         $this->line_association = new \SplObjectStorage();
         $this->options = $options;
+        $this->cdata_matcher = new CdataMatcher(new TagSpec());
+        $this->child_tag_matcher = new ChildTagMatcher(new TagSpec());
     }
 
+    /**
+     * @param CdataMatcher $matcher
+     */
+    public function setCdataMatcher(CdataMatcher $matcher)
+    {
+        $this->cdata_matcher = $matcher;
+    }
+
+    /**
+     * @return CdataMatcher
+     */
+    public function getCdataMatcher()
+    {
+        return $this->cdata_matcher;
+    }
+
+    /**
+     * @param ChildTagMatcher $matcher
+     */
+    public function setChildTagMatcher(ChildTagMatcher $matcher)
+    {
+        $this->child_tag_matcher = $matcher;
+    }
+
+    /**
+     * @return ChildTagMatcher
+     */
+    public function getChildTagMatcher()
+    {
+        return $this->child_tag_matcher;
+    }
+
+    /**
+     * @return int
+     */
     public function getNumTagsProcessed()
     {
         return $this->num_tags_processed;
@@ -91,6 +133,9 @@ class Context
         $this->num_tags_processed = $num_tags_processed;
     }
 
+    /**
+     * @return array
+     */
     public function getStatsData()
     {
         return $this->stats_data;
@@ -150,6 +195,8 @@ class Context
         // Remove the embedded line number; we won't need this anymore
         $this->dom_tag->removeAttribute(AMP::AMP_LINENUM_ATTRIBUTE);
         $this->dom_tag = null;
+        $this->cdata_matcher = new CdataMatcher(new TagSpec());
+        $this->child_tag_matcher = new ChildTagMatcher(new TagSpec());
     }
 
     /**

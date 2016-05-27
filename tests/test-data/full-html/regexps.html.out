@@ -170,6 +170,10 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
 
+<style> on line 27
+- The mandatory text (CDATA) inside tag 'head > style : boilerplate - old variant' is missing or incorrect.
+   [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
+
 <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"> on line 36
 - The attribute 'src' in tag 'amp-vine extension .js script' is set to the invalid value 'https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar'.
    [code: INVALID_ATTR_VALUE  category: CUSTOM_JAVASCRIPT_DISALLOWED see: https://www.ampproject.org/docs/reference/extended/amp-vine.html]

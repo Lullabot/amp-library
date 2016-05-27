@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html amp><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+  <!-- changed -webkit-animation:-amp-start from 8s to 10s which should trigger a boilerplate error -->
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 10s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+  <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <!--  CSS !important is not allowed -->
+  <style amp-custom>a { color: red !important; }</style>
+  <link rel="canonical" href="no_important_normal.html">
+</head>
+<body>
+</body>
+
+</html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!doctype html>
+Line  2: <html amp>
+Line  3: <head>
+Line  4:   <meta charset="utf-8">
+Line  5:   <meta name="viewport" content="width=device-width,minimum-scale=1">
+Line  6:   <!-- changed -webkit-animation:-amp-start from 8s to 10s which should trigger a boilerplate error -->
+Line  7:   <style amp-boilerplate>body{-webkit-animation:-amp-start 10s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+Line  8:   <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line  9:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line 10:   <!--  CSS !important is not allowed -->
+Line 11:   <style amp-custom>a { color: red !important; }</style>
+Line 12:   <link rel="canonical" href="no_important_normal.html">
+Line 13: </head>
+Line 14: <body>
+Line 15: </body>
+Line 16: </html>
+Line 17: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<style amp-boilerplate> on line 7
+- The mandatory text (CDATA) inside tag 'head > style : boilerplate' is missing or incorrect.
+   [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
+
+<style amp-custom> on line 11
+- The text (CDATA) inside tag 'style amp-custom' contains 'CSS !important', which is disallowed.
+   [code: CDATA_VIOLATES_BLACKLIST  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required
