@@ -193,6 +193,17 @@ class ParsedValidatorRules
     }
 
     /**
+     * @param Context $context
+     * @param SValidationResult $result
+     */
+    public function validateTagOnExit(Context $context, SValidationResult $result)
+    {
+        /** @var CdataMatcher $matcher */
+        $matcher = $context->getCdataMatcher();
+        $matcher->match($context->getDomTag()->textContent, $context, $result);
+    }
+
+    /**
      * @param ParsedTagSpec $parsed_spec
      * @param Context $context
      * @param array $encountered_attributes
@@ -263,6 +274,8 @@ class ParsedValidatorRules
             $satisfied = $parsed_spec->getSpec()->mandatory_alternatives;
             $context->recordMandatoryAlternativesSatisfied($satisfied);
         }
+
+        $context->setCdataMatcher(new CdataMatcher($parsed_spec->getSpec()));
     }
 
     /**
