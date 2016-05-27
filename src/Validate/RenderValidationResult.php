@@ -175,10 +175,10 @@ class RenderValidationResult
     }
 
     /**
-     * Corresponds to amp.validator.categorizeError() in validator.js
-     * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+     * Corresponds to amp.validator.categorizeError() in validator-full.js
+     * (see https://github.com/ampproject/amphtml/blob/master/validator/validator-full.js )
      *
-     * @todo currently a partial port. Also does not support templates and cdata/css validation
+     * @todo currently a partial port. Also does not support templates and css validation
      *
      * @param ValidationError $error
      * @return ErrorCategoryCode
@@ -236,10 +236,20 @@ class RenderValidationResult
             return ErrorCategoryCode::DISALLOWED_HTML;
         }
 
+        if ($error->code === ValidationErrorCode::STYLESHEET_TOO_LONG ||
+            ($error->code === ValidationErrorCode::CDATA_VIOLATES_BLACKLIST &&
+                isset($error->params[0]) && $error->params[0] === 'style amp-custom')
+        ) {
+            return ErrorCategoryCode::AUTHOR_STYLESHEET_PROBLEM;
+        }
+
         // @todo check
         if ($error->code === ValidationErrorCode::MANDATORY_TAG_MISSING ||
             ($error->code === ValidationErrorCode::MANDATORY_ATTR_MISSING &&
-                isset($error->params[0]) && $error->params[0] === '\\u26a')
+                isset($error->params[0]) && $error->params[0] === '\\u26a') ||
+            ($error->code === ValidationErrorCode::MANDATORY_CDATA_MISSING_OR_INCORRECT
+                && isset($error->params[0]) && ((strpos($error->params[0], 'head > style : boilerplate') === 0) ||
+                    (strpos($error->params[0], 'noscript > style : boilerplate') === 0)))
         ) {
             return ErrorCategoryCode::MANDATORY_AMP_TAG_MISSING_OR_INCORRECT;
         }
