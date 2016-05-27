@@ -68,6 +68,8 @@ class Context
     protected $options = [];
     /** @var CdataMatcher */
     protected $cdata_matcher = null;
+    /** @var ChildTagMatcher */
+    protected $child_tag_matcher = null;
 
     /**
      * Context constructor.
@@ -83,6 +85,7 @@ class Context
         $this->line_association = new \SplObjectStorage();
         $this->options = $options;
         $this->cdata_matcher = new CdataMatcher(new TagSpec());
+        $this->child_tag_matcher = new ChildTagMatcher(new TagSpec());
     }
 
     /**
@@ -99,6 +102,22 @@ class Context
     public function getCdataMatcher()
     {
         return $this->cdata_matcher;
+    }
+
+    /**
+     * @param ChildTagMatcher $matcher
+     */
+    public function setChildTagMatcher(ChildTagMatcher $matcher)
+    {
+        $this->child_tag_matcher = $matcher;
+    }
+
+    /**
+     * @return ChildTagMatcher
+     */
+    public function getChildTagMatcher()
+    {
+        return $this->child_tag_matcher;
     }
 
     /**
@@ -177,6 +196,7 @@ class Context
         $this->dom_tag->removeAttribute(AMP::AMP_LINENUM_ATTRIBUTE);
         $this->dom_tag = null;
         $this->cdata_matcher = new CdataMatcher(new TagSpec());
+        $this->child_tag_matcher = new ChildTagMatcher(new TagSpec());
     }
 
     /**

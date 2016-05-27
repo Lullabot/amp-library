@@ -198,9 +198,12 @@ class ParsedValidatorRules
      */
     public function validateTagOnExit(Context $context, SValidationResult $result)
     {
-        /** @var CdataMatcher $matcher */
-        $matcher = $context->getCdataMatcher();
-        $matcher->match($context->getDomTag()->textContent, $context, $result);
+        /** @var CdataMatcher $cdata_matcher */
+        $cdata_matcher = $context->getCdataMatcher();
+        $cdata_matcher->match($context->getDomTag()->textContent, $context, $result);
+        /** @var ChildTagMatcher $child_tag_matcher */
+        $child_tag_matcher = $context->getChildTagMatcher();
+        $child_tag_matcher->matchChildTagName($context, $result);
     }
 
     /**
@@ -266,16 +269,13 @@ class ParsedValidatorRules
             }
         }
 
-        // This is much below validateParentTag(), validateAttributes() etc. (See above).
-        // Called from ValidationHandler.exitTag() in canonical validator so we place this here
-        $parsed_spec->validateChildTags($context, $result_for_best_attempt);
-
         if (!empty($parsed_spec->getSpec()->mandatory_alternatives)) {
             $satisfied = $parsed_spec->getSpec()->mandatory_alternatives;
             $context->recordMandatoryAlternativesSatisfied($satisfied);
         }
 
         $context->setCdataMatcher(new CdataMatcher($parsed_spec->getSpec()));
+        $context->setChildTagMatcher(new ChildTagMatcher($parsed_spec->getSpec()));
     }
 
     /**

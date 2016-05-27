@@ -208,50 +208,6 @@ class ParsedTagSpec
     }
 
     /**
-     * @param Context $context
-     * @param SValidationResult $validation_result
-     */
-    public function validateChildTags(Context $context, SValidationResult $validation_result)
-    {
-        /** @var ChildTagSpec|null $child_tag_spec */
-        $child_tag_spec = $this->spec->child_tags;
-        if (empty($child_tag_spec)) {
-            return;
-        }
-
-        /** @var string[] $child_tag_names */
-        $child_tag_names = $context->getChildTagNames();
-        $num_child_tags = count($child_tag_names);
-
-        /** @var string[]|null $first_name_oneof */
-        $first_name_oneof = $child_tag_spec->first_child_tag_name_oneof;
-        if (!empty($first_name_oneof) && !in_array($child_tag_names[0], $first_name_oneof)) {
-            $allowed_names = '[' . join(',', $first_name_oneof) . ']';
-            $context->addError(ValidationErrorCode::DISALLOWED_FIRST_CHILD_TAG_NAME,
-                [$child_tag_names[0], $this->spec->tag_name, $allowed_names], $this->spec->spec_url, $validation_result);
-        }
-
-        /** @var string[]|null $child_tag_name_oneof */
-        $child_tag_name_oneof = $child_tag_spec->child_tag_name_oneof;
-        if (!empty($child_tag_name_oneof)) {
-            foreach ($child_tag_names as $child_tag_name) {
-                if (!in_array($child_tag_name, $child_tag_name_oneof)) {
-                    $allowed_names = '[' . join(',', $child_tag_name_oneof) . ']';
-                    $context->addError(ValidationErrorCode::DISALLOWED_CHILD_TAG_NAME,
-                        [$child_tag_name, $this->spec->tag_name, $allowed_names], $this->spec->spec_url, $validation_result);
-                }
-            }
-        }
-
-        /** @var number|null $mandatory_num_child_tags */
-        $mandatory_num_child_tags = $child_tag_spec->mandatory_num_child_tags;
-        if (is_numeric($mandatory_num_child_tags) && $num_child_tags !== $mandatory_num_child_tags) {
-            $context->addError(ValidationErrorCode::INCORRECT_NUM_CHILD_TAGS,
-                [$this->spec->tag_name, $mandatory_num_child_tags, $num_child_tags], $this->spec->spec_url, $validation_result);
-        }
-    }
-
-    /**
      * Deals with attributes not found in AMP specification. These would be all attributes starting with data-
      *
      * No support for templates at the moment
