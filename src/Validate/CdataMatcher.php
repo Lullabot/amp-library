@@ -61,6 +61,14 @@ class CdataMatcher
                     [ParsedTagSpec::getTagSpecName($this->tag_spec), $num_bytes, $max_bytes], $cdata_spec->max_bytes_spec_url, $result);
                 return;
             }
+        }
+
+        if (!empty($cdata_spec->mandatory_cdata)) {
+            if ($cdata !== $cdata_spec->mandatory_cdata) {
+                $context->addError(ValidationErrorCode::MANDATORY_CDATA_MISSING_OR_INCORRECT,
+                    [ParsedTagSpec::getTagSpecName($this->tag_spec)], $this->tag_spec->spec_url, $result);
+            }
+            return;
         } else if (!empty($cdata_spec->cdata_regex)) {
             $regex = '&(*UTF8)^(' . $cdata_spec->cdata_regex . ')$&';
             if (!preg_match($regex, $cdata)) {
