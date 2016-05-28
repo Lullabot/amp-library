@@ -17,8 +17,6 @@
 
 namespace Lullabot\AMP\Pass;
 
-use QueryPath\DOMQuery;
-
 /**
  * Class StatisticsPass
  * @package Lullabot\AMP\Pass

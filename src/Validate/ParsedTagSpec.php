@@ -19,10 +19,8 @@ namespace Lullabot\AMP\Validate;
 
 use Lullabot\AMP\Spec\AttrList;
 use Lullabot\AMP\Spec\AttrSpec;
-use Lullabot\AMP\Spec\ChildTagSpec;
 use Lullabot\AMP\Spec\TagSpec;
 use Lullabot\AMP\Spec\ValidationErrorCode;
-use Lullabot\AMP\Spec\ValidationResultStatus;
 
 /**
  * Class ParsedTagSpec

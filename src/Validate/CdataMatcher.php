@@ -20,7 +20,6 @@ namespace Lullabot\AMP\Validate;
 use Lullabot\AMP\Spec\BlackListedCDataRegex;
 use Lullabot\AMP\Spec\TagSpec;
 use Lullabot\AMP\Spec\CdataSpec;
-use Lullabot\AMP\Validate\Context;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 
 /**
