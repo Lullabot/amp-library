@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-require '../../../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 use Lullabot\AMP\AMP;
 
@@ -91,8 +91,6 @@ class Regen
         foreach ($this->getTestFiles('tests/test-data/full-html/') as $test_filename) {
             yield $test_filename => true;
         }
-
-        return $all_tests;
     }
 
     protected function getTestFiles($subdirectory)
