@@ -26,7 +26,6 @@ use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\Parser;
 use Sabberworm\CSS\Property\AtRule;
 use Sabberworm\CSS\RuleSet\AtRuleSet;
-use Sabberworm\CSS\RuleSet\RuleSet;
 use Sabberworm\CSS\Value\URL;
 
 /**
@@ -37,7 +36,7 @@ use Sabberworm\CSS\Value\URL;
  * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
  *
  * The main difference between the PHP and Javascript ports is the use the sabberworm/php-css-parser css parser library in
- * the PHP port. The Javascript validator uses uses its own css parser. This causes some code divergence in areas related
+ * the PHP port. The Javascript validator uses its own css parser. This causes some code divergence in areas related
  * to css_spec validation.
  *
  */
