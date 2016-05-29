@@ -90,8 +90,14 @@ class CdataMatcher
             $parsed_image_url_spec = new ParsedUrlSpec($cdata_spec->css_spec->image_url_spec);
 
             $css_parser = new Parser($cdata);
-            /** @var Document $css_document */
-            $css_document = $css_parser->parse();
+            try {
+                /** @var Document $css_document */
+                $css_document = $css_parser->parse();
+            } catch (\Exception $e) {
+                $context->addError(ValidationErrorCode::CSS_SYNTAX,
+                    [ParsedTagSpec::getTagSpecName($this->tag_spec), 'see within tag for malformed CSS'], $this->tag_spec->spec_url, $result);
+                return;
+            }
             foreach ($css_document->getAllRuleSets() as $rule_set) {
                 foreach ($css_document->getAllValues($rule_set) as $value) {
                     if ($value instanceof URL) {
