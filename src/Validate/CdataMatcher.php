@@ -57,6 +57,7 @@ class CdataMatcher
      */
     public function match($cdata, Context $context, SValidationResult $result)
     {
+        /** @var CdataSpec $cdata_spec */
         $cdata_spec = $this->tag_spec->cdata;
         if (empty($cdata_spec)) {
             return;
@@ -87,56 +88,11 @@ class CdataMatcher
                 return;
             }
         } else if (!empty($cdata_spec->css_spec)) {
-            $parsed_font_url_spec = new ParsedUrlSpec($cdata_spec->css_spec->font_url_spec);
-            $parsed_image_url_spec = new ParsedUrlSpec($cdata_spec->css_spec->image_url_spec);
-
-            $css_parser = new Parser($cdata);
             try {
-                /** @var Document $css_document */
-                $css_document = $css_parser->parse();
+                $this->validateCssSpec($cdata, $context, $result, $cdata_spec);
             } catch (\Exception $e) {
                 $context->addError(ValidationErrorCode::CSS_SYNTAX,
                     [ParsedTagSpec::getTagSpecName($this->tag_spec), 'see within tag for malformed CSS'], $this->tag_spec->spec_url, $result);
-                return;
-            }
-
-            /** @var AtRuleSpec $item */
-            $at_rule_map = [];
-            foreach ($cdata_spec->css_spec->at_rule_spec as $item) {
-                $at_rule_map[$item->name] = $item->type;
-            }
-
-            foreach ($css_document->getContents() as $rule) {
-                $font_face = false;
-                if ($rule instanceof AtRule) {
-                    /** @var AtRuleSet $rule */
-                    if ($rule->atRuleName() == 'font-face') {
-                        $font_face = true;
-                    }
-
-                    if (isset($at_rule_map[$rule->atRuleName()])) {
-                        $parse_as = $at_rule_map[$rule->atRuleName()];
-                    } else {
-                        assert(isset($at_rule_map['$DEFAULT']));
-                        $parse_as = $at_rule_map['$DEFAULT'];
-                    }
-
-                    if ($parse_as == 'PARSE_AS_ERROR') {
-                        $context->addError(ValidationErrorCode::CSS_SYNTAX_INVALID_AT_RULE,
-                            [ParsedTagSpec::getTagSpecName($this->tag_spec), $rule->atRuleName()], $this->tag_spec->spec_url, $result);
-                    }
-                }
-                foreach ($css_document->getAllValues($rule) as $value) {
-                    if ($value instanceof URL) {
-                        /** @var URL $value */
-                        if ($font_face) {
-                            $parsed_font_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result);
-                        } /** @var AtRule $rule */
-                        else {
-                            $parsed_image_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result);
-                        }
-                    }
-                }
             }
         }
 
@@ -166,6 +122,59 @@ class CdataMatcher
             return $matches[1];
         } else {
             return $possibly_with_quotes;
+        }
+    }
+
+    /**
+     * @param string $cdata
+     * @param Context $context
+     * @param SValidationResult $result
+     * @param CdataSpec $cdata_spec
+     */
+    protected function validateCssSpec($cdata, Context $context, SValidationResult $result, CdataSpec $cdata_spec)
+    {
+        $parsed_font_url_spec = new ParsedUrlSpec($cdata_spec->css_spec->font_url_spec);
+        $parsed_image_url_spec = new ParsedUrlSpec($cdata_spec->css_spec->image_url_spec);
+        $css_parser = new Parser($cdata);
+        /** @var Document $css_document */
+        $css_document = $css_parser->parse();
+        /** @var AtRuleSpec $item */
+        $at_rule_map = [];
+        foreach ($cdata_spec->css_spec->at_rule_spec as $item) {
+            $at_rule_map[$item->name] = $item->type;
+        }
+
+        foreach ($css_document->getContents() as $rule) {
+            $font_face = false;
+            if ($rule instanceof AtRule) {
+                /** @var AtRuleSet $rule */
+                if ($rule->atRuleName() == 'font-face') {
+                    $font_face = true;
+                }
+
+                if (isset($at_rule_map[$rule->atRuleName()])) {
+                    $parse_as = $at_rule_map[$rule->atRuleName()];
+                } else {
+                    assert(isset($at_rule_map['$DEFAULT']));
+                    $parse_as = $at_rule_map['$DEFAULT'];
+                }
+
+                if ($parse_as == 'PARSE_AS_ERROR') {
+                    $context->addError(ValidationErrorCode::CSS_SYNTAX_INVALID_AT_RULE,
+                        [ParsedTagSpec::getTagSpecName($this->tag_spec), $rule->atRuleName()], $this->tag_spec->spec_url, $result);
+                }
+            }
+            foreach ($css_document->getAllValues($rule) as $value) {
+                if ($value instanceof URL) {
+                    /** @var URL $value */
+                    if ($font_face) {
+                        $parsed_font_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result);
+                    } /** @var AtRule $rule */
+                    else {
+                        $parsed_image_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result);
+                    }
+                }
+            }
         }
     }
 }
