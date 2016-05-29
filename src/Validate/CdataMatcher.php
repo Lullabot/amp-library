@@ -21,13 +21,23 @@ use Lullabot\AMP\Spec\BlackListedCDataRegex;
 use Lullabot\AMP\Spec\TagSpec;
 use Lullabot\AMP\Spec\CdataSpec;
 use Lullabot\AMP\Spec\ValidationErrorCode;
+use Sabberworm\CSS\CSSList\Document;
+use Sabberworm\CSS\Parser;
+use Sabberworm\CSS\RuleSet\AtRuleSet;
+use Sabberworm\CSS\RuleSet\RuleSet;
+use Sabberworm\CSS\Value\URL;
 
 /**
  * Class CdataMatcher
  * @package Lullabot\AMP\Validate
  *
- * This class is a straight PHP port of the Context class in validator.js
+ * This class is a PHP port of the CdataMatcher class in validator.js
  * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ *
+ * The main difference between the PHP and Javascript ports is the use the sabberworm/php-css-parser css parser library in
+ * the PHP port. The Javascript validator uses uses its own css parser. This causes some code divergence in areas related
+ * to css_spec validation.
+ *
  */
 class CdataMatcher
 {
@@ -76,7 +86,26 @@ class CdataMatcher
                 return;
             }
         } else if (!empty($cdata_spec->css_spec)) {
-            // @TODO
+            $parsed_font_url_spec = new ParsedUrlSpec($cdata_spec->css_spec->font_url_spec);
+            $parsed_image_url_spec = new ParsedUrlSpec($cdata_spec->css_spec->image_url_spec);
+
+            $css_parser = new Parser($cdata);
+            /** @var Document $css_document */
+            $css_document = $css_parser->parse();
+            foreach ($css_document->getAllRuleSets() as $rule_set) {
+                foreach ($css_document->getAllValues($rule_set) as $value) {
+                    if ($value instanceof URL) {
+                        /** @var URL $value */
+                        /** @var AtRuleSet $rule_set */
+                        if ($rule_set instanceof AtRuleSet && $rule_set->atRuleName() == 'font-face') {
+                            $parsed_font_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result);
+                        } /** @var RuleSet $rule_set */
+                        else {
+                            $parsed_image_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result);
+                        }
+                    }
+                }
+            }
         }
 
         /** @var BlackListedCDataRegex $blackitem */
@@ -88,4 +117,24 @@ class CdataMatcher
             }
         }
     }
+
+    /**
+     * @param URL $url
+     * @return mixed|string
+     */
+    protected function url_string(URL $url)
+    {
+        $possibly_with_quotes = trim($url->getURL()->__toString());
+        $matches = [];
+        if (empty($possibly_with_quotes)) {
+            return '';
+        } else if (preg_match('/(*UTF8)^"(.*)"$/', $possibly_with_quotes, $matches) ||
+            preg_match('/(*UTF8)^\'(.*)\'$/', $possibly_with_quotes, $matches)
+        ) {
+            return $matches[1];
+        } else {
+            return $possibly_with_quotes;
+        }
+    }
 }
+

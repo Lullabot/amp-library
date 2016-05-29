@@ -62,13 +62,24 @@ class ParsedUrlSpec
     }
 
     /**
-     * @param ParsedUrlSpecAttrErrorAdapter $adapter
      * @param Context $context
      * @param string $url
      * @param TagSpec $tagspec
      * @param SValidationResult $validation_result
      */
-    public function validateUrlAndProtocol(ParsedUrlSpecAttrErrorAdapter $adapter, Context $context, $url, TagSpec $tagspec, SValidationResult $validation_result)
+    public function validateUrlAndProtocolInStyleSheet(Context $context, $url, TagSpec $tagspec, SValidationResult $validation_result)
+    {
+        $this->validateUrlAndProtocol(new ParsedUrlSpecStyleSheetErrorAdapter(), $context, $url, $tagspec, $validation_result);
+    }
+
+    /**
+     * @param ParsedUrlSpecAttrErrorAdapter|ParsedUrlSpecStyleSheetErrorAdapter $adapter
+     * @param Context $context
+     * @param string $url
+     * @param TagSpec $tagspec
+     * @param SValidationResult $validation_result
+     */
+    public function validateUrlAndProtocol($adapter, Context $context, $url, TagSpec $tagspec, SValidationResult $validation_result)
     {
         if (empty(trim($url)) && empty($this->spec->allow_empty)) {
             $adapter->missingUrl($context, $tagspec, $validation_result);
