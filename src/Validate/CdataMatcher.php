@@ -17,12 +17,14 @@
 
 namespace Lullabot\AMP\Validate;
 
+use Lullabot\AMP\Spec\AtRuleSpec;
 use Lullabot\AMP\Spec\BlackListedCDataRegex;
 use Lullabot\AMP\Spec\TagSpec;
 use Lullabot\AMP\Spec\CdataSpec;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\Parser;
+use Sabberworm\CSS\Property\AtRule;
 use Sabberworm\CSS\RuleSet\AtRuleSet;
 use Sabberworm\CSS\RuleSet\RuleSet;
 use Sabberworm\CSS\Value\URL;
@@ -98,14 +100,39 @@ class CdataMatcher
                     [ParsedTagSpec::getTagSpecName($this->tag_spec), 'see within tag for malformed CSS'], $this->tag_spec->spec_url, $result);
                 return;
             }
-            foreach ($css_document->getAllRuleSets() as $rule_set) {
-                foreach ($css_document->getAllValues($rule_set) as $value) {
+
+            /** @var AtRuleSpec $item */
+            $at_rule_map = [];
+            foreach ($cdata_spec->css_spec->at_rule_spec as $item) {
+                $at_rule_map[$item->name] = $item->type;
+            }
+
+            foreach ($css_document->getContents() as $rule) {
+                $font_face = false;
+                if ($rule instanceof AtRule) {
+                    /** @var AtRuleSet $rule */
+                    if ($rule->atRuleName() == 'font-face') {
+                        $font_face = true;
+                    }
+
+                    if (isset($at_rule_map[$rule->atRuleName()])) {
+                        $parse_as = $at_rule_map[$rule->atRuleName()];
+                    } else {
+                        assert(isset($at_rule_map['$DEFAULT']));
+                        $parse_as = $at_rule_map['$DEFAULT'];
+                    }
+
+                    if ($parse_as == 'PARSE_AS_ERROR') {
+                        $context->addError(ValidationErrorCode::CSS_SYNTAX_INVALID_AT_RULE,
+                            [ParsedTagSpec::getTagSpecName($this->tag_spec), $rule->atRuleName()], $this->tag_spec->spec_url, $result);
+                    }
+                }
+                foreach ($css_document->getAllValues($rule) as $value) {
                     if ($value instanceof URL) {
                         /** @var URL $value */
-                        /** @var AtRuleSet $rule_set */
-                        if ($rule_set instanceof AtRuleSet && $rule_set->atRuleName() == 'font-face') {
+                        if ($font_face) {
                             $parsed_font_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result);
-                        } /** @var RuleSet $rule_set */
+                        } /** @var AtRule $rule */
                         else {
                             $parsed_image_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result);
                         }
