@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS-IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the license.
+--><!--
+  Test Description:
+  Tests what happens when the custom style made by the author
+  of the document contains things that we disallow.
+--><html amp><head>
+  <meta charset="utf-8">
+  <link rel="canonical" href="./regular-html-version.html">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+  <style amp-custom>
+    /* These CSS Rules violate essential CSS validation */
+    @import url("http://somewhere/on/the/internet.css");
+    foo.i-amp-class {}
+    foo.amp-class {}
+    foo { b: red !important; }
+    @viewport (mumble mumble) { }
+    /* customization: commenting out next line for amp-library -- css parser seems to have problems */
+    /*    @media (whatever) { @notallowednested } */
+
+    /* some tests for url verification - images */
+    foo { background-image: url('') }  /* allowed for now */
+    foo { background-image: url('invalid://invalid.com/1.jpg') }
+    foo { background-image: url('https://valid.com/1.jpg') }
+    foo { background-image: url('http://valid.com/1.jpg') }
+    foo { background-image: url('absolute://disallow.com/soon.jpg') }
+    foo { background-image: url('://valid.jpg') }
+    foo { background-image: url('valid.jpg') }
+
+    /* some tests for url verification - fonts */
+    @font-face { src: url(''); } /* allowed for now */
+    @font-face { src: url('invalid://invalid.com/1.ttf') }
+    @font-face { src: url('https://valid.com/1.ttf') }
+    @font-face { src: url('http://valid.com/1.ttf') }
+    @font-face { src: url('absolute://invalid.com/1.ttf') }
+    @font-face { src: url('://valid.ttf') }
+    @font-face { src: url('valid.ttf') }
+  </style>
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <script src="https://cdn.ampproject.org/v0.js" async></script>
+</head>
+<body>
+</body>
+
+</html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
+Line  3: 
+Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
+Line  5:   you may not use this file except in compliance with the License.
+Line  6:   You may obtain a copy of the License at
+Line  7: 
+Line  8:       http://www.apache.org/licenses/LICENSE-2.0
+Line  9: 
+Line 10:   Unless required by applicable law or agreed to in writing, software
+Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
+Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Line 13:   See the License for the specific language governing permissions and
+Line 14:   limitations under the license.
+Line 15: -->
+Line 16: <!--
+Line 17:   Test Description:
+Line 18:   Tests what happens when the custom style made by the author
+Line 19:   of the document contains things that we disallow.
+Line 20: -->
+Line 21: <!doctype html>
+Line 22: <html ⚡>
+Line 23: <head>
+Line 24:   <meta charset="utf-8">
+Line 25:   <link rel="canonical" href="./regular-html-version.html" />
+Line 26:   <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+Line 27:   <style amp-custom>
+Line 28:     /* These CSS Rules violate essential CSS validation */
+Line 29:     @import url("http://somewhere/on/the/internet.css");
+Line 30:     foo.i-amp-class {}
+Line 31:     foo.amp-class {}
+Line 32:     foo { b: red !important; }
+Line 33:     @viewport (mumble mumble) { }
+Line 34:     /* customization: commenting out next line for amp-library -- css parser seems to have problems */
+Line 35:     /*    @media (whatever) { @notallowednested } */
+Line 36: 
+Line 37:     /* some tests for url verification - images */
+Line 38:     foo { background-image: url('') }  /* allowed for now */
+Line 39:     foo { background-image: url('invalid://invalid.com/1.jpg') }
+Line 40:     foo { background-image: url('https://valid.com/1.jpg') }
+Line 41:     foo { background-image: url('http://valid.com/1.jpg') }
+Line 42:     foo { background-image: url('absolute://disallow.com/soon.jpg') }
+Line 43:     foo { background-image: url('://valid.jpg') }
+Line 44:     foo { background-image: url('valid.jpg') }
+Line 45: 
+Line 46:     /* some tests for url verification - fonts */
+Line 47:     @font-face { src: url(''); } /* allowed for now */
+Line 48:     @font-face { src: url('invalid://invalid.com/1.ttf') }
+Line 49:     @font-face { src: url('https://valid.com/1.ttf') }
+Line 50:     @font-face { src: url('http://valid.com/1.ttf') }
+Line 51:     @font-face { src: url('absolute://invalid.com/1.ttf') }
+Line 52:     @font-face { src: url('://valid.ttf') }
+Line 53:     @font-face { src: url('valid.ttf') }
+Line 54:   </style>
+Line 55:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 56:   <script src="https://cdn.ampproject.org/v0.js" async></script>
+Line 57: </head>
+Line 58: <body>
+Line 59: </body>
+Line 60: </html>
+Line 61: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<style amp-custom> on line 27
+- CSS syntax error in tag 'style amp-custom' - saw invalid at rule '@import'.
+   [code: CSS_SYNTAX_INVALID_AT_RULE  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+- CSS syntax error in tag 'style amp-custom' - saw invalid at rule '@viewport'.
+   [code: CSS_SYNTAX_INVALID_AT_RULE  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+- CSS syntax error in tag 'style amp-custom' - invalid url protocol 'invalid:'.
+   [code: CSS_SYNTAX_INVALID_URL_PROTOCOL  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+- CSS syntax error in tag 'style amp-custom' - invalid url protocol 'invalid:'.
+   [code: CSS_SYNTAX_INVALID_URL_PROTOCOL  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+- CSS syntax error in tag 'style amp-custom' - invalid url protocol 'absolute:'.
+   [code: CSS_SYNTAX_INVALID_URL_PROTOCOL  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+- The text (CDATA) inside tag 'style amp-custom' contains 'CSS -amp- class name prefix', which is disallowed.
+   [code: CDATA_VIOLATES_BLACKLIST  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+- The text (CDATA) inside tag 'style amp-custom' contains 'CSS !important', which is disallowed.
+   [code: CDATA_VIOLATES_BLACKLIST  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required
