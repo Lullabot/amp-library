@@ -161,17 +161,18 @@ class CdataMatcher
 
                 if ($parse_as == 'PARSE_AS_ERROR') {
                     $context->addError(ValidationErrorCode::CSS_SYNTAX_INVALID_AT_RULE,
-                        [ParsedTagSpec::getTagSpecName($this->tag_spec), $rule->atRuleName()], $this->tag_spec->spec_url, $result);
+                        [ParsedTagSpec::getTagSpecName($this->tag_spec), $rule->atRuleName()], $this->tag_spec->spec_url, $result, $rule->getLineNum());
                 }
             }
+
             foreach ($css_document->getAllValues($rule) as $value) {
                 if ($value instanceof URL) {
                     /** @var URL $value */
                     if ($font_face) {
-                        $parsed_font_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result);
+                        $parsed_font_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result, $rule->getLineNum());
                     } /** @var AtRule $rule */
                     else {
-                        $parsed_image_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result);
+                        $parsed_image_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result, $rule->getLineNum());
                     }
                 }
             }

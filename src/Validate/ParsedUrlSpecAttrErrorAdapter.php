@@ -45,8 +45,9 @@ class ParsedUrlSpecAttrErrorAdapter
      * @param Context $context
      * @param TagSpec $tagspec
      * @param SValidationResult $result
+     * @param int $line_delta
      */
-    public function missingUrl(Context $context, TagSpec $tagspec, SValidationResult $result)
+    public function missingUrl(Context $context, TagSpec $tagspec, SValidationResult $result, $line_delta = 0)
     {
         $context->addError(ValidationErrorCode::MISSING_URL,
             [$this->attr_name, ParsedTagSpec::getTagSpecName($tagspec)], $tagspec->spec_url, $result, $this->attr_name);
@@ -57,8 +58,9 @@ class ParsedUrlSpecAttrErrorAdapter
      * @param string $url
      * @param TagSpec $tagspec
      * @param SValidationResult $result
+     * @param int $line_delta
      */
-    public function invalidUrl(Context $context, $url, TagSpec $tagspec, SValidationResult $result)
+    public function invalidUrl(Context $context, $url, TagSpec $tagspec, SValidationResult $result, $line_delta = 0)
     {
         $context->addError(ValidationErrorCode::INVALID_URL,
             [$this->attr_name, ParsedTagSpec::getTagSpecName($tagspec), $url], $tagspec->spec_url, $result, $this->attr_name);
@@ -69,8 +71,9 @@ class ParsedUrlSpecAttrErrorAdapter
      * @param string $uri_scheme
      * @param TagSpec $tagspec
      * @param SValidationResult $result
+     * @param int $line_delta
      */
-    public function invalidUrlProtocol(Context $context, $uri_scheme, TagSpec $tagspec, SValidationResult $result)
+    public function invalidUrlProtocol(Context $context, $uri_scheme, TagSpec $tagspec, SValidationResult $result, $line_delta = 0)
     {
         $context->addError(ValidationErrorCode::INVALID_URL_PROTOCOL,
             [$this->attr_name, ParsedTagSpec::getTagSpecName($tagspec), $uri_scheme], $tagspec->spec_url, $result, $this->attr_name);
@@ -81,8 +84,9 @@ class ParsedUrlSpecAttrErrorAdapter
      * @param $url
      * @param TagSpec $tagspec
      * @param $result
+     * @param int $line_delta
      */
-    public function disallowedRelativeUrl(Context $context, $url, TagSpec $tagspec, $result)
+    public function disallowedRelativeUrl(Context $context, $url, TagSpec $tagspec, $result, $line_delta = 0)
     {
         $context->addError(ValidationErrorCode::DISALLOWED_RELATIVE_URL,
             [$this->attr_name, ParsedTagSpec::getTagSpecName($tagspec), $url], $tagspec->spec_url, $result, $this->attr_name);

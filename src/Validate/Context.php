@@ -286,9 +286,11 @@ class Context
      * @param string $spec_url
      * @param SValidationResult $validationResult
      * @param string $attr_name
+     * @param string $segment
+     * @param int $line_delta
      * @return bool
      */
-    public function addError($code, array $params, $spec_url, SValidationResult $validationResult, $attr_name = '', $segment = '')
+    public function addError($code, array $params, $spec_url, SValidationResult $validationResult, $attr_name = '', $segment = '', $line_delta = 0)
     {
         if (empty($spec_url)) {
             $spec_url = '';
@@ -304,6 +306,7 @@ class Context
             $line = -1;
         }
 
+        $line += $line_delta;
         return $this->addErrorWithLine($line, $code, $params, $spec_url, $validationResult, $attr_name, $segment);
     }
 
