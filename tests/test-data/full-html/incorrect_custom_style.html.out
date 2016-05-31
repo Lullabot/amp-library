@@ -129,20 +129,30 @@ AMP-HTML Validation Issues and Fixes
 FAIL
 
 <style amp-custom> on line 27
-- CSS syntax error in tag 'style amp-custom' - saw invalid at rule '@import'.
-   [code: CSS_SYNTAX_INVALID_AT_RULE  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
-- CSS syntax error in tag 'style amp-custom' - saw invalid at rule '@viewport'.
-   [code: CSS_SYNTAX_INVALID_AT_RULE  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
-- CSS syntax error in tag 'style amp-custom' - invalid url protocol 'invalid:'.
-   [code: CSS_SYNTAX_INVALID_URL_PROTOCOL  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
-- CSS syntax error in tag 'style amp-custom' - invalid url protocol 'invalid:'.
-   [code: CSS_SYNTAX_INVALID_URL_PROTOCOL  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
-- CSS syntax error in tag 'style amp-custom' - invalid url protocol 'absolute:'.
-   [code: CSS_SYNTAX_INVALID_URL_PROTOCOL  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
 - The text (CDATA) inside tag 'style amp-custom' contains 'CSS -amp- class name prefix', which is disallowed.
    [code: CDATA_VIOLATES_BLACKLIST  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
 - The text (CDATA) inside tag 'style amp-custom' contains 'CSS !important', which is disallowed.
    [code: CDATA_VIOLATES_BLACKLIST  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+
+<style amp-custom> on line 29
+- CSS syntax error in tag 'style amp-custom' - saw invalid at rule '@import'.
+   [code: CSS_SYNTAX_INVALID_AT_RULE  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+
+<style amp-custom> on line 33
+- CSS syntax error in tag 'style amp-custom' - saw invalid at rule '@viewport'.
+   [code: CSS_SYNTAX_INVALID_AT_RULE  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+
+<style amp-custom> on line 39
+- CSS syntax error in tag 'style amp-custom' - invalid url protocol 'invalid:'.
+   [code: CSS_SYNTAX_INVALID_URL_PROTOCOL  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+
+<style amp-custom> on line 48
+- CSS syntax error in tag 'style amp-custom' - invalid url protocol 'invalid:'.
+   [code: CSS_SYNTAX_INVALID_URL_PROTOCOL  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+
+<style amp-custom> on line 51
+- CSS syntax error in tag 'style amp-custom' - invalid url protocol 'absolute:'.
+   [code: CSS_SYNTAX_INVALID_URL_PROTOCOL  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
 
 
 COMPONENT NAMES WITH JS PATH
