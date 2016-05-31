@@ -160,9 +160,11 @@ class RenderValidationResult
         /** @var SValidationError $validation_error */
         $last_context_string = null;
         $last_dom_tag = null;
+        $last_line_num = -1;
         foreach ($validation_result->errors as $validation_error) {
             if (($validation_error->phase == Phase::LOCAL_PHASE && !empty($last_dom_tag) && !$validation_error->dom_tag->isSameNode($last_dom_tag)) ||
-                $last_context_string !== $validation_error->context_string
+                ($last_context_string !== $validation_error->context_string) ||
+                ($validation_error->line !== $last_line_num)
             ) {
                 if ($validation_error->context_string == 'GLOBAL WARNING') {
                     $rendered .= PHP_EOL . 'GLOBAL WARNING' . PHP_EOL;
@@ -173,6 +175,7 @@ class RenderValidationResult
                 $last_dom_tag = $validation_error->dom_tag;
             }
             $rendered .= $this->errorLine($validation_error, $filename_or_url) . PHP_EOL;
+            $last_line_num = $validation_error->line;
         }
         return $rendered;
     }
