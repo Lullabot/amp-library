@@ -263,11 +263,15 @@ class Context
     }
 
     /**
-     * @param \DOMElement $dom_el
+     * @param \DOMElement|null $dom_el
      * @return int
      */
-    public function getLineNo(\DOMElement $dom_el)
+    public function getLineNo(\DOMElement $dom_el = null)
     {
+        if (empty($dom_el)) {
+            $dom_el = $this->dom_tag;
+        }
+
         if (empty($this->options['use_html5_parser'])) {
             return $dom_el->getLineNo();
         } else {
