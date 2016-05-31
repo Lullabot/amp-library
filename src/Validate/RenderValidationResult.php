@@ -148,6 +148,7 @@ class RenderValidationResult
     public function renderValidationResult(SValidationResult $validation_result, $filename_or_url = '')
     {
         $this->annotateWithErrorCategories($validation_result);
+        $this->sortValidationWarningsByLineno($validation_result);
         /** @var string $rendered */
         if (empty($validation_result->errors)) {
             $rendered = 'PASS' . PHP_EOL;
@@ -175,6 +176,23 @@ class RenderValidationResult
             $last_line_num = $validation_error->line;
         }
         return $rendered;
+    }
+
+    protected function sortValidationWarningsByLineno(SValidationResult $result)
+    {
+        // Sort the warnings according to increasing line number
+        usort($result->errors, function (SValidationError $error_1, SValidationError $error_2) {
+            if (($error_1->line > $error_2->line)) {
+                return 1;
+            } else if ($error_1->line < $error_2->line) {
+                return -1;
+            } else {
+                $result = $error_1->time_stamp < $error_2->time_stamp ? -1 : 1;
+                return $result;
+            }
+
+            return 0;
+        });
     }
 
     /**

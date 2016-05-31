@@ -307,7 +307,7 @@ class Context
         } else if (!empty($this->dom_tag)) {
             $line = $this->getLineNo($this->dom_tag);
         } else {
-            $line = -1;
+            $line = PHP_INT_MAX;
         }
 
         $line += $line_delta;
