@@ -261,6 +261,48 @@ class RenderValidationResult
             return ErrorCategoryCode::AUTHOR_STYLESHEET_PROBLEM;
         }
 
+        if ($error->code === ValidationErrorCode::CSS_SYNTAX &&
+            isset($error->params[0]) && $error->params[0] === 'style amp-custom'
+        ) {
+            return ErrorCategoryCode::AUTHOR_STYLESHEET_PROBLEM;
+        }
+
+        if (($error->code ===
+                ValidationErrorCode::CSS_SYNTAX_STRAY_TRAILING_BACKSLASH ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_UNTERMINATED_COMMENT ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_UNTERMINATED_STRING ||
+                $error->code === ValidationErrorCode::CSS_SYNTAX_BAD_URL ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_EOF_IN_PRELUDE_OF_QUALIFIED_RULE ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_INVALID_DECLARATION ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_INCOMPLETE_DECLARATION ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_INVALID_AT_RULE ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_ERROR_IN_PSEUDO_SELECTOR ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_MISSING_SELECTOR ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_NOT_A_SELECTOR_START ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_UNPARSED_INPUT_REMAINS_IN_SELECTOR ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_MISSING_URL ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_INVALID_URL ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_INVALID_URL_PROTOCOL ||
+                $error->code ===
+                ValidationErrorCode::CSS_SYNTAX_DISALLOWED_RELATIVE_URL) &&
+            isset($error->params[0]) && $error->params[0] === 'style amp-custom'
+        ) {
+            return ErrorCategoryCode::AUTHOR_STYLESHEET_PROBLEM;
+        }
+
         // @todo check
         if ($error->code === ValidationErrorCode::MANDATORY_TAG_MISSING ||
             ($error->code === ValidationErrorCode::MANDATORY_ATTR_MISSING &&

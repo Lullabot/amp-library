@@ -104,7 +104,8 @@ class ImgTagTransformPass extends BasePass
      * @param \DOMElement $el
      * @return bool
      */
-    protected function isSvg(\DOMElement $el) {
+    protected function isSvg(\DOMElement $el)
+    {
         if (!$el->hasAttribute('src')) {
             return false;
         }
