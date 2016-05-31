@@ -44,6 +44,13 @@ class SValidationError extends ValidationError
     public $context_string = '';
     /** @var ActionTakenLine */
     public $action_taken = null;
+    /** @var float */
+    public $time_stamp;
+
+    public function __construct()
+    {
+        $this->time_stamp = microtime(true);
+    }
 
     public function addActionTaken(ActionTakenLine $a)
     {

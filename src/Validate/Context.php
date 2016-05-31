@@ -301,7 +301,7 @@ class Context
         } else if (!empty($this->dom_tag)) {
             $line = $this->getLineNo($this->dom_tag);
         } else {
-            $line = -1;
+            $line = PHP_INT_MAX;
         }
 
         return $this->addErrorWithLine($line, $code, $params, $spec_url, $validationResult, $attr_name, $segment);
