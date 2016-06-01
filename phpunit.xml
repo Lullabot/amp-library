@@ -1,0 +1,10 @@
+<phpunit>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src</directory>
+            <exclude>
+                <file>src/AmpCommand.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
