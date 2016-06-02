@@ -2,6 +2,7 @@
 
 Note: An explicit commit is noted as these files can change.
 
+* `test-data/full-html/amp_layouts.html` https://github.com/ampproject/amphtml/blob/a26e8789435e15c570645be72f325e85ac3980e3/validator/testdata/feature_tests/amp_layouts.html
 * `test-data/full-html/aria.html` https://github.com/ampproject/amphtml/blob/59a990001071daae6d7ee901ec742b16d700bec2/validator/testdata/feature_tests/aria.html
 * `test-data/full-html/bad_viewport.html` from https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/bad_viewport.html
 * `test-data/full-html/duplicate_unique_tags_and_wrong_parent.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/duplicate_unique_tags_and_wrong_parents.html
