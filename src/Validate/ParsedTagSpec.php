@@ -17,6 +17,8 @@
 
 namespace Lullabot\AMP\Validate;
 
+use Lullabot\AMP\Spec\AmpLayout;
+use Lullabot\AMP\Spec\AmpLayoutLayout;
 use Lullabot\AMP\Spec\AttrList;
 use Lullabot\AMP\Spec\AttrSpec;
 use Lullabot\AMP\Spec\TagSpec;
@@ -26,17 +28,13 @@ use Lullabot\AMP\Spec\ValidationErrorCode;
  * Class ParsedTagSpec
  * @package Lullabot\AMP\Validate
  *
- * This class is a straight PHP port of the ParsedTagSpec class in validator.js
+ * This class is a straight PHP port of the ParsedTagSpec class in validator.js (also called the "canonical validator")
  * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
  *
- * The static methods getAttrsFor(), getDetailOrName(), shouldRecordTagspecValidated() are normal top-level functions
- * in validator.js but have been incorporated into this class, when they were ported, for convenience.
- *
- * Note:
- *  - shouldRecordTagspecValidated() in validator.js has been renamed shouldRecordTagspecValidatedTest() to prevent
- *    a name collision in this class
- *  - getAttrsFor() static method is called GetAttrsFor() in validator.js
- *
+ * Additionally, various top level functions from the canonical validator have been ported and incorporate as static
+ * methods in this class. This was done to give these javascript functions a place to reside (rather than have global
+ * scope PHP functions). If a static method corresponds to a top level function from the canonical validator, a note of
+ * this is made in the docblock for that static method.
  */
 class ParsedTagSpec
 {
@@ -58,6 +56,8 @@ class ParsedTagSpec
     protected $dispatch_key_attr_spec = null;
     /** @var TagSpec[] */
     protected $implicit_attr_specs = [];
+    /** @var string[] */
+    protected static $all_layouts = [];
 
     /**
      * ParsedTagSpec constructor.
@@ -238,7 +238,10 @@ class ParsedTagSpec
      */
     public function validateAttributes(Context $context, array $encountered_attrs, SValidationResult $result_for_attempt)
     {
-        // skip layout validation for now
+        if (!empty($this->spec->amp_layout)) {
+            $this->validateLayout($context, $encountered_attrs, $result_for_attempt);
+            // Continue on, regardless of whether we have failure or success; different from canonical validator
+        }
 
         /** @var \SplObjectStorage $mandatory_attrs_seen */
         $mandatory_attrs_seen = new \SplObjectStorage(); // Treat as a set of objects
@@ -378,6 +381,8 @@ class ParsedTagSpec
     }
 
     /**
+     * This static method corresponds to top level function GetAttrsFor() in the canonical validator i.e. validator.js
+     *
      * @param TagSpec $tag_spec
      * @param AttrList[] $attr_lists_by_name
      * @return AttrSpec[]
@@ -446,8 +451,107 @@ class ParsedTagSpec
         return $attr_specs;
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAllLayouts()
+    {
+        if (empty(self::$all_layouts)) {
+            $reflection_class = new \ReflectionClass('Lullabot\AMP\Spec\AmpLayoutLayout');
+            self::$all_layouts = $reflection_class->getConstants();
+        }
+
+        return self::$all_layouts;
+    }
 
     /**
+     * This static method corresponds to the top level function parseLayout() in the canonical validator i.e. validator.js
+     *
+     * @param $layout
+     * @return string
+     */
+    public static function parseLayout($layout)
+    {
+        if (empty($layout)) {
+            return AmpLayoutLayout::UNKNOWN;
+        }
+
+        $all_layouts = self::getAllLayouts();
+        $norm_layout = str_replace('-', '_', mb_strtoupper($layout, 'UTF-8'));
+        if (isset($all_layouts[$norm_layout])) {
+            return $norm_layout;
+        }
+
+        return AmpLayoutLayout::UNKNOWN;
+    }
+
+    /**
+     * This static method corresponds to the top level function CalculateWidth() in the canonical validator i.e. validator.js
+     *
+     * @param AmpLayout $spec
+     * @param string $input_layout
+     * @param CssLengthAndUnit $input_width
+     * @return CssLengthAndUnit
+     */
+    public static function calculateWidth(AmpLayout $spec, $input_layout, CssLengthAndUnit $input_width)
+    {
+        if (($input_layout === AmpLayoutLayout::UNKNOWN ||
+                $input_layout === AmpLayoutLayout::FIXED) &&
+            !$input_width->is_set && $spec->defines_default_width
+        ) {
+            return new CssLengthAndUnit('1px', false);
+        }
+        return $input_width;
+    }
+
+    /**
+     * This static method corresponds to the top level function CalculateHeight() in the canonical validator i.e. validator.js
+     *
+     * @param AmpLayout $spec
+     * @param string $input_layout
+     * @param CssLengthAndUnit $input_height
+     * @return CssLengthAndUnit
+     */
+    public static function calculateHeight(AmpLayout $spec, $input_layout, CssLengthAndUnit $input_height)
+    {
+        if (in_array($input_layout, [AmpLayoutLayout::UNKNOWN, AmpLayoutLayout::FIXED, AmpLayoutLayout::FIXED_HEIGHT])
+            && !$input_height->is_set && $spec->defines_default_height
+        ) {
+            return new CssLengthAndUnit('1px', false);
+        }
+        return $input_height;
+    }
+
+    /**
+     * This static method corresponds to the top level function CalculateLayout() in the canonical validator i.e. validator.js
+     *
+     * @param string $input_layout
+     * @param CssLengthAndUnit $width
+     * @param CssLengthAndUnit $height
+     * @param string|null $sizes_attr
+     * @param string|null $heights_attr
+     * @return string
+     */
+    public static function calculateLayout($input_layout, CssLengthAndUnit $width, CssLengthAndUnit $height, $sizes_attr, $heights_attr)
+    {
+        if ($input_layout !== AmpLayoutLayout::UNKNOWN) {
+            return $input_layout;
+        } else if (!$width->is_set && !$height->is_set) {
+            return AmpLayoutLayout::CONTAINER;
+        } else if ($height->is_set && (!$width->is_set || $width->is_auto)) {
+            return AmpLayoutLayout::FIXED_HEIGHT;
+        } else if ($height->is_set && $width->is_set &&
+            (!empty($sizes_attr) || !empty($heights_attr))
+        ) {
+            return AmpLayoutLayout::RESPONSIVE;
+        } else {
+            return AmpLayoutLayout::FIXED;
+        }
+    }
+
+    /**
+     * This static method corresponds to the top level function getTagSpecName() in the canonical validator i.e. validator.js
+     *
      * @param TagSpec $tag_spec
      * @return string
      */
@@ -457,6 +561,8 @@ class ParsedTagSpec
     }
 
     /**
+     * This static method corresponds to the top level function shouldRecordTagspecValidated() in validator.js
+     *
      * @param TagSpec $tag_spec
      * @param array $detail_or_names_to_track
      * @return bool
@@ -465,6 +571,103 @@ class ParsedTagSpec
     {
         return $tag_spec->mandatory || $tag_spec->unique ||
         (!empty(self::getTagSpecName($tag_spec)) && isset($detail_or_names_to_track[self::getTagSpecName($tag_spec)]));
+    }
+
+    /**
+     * @param Context $context
+     * @param array $attrs_by_key
+     * @param SValidationResult $result
+     */
+    public function validateLayout(Context $context, array $attrs_by_key, SValidationResult $result)
+    {
+        assert(!empty($this->spec->amp_layout));
+
+        $layout_attr = isset($attrs_by_key['layout']) ? $attrs_by_key['layout'] : null;
+        $width_attr = isset($attrs_by_key['width']) ? $attrs_by_key['width'] : null;
+        $height_attr = isset($attrs_by_key['height']) ? $attrs_by_key['height'] : null;
+        $sizes_attr = isset($attrs_by_key['sizes']) ? $attrs_by_key['sizes'] : null;
+        $heights_attr = isset($attrs_by_key['heights']) ? $attrs_by_key['heights'] : null;
+
+        $input_layout = self::parseLayout($layout_attr);
+        if (!empty($layout_attr) && $input_layout === AmpLayoutLayout::UNKNOWN) {
+            $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
+                ['layout', self::getTagSpecName($this->spec), $layout_attr], $this->spec->spec_url, $result);
+            return;
+        }
+
+        $input_width = new CssLengthAndUnit($width_attr, true);
+        if (!$input_width->is_valid) {
+            $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
+                ['width', self::getTagSpecName($this->spec), $width_attr], $this->spec->spec_url, $result);
+            return;
+        }
+
+        $input_height = new CssLengthAndUnit($height_attr, true);
+        if (!$input_height->is_valid) {
+            $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
+                ['height', self::getTagSpecName($this->spec), $height_attr], $this->spec->spec_url, $result);
+            return;
+        }
+
+        $width = self::calculateWidth($this->spec->amp_layout, $input_layout, $input_width);
+        $height = self::calculateHeight($this->spec->amp_layout, $input_layout, $input_height);
+        $layout = self::calculateLayout($input_layout, $width, $height, $sizes_attr, $heights_attr);
+
+        if ($height->is_auto && $layout !== AmpLayoutLayout::FLEX_ITEM) {
+            $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
+                ['height', self::getTagSpecName($this->spec), $height_attr], $this->spec->spec_url, $result);
+            return;
+        }
+
+        if (!in_array($layout, $this->spec->amp_layout->supported_layouts)) {
+            $code = empty($layout_attr) ? ValidationErrorCode::IMPLIED_LAYOUT_INVALID :
+                ValidationErrorCode::SPECIFIED_LAYOUT_INVALID;
+            $context->addError($code,
+                [$layout, self::getTagSpecName($this->spec)], $this->spec->spec_url, $result);
+            return;
+        }
+
+        if (in_array($layout, [AmpLayoutLayout::FIXED, AmpLayoutLayout::FIXED_HEIGHT, AmpLayoutLayout::RESPONSIVE])
+            && !$height->is_set
+        ) {
+            $context->addError(ValidationErrorCode::MANDATORY_ATTR_MISSING,
+                ['height', self::getTagSpecName($this->spec)],
+                $this->spec->spec_url, $result);
+            return;
+        }
+
+        if ($layout === AmpLayoutLayout::FIXED_HEIGHT && $width->is_set && !$width->is_auto) {
+            $context->addError(ValidationErrorCode::ATTR_VALUE_REQUIRED_BY_LAYOUT,
+                [$width_attr, 'width', self::getTagSpecName($this->spec), 'FIXED_HEIGHT', 'auto'],
+                $this->spec->spec_url, $result);
+            return;
+        }
+
+        if (in_array($layout, [AmpLayoutLayout::FIXED, AmpLayoutLayout::RESPONSIVE])) {
+            if (!$width->is_set) {
+                $context->addError(ValidationErrorCode::MANDATORY_ATTR_MISSING,
+                    ['width', self::getTagSpecName($this->spec)], $this->spec->spec_url, $result);
+                return;
+            } else if ($width->is_auto) {
+                $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
+                    ['width', self::getTagSpecName($this->spec), 'auto'], $this->spec->spec_url, $result);
+                return;
+            }
+        }
+
+        if ($layout === AmpLayoutLayout::RESPONSIVE && $width->unit !== $height->unit) {
+            $context->addError(ValidationErrorCode::INCONSISTENT_UNITS_FOR_WIDTH_AND_HEIGHT,
+                [self::getTagSpecName($this->spec), $width->unit, $height->unit], $this->spec->spec_url, $result);
+            return;
+        }
+
+        if (!empty($heights_attr) && $layout !== AmpLayoutLayout::RESPONSIVE) {
+            $code = empty($layout_attr) ? ValidationErrorCode::ATTR_DISALLOWED_BY_IMPLIED_LAYOUT :
+                ValidationErrorCode::ATTR_DISALLOWED_BY_SPECIFIED_LAYOUT;
+            $context->addError($code,
+                ['heights', self::getTagSpecName($this->spec), $layout], $this->spec->spec_url, $result);
+            return;
+        }
     }
 
 }

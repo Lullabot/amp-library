@@ -2,6 +2,7 @@
 
 Note: An explicit commit is noted as these files can change.
 
+* `test-data/full-html/amp_layouts.html` https://github.com/ampproject/amphtml/blob/a26e8789435e15c570645be72f325e85ac3980e3/validator/testdata/feature_tests/amp_layouts.html
 * `test-data/full-html/aria.html` https://github.com/ampproject/amphtml/blob/59a990001071daae6d7ee901ec742b16d700bec2/validator/testdata/feature_tests/aria.html
 * `test-data/full-html/bad_viewport.html` from https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/bad_viewport.html
 * `test-data/full-html/duplicate_unique_tags_and_wrong_parent.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/duplicate_unique_tags_and_wrong_parents.html
@@ -10,6 +11,7 @@ Note: An explicit commit is noted as these files can change.
 * `test-data/full-html/incorrect_mandatory_style.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/incorrect_mandatory_style.html
 * `test-data/full-html/javascript_xss.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/javascript_xss.html
 * `test-data/full-html/link_meta_values.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/link_meta_values.html
+* `test-data/full-html/mandatory-dimensions.html` https://github.com/ampproject/amphtml/blob/e1aa24df8432963423ee6cec1ce4d57529767e6e/validator/testdata/feature_tests/mandatory_dimensions.html
 * `test-data/full-html/minimum_valid_amp.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/minimum_valid_amp.html
 * `test-data/full-html/no_custom_js.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/no_custom_js.html
 * `test-data/full-html/noscript.html` https://github.com/ampproject/amphtml/blob/e1aa24df8432963423ee6cec1ce4d57529767e6e/validator/testdata/feature_tests/noscript.html

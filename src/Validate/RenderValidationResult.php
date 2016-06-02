@@ -25,9 +25,11 @@ use Lullabot\AMP\Spec\ValidationErrorCode;
  * Class RenderValidationResult
  * @package Lullabot\AMP\Validate
  *
- * This class doesn't exist in validator.js (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
- * Rather, its a mishmash of some useful functions ported from validator.js into PHP, added to this class.
+ * This class does not exist in the canonical validator [1].  Rather, its a mishmash of some useful functions
+ * ported from the JavaScript canonical validator into PHP and then agglomerated in this class.
  *
+ * [1] See https://github.com/ampproject/amphtml/blob/master/validator/validator.js
+ *     Also see https://github.com/ampproject/amphtml/blob/master/validator/validator-full.js
  */
 class RenderValidationResult
 {
@@ -196,7 +198,7 @@ class RenderValidationResult
      * Corresponds to amp.validator.categorizeError() in validator-full.js
      * (see https://github.com/ampproject/amphtml/blob/master/validator/validator-full.js )
      *
-     * @todo currently a partial port. Also does not support templates and css validation
+     * @todo currently a partial port: does not support templates.
      *
      * @param ValidationError $error
      * @return ErrorCategoryCode
@@ -322,9 +324,17 @@ class RenderValidationResult
             return ErrorCategoryCode::MANDATORY_AMP_TAG_MISSING_OR_INCORRECT;
         }
 
-        if (($error->code == ValidationErrorCode::INVALID_ATTR_VALUE || $error->code === ValidationErrorCode::MANDATORY_ATTR_MISSING) &&
-            isset($error->params[0]) && in_array($error->params[0], ['width', 'height', 'layout'])
+        if (in_array($error->code, [ValidationErrorCode::ATTR_VALUE_REQUIRED_BY_LAYOUT, ValidationErrorCode::IMPLIED_LAYOUT_INVALID,
+                ValidationErrorCode::SPECIFIED_LAYOUT_INVALID]) ||
+            ($error->code === ValidationErrorCode::INCONSISTENT_UNITS_FOR_WIDTH_AND_HEIGHT ||
+                (($error->code === ValidationErrorCode::INVALID_ATTR_VALUE || $error->code === ValidationErrorCode::MANDATORY_ATTR_MISSING) &&
+                    (isset($error->params[0]) && in_array($error->params[0], ['width', 'height', 'layout']))))
         ) {
+            return ErrorCategoryCode::AMP_LAYOUT_PROBLEM;
+        }
+
+        if (in_array($error->code, [ValidationErrorCode::ATTR_DISALLOWED_BY_IMPLIED_LAYOUT,
+            ValidationErrorCode::ATTR_DISALLOWED_BY_SPECIFIED_LAYOUT])) {
             return ErrorCategoryCode::AMP_LAYOUT_PROBLEM;
         }
 
@@ -416,6 +426,10 @@ class RenderValidationResult
             if (isset($error->params[1]) && strpos($error->params[1], 'amp-') === 0) {
                 return ErrorCategoryCode::AMP_TAG_PROBLEM;
             }
+            return ErrorCategoryCode::DISALLOWED_HTML;
+        }
+
+        if ($error->code == ValidationErrorCode::DUPLICATE_DIMENSION) {
             return ErrorCategoryCode::DISALLOWED_HTML;
         }
 
