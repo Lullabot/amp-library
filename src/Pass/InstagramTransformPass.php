@@ -28,7 +28,7 @@ use Lullabot\AMP\Utility\ActionTakenType;
  */
 class InstagramTransformPass extends BasePass
 {
-    const DEFAULT_HEIGHT = 600;
+    const DEFAULT_HEIGHT = 400;
     const DEFAULT_WIDTH = 400;
 
     function pass()
