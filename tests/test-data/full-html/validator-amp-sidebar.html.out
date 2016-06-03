@@ -125,7 +125,7 @@ FAIL
 
 <amp-ad layout="fill" src="https://ad" type="ad"> on line 51
 - The tag 'amp-ad' may not appear as a descendant of tag 'amp-sidebar'.
-   [code: DISALLOWED_TAG_ANCESTOR  category: GENERIC see: https://www.ampproject.org/docs/reference/amp-ad.html]
+   [code: DISALLOWED_TAG_ANCESTOR  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-ad.html]
 
 <amp-sidebar side="center" layout="nodisplay"> on line 54
 - The attribute 'side' in tag 'amp-sidebar' is set to the invalid value 'center'.
