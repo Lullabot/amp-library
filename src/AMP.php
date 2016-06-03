@@ -19,6 +19,7 @@ namespace Lullabot\AMP;
 
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Utility\AMPHTML5;
+use Lullabot\AMP\Validate\ParsedTagSpec;
 use Masterminds\HTML5\Parser\ParseError;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
@@ -351,10 +352,13 @@ class AMP
         /** @var string[] $errors */
         $errors = $amphtml->getErrors();
         foreach ($errors as $error_msg) {
-            print($error_msg);
             $matches = [];
             if (preg_match('/(*UTF8)Line(?:.*)(\d+)(?:.*)Col(?:.*)(\d+)(?:.*)Unexpected characters in attribute name: (.*)/i', $error_msg, $matches)) {
-                $this->context->addError(ValidationErrorCode::TEMPLATE_IN_ATTR_NAME, [$matches[3], "at location line $matches[1], col $matches[2]"], $this->rules->template_spec_url, $this->validation_result);
+                if (ParsedTagSpec::valueHasTemplateSyntax($matches[3])) {
+                    $this->context->addError(ValidationErrorCode::TEMPLATE_IN_ATTR_NAME,
+                        [$matches[3], "at location line $matches[1], col $matches[2]"],
+                        $this->rules->template_spec_url, $this->validation_result);
+                }
             }
         }
     }
