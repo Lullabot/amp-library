@@ -17,7 +17,9 @@
 
 namespace Lullabot\AMP;
 
+use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Utility\AMPHTML5;
+use Masterminds\HTML5\Parser\ParseError;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
 use Lullabot\AMP\Pass\BasePass;
@@ -333,11 +335,28 @@ class AMP
             $amphtml5 = new AMPHTML5();
             $html5_dom = $amphtml5->loadHTML($document_html);
             $qp = new DOMQuery($html5_dom, null, ['convert_to_encoding' => 'UTF-8']);
+            $this->addParsingErrors($amphtml5);
         } else {
             $qp = QueryPath::withHTML($document_html, null, ['convert_to_encoding' => 'UTF-8']);
         }
 
         return $qp;
+    }
+
+    /**
+     * @param AMPHTML5 $amphtml
+     */
+    protected function addParsingErrors(AMPHTML5 $amphtml)
+    {
+        /** @var string[] $errors */
+        $errors = $amphtml->getErrors();
+        foreach ($errors as $error_msg) {
+            print($error_msg);
+            $matches = [];
+            if (preg_match('/(*UTF8)Line(?:.*)(\d+)(?:.*)Col(?:.*)(\d+)(?:.*)Unexpected characters in attribute name: (.*)/i', $error_msg, $matches)) {
+                $this->context->addError(ValidationErrorCode::TEMPLATE_IN_ATTR_NAME, [$matches[3], "at location line $matches[1], col $matches[2]"], $this->rules->template_spec_url, $this->validation_result);
+            }
+        }
     }
 
     /**

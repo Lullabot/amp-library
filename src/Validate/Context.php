@@ -56,7 +56,7 @@ class Context
     protected $ancestor_tag_names = [];
     /** @var string[] */
     protected $child_tag_names = [];
-    protected $phase = Phase::LOCAL_PHASE;
+    protected $phase = Phase::PRE_LOCAL_PHASE;
     protected $error_scope = Scope::HTML_SCOPE;
     /** @var \SplObjectStorage */
     protected $line_association;
