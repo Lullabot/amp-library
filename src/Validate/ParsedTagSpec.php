@@ -308,7 +308,7 @@ class ParsedTagSpec
             }
 
             if ($has_template_ancestor) {
-                if (!$this->validateAttrValueBelowTemplateTag($context, $encountered_attr_name, $encountered_attr_value)) {
+                if (!$this->validateAttrValueBelowTemplateTag($context, $encountered_attr_name, $encountered_attr_value, $result_for_attempt)) {
                     $should_not_check = true;
                     continue;
                 }
@@ -736,7 +736,7 @@ class ParsedTagSpec
      */
     public static function valueHasUnescapedTemplateSyntax($value)
     {
-        return preg_match('/(*UTF8){{\s*[&{]}}/', $value);
+        return preg_match('/(*UTF8){{\s*[&{]/', $value);
     }
 
     /**
