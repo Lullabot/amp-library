@@ -476,6 +476,7 @@ class Context
      */
     public function recordMandatoryAlternativesSatisfied($satisfied)
     {
+        // Treat as a Set
         $this->mandatory_alternatives_satisfied[$satisfied] = 1;
     }
 
@@ -505,6 +506,10 @@ class Context
         return $this->tagspecs_validated;
     }
 
+    /**
+     * @param SValidationError $validation_error_code
+     * @return string
+     */
     public static function severityFor($validation_error_code)
     {
         // @todo make more error codes less severe as we're going to be able to fix some of them
@@ -515,6 +520,14 @@ class Context
         }
 
         return ValidationErrorSeverity::ERROR;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTemplateAncestor()
+    {
+        return in_array('template', $this->ancestor_tag_names);
     }
 }
 

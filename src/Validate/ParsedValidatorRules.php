@@ -106,7 +106,7 @@ class ParsedValidatorRules
         /** @var TagSpec $tag_spec */
         foreach ($this->rules->tags as $tagspec) {
             /** @var ParsedTagSpec $parsed_tag_spec */
-            $parsed_tag_spec = new ParsedTagSpec($attr_lists_by_name, $tagspec_by_detail_or_name, ParsedTagSpec::shouldRecordTagspecValidatedTest($tagspec, $detail_or_names_to_track), $tagspec);
+            $parsed_tag_spec = new ParsedTagSpec($this->rules->template_spec_url, $attr_lists_by_name, $tagspec_by_detail_or_name, ParsedTagSpec::shouldRecordTagspecValidatedTest($tagspec, $detail_or_names_to_track), $tagspec);
             assert(!empty($tagspec->tag_name));
             $this->all_parsed_specs_by_specs[$tagspec] = $parsed_tag_spec;
 
