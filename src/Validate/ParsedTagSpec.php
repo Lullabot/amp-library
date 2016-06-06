@@ -632,9 +632,10 @@ class ParsedTagSpec
         $has_template_ancestor = $context->hasTemplateAncestor();
         if ($has_template_ancestor &&
             (self::valueHasTemplateSyntax($layout_attr) ||
-                self::valueHasTemplateSyntax($layout_attr) ||
-                self::valueHasTemplateSyntax($layout_attr) ||
-                self::valueHasTemplateSyntax($layout_attr))
+                self::valueHasTemplateSyntax($width_attr) ||
+                self::valueHasTemplateSyntax($height_attr) ||
+                self::valueHasTemplateSyntax($sizes_attr) ||
+                self::valueHasTemplateSyntax($heights_attr))
         ) {
             return;
         }
