@@ -40,9 +40,9 @@
   <p>notallowed}}=0&gt;</p>
   <p>
   </p><p>
-  </p><p title="{{{notallowed}}}"></p>
-  <p title="{{&amp;notallowed}}"></p>
-  <p title="{{>notallowed}}"></p>
+  </p><p></p>
+  <p></p>
+  <p></p>
 
   <!-- now with some whitespace inside the mustache tags -->
   {{ not-actually-parsed-as-an-html-tag-so-allowed }}&gt;
@@ -58,13 +58,13 @@
   <p>notallowed }}=0&gt;</p>
   <p>
   </p><p>
-  </p><p title="{{{ notallowed }}}"></p>
-  <p title="{{ &amp;notallowed }}"></p>
-  <p title="{{ >notallowed }}"></p>
-  <p title="{{&amp; notallowed }}"></p>
-  <p title="{{> notallowed }}"></p>
-  <p title="{{ &amp; notallowed }}"></p>
-  <p title="{{ > notallowed }}"></p>
+  </p><p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
 
   <!-- Note, this is allowed by the validator, but it is critical that it
        be sanitized by the runtime. If the runtime allowed this, then after
@@ -253,14 +253,17 @@ FAIL
 <p title="{{{notallowed}}}"> on line 46
 - The attribute 'title' in tag 'p' is set to '{{{notallowed}}}', which contains unescaped Mustache template syntax.
    [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: p.title attribute was removed due to validation issues.
 
 <p title="{{&notallowed}}"> on line 47
 - The attribute 'title' in tag 'p' is set to '{{&notallowed}}', which contains unescaped Mustache template syntax.
    [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: p.title attribute was removed due to validation issues.
 
 <p title="{{>notallowed}}"> on line 48
 - The attribute 'title' in tag 'p' is set to '{{>notallowed}}', which contains a Mustache template partial.
    [code: TEMPLATE_PARTIAL_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: p.title attribute was removed due to validation issues.
 
 <p notallowed> on line 53
 - The attribute 'notallowed' may not appear in tag 'p'.
@@ -300,30 +303,37 @@ FAIL
 <p title="{{{ notallowed }}}"> on line 64
 - The attribute 'title' in tag 'p' is set to '{{{ notallowed }}}', which contains unescaped Mustache template syntax.
    [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: p.title attribute was removed due to validation issues.
 
 <p title="{{ &notallowed }}"> on line 65
 - The attribute 'title' in tag 'p' is set to '{{ &notallowed }}', which contains unescaped Mustache template syntax.
    [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: p.title attribute was removed due to validation issues.
 
 <p title="{{ >notallowed }}"> on line 66
 - The attribute 'title' in tag 'p' is set to '{{ >notallowed }}', which contains a Mustache template partial.
    [code: TEMPLATE_PARTIAL_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: p.title attribute was removed due to validation issues.
 
 <p title="{{& notallowed }}"> on line 67
 - The attribute 'title' in tag 'p' is set to '{{& notallowed }}', which contains unescaped Mustache template syntax.
    [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: p.title attribute was removed due to validation issues.
 
 <p title="{{> notallowed }}"> on line 68
 - The attribute 'title' in tag 'p' is set to '{{> notallowed }}', which contains a Mustache template partial.
    [code: TEMPLATE_PARTIAL_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: p.title attribute was removed due to validation issues.
 
 <p title="{{ & notallowed }}"> on line 69
 - The attribute 'title' in tag 'p' is set to '{{ & notallowed }}', which contains unescaped Mustache template syntax.
    [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: p.title attribute was removed due to validation issues.
 
 <p title="{{ > notallowed }}"> on line 70
 - The attribute 'title' in tag 'p' is set to '{{ > notallowed }}', which contains a Mustache template partial.
    [code: TEMPLATE_PARTIAL_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: p.title attribute was removed due to validation issues.
 
 <template type="amp-mustache"> on line 95
 - The tag 'template' may not appear as a descendant of tag 'template'.

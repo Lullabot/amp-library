@@ -12,9 +12,9 @@
     <!-- mustache templates are not allowed in attribute names -->
     <p>Rat</p>
     <!-- template partials are not allowed in attribute values and template escapes are not allowed in attribute values -->
-    <div class="{{>something}}}" id="{{{foo}}}"></div>
+    <div></div>
     <!-- template escapes are not allowed in attribute values -->
-    <div class="{{{bar}}}"></div>
+    <div></div>
   </template>
 </body>
 
@@ -55,12 +55,15 @@ FAIL
 <div class="{{>something}}}" id="{{{foo}}}"> on line 16
 - The attribute 'class' in tag 'div' is set to '{{>something}}}', which contains a Mustache template partial.
    [code: TEMPLATE_PARTIAL_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: div.class attribute was removed due to validation issues.
 - The attribute 'id' in tag 'div' is set to '{{{foo}}}', which contains unescaped Mustache template syntax.
    [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: div.id attribute was removed due to validation issues.
 
 <div class="{{{bar}}}"> on line 18
 - The attribute 'class' in tag 'div' is set to '{{{bar}}}', which contains unescaped Mustache template syntax.
    [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: div.class attribute was removed due to validation issues.
 
 GLOBAL WARNING
 - Mustache template syntax in attribute name 'data-{{cat}}' in tag 'at location line 14, col 19'.
