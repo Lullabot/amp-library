@@ -63,7 +63,7 @@ FAIL
    [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
 
 GLOBAL WARNING
-- Mustache template syntax in attribute name 'data-{{cat}}' in tag 'at location line 4, col 9'.
+- Mustache template syntax in attribute name 'data-{{cat}}' in tag 'at location line 14, col 19'.
    [code: TEMPLATE_IN_ATTR_NAME  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
 - The tag 'amp-mustache extension .js script' is missing or incorrect, but required by 'template'.
    [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
