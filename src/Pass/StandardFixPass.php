@@ -41,6 +41,8 @@ class StandardFixPass extends BasePass
         ValidationErrorCode::INVALID_ATTR_VALUE,
         ValidationErrorCode::DISALLOWED_ATTR,
         ValidationErrorCode::MISSING_URL,
+        ValidationErrorCode::UNESCAPED_TEMPLATE_IN_ATTR_VALUE,
+        ValidationErrorCode::TEMPLATE_PARTIAL_IN_ATTR_VALUE
         // @todo ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS?
     ];
     protected $remove_tags_for_codes = [
