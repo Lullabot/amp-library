@@ -14,7 +14,7 @@
     <!-- template partials are not allowed in attribute values and template escapes are not allowed in attribute values -->
     <div class="{{>something}}}" id="{{{foo}}}"></div>
     <!-- template escapes are not allowed in attribute values -->
-    <div class="{{{bar}}"></div>
+    <div class="{{{bar}}}"></div>
   </template>
 </body>
 
@@ -40,7 +40,7 @@ Line 14:     <p data-{{cat}}>Rat</p>
 Line 15:     <!-- template partials are not allowed in attribute values and template escapes are not allowed in attribute values -->
 Line 16:     <div class="{{>something}}}" id="{{{foo}}}"></div>
 Line 17:     <!-- template escapes are not allowed in attribute values -->
-Line 18:     <div class="{{{bar}}"></div>
+Line 18:     <div class="{{{bar}}}"></div>
 Line 19:   </template>
 Line 20: </body>
 Line 21: </html>
@@ -58,8 +58,8 @@ FAIL
 - The attribute 'id' in tag 'div' is set to '{{{foo}}}', which contains unescaped Mustache template syntax.
    [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
 
-<div class="{{{bar}}"> on line 18
-- The attribute 'class' in tag 'div' is set to '{{{bar}}', which contains unescaped Mustache template syntax.
+<div class="{{{bar}}}"> on line 18
+- The attribute 'class' in tag 'div' is set to '{{{bar}}}', which contains unescaped Mustache template syntax.
    [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
 
 GLOBAL WARNING
