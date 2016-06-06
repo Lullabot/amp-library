@@ -246,13 +246,13 @@ class ParsedTagSpec
             $context->addError(
                 ValidationErrorCode::UNESCAPED_TEMPLATE_IN_ATTR_VALUE,
                 [$attr_name, self::getTagSpecName($this->spec), $attr_value],
-                $this->template_spec_url, $result);
+                $this->template_spec_url, $result, $attr_name);
             return false;
         } else if (self::valueHasPartialsTemplateSyntax($attr_value)) {
             $context->addError(
                 ValidationErrorCode::TEMPLATE_PARTIAL_IN_ATTR_VALUE,
                 [$attr_name, self::getTagSpecName($this->spec), $attr_value],
-                $this->template_spec_url, $result);
+                $this->template_spec_url, $result, $attr_name);
             return false;
         }
 
