@@ -323,7 +323,7 @@ class ParsedTagSpec
                 // Don't exit as its not a fatal error
             }
 
-            if (!$has_template_ancestor || self::valueHasTemplateSyntax($encountered_attr_value)) {
+            if (!$has_template_ancestor || !self::valueHasTemplateSyntax($encountered_attr_value)) {
                 if (!$parsed_attr_spec->validateNonTemplateAttrValueAgainstSpec($context, $encountered_attr_name, $encountered_attr_value, $this->getSpec(), $result_for_attempt)) {
                     $should_not_check = true;
                     continue;
