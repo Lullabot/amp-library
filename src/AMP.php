@@ -353,8 +353,8 @@ class AMP
         $errors = $amphtml->getErrors();
         foreach ($errors as $error_msg) {
             $matches = [];
-            if (preg_match('/(*UTF8)Line(?:.*)(\d+)(?:.*)Col(?:.*)(\d+)(?:.*)Unexpected characters in attribute name: (.*)/i', $error_msg, $matches)) {
-                if (ParsedTagSpec::valueHasTemplateSyntax($matches[3])) {
+            if (preg_match('/(*UTF8)Line(?:.*?)(\d+)(?:.*?)Col(?:.*?)(\d+)(?:.*?)Unexpected characters in attribute name: (.*)/i', $error_msg, $matches)) {
+                if (mb_strpos($matches[3], '{{', 0, 'UTF-8') !== false) {
                     $this->context->addError(ValidationErrorCode::TEMPLATE_IN_ATTR_NAME,
                         [$matches[3], "at location line $matches[1], col $matches[2]"],
                         $this->rules->template_spec_url, $this->validation_result);
