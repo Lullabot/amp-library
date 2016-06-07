@@ -198,8 +198,6 @@ class RenderValidationResult
      * Corresponds to amp.validator.categorizeError() in validator-full.js
      * (see https://github.com/ampproject/amphtml/blob/master/validator/validator-full.js )
      *
-     * @todo currently a partial port: does not support templates.
-     *
      * @param ValidationError $error
      * @return ErrorCategoryCode
      */
