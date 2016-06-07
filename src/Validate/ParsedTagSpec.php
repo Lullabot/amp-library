@@ -211,18 +211,20 @@ class ParsedTagSpec
 
     /**
      * Deals with attributes not found in AMP specification. These would be all attributes starting with data-
-     *
-     * No support for templates at the moment
      * returns true if attribute found was valid, false otherwise
      *
-     * @param $attr_name
+     * @param string $attr_name
+     * @param string $attr_value
      * @param Context $context
      * @param SValidationResult $validation_result
      * @return bool
      */
-    public function validateAttrNotFoundInSpec($attr_name, Context $context, SValidationResult $validation_result)
+    public function validateAttrNotFoundInSpec($attr_name, $attr_value, Context $context, SValidationResult $validation_result)
     {
         if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') === 0) {
+            if ($context->hasTemplateAncestor()) {
+                return $this->validateAttrValueBelowTemplateTag($context, $attr_name, $attr_value, $validation_result);
+            }
             return true;
         }
 
@@ -260,8 +262,6 @@ class ParsedTagSpec
     }
 
     /**
-     * Note: No support for templates and layout validation at the moment
-     *
      * @param Context $context
      * @param string[] $encountered_attrs
      * @param SValidationResult $result_for_attempt
@@ -298,7 +298,7 @@ class ParsedTagSpec
             $parsed_attr_spec = isset($this->attrs_by_name[$encountered_attr_name]) ?
                 $this->attrs_by_name[$encountered_attr_name] : null;
             if (empty($parsed_attr_spec)) {
-                if ($this->validateAttrNotFoundInSpec($encountered_attr_name, $context, $result_for_attempt)) {
+                if ($this->validateAttrNotFoundInSpec($encountered_attr_name, $encountered_attr_value, $context, $result_for_attempt)) {
                     // the attribute, even though not found in specification, was valid
                     continue;
                 } else {
