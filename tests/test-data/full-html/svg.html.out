@@ -62,7 +62,7 @@
      stuff in HTML5, we allow it just like browsers would do in practice.
  -->
 <svg version="1.0" width="640" height="480" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <circle id="svg_3" r="89.560036" cy="275" cx="315" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#007f00" />
+  <circle id="another_svg_circle" r="89.560036" cy="275" cx="315" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#007f00" />
 </svg>
 </body>
 
@@ -138,7 +138,7 @@ Line 64:      output from graphics tools. While it's a bit weird to have this na
 Line 65:      stuff in HTML5, we allow it just like browsers would do in practice.
 Line 66:  -->
 Line 67: <svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="640" height="480">
-Line 68:   <circle id="svg_3" r="89.560036" cy="275" cx="315" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#007f00"/>
+Line 68:   <circle id="another_svg_circle" r="89.560036" cy="275" cx="315" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#007f00"/>
 Line 69: </svg>
 Line 70: </body>
 Line 71: </html>
