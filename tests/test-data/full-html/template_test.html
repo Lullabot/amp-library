@@ -16,6 +16,18 @@
     <div class="{{>something}}}" id="{{{foo}}}"></div>
     <!-- template escapes are not allowed in attribute values -->
     <div class="{{{bar}}}"></div>
+    <!--
+      template escapes should not be allowed, even in attributes named data-*
+      See https://github.com/ampproject/amphtml/issues/3460
+    -->
+    <div data-anything="{{{bar}}}"></div>
+    <!--
+      template partials should not be allowed, even in attributes named data-*
+      See https://github.com/ampproject/amphtml/issues/3460
+    -->
+    <div data-foo="{{ >hat}}"></div>
+    <!-- valid -->
+    <div data-something="{{valid}}"></div>
   </template>
 </body>
 </html>

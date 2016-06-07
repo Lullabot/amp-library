@@ -15,6 +15,18 @@
     <div></div>
     <!-- template escapes are not allowed in attribute values -->
     <div></div>
+    <!--
+      template escapes should not be allowed, even in attributes named data-*
+      See https://github.com/ampproject/amphtml/issues/3460
+    -->
+    <div></div>
+    <!--
+      template partials should not be allowed, even in attributes named data-*
+      See https://github.com/ampproject/amphtml/issues/3460
+    -->
+    <div></div>
+    <!-- valid -->
+    <div data-something="{{valid}}"></div>
   </template>
 </body>
 
@@ -41,10 +53,22 @@ Line 15:     <!-- template partials are not allowed in attribute values and temp
 Line 16:     <div class="{{>something}}}" id="{{{foo}}}"></div>
 Line 17:     <!-- template escapes are not allowed in attribute values -->
 Line 18:     <div class="{{{bar}}}"></div>
-Line 19:   </template>
-Line 20: </body>
-Line 21: </html>
-Line 22: 
+Line 19:     <!--
+Line 20:       template escapes should not be allowed, even in attributes named data-*
+Line 21:       See https://github.com/ampproject/amphtml/issues/3460
+Line 22:     -->
+Line 23:     <div data-anything="{{{bar}}}"></div>
+Line 24:     <!--
+Line 25:       template partials should not be allowed, even in attributes named data-*
+Line 26:       See https://github.com/ampproject/amphtml/issues/3460
+Line 27:     -->
+Line 28:     <div data-foo="{{ >hat}}"></div>
+Line 29:     <!-- valid -->
+Line 30:     <div data-something="{{valid}}"></div>
+Line 31:   </template>
+Line 32: </body>
+Line 33: </html>
+Line 34: 
 
 
 
@@ -64,6 +88,16 @@ FAIL
 - The attribute 'class' in tag 'div' is set to '{{{bar}}}', which contains unescaped Mustache template syntax.
    [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
    ACTION TAKEN: div.class attribute was removed due to validation issues.
+
+<div data-anything="{{{bar}}}"> on line 23
+- The attribute 'data-anything' in tag 'div' is set to '{{{bar}}}', which contains unescaped Mustache template syntax.
+   [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: div.data-anything attribute was removed due to validation issues.
+
+<div data-foo="{{ >hat}}"> on line 28
+- The attribute 'data-foo' in tag 'div' is set to '{{ >hat}}', which contains a Mustache template partial.
+   [code: TEMPLATE_PARTIAL_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: div.data-foo attribute was removed due to validation issues.
 
 GLOBAL WARNING
 - Mustache template syntax in attribute name 'data-{{cat}}' in tag 'at location line 14, col 19'.
