@@ -1,6 +1,6 @@
 # AMP PHP Library
 
-Open source PHP library and console utility to convert HTML to [AMP HTML](https://www.ampproject.org/) and report HTML compliance with the AMP HTML specification.
+An open source PHP library and console utility to convert HTML to [AMP HTML](https://www.ampproject.org/) and report HTML compliance with the AMP HTML specification.
 
 ### What is the AMP PHP Library?
 
