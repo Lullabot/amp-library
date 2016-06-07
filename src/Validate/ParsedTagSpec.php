@@ -56,20 +56,24 @@ class ParsedTagSpec
     protected $dispatch_key_attr_spec = null;
     /** @var TagSpec[] */
     protected $implicit_attr_specs = [];
+    /** @var string */
+    protected $template_spec_url = '';
     /** @var string[] */
     protected static $all_layouts = [];
 
     /**
      * ParsedTagSpec constructor.
+     * @param string $template_spec_url
      * @param AttrList[] $attr_lists_by_name
      * @param TagSpec[] $tagspec_by_detail_or_name
      * @param boolean $should_record_tagspec_validated
      * @param TagSpec $tag_spec
      */
-    public function __construct(array $attr_lists_by_name, array $tagspec_by_detail_or_name,
+    public function __construct($template_spec_url, array $attr_lists_by_name, array $tagspec_by_detail_or_name,
                                 $should_record_tagspec_validated, TagSpec $tag_spec)
     {
         $this->spec = $tag_spec;
+        $this->template_spec_url = $template_spec_url;
         $this->should_record_tagspec_validated = $should_record_tagspec_validated;
 
         /** @var AttrSpec[] $attr_specs */
@@ -207,18 +211,20 @@ class ParsedTagSpec
 
     /**
      * Deals with attributes not found in AMP specification. These would be all attributes starting with data-
-     *
-     * No support for templates at the moment
      * returns true if attribute found was valid, false otherwise
      *
-     * @param $attr_name
+     * @param string $attr_name
+     * @param string $attr_value
      * @param Context $context
      * @param SValidationResult $validation_result
      * @return bool
      */
-    public function validateAttrNotFoundInSpec($attr_name, Context $context, SValidationResult $validation_result)
+    public function validateAttrNotFoundInSpec($attr_name, $attr_value, Context $context, SValidationResult $validation_result)
     {
         if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') === 0) {
+            if ($context->hasTemplateAncestor()) {
+                return $this->validateAttrValueBelowTemplateTag($context, $attr_name, $attr_value, $validation_result);
+            }
             return true;
         }
 
@@ -230,8 +236,32 @@ class ParsedTagSpec
     }
 
     /**
-     * Note: No support for templates and layout validation at the moment
-     *
+     * @param Context $context
+     * @param string $attr_name
+     * @param string $attr_value
+     * @param SValidationResult $result
+     * @return bool Returns false if there was an error, true otherwise
+     */
+    public function validateAttrValueBelowTemplateTag(Context $context, $attr_name, $attr_value, SValidationResult $result)
+    {
+        if (self::valueHasUnescapedTemplateSyntax($attr_value)) {
+            $context->addError(
+                ValidationErrorCode::UNESCAPED_TEMPLATE_IN_ATTR_VALUE,
+                [$attr_name, self::getTagSpecName($this->spec), $attr_value],
+                $this->template_spec_url, $result, $attr_name);
+            return false;
+        } else if (self::valueHasPartialsTemplateSyntax($attr_value)) {
+            $context->addError(
+                ValidationErrorCode::TEMPLATE_PARTIAL_IN_ATTR_VALUE,
+                [$attr_name, self::getTagSpecName($this->spec), $attr_value],
+                $this->template_spec_url, $result, $attr_name);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * @param Context $context
      * @param string[] $encountered_attrs
      * @param SValidationResult $result_for_attempt
@@ -243,6 +273,7 @@ class ParsedTagSpec
             // Continue on, regardless of whether we have failure or success; different from canonical validator
         }
 
+        $has_template_ancestor = $context->hasTemplateAncestor();
         /** @var \SplObjectStorage $mandatory_attrs_seen */
         $mandatory_attrs_seen = new \SplObjectStorage(); // Treat as a set of objects
         $mandatory_oneofs_seen = []; // Treat as Set of strings
@@ -267,7 +298,7 @@ class ParsedTagSpec
             $parsed_attr_spec = isset($this->attrs_by_name[$encountered_attr_name]) ?
                 $this->attrs_by_name[$encountered_attr_name] : null;
             if (empty($parsed_attr_spec)) {
-                if ($this->validateAttrNotFoundInSpec($encountered_attr_name, $context, $result_for_attempt)) {
+                if ($this->validateAttrNotFoundInSpec($encountered_attr_name, $encountered_attr_value, $context, $result_for_attempt)) {
                     // the attribute, even though not found in specification, was valid
                     continue;
                 } else {
@@ -275,6 +306,14 @@ class ParsedTagSpec
                     continue;
                 }
             }
+
+            if ($has_template_ancestor) {
+                if (!$this->validateAttrValueBelowTemplateTag($context, $encountered_attr_name, $encountered_attr_value, $result_for_attempt)) {
+                    $should_not_check = true;
+                    continue;
+                }
+            }
+
             /** @var AttrSpec $attr_spec */
             $attr_spec = $parsed_attr_spec->getSpec();
             if (!empty($attr_spec->deprecation)) {
@@ -284,9 +323,11 @@ class ParsedTagSpec
                 // Don't exit as its not a fatal error
             }
 
-            if (!$parsed_attr_spec->validateNonTemplateAttrValueAgainstSpec($context, $encountered_attr_name, $encountered_attr_value, $this->getSpec(), $result_for_attempt)) {
-                $should_not_check = true;
-                continue;
+            if (!$has_template_ancestor || !self::valueHasTemplateSyntax($encountered_attr_value)) {
+                if (!$parsed_attr_spec->validateNonTemplateAttrValueAgainstSpec($context, $encountered_attr_name, $encountered_attr_value, $this->getSpec(), $result_for_attempt)) {
+                    $should_not_check = true;
+                    continue;
+                }
             }
 
             if (isset($attr_spec->blacklisted_value_regex)) {
@@ -588,6 +629,17 @@ class ParsedTagSpec
         $sizes_attr = isset($attrs_by_key['sizes']) ? $attrs_by_key['sizes'] : null;
         $heights_attr = isset($attrs_by_key['heights']) ? $attrs_by_key['heights'] : null;
 
+        $has_template_ancestor = $context->hasTemplateAncestor();
+        if ($has_template_ancestor &&
+            (self::valueHasTemplateSyntax($layout_attr) ||
+                self::valueHasTemplateSyntax($width_attr) ||
+                self::valueHasTemplateSyntax($height_attr) ||
+                self::valueHasTemplateSyntax($sizes_attr) ||
+                self::valueHasTemplateSyntax($heights_attr))
+        ) {
+            return;
+        }
+
         $input_layout = self::parseLayout($layout_attr);
         if (!empty($layout_attr) && $input_layout === AmpLayoutLayout::UNKNOWN) {
             $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
@@ -670,5 +722,31 @@ class ParsedTagSpec
         }
     }
 
+    /**
+     * @param string $value
+     * @return bool
+     */
+    public static function valueHasTemplateSyntax($value)
+    {
+        return preg_match('/(*UTF8){{.*}}/', $value);
+    }
+
+    /**
+     * @param string $value
+     * @return bool
+     */
+    public static function valueHasUnescapedTemplateSyntax($value)
+    {
+        return preg_match('/(*UTF8){{\s*[&{]/', $value);
+    }
+
+    /**
+     * @param string $value
+     * @return bool
+     */
+    public static function valueHasPartialsTemplateSyntax($value)
+    {
+        return preg_match('/(*UTF8){{\s*>/', $value);
+    }
 }
 

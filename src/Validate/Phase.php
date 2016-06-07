@@ -30,6 +30,7 @@ namespace Lullabot\AMP\Validate;
  */
 class Phase
 {
+    const PRE_LOCAL_PHASE = 'PRE_LOCAL_PHASE';
     const LOCAL_PHASE = 'LOCAL_PHASE';
     const GLOBAL_PHASE = 'GLOBAL_PHASE';
     const UNKNOWN_PHASE = 'UNKNOWN_PHASE';

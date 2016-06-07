@@ -198,8 +198,6 @@ class RenderValidationResult
      * Corresponds to amp.validator.categorizeError() in validator-full.js
      * (see https://github.com/ampproject/amphtml/blob/master/validator/validator-full.js )
      *
-     * @todo currently a partial port: does not support templates.
-     *
      * @param ValidationError $error
      * @return ErrorCategoryCode
      */
@@ -399,7 +397,10 @@ class RenderValidationResult
         }
 
         if ($error->code === ValidationErrorCode::TAG_REQUIRED_BY_MISSING &&
-            (isset($error->params[1]) && strpos($error->params[1], 'amp-') === 0)
+            (isset($error->params[1]) && (
+                    strpos($error->params[1], 'amp-') === 0) ||
+                $error->params[1] === 'template'
+            )
         ) {
             return ErrorCategoryCode::AMP_TAG_PROBLEM;
         }
@@ -416,6 +417,26 @@ class RenderValidationResult
 
         if ($error->code === ValidationErrorCode::DUPLICATE_UNIQUE_TAG) {
             return ErrorCategoryCode::MANDATORY_AMP_TAG_MISSING_OR_INCORRECT;
+        }
+
+        if (in_array($error->code, [ValidationErrorCode::UNESCAPED_TEMPLATE_IN_ATTR_VALUE,
+            ValidationErrorCode::TEMPLATE_PARTIAL_IN_ATTR_VALUE,
+            ValidationErrorCode::TEMPLATE_IN_ATTR_NAME])) {
+            return ErrorCategoryCode::AMP_HTML_TEMPLATE_PROBLEM;
+        }
+
+        if ($error->code ===
+            ValidationErrorCode::DISALLOWED_TAG_ANCESTOR &&
+            (isset($error->params[1]) && strpos($error->params[1], 'amp-') === 0)
+        ) {
+            return ErrorCategoryCode::AMP_TAG_PROBLEM;
+        }
+
+        if ($error->code ===
+            ValidationErrorCode::DISALLOWED_TAG_ANCESTOR &&
+            (isset($error->params[1]) && $error->params[1] === 'template')
+        ) {
+            return ErrorCategoryCode::AMP_HTML_TEMPLATE_PROBLEM;
         }
 
         if ((in_array($error->code, [ValidationErrorCode::MISSING_URL,
