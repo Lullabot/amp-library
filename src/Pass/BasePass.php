@@ -17,6 +17,7 @@
 
 namespace Lullabot\AMP\Pass;
 
+use Lullabot\AMP\Utility\ParseUrl;
 use Lullabot\AMP\Validate\ParsedValidatorRules;
 use Lullabot\AMP\Validate\Scope;
 use Lullabot\AMP\Validate\SValidationResult;
@@ -288,7 +289,7 @@ abstract class BasePass
             return false;
         }
 
-        $query = parse_url($href, PHP_URL_QUERY);
+        $query = ParseUrl::parse_url($href, PHP_URL_QUERY);
         if ($query === null) {
             return false;
         }

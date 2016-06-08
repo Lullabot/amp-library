@@ -17,6 +17,7 @@
 
 namespace Lullabot\AMP\Pass;
 
+use Lullabot\AMP\Utility\ParseUrl;
 use Lullabot\AMP\Validate\Scope;
 use Lullabot\AMP\Utility\ActionTakenLine;
 use Lullabot\AMP\Utility\ActionTakenType;
@@ -125,7 +126,7 @@ class ImgTagTransformPass extends BasePass
     protected function getImageUrl($src)
     {
         $src = trim($src);
-        $urlc = parse_url($src);
+        $urlc = ParseUrl::parse_url($src);
         // If there is a host, path and optional scheme FastImage can simply try that URL
         if (!empty($urlc['host']) && !empty($urlc['path'])) {
             if (empty($urlc['scheme'])) {
