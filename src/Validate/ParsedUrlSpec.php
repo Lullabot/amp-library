@@ -20,6 +20,7 @@ namespace Lullabot\AMP\Validate;
 
 use Lullabot\AMP\Spec\UrlSpec;
 use Lullabot\AMP\Spec\TagSpec;
+use Lullabot\AMP\Utility\ParseUrl;
 
 /**
  * Class ParsedUrlSpec
@@ -86,7 +87,7 @@ class ParsedUrlSpec
             return;
         }
 
-        $url_components = parse_url($url);
+        $url_components = ParseUrl::parse_url($url);
         if ($url_components === false) {
             $adapter->invalidUrl($context, $url, $tagspec, $validation_result);
             return;
