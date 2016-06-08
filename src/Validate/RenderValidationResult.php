@@ -311,8 +311,8 @@ class RenderValidationResult
             ($error->code === ValidationErrorCode::MANDATORY_ATTR_MISSING &&
                 isset($error->params[0]) && $error->params[0] === '\\u26a') ||
             ($error->code === ValidationErrorCode::MANDATORY_CDATA_MISSING_OR_INCORRECT
-                && isset($error->params[0]) && ((strpos($error->params[0], 'head > style : boilerplate') === 0) ||
-                    (strpos($error->params[0], 'noscript > style : boilerplate') === 0)))
+                && isset($error->params[0]) && ((strpos($error->params[0], 'head > style[amp-boilerplate]') === 0) ||
+                    (strpos($error->params[0], 'noscript > style[amp-boilerplate]') === 0)))
         ) {
             return ErrorCategoryCode::MANDATORY_AMP_TAG_MISSING_OR_INCORRECT;
         }
@@ -401,9 +401,9 @@ class RenderValidationResult
 
         if ($error->code === ValidationErrorCode::TAG_REQUIRED_BY_MISSING &&
             (isset($error->params[1]) && (
-                    strpos($error->params[1], 'amp-') === 0) ||
+                    (strpos($error->params[1], 'amp-') === 0) ||
                 $error->params[1] === 'template'
-            )
+            ))
         ) {
             return ErrorCategoryCode::AMP_TAG_PROBLEM;
         }
