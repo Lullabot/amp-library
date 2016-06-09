@@ -210,6 +210,7 @@ abstract class BasePass
 
     /**
      * @param DOMQuery $el
+     * @param DOMQuery $new_el
      * @param int $default_width
      * @param int $default_height
      * @param double $default_aspect_ratio

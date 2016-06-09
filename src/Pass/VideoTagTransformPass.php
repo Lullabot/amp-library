@@ -34,6 +34,7 @@ use Lullabot\AMP\Utility\ActionTakenType;
  */
 class VideoTagTransformPass extends BasePass
 {
+    const DEFAULT_ASPECT_RATIO = 1.7778;
     const DEFAULT_VIDEO_WIDTH = 560;
     const DEFAULT_VIDEO_HEIGHT = 315;
 
@@ -50,34 +51,19 @@ class VideoTagTransformPass extends BasePass
 
             $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-video');
             $new_el = $el->prev();
-            $el->remove();
 
             $this->addFallbackAndPlaceholder($new_el);
             $this->setLayoutIfNoLayout($new_el, 'responsive');
-            $this->setVideoWidthHeight($new_el);
+            $this->setStandardAttributesFrom($el, $new_el, self::DEFAULT_VIDEO_WIDTH, self::DEFAULT_VIDEO_HEIGHT, self::DEFAULT_ASPECT_RATIO);
+
+            // Remove old video tag
+            $el->remove();
 
             $this->addActionTaken(new ActionTakenLine('video', ActionTakenType::VIDEO_CONVERTED, $lineno, $context_string));
             $this->context->addLineAssociation($new_dom_el, $lineno);
         }
 
         return $this->transformations;
-    }
-
-    /**
-     * @param DOMQuery $el
-     */
-    function setVideoWidthHeight(DOMQuery $el)
-    {
-        $width = $el->attr('width');
-        $height = $el->attr('height');
-
-        if (empty($width)) {
-            $el->attr('width', self::DEFAULT_VIDEO_WIDTH);
-        }
-
-        if (empty($height)) {
-            $el->attr('height', self::DEFAULT_VIDEO_HEIGHT);
-        }
     }
 
     /**
