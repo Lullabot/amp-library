@@ -51,9 +51,9 @@
   <!-- Invalid: img must be in a noscript tag -->
   <amp-img alt="Iconic Lemurs" height="200" src="https://example.com/lemurs.png" width="80" layout="responsive"></amp-img>
   <!-- Invalid: video must be in a noscript tag -->
-  <video controls height="480" width="640">
+  <amp-video controls height="480" width="640" layout="responsive">
     <source src="https://example.com/island-of-lemurs.mp4" type="video/mp4">
-  </video>
+  </amp-video>
   <!-- Invalid: nested noscript tags don't correctly parse. -->
   <noscript> <noscript> </noscript> </noscript>
 </body>
@@ -138,6 +138,9 @@ Transformations made from HTML tags to AMP custom tags
 <img alt="Iconic Lemurs" height="200" src="https://example.com/lemurs.png" width="80"> at line 55
  ACTION TAKEN: img tag was converted to the amp-img tag.
 
+<video controls height="480" width="640"> at line 57
+ ACTION TAKEN: video tag was converted to the amp-video tag.
+
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
@@ -151,10 +154,6 @@ FAIL
 <img alt="Iconic Lemurs"> on line 48
 - The mandatory attribute 'src' is missing in tag 'img'.
    [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/amp-img.html]
-
-<video controls height="480" width="640"> on line 57
-- The tag 'video' may only appear as a descendant of tag 'noscript'. Did you mean 'amp-video'?
-   [code: MANDATORY_TAG_ANCESTOR_WITH_HINT  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT see: https://www.ampproject.org/docs/reference/amp-video.html]
 
 <noscript> on line 61
 - The tag 'noscript' may not appear as a descendant of tag 'noscript'.
