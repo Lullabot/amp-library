@@ -23,19 +23,23 @@ use Lullabot\AMP\Utility\ActionTakenLine;
 use Lullabot\AMP\Utility\ActionTakenType;
 
 /**
- * Class AudioTagTransformPass
+ * Class VideoTagTransformPass
  * @package Lullabot\AMP\Pass
  *
- * Support for <audio> to <amp-audio> tag conversion. Similar to VideoTagTransformPass in many ways.
+ * Support for <video> to <amp-video> tag conversion. Similar to AudioTagTransformPass in many ways.
  *
- * @see https://github.com/ampproject/amphtml/blob/master/extensions/amp-audio/amp-audio.md
- * @see https://developer.mozilla.org/en/docs/Web/HTML/Element/audio
+ * @see https://github.com/ampproject/amphtml/blob/master/builtins/amp-video.md
+ * @see https://ampbyexample.com/components/amp-video/
+ * @see https://developer.mozilla.org/en/docs/Web/HTML/Element/video
  */
-class AudioTagTransformPass extends BasePass
+class VideoTagTransformPass extends BasePass
 {
+    const DEFAULT_VIDEO_WIDTH = 560;
+    const DEFAULT_VIDEO_HEIGHT = 315;
+
     function pass()
     {
-        $audio_tags = $this->q->find('audio:not(noscript audio)');
+        $audio_tags = $this->q->find('video:not(noscript video)');
         /** @var DOMQuery $el */
         foreach ($audio_tags as $el) {
             /** @var \DOMElement $dom_el */
@@ -44,17 +48,36 @@ class AudioTagTransformPass extends BasePass
             $lineno = $this->getLineNo($dom_el);
             $context_string = $this->getContextString($dom_el);
 
-            $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-audio');
+            $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-video');
             $new_el = $el->prev();
             $el->remove();
 
             $this->addFallbackAndPlaceholder($new_el);
+            $this->setLayoutIfNoLayout($new_el, 'responsive');
+            $this->setVideoWidthHeight($new_el);
 
-            $this->addActionTaken(new ActionTakenLine('audio', ActionTakenType::AUDIO_CONVERTED, $lineno, $context_string));
+            $this->addActionTaken(new ActionTakenLine('video', ActionTakenType::VIDEO_CONVERTED, $lineno, $context_string));
             $this->context->addLineAssociation($new_dom_el, $lineno);
         }
 
         return $this->transformations;
+    }
+
+    /**
+     * @param DOMQuery $el
+     */
+    function setVideoWidthHeight(DOMQuery $el)
+    {
+        $width = $el->attr('width');
+        $height = $el->attr('height');
+
+        if (empty($width)) {
+            $el->attr('width', self::DEFAULT_VIDEO_WIDTH);
+        }
+
+        if (empty($height)) {
+            $el->attr('height', self::DEFAULT_VIDEO_HEIGHT);
+        }
     }
 
     /**
@@ -69,8 +92,8 @@ class AudioTagTransformPass extends BasePass
             $wrap_this->wrapAll('<div fallback=""></div>');
         }
 
-        if (isset($this->options['audio_placeholder_html'])) {
-            $el->prepend('<div placeholder="">' . $this->options['audio_placeholder_html'] . '</div>');
+        if (isset($this->options['video_placeholder_html'])) {
+            $el->prepend('<div placeholder="">' . $this->options['video_placeholder_html'] . '</div>');
         }
     }
 }

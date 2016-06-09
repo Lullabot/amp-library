@@ -17,7 +17,9 @@
 
 namespace Lullabot\AMP\Pass;
 
+use Lullabot\AMP\Spec\AmpLayoutLayout;
 use Lullabot\AMP\Utility\ParseUrl;
+use Lullabot\AMP\Validate\ParsedTagSpec;
 use Lullabot\AMP\Validate\ParsedValidatorRules;
 use Lullabot\AMP\Validate\Scope;
 use Lullabot\AMP\Validate\SValidationResult;
@@ -307,5 +309,18 @@ abstract class BasePass
     public function getLineNo(\DOMElement $dom_el)
     {
         return $this->context->getLineNo($dom_el);
+    }
+
+    /**
+     * @param DOMQuery $el
+     * @param string $layout
+     */
+    function setLayoutIfNoLayout(DOMQuery $el, $layout = 'responsive')
+    {
+        $curr_layout = ParsedTagSpec::parseLayout($el->attr('layout'));
+
+        if ($curr_layout === AmpLayoutLayout::UNKNOWN) {
+            $el->attr('layout', $layout);
+        }
     }
 }
