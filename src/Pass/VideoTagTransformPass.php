@@ -73,9 +73,9 @@ class VideoTagTransformPass extends BasePass
     {
         /** @var DOMQuery $wrap_this */
         $wrap_this = $el->children()->not('source')->not('track');
-
         if ($wrap_this->count()) {
-            $wrap_this->wrapAll('<div fallback=""></div>');
+            $wrapped = $wrap_this->wrapAll('<div fallback=""></div>')->parent();
+            $wrapped->remove()->prependTo($el);
         }
 
         if (isset($this->options['video_placeholder_html'])) {
