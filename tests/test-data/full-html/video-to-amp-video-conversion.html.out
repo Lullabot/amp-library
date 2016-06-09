@@ -7,13 +7,13 @@
   <script async src="https://cdn.ampproject.org/v0.js"></script>
 </head>
 <body>
-  <amp-video controls autoplay width="500" data-provider="MGM" layout="responsive" height="281">
+  <amp-video controls autoplay width="500" data-provider="MGM" layout="responsive" height="281"><div fallback><div>Your browser does not support the <strong>video</strong> tag</div><p>Try using recent versions of Google Chrome or Firefox</p></div>
     <source type="video/mp4" src="/video/movie.mp4">
     <source type="video/webm" src="/video/movie.webm">
-    <div fallback><div>Your browser does not support the <strong>video</strong> tag</div><p>Try using recent versions of Google Chrome or Firefox</p></div>
-    
     <track kind="captions" src="/captions.en.vtt" srclang="en" label="English">
     <track kind="captions" src="/captions.hi.vtt" srclang="hi" label="Hindi">
+    
+    
   </amp-video>
 </body>
 
@@ -35,10 +35,10 @@ Line 10: <body>
 Line 11:   <video controls autoplay width="500" data-provider="MGM">
 Line 12:     <source type="video/mp4" src="/video/movie.mp4">
 Line 13:     <source type="video/webm" src="/video/movie.webm">
-Line 14:     <div>Your browser does not support the <strong>video</strong> tag</div>
-Line 15:     <p>Try using recent versions of Google Chrome or Firefox</p>
-Line 16:     <track kind="captions" src="/captions.en.vtt" srclang="en" label="English">
-Line 17:     <track kind="captions" src="/captions.hi.vtt" srclang="hi" label="Hindi">
+Line 14:     <track kind="captions" src="/captions.en.vtt" srclang="en" label="English">
+Line 15:     <track kind="captions" src="/captions.hi.vtt" srclang="hi" label="Hindi">
+Line 16:     <div>Your browser does not support the <strong>video</strong> tag</div>
+Line 17:     <p>Try using recent versions of Google Chrome or Firefox</p>
 Line 18:   </video>
 Line 19: </body>
 Line 20: </html>
@@ -56,11 +56,11 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
 
-<track kind="captions" src="/captions.en.vtt" srclang="en" label="English"> on line 16
+<track kind="captions" src="/captions.en.vtt" srclang="en" label="English"> on line 14
 - The relative URL '/captions.en.vtt' for attribute 'src' in tag 'amp-video > track' is disallowed.
    [code: DISALLOWED_RELATIVE_URL  category: AMP_TAG_PROBLEM]
 
-<track kind="captions" src="/captions.hi.vtt" srclang="hi" label="Hindi"> on line 17
+<track kind="captions" src="/captions.hi.vtt" srclang="hi" label="Hindi"> on line 15
 - The relative URL '/captions.hi.vtt' for attribute 'src' in tag 'amp-video > track' is disallowed.
    [code: DISALLOWED_RELATIVE_URL  category: AMP_TAG_PROBLEM]
 
