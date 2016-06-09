@@ -9,6 +9,7 @@
     ],
     "license": "Apache-2.0",
     "keywords": ["Drupal", "AMP", "mobile"],
+    "homepage": "https://github.com/Lullabot/amp-library",
     "require" : {
         "php" : ">=5.5.0",
         "querypath/QueryPath": ">=3.0.0",
