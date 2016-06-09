@@ -196,6 +196,7 @@ $html =
     '<p>This is a <div onmouseover="hello();">sample</div> paragraph</p>';
 
 // Load up the HTML into the AMP object
+// Note that we only support UTF-8 or ASCII string input and output. (UTF-8 is a superset of ASCII) 
 $amp->loadHtml($html);
 
 // If you're feeding it a complete document use the following line instead
@@ -224,7 +225,7 @@ print($amp->warningsHumanText());
 ```
 
 ### Caveats and Known issues
-
+- We only support UTF-8 string input and output from the library. If you're using ASCII, then you don't need to worry as UTF-8 is a superset of ASCII. If you're using another encoding like Latin-1 (etc.) you'll need to convert to UTF-8 strings before you use this library 
 - This is beta quality code. You are likely to encounter bugs and errors, both fatal and harmless. Please help us improve this library by using the GitHub issue tracker on this repository to report errors
  - If you have `<img>`s with `https` urls _and_ they don't have height/width attributes _and_ you are using PHP 5.6 or higher _and_ you have not listed any certificate authorities (`cafile`) in your `php.ini` file  _then_ the library may have problems converting these to `<amp-img>`. This is because of http://php.net/manual/en/migration56.openssl.php . That link also has a work around. 
 
