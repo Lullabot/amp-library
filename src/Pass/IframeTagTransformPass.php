@@ -51,21 +51,19 @@ class IframeTagTransformPass extends BasePass
 
             $lineno = $this->getLineNo($dom_el);
             $context_string = $this->getContextString($dom_el);
-
-            $iframe_attributes = $this->getStandardAttributes($el, self::DEFAULT_WIDTH, self::DEFAULT_HEIGHT, self::DEFAULT_ASPECT_RATIO);
-            // We need to do this separately. If the src has a character like '&' then $el->after has problems
-            // and we get a "Entity: line 1: parser error : EntityRef: expecting ';'" error
             $src = $this->getIframeSrc($el);
             if ($el->hasAttr('class')) {
                 $class_attr = $el->attr('class');
             }
 
             /** @var \DOMElement $new_dom_el */
-            $el->after("<amp-iframe $iframe_attributes sandbox=\"allow-scripts allow-same-origin\" layout=\"responsive\"></amp-iframe>");
-            $new_dom_el = $el->next()->get(0);
-            $new_dom_el->setAttribute('src', $src);
+            $el->after("<amp-iframe sandbox=\"allow-scripts allow-same-origin\" layout=\"responsive\"></amp-iframe>");
+            $new_el = $el->next();
+            $new_dom_el = $new_el->get(0);
+            $this->setStandardAttributesFrom($el, $new_el, self::DEFAULT_WIDTH, self::DEFAULT_HEIGHT, self::DEFAULT_ASPECT_RATIO);
+            $new_el->attr('src', $src);
             if (!empty($class_attr)) {
-                $new_dom_el->setAttribute('class', $class_attr);
+                $new_el->attr('class', $class_attr);
             }
 
             // Remove the iframe and its children

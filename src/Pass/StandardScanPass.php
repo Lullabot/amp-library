@@ -16,6 +16,7 @@
  */
 
 namespace Lullabot\AMP\Pass;
+
 use Lullabot\AMP\Validate\Phase;
 
 /**
@@ -29,7 +30,7 @@ class StandardScanPass extends BasePass
     {
         // Set the phase to LOCAL_PHASE before starting out
         $this->context->setPhase(Phase::LOCAL_PHASE);
-        
+
         // We get back a DOMElements, this is a faster way of iterating over all tags
         // See http://technosophos.com/2009/11/26/iteration-techniques-and-performance-querypath.html
         $all_tags = $this->q->find('*')->get();

@@ -215,29 +215,17 @@ abstract class BasePass
      * @param double $default_aspect_ratio
      * @return string
      */
-    protected function getStandardAttributes(DOMQuery $el, $default_width, $default_height, $default_aspect_ratio)
+    protected function setStandardAttributesFrom(DOMQuery $el, DOMQuery $new_el, $default_width, $default_height, $default_aspect_ratio)
     {
-        $standard_attributes = '';
-
         // Preserve the data-*, width, height attributes only
         foreach ($el->attr() as $attr_name => $attr_value) {
-            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') !== 0 && !in_array($attr_name, ['width', 'height'])) {
-                continue;
+            if (mb_strpos($attr_name, 'data-', 0, 'UTF-8') === 0) {
+                $new_el->attr($attr_name, $attr_value);
             }
-
-            if ($attr_name == 'height') {
-                $height = (int)$attr_value;
-                continue;
-            }
-
-            if ($attr_name == 'width') {
-                $width = (int)$attr_value;
-                continue;
-            }
-
-            $standard_attributes .= " $attr_name = \"$attr_value\"";
         }
 
+        $height = (int) $el->attr('height');
+        $width = (int) $el->attr('width');
         if (empty($height) && !empty($width)) {
             $height = (int)($width / $default_aspect_ratio);
         }
@@ -251,8 +239,8 @@ abstract class BasePass
             $height = $default_height;
         }
 
-        $standard_attributes .= " height=\"$height\" width=\"$width\" ";
-        return $standard_attributes;
+        $new_el->attr('height', $height);
+        $new_el->attr('width', $width);
     }
 
     /**

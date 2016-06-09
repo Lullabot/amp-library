@@ -56,10 +56,10 @@ class IframeDailymotionTagTransformPass extends BasePass
             }
 
             $context_string = $this->getContextString($dom_el);
-            $standard_attributes = $this->getStandardAttributes($el, self::DEFAULT_WIDTH, self::DEFAULT_HEIGHT, self::DEFAULT_ASPECT_RATIO);
 
-            $el->after('<amp-dailymotion ' . $standard_attributes . ' layout="responsive" data-videoid="' . $videoid . '"></amp-dailymotion>');
+            $el->after('<amp-dailymotion layout="responsive" data-videoid="' . $videoid . '"></amp-dailymotion>');
             $new_el = $el->next();
+            $this->setStandardAttributesFrom($el, $new_el, self::DEFAULT_WIDTH, self::DEFAULT_HEIGHT, self::DEFAULT_ASPECT_RATIO);
 
             // Add some advanced attributes like start time etc. if they are available in the iframe src url
             $this->addDailyMotionAttributes($el, $new_el);
