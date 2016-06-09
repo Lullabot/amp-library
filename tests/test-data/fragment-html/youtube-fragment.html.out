@@ -1,10 +1,10 @@
-<amp-youtube data-videoid="MnR9AVs6Q_c" layout="responsive" height="315" width="560"></amp-youtube>
+<amp-youtube data-videoid="MnR9AVs6Q_c" layout="responsive" data-priority="high" height="315" width="560"></amp-youtube>
 
 
 
 ORIGINAL HTML
 ---------------
-Line 1: <iframe width="560" height="315" src="https://www.youtube.com/embed/MnR9AVs6Q_c" frameborder="0" allowfullscreen></iframe>
+Line 1: <iframe data-priority="high" width="560" height="315" src="https://www.youtube.com/embed/MnR9AVs6Q_c" frameborder="0" allowfullscreen></iframe>
 Line 2: 
 Line 3: 
 
@@ -12,7 +12,7 @@ Line 3:
 Transformations made from HTML tags to AMP custom tags
 -------------------------------------------------------
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/MnR9AVs6Q_c" frameborder allowfullscreen> at line 1
+<iframe data-priority="high" width="560" height="315" src="https://www.youtube.com/embed/MnR9AVs6Q_c" frameborder allowfullscreen> at line 1
  ACTION TAKEN: iframe tag was converted to the amp-youtube tag.
 
 
