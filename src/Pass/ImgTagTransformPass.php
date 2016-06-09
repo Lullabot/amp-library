@@ -37,7 +37,7 @@ use QueryPath\DOMQuery;
  * - height and width are obtained by trying to look at the image file itself via getimagesize()
  * - Currently the layout is set to responsive
  *
- * This pass also make sure to insert amp attribute in an html tag. See ImgTagTransformPass::pass().
+ * This pass also makes sure to insert amp attribute in an html tag. See ImgTagTransformPass::pass() method.
  */
 class ImgTagTransformPass extends BasePass
 {
@@ -71,9 +71,10 @@ class ImgTagTransformPass extends BasePass
             }
             $context_string = $this->getContextString($dom_el);
             $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
+            $new_el = $el->prev();
             $el->remove(); // remove the old img tag
 
-            $this->setAmpImgAttributes($new_dom_el);
+            $this->setAmpImgAttributes($new_el);
             $this->context->addLineAssociation($new_dom_el, $lineno);
             $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
         }
@@ -85,6 +86,7 @@ class ImgTagTransformPass extends BasePass
      * Given an image src attribute, try to get its dimensions
      * Returns false on failure
      *
+     * @param string $src
      * @return bool|array
      */
     protected function getImageWidthHeight($src)
@@ -149,20 +151,20 @@ class ImgTagTransformPass extends BasePass
         return $src;
     }
 
-    protected function setAmpImgAttributes(\DOMElement $el)
+    /**
+     * @param DOMQuery $el
+     */
+    protected function setAmpImgAttributes(DOMQuery $el)
     {
         // If height or image is not set, get it from the image
-        if (!$el->getAttribute('width') || !$el->getAttribute('height')) {
-            $dimensions = $this->getImageWidthHeight($el->getAttribute('src'));
+        if (!$el->attr('width') || !$el->attr('height')) {
+            $dimensions = $this->getImageWidthHeight($el->attr('src'));
             if ($dimensions !== false) {
-                $el->setAttribute('width', $dimensions['width']);
-                $el->setAttribute('height', $dimensions['height']);
+                $el->attr('width', $dimensions['width']);
+                $el->attr('height', $dimensions['height']);
             }
         }
 
-        // Sane default for now
-        if (!$el->hasAttribute('layout')) {
-            $el->setAttribute('layout', 'responsive');
-        }
+        $this->setLayoutIfNoLayout($el, 'responsive');
     }
 }

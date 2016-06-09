@@ -65,17 +65,18 @@ class IframeYouTubeTagTransformPass extends BasePass
                 continue;
             }
 
-            $youtube_attributes = $this->getStandardAttributes($el, self::DEFAULT_VIDEO_WIDTH, self::DEFAULT_VIDEO_HEIGHT, self::DEFAULT_ASPECT_RATIO);
             if ($el->hasAttr('class')) {
                 $class_attr = $el->attr('class');
             }
 
             /** @var \DOMElement $new_dom_el */
-            $el->after("<amp-youtube $youtube_attributes data-videoid=\"$youtube_code\" layout=\"responsive\"></amp-youtube>");
-            $new_dom_el = $el->next()->get(0);
+            $el->after("<amp-youtube data-videoid=\"$youtube_code\" layout=\"responsive\"></amp-youtube>");
+            $new_el = $el->next();
+            $new_dom_el = $new_el->get(0);
             if (!empty($class_attr)) {
-                $new_dom_el->setAttribute('class', $class_attr);
+                $new_el->attr('class', $class_attr);
             }
+            $this->setStandardAttributesFrom($el, $new_el, self::DEFAULT_VIDEO_WIDTH, self::DEFAULT_VIDEO_HEIGHT, self::DEFAULT_ASPECT_RATIO);
 
             // Remove the iframe and its children
             $el->removeChildren()->remove();

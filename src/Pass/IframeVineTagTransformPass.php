@@ -67,10 +67,11 @@ class IframeVineTagTransformPass extends BasePass
 
             $context_string = $this->getContextString($dom_el);
             $script_tag = $this->getScriptTag($el, '&(*UTF8)vine\.co/static/scripts/embed\.js&i');
-            $standard_attributes = $this->getStandardAttributes($el, self::DEFAULT_WIDTH, self::DEFAULT_HEIGHT, self::DEFAULT_ASPECT_RATIO);
 
-            $el->after('<amp-vine ' . $standard_attributes . ' layout="responsive" data-vineid="' . $vineid . '"></amp-vine>');
-            $new_dom_el = $el->next()->get(0);
+            $el->after('<amp-vine layout="responsive" data-vineid="' . $vineid . '"></amp-vine>');
+            $new_el = $el->next();
+            $new_dom_el = $new_el->get(0);
+            $this->setStandardAttributesFrom($el, $new_el, self::DEFAULT_WIDTH, self::DEFAULT_HEIGHT, self::DEFAULT_ASPECT_RATIO);
 
             $el->removeChildren()->remove();
             if (!empty($script_tag)) {

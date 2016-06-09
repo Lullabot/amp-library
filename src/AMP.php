@@ -51,6 +51,7 @@ class AMP
         'Lullabot\AMP\Pass\ImgTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\IframeSoundCloudTagTransformPass', // Transform Pass
         'Lullabot\AMP\Pass\AudioTagTransformPass', // Transform Pass
+        'Lullabot\AMP\Pass\VideoTagTransformPass', // Transform Pass
         'Lullabot\AMP\Pass\IframeVimeoTagTransformPass', // Transform Pass
         'Lullabot\AMP\Pass\IframeVineTagTransformPass', // Transform Pass
         'Lullabot\AMP\Pass\IframeDailymotionTagTransformPass', // Transform Pass

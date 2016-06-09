@@ -35,4 +35,5 @@ class ActionTakenType
     const SOUNDCLOUD_IFRAME_CONVERTED = 'tag was converted to the amp-soundcloud tag.';
     const COMPONENT_SCRIPT_TAG_ADDED = 'custom component script tag added to head';
     const AUDIO_CONVERTED = 'tag was converted to the amp-audio tag.';
+    const VIDEO_CONVERTED = 'tag was converted to the amp-video tag.';
 }

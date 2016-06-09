@@ -402,8 +402,8 @@ class RenderValidationResult
         if ($error->code === ValidationErrorCode::TAG_REQUIRED_BY_MISSING &&
             (isset($error->params[1]) && (
                     (strpos($error->params[1], 'amp-') === 0) ||
-                $error->params[1] === 'template'
-            ))
+                    $error->params[1] === 'template'
+                ))
         ) {
             return ErrorCategoryCode::AMP_TAG_PROBLEM;
         }
