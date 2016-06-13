@@ -46,6 +46,7 @@ class AMP
     // The StandardScanPass should be first after all transform passes
     // The StandardFixPass should be after StandardScanPass
     public $passes = [
+        'Lullabot\AMP\Pass\PreliminaryPass', // Removes user blacklisted tags
         'Lullabot\AMP\Pass\ImgTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\IframeSoundCloudTagTransformPass', // Transform Pass
         'Lullabot\AMP\Pass\AudioTagTransformPass', // Transform Pass
