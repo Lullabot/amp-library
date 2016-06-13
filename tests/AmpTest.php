@@ -39,7 +39,8 @@ class AmpTest extends PHPUnit_Framework_TestCase
      */
     public function testFiles($test_filename, $fragment)
     {
-        $output = $this->amp->consoleOutput($test_filename, [], $fragment, true, true);
+        $options = $this->amp->getOptionsFromStandardOptionFile($test_filename);
+        $output = $this->amp->consoleOutput($test_filename, $options, $fragment, true, true);
         $expected_output = file_get_contents("$test_filename.out");
         $expected_output_arr = explode('ORIGINAL HTML', $expected_output);
         $output_arr = explode('ORIGINAL HTML', $output);

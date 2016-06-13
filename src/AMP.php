@@ -645,9 +645,24 @@ class AMP
             if (!is_array($options)) {
                 throw new \Exception("$options_filename does not contain a well formed option array");
             }
-        }
-        else {
+        } else {
             throw new \Exception("$options_filename file not found");
+        }
+
+        return $options;
+    }
+
+    /**
+     * @param string $test_filename
+     * @return array|mixed
+     * @throws \Exception
+     */
+    public function getOptionsFromStandardOptionFile($test_filename)
+    {
+        $options_filename = $test_filename . '.options.json';
+        $options = [];
+        if (file_exists($options_filename)) {
+            $options = $this->getOptions($options_filename);
         }
 
         return $options;
