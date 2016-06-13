@@ -1,0 +1,6 @@
+{
+  "remove_selectors": [
+    "meta[http-equiv=\"x-dns-prefetch-control\"]",
+    "link[rel=\"dns-prefetch\"]"
+  ]
+}

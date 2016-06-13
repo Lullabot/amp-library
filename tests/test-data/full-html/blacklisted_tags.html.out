@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html amp><head>
+  <meta charset="utf-8">
+  <link rel="canonical" href="./regular-html-version.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  
+  
+  <!--[if IE 9]> <link rel="prefetch" href="//cdn.potatopro.com" /> <![endif]-->
+</head>
+<body>
+Hello, world.
+</body>
+
+</html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!doctype html>
+Line  2: <html amp>
+Line  3: <head>
+Line  4:   <meta charset="utf-8">
+Line  5:   <link rel="canonical" href="./regular-html-version.html" />
+Line  6:   <meta name="viewport" content="width=device-width,minimum-scale=1">
+Line  7:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line  8:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line  9:   <meta http-equiv="x-dns-prefetch-control" content="on" />
+Line 10:   <link rel="dns-prefetch" href="//cdn.potatopro.com" />
+Line 11:   <!--[if IE 9]> <link rel="prefetch" href="//cdn.potatopro.com" /> <![endif]-->
+Line 12: </head>
+Line 13: <body>
+Line 14: Hello, world.
+Line 15: </body>
+Line 16: </html>
+Line 17: 
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<meta http-equiv="x-dns-prefetch-control" content="on"> at line 9
+ ACTION TAKEN: meta tag matches CSS selector 'meta[http-equiv="x-dns-prefetch-control"]' and was removed as it matched a user submitted CSS selector blacklist.
+
+<link rel="dns-prefetch" href="//cdn.potatopro.com"> at line 10
+ ACTION TAKEN: link tag matches CSS selector 'link[rel="dns-prefetch"]' and was removed as it matched a user submitted CSS selector blacklist.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required
