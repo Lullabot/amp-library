@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 
-
 use Lullabot\AMP\AMP;
 
 /**
@@ -40,7 +39,7 @@ class AmpTest extends PHPUnit_Framework_TestCase
      */
     public function testFiles($test_filename, $fragment)
     {
-        $output = $this->amp->consoleOutput($test_filename, $fragment, true, true);
+        $output = $this->amp->consoleOutput($test_filename, [], $fragment, true, true);
         $expected_output = file_get_contents("$test_filename.out");
         $expected_output_arr = explode('ORIGINAL HTML', $expected_output);
         $output_arr = explode('ORIGINAL HTML', $output);
