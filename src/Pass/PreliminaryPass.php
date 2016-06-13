@@ -68,10 +68,28 @@ class PreliminaryPass extends BasePass
             $remove_these = $this->options['remove_selectors'];
         }
 
-        if (function_exists('lullabot_amp_remove_selectors')) {
-            $remove_these = array_merge(call_user_func('lullabot_amp_remove_selectors'), $remove_these);
+        $matching_functions = $this->get_matching_functions();
+        foreach ($matching_functions as $matching_function) {
+            $remove_these = array_merge(call_user_func($matching_function), $remove_these);
         }
 
         return $remove_these;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function get_matching_functions()
+    {
+        $functions = get_defined_functions();
+        $user_functions = $functions['user'];
+        $matching_functions = [];
+        foreach ($user_functions as $user_function) {
+            if (stripos($user_function, 'lullabot_amp_remove_selectors') !== false) {
+                $matching_functions[] = $user_function;
+            }
+        }
+
+        return $matching_functions;
     }
 }
