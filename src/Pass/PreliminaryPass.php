@@ -68,7 +68,7 @@ class PreliminaryPass extends BasePass
             $remove_these = $this->options['remove_selectors'];
         }
 
-        $matching_functions = $this->get_matching_functions();
+        $matching_functions = $this->getMatchingFunctions();
         foreach ($matching_functions as $matching_function) {
             $remove_these = array_merge(call_user_func($matching_function), $remove_these);
         }
@@ -79,7 +79,7 @@ class PreliminaryPass extends BasePass
     /**
      * @return string[]
      */
-    protected function get_matching_functions()
+    protected function getMatchingFunctions()
     {
         $functions = get_defined_functions();
         $user_functions = $functions['user'];
