@@ -579,38 +579,52 @@ class AMP
             throw new \Exception("No such file or file not accessible: $filename Exiting...");
         }
 
+        // original setting takes precedence
         $options += ['filename' => $filename]; // So warnings can be printed out with filename appending to line number
+
         if ($full_document) {
+            // original setting takes precedence
             $options += ['scope' => Scope::HTML_SCOPE];
         }
 
         $this->loadHtml($file_html, $options);
         $amp_html = $this->convertToAmpHtml();
 
-        if (!$no_lines) {
+        // original setting takes precedence
+        $options += ['no_lines' => $no_lines];
+        if (!$options['no_lines']) {
             // now this is our new output html
             $amp_html = $this->getStringWithLineNumbers($amp_html);
         }
 
+        // original setting takes precedence
+        $options += ['diff' => $diff];
+
         $output = '';
         // Show the diff if the option is set
-        if (!$diff) {
+        if (!$options['diff']) {
             $output .= $amp_html . PHP_EOL;
         } else {
             // $escape_html is FALSE since we're outputting to the console
             $output .= $this->getInputOutputHtmlDiff($escape_html = FALSE) . PHP_EOL;
         }
 
+        // original setting takes precedence
+        $options += ['no_orig_and_warn' => $no_orig_and_warn];
+
         // Show the warnings by default
-        if (!$no_orig_and_warn) {
+        if (!$options['no_orig_and_warn']) {
             $output .= PHP_EOL . 'ORIGINAL HTML' . PHP_EOL;
             $output .= '---------------' . PHP_EOL;
             $output .= $this->getStringWithLineNumbers($this->getInputHtml()) . PHP_EOL;
             $output .= $this->warningsHumanText() . PHP_EOL;
         }
 
+        // original setting takes precedence
+        $options += ['js' => $js];
+
         // Show the components with js urls
-        if ($js) {
+        if ($options['js']) {
             $output .= PHP_EOL . 'COMPONENT NAMES WITH JS PATH' . PHP_EOL;
             $output .= '------------------------------' . PHP_EOL;
             $output .= $this->componentList($this->getComponentJs()) . PHP_EOL;
