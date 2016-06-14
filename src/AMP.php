@@ -270,7 +270,12 @@ class AMP
 
         $stats_data = $this->context->getStatsData();
         $end_time = microtime(true);
-        $time_taken = sprintf('%.3f milliseconds (1 second = 1000 milliseconds)', 1000 * ($end_time - $stats_data['start_time']));
+        if (!empty($this->options['testing_mode'])) {
+            $time_taken = sprintf('[template] milliseconds (1 second = 1000 milliseconds)', 1000 * ($end_time - $stats_data['start_time']));
+        } else {
+            $time_taken = sprintf('%.3f milliseconds (1 second = 1000 milliseconds)', 1000 * ($end_time - $stats_data['start_time']));
+        }
+
         $date = date(DATE_RFC2822);
         $num_tags_processed = $this->context->getNumTagsProcessed();
 
@@ -284,8 +289,17 @@ class AMP
         $end_memory_peak_str = sprintf('%.3f MiB', $end_memory_peak / 1000000.0);
         $peak_change = ($end_memory_peak == $stats_data['start_memory_peak']) ? '(unchanged)' : '';
 
-        $comment_start = " ==START== $scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date";
-        $comment_end = " $scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date" . PHP_EOL
+        if (!empty($this->options['testing_mode'])) {
+            $date = '[template]';
+            $time_taken = '[template]';
+            $start_memory_peak_str = '[template]';
+            $end_memory_peak_str = '[template]';
+            $peak_change = '[template]';
+        }
+
+        $comment_start = " =AMP-STATS-HEADER= $scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date =END-AMP-STATS-HEADER=";
+        $comment_end = " =AMP-STATS-FOOTER=" . PHP_EOL
+            . "$scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date" . PHP_EOL
             . " Time Taken: $time_taken" . PHP_EOL
             . " Number of html tags processed: $num_tags_processed" . PHP_EOL
             . " PHP Peak memory usage before calling convertToAmpHtml: $start_memory_peak_str" . PHP_EOL
@@ -293,7 +307,7 @@ class AMP
             . " * Please note that time taken will increase significantly if you don't have opcache enabled or have XDEBUG enabled." . PHP_EOL
             . "   Also note that the library downloads initial portions of images to determine dimensions for amp-img tags. " . PHP_EOL
             . "   If your network is slow, your library processing time will increase and network download time may dominate total time taken for library processing." . PHP_EOL
-            . "==END==";
+            . "=END-AMP-STATS-FOOTER=";
 
         $start_replaced = str_replace("#AMP-START-PLACEHOLDER-${stats_data['start_time']}#", $comment_start, $html);
         $end_replaced = str_replace("#AMP-END-PLACEHOLDER-${stats_data['start_time']}#", $comment_end, $start_replaced);
