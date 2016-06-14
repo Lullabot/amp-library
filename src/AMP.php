@@ -625,7 +625,7 @@ class AMP
 
         // Show the components with js urls
         if ($options['js']) {
-            $output .= PHP_EOL . 'COMPONENT NAMES WITH JS PATH' . PHP_EOL;
+            $output .= 'COMPONENT NAMES WITH JS PATH' . PHP_EOL;
             $output .= '------------------------------' . PHP_EOL;
             $output .= $this->componentList($this->getComponentJs()) . PHP_EOL;
         }
