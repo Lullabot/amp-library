@@ -66,16 +66,29 @@ class AmpCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 'If set, assumes this is a whole document html document and not an html fragment underneath the body (which is the default)'
+            )
+            ->addOption(
+                '--options',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'If set, loads options from the file indicated'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $amp = new AMP();
-        // consoleOutput($filename = 'php://stdin', $full_document = false, $js = false, $no_lines = false, $diff = false, $no_orig_and_warn = false, $verbose = false)
+        $options_filename = $input->getOption('options');
+        $options = [];
+        if (!empty($options_filename)) {
+            $options = $amp->getOptions($options_filename);
+        }
+
+        // consoleOutput($filename = 'php://stdin', $options, $full_document = false, $js = false, $no_lines = false, $diff = false, $no_orig_and_warn = false, $verbose = false)
         /** @var string $console_output */
         $console_output = $amp->consoleOutput(
             $input->getArgument('filename'),
+            $options,
             $input->getOption('full-document'),
             $input->getOption('js'),
             $input->getOption('no-lines'),

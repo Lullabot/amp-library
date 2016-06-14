@@ -19,8 +19,6 @@ namespace Lullabot\AMP;
 
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Utility\AMPHTML5;
-use Lullabot\AMP\Validate\ParsedTagSpec;
-use Masterminds\HTML5\Parser\ParseError;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
 use Lullabot\AMP\Pass\BasePass;
@@ -48,6 +46,7 @@ class AMP
     // The StandardScanPass should be first after all transform passes
     // The StandardFixPass should be after StandardScanPass
     public $passes = [
+        'Lullabot\AMP\Pass\PreliminaryPass', // Removes user blacklisted tags
         'Lullabot\AMP\Pass\ImgTagTransformPass', // Transform pass
         'Lullabot\AMP\Pass\IframeSoundCloudTagTransformPass', // Transform Pass
         'Lullabot\AMP\Pass\AudioTagTransformPass', // Transform Pass
@@ -545,6 +544,7 @@ class AMP
 
     /**
      * @param string $filename
+     * @param array $options
      * @param bool $full_document
      * @param bool $no_lines
      * @param bool $diff
@@ -554,7 +554,7 @@ class AMP
      * @return string
      * @throws \Exception
      */
-    public function consoleOutput($filename = 'php://stdin', $full_document = false, $js = false, $no_lines = false, $diff = false, $no_orig_and_warn = false, $verbose = false)
+    public function consoleOutput($filename = 'php://stdin', $options = [], $full_document = false, $js = false, $no_lines = false, $diff = false, $no_orig_and_warn = false, $verbose = false)
     {
         if ($verbose) {
             error_reporting(E_ALL);
@@ -565,7 +565,7 @@ class AMP
             throw new \Exception("No such file or file not accessible: $filename Exiting...");
         }
 
-        $options = ['filename' => $filename]; // So warnings can be printed out with filename appending to line number
+        $options += ['filename' => $filename]; // So warnings can be printed out with filename appending to line number
         if ($full_document) {
             $options += ['scope' => Scope::HTML_SCOPE];
         }
@@ -631,5 +631,40 @@ class AMP
         }
 
         return $str;
+    }
+
+    /**
+     * @param $options_filename
+     * @return array|mixed
+     * @throws \Exception
+     */
+    public function getOptions($options_filename)
+    {
+        if (file_exists($options_filename)) {
+            $options = json_decode(@file_get_contents($options_filename), true);
+            if (!is_array($options)) {
+                throw new \Exception("$options_filename does not contain a well formed option array");
+            }
+        } else {
+            throw new \Exception("$options_filename file not found");
+        }
+
+        return $options;
+    }
+
+    /**
+     * @param string $test_filename
+     * @return array|mixed
+     * @throws \Exception
+     */
+    public function getOptionsFromStandardOptionFile($test_filename)
+    {
+        $options_filename = $test_filename . '.options.json';
+        $options = [];
+        if (file_exists($options_filename)) {
+            $options = $this->getOptions($options_filename);
+        }
+
+        return $options;
     }
 }
