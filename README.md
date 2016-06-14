@@ -18,9 +18,10 @@ The AMP PHP Library is an open source and pure PHP Library that:
        - The "correction" of the input HTML to make it more compliant with the AMP HTML standard is currently basic. The library does a decent job of _removing_ bad things but does not _add_ tags, attributes or property-value pairs where it could "fix" things
        - The library needs to be provided with well formed HTML / HTML5. Please don't give it faulty, incorrect html (e.g. non closed `<div>` tags etc). The correction it does is related to AMP HTML standard issues only. Use a HTML tidying library if you expect your HTML to be malformed.
  - Converts some non-amp elements to their AMP equivalents automatically
-    - An `<img>` tag is automatically converted to an `<amp-img>` tag
-    - An `<iframe>` tag is converted to an `<amp-iframe>`
-    - An [`<audio>`](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/audio-to-amp-audio-conversion-fragment.html) tag is converted to an `<amp-audio>` tag    
+    - A `<img>` tag is automatically converted to an `<amp-img>` tag
+    - A `<iframe>` tag is converted to an `<amp-iframe>`
+    - A [`<audio>`](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/audio-to-amp-audio-conversion-fragment.html) tag is converted to an `<amp-audio>` tag
+    - A [`<video>`](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/video-fragment-and-placeholder-test.html) tag is converted to an `<amp-audio>` tag
     - [Standard Twitter embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/twitter-fragment.html) is converted to an `<amp-twitter>` tag.
     - [Standard Instagram embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/instagram-fragment.html) is converted to an `<amp-instagram>` tag.
     - [Standard Youtube embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/youtube-fragment.html) is converted to an `<amp-youtube>` tag
