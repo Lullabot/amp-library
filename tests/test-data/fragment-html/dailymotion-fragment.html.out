@@ -21,7 +21,6 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 PASS
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 'amp-dailymotion', include path 'https://cdn.ampproject.org/v0/amp-dailymotion-0.1.js'

@@ -43,7 +43,6 @@ FAIL
 - The relative URL '//example.dd:8088/sites/default/files/drums.en.vtt' for attribute 'src' in tag 'amp-audio > track' is disallowed.
    [code: DISALLOWED_RELATIVE_URL  category: AMP_TAG_PROBLEM]
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 'amp-audio', include path 'https://cdn.ampproject.org/v0/amp-audio-0.1.js'

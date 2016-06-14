@@ -87,7 +87,6 @@ GLOBAL WARNING
 - The mandatory tag 'meta name=viewport' is missing or incorrect.
    [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 No custom amp script includes required

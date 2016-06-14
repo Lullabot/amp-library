@@ -187,7 +187,6 @@ FAIL
 - The mandatory attribute 'data-items' is missing in tag 'amp-springboard-player'.
    [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 No custom amp script includes required

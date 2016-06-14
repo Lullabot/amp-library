@@ -20,7 +20,6 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 PASS
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 'amp-vine', include path 'https://cdn.ampproject.org/v0/amp-vine-0.1.js'

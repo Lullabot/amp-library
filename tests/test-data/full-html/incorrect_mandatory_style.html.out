@@ -82,7 +82,6 @@ FAIL
 - The mandatory text (CDATA) inside tag 'noscript > style[amp-boilerplate]' is missing or incorrect.
    [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 No custom amp script includes required

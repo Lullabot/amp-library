@@ -73,7 +73,6 @@ FAIL
    [code: WRONG_PARENT_TAG  category: DISALLOWED_HTML see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
    ACTION TAKEN: style tag was removed due to validation issues.
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 'amp-iframe', include path 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js'

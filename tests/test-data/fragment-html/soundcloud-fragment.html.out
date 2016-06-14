@@ -18,7 +18,6 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 PASS
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 'amp-soundcloud', include path 'https://cdn.ampproject.org/v0/amp-soundcloud-0.1.js'
