@@ -114,7 +114,6 @@ FAIL
 - The mandatory attribute 'rel' is missing in tag 'link rel='.
    [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML]
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 No custom amp script includes required

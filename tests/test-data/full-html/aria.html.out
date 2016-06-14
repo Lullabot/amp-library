@@ -108,7 +108,6 @@ FAIL
 - The attribute 'tabindex' in tag 'amp-img' is missing or incorrect, but required by attribute 'on'.
    [code: ATTR_REQUIRED_BUT_MISSING  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/amp-img.html]
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 No custom amp script includes required

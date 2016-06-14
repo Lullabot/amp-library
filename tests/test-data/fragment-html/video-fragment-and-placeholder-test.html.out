@@ -38,7 +38,6 @@ FAIL
 - The relative URL '/captions.hi.vtt' for attribute 'src' in tag 'amp-video > track' is disallowed.
    [code: DISALLOWED_RELATIVE_URL  category: AMP_TAG_PROBLEM]
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 No custom amp script includes required

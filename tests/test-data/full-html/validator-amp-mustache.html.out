@@ -398,7 +398,6 @@ GLOBAL WARNING
    [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
    ACTION TAKEN: amp-audio custom component script tag added to head
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 'template', include path 'https://cdn.ampproject.org/v0/amp-mustache-0.1.js'

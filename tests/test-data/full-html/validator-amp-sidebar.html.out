@@ -132,7 +132,6 @@ FAIL
    [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-sidebar/amp-sidebar.md]
    ACTION TAKEN: amp-sidebar.side attribute was removed due to validation issues.
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 'amp-fit-text', include path 'https://cdn.ampproject.org/v0/amp-fit-text-0.1.js'
