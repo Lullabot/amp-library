@@ -25,7 +25,7 @@ class AmpTest extends PHPUnit_Framework_TestCase
 {
     /** @var AMP|null */
     protected $amp = null;
-
+    protected $split_pattern = '/ORIGINAL HTML|COMPONENT NAMES WITH JS PATH|Transformations made from HTML tags to AMP custom tags/i';
     public function setup()
     {
         $this->amp = new AMP();
@@ -42,10 +42,15 @@ class AmpTest extends PHPUnit_Framework_TestCase
         $options = $this->amp->getOptionsFromStandardOptionFile($test_filename);
         $output = $this->amp->consoleOutput($test_filename, $options, $fragment, true, true);
         $expected_output = file_get_contents("$test_filename.out");
-        $expected_output_arr = explode('ORIGINAL HTML', $expected_output);
-        $output_arr = explode('ORIGINAL HTML', $output);
-        $this->assertEquals($expected_output_arr[0], $output_arr[0]);
-        $this->assertEquals($expected_output_arr[1], $output_arr[1]);
+        $expected_output_arr = preg_split($this->split_pattern, $expected_output);
+        $output_arr = preg_split($this->split_pattern, $output);
+
+        foreach ($expected_output_arr as $key => $expected_output_str) {
+            if (!isset($output_arr[$key])) {
+                $output_arr[$key] = '';
+            }
+            $this->assertEquals($expected_output_str, $output_arr[$key]);
+        }
     }
 
     public function filenameProvider()
