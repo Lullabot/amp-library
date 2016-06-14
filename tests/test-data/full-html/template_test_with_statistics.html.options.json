@@ -1,0 +1,5 @@
+{
+  "add_stats_html_comment" : true,
+  "testing_mode" : true,
+  "_readme" : "testing_mode is set to true so that we generate a string like [template] for things like date which will always vary from run to run."
+}
