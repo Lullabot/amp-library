@@ -17,8 +17,3 @@
 +</amp-audio>
  
 
-
-COMPONENT NAMES WITH JS PATH
-------------------------------
-'amp-audio', include path 'https://cdn.ampproject.org/v0/amp-audio-0.1.js'
-
