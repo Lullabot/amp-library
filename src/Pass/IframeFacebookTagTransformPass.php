@@ -68,11 +68,15 @@ class IframeFacebookTagTransformPass extends BasePass
             /** @var \DOMElement $dom_el */
             $dom_el = $el->get(0);
             $lineno = $this->getLineNo($dom_el);
+
+            // This should run before setStandardAttributes because of the side effect of that method. See comment below.
+            $context_string = $this->getContextString($dom_el);
+
+            // Function results in some side effects that are used later on. The side effect is the addition
+            // of some attributes (see method) that are copied over by the setStandardAttributes method below.
             if (!$this->setStandardFacebookParameters($el)) {
                 continue;
             }
-
-            $context_string = $this->getContextString($dom_el);
 
             $el->after('<amp-facebook layout="responsive"></amp-facebook>');
             $new_el = $el->next();
@@ -106,7 +110,12 @@ class IframeFacebookTagTransformPass extends BasePass
 
         // e.g https://www.facebook.com/facebook/videos/10153231379946729/
         if (preg_match('&(*UTF8)facebook\.com/facebook/videos/\d+/?&i', $query_arr['href'])) {
-            $embed_as = 'video';
+            // A facebook video can be embedded as a post. Doing that enables the video "card" to display
+            if (isset($query_arr['show_text']) && $query_arr['show_text'] !== "false") {
+                $embed_as = 'post';
+            } else {
+                $embed_as = 'video';
+            }
         } // e.g. https://www.facebook.com/20531316728/posts/10154009990506729/
         else if (preg_match('&(*UTF8)facebook\.com/\d+/posts/\d+/?&i', $query_arr['href'])) {
             $embed_as = 'post';
@@ -115,14 +124,16 @@ class IframeFacebookTagTransformPass extends BasePass
         }
 
         if (isset($query_arr['width']) && empty($el->attr('width'))) {
+            // will automatically get copied over the the amp-facebook tag
             $el->attr('width', $query_arr['width']);
         }
 
         if (isset($query_arr['height']) && empty($el->attr('height'))) {
+            // will automatically get copied over the the amp-facebook tag
             $el->attr('height', $query_arr['height']);
         }
 
-        // will automatically get copied over the the facebook tag
+        // will automatically get copied over the the amp-facebook tag
         $el->attr('data-href', $query_arr['href']);
         $el->attr('data-embed-as', $embed_as);
         return true;
