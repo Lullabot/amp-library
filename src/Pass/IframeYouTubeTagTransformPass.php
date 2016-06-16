@@ -33,6 +33,7 @@ use Lullabot\AMP\Utility\ActionTakenType;
  *   <iframe width="560" height="315" src="https://www.youtube.com/embed/MnR9AVs6Q_c" frameborder="0" allowfullscreen></iframe>
  *
  * @see https://github.com/ampproject/amphtml/blob/master/extensions/amp-youtube/amp-youtube.md
+ * @see https://developers.google.com/youtube/iframe_api_reference
  *
  */
 class IframeYouTubeTagTransformPass extends BasePass
@@ -77,6 +78,7 @@ class IframeYouTubeTagTransformPass extends BasePass
                 $new_el->attr('class', $class_attr);
             }
             $this->setStandardAttributesFrom($el, $new_el, self::DEFAULT_VIDEO_WIDTH, self::DEFAULT_VIDEO_HEIGHT, self::DEFAULT_ASPECT_RATIO);
+            $this->setYouTubeAttributesFrom($el, $new_el);
 
             // Remove the iframe and its children
             $el->removeChildren()->remove();
@@ -87,6 +89,10 @@ class IframeYouTubeTagTransformPass extends BasePass
         return $this->transformations;
     }
 
+    /**
+     * @param DOMQuery $el
+     * @return bool
+     */
     protected function isYouTubeIframe(DOMQuery $el)
     {
         $href = $el->attr('src');
@@ -138,5 +144,22 @@ class IframeYouTubeTagTransformPass extends BasePass
         }
 
         return $youtube_code;
+    }
+
+    /**
+     * @param DOMQuery $el
+     * @param DOMQuery $new_dom_el
+     */
+    protected function setYouTubeAttributesFrom($el, $new_dom_el)
+    {
+        $arr = $this->getQueryArray($el);
+        // From https://github.com/ampproject/amphtml/blob/master/extensions/amp-youtube/amp-youtube.md
+        //  "All data-param-* attributes will be added as query parameter to the youtube iframe src. This may be used to
+        //   pass custom values through to youtube plugins, such as autoplay."
+        //
+        // We're doing this in reverse: we see the query parameters and we make them data-param-*
+        foreach ($arr as $query_name => $query_value) {
+            $new_dom_el->attr("data-param-$query_name", $query_value);
+        }
     }
 }
