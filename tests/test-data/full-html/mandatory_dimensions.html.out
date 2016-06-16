@@ -121,7 +121,7 @@
 
     <!-- src or srcset or both are all valid -->
     <amp-img width="42" height="42"></amp-img>
-    <amp-anim width="42" height="42">
+    <amp-anim width="42" height="42"></amp-anim>
 
     <!-- src optional -->
     <amp-audio></amp-audio>
@@ -143,7 +143,7 @@
     <amp-img height="42" src="img"></amp-img>
   <!-- /Invalid Examples -->
 
-</amp-anim></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></body>
+</amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></body>
 
 </html>
 
@@ -276,7 +276,7 @@ Line 123:     <amp-img src="img" layout="responsive" width="42px" height="42rem"
 Line 124: 
 Line 125:     <!-- src or srcset or both are all valid -->
 Line 126:     <amp-img width="42" height="42"></amp-img>
-Line 127:     <amp-anim width="42" height="42"></amp-anum>
+Line 127:     <amp-anim width="42" height="42"></amp-anim>
 Line 128: 
 Line 129:     <!-- src optional -->
 Line 130:     <amp-audio srcset="img 1x, img2 2x"></amp-audio>
