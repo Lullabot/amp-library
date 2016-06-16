@@ -12,6 +12,7 @@ Note: An explicit commit is noted as these files can change.
 * `test-data/full-html/javascript_xss.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/javascript_xss.html
 * `test-data/full-html/link_meta_values.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/link_meta_values.html
 * `test-data/full-html/mandatory-dimensions.html` https://github.com/ampproject/amphtml/blob/e1aa24df8432963423ee6cec1ce4d57529767e6e/validator/testdata/feature_tests/mandatory_dimensions.html
+  There is a trivial modification: `</amp-anum>` is changed to `</amp-anim>`. See https://github.com/ampproject/amphtml/issues/3609
 * `test-data/full-html/minimum_valid_amp.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/minimum_valid_amp.html
 * `test-data/full-html/no_custom_js.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/no_custom_js.html
 * `test-data/full-html/noscript.html` https://github.com/ampproject/amphtml/blob/e1aa24df8432963423ee6cec1ce4d57529767e6e/validator/testdata/feature_tests/noscript.html
