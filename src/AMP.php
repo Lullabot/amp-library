@@ -47,18 +47,19 @@ class AMP
     // The StandardFixPass should be after StandardScanPass
     public $passes = [
         'Lullabot\AMP\Pass\PreliminaryPass', // Removes user blacklisted tags
-        'Lullabot\AMP\Pass\ImgTagTransformPass', // Transform pass
-        'Lullabot\AMP\Pass\IframeSoundCloudTagTransformPass', // Transform Pass
-        'Lullabot\AMP\Pass\AudioTagTransformPass', // Transform Pass
-        'Lullabot\AMP\Pass\VideoTagTransformPass', // Transform Pass
-        'Lullabot\AMP\Pass\IframeVimeoTagTransformPass', // Transform Pass
-        'Lullabot\AMP\Pass\IframeVineTagTransformPass', // Transform Pass
-        'Lullabot\AMP\Pass\IframeDailymotionTagTransformPass', // Transform Pass
-        'Lullabot\AMP\Pass\IframeYouTubeTagTransformPass', // Transform pass
-        'Lullabot\AMP\Pass\IframeTagTransformPass', // Transform pass
-        'Lullabot\AMP\Pass\InstagramTransformPass', // Transform pass
-        'Lullabot\AMP\Pass\PinterestTagTransformPass', // Transform pass
-        'Lullabot\AMP\Pass\TwitterTransformPass', // Transform pass
+        'Lullabot\AMP\Pass\ImgTagTransformPass',
+        'Lullabot\AMP\Pass\IframeSoundCloudTagTransformPass',
+        'Lullabot\AMP\Pass\IframeFacebookTagTransformPass',
+        'Lullabot\AMP\Pass\AudioTagTransformPass',
+        'Lullabot\AMP\Pass\VideoTagTransformPass',
+        'Lullabot\AMP\Pass\IframeVimeoTagTransformPass',
+        'Lullabot\AMP\Pass\IframeVineTagTransformPass',
+        'Lullabot\AMP\Pass\IframeDailymotionTagTransformPass',
+        'Lullabot\AMP\Pass\IframeYouTubeTagTransformPass',
+        'Lullabot\AMP\Pass\IframeTagTransformPass',
+        'Lullabot\AMP\Pass\InstagramTransformPass',
+        'Lullabot\AMP\Pass\PinterestTagTransformPass',
+        'Lullabot\AMP\Pass\TwitterTransformPass',
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
         'Lullabot\AMP\Pass\StatisticsPass'
