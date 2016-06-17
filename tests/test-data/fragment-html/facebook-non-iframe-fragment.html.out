@@ -50,12 +50,7 @@ Transformations made from HTML tags to AMP custom tags
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
-FAIL
-
-<script> on line 2
-- The tag 'script' is disallowed except in specific forms.
-   [code: GENERAL_DISALLOWED_TAG  category: CUSTOM_JAVASCRIPT_DISALLOWED]
-   ACTION TAKEN: script tag was removed due to validation issues.
+PASS
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
