@@ -93,6 +93,7 @@ class FacebookNonIframeTransformPass extends BasePass
             return;
         }
 
+        $el->remove();
         $this->addActionTaken(new ActionTakenLine('script', ActionTakenType::FACEBOOK_SCRIPT_REMOVED, $lineno, $context_string));
     }
 
