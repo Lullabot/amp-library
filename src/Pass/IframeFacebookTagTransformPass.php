@@ -117,7 +117,7 @@ class IframeFacebookTagTransformPass extends BasePass
                 $embed_as = 'video';
             }
         } // e.g. https://www.facebook.com/20531316728/posts/10154009990506729/
-        else if (preg_match('&(*UTF8)facebook\.com/\d+/posts/\d+/?&i', $query_arr['href'])) {
+        else if (preg_match('&(*UTF8)facebook\.com/.*/posts/\d+/?&i', $query_arr['href'])) {
             $embed_as = 'post';
         } else {
             return false;
