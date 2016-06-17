@@ -73,7 +73,7 @@ class FacebookNonIframeTransformPass extends BasePass
             $new_dom_el = $new_el->get(0);
 
             $el->removeChildren()->remove();
-            $this->addActionTaken(new ActionTakenLine($tagname, ActionTakenType::FACEBOOK_CONVERTED, $lineno, $context_string));
+            $this->addActionTaken(new ActionTakenLine($tagname, ActionTakenType::FACEBOOK_JSDK_CONVERTED, $lineno, $context_string));
 
             $this->context->addLineAssociation($new_dom_el, $lineno);
         }

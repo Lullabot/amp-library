@@ -84,7 +84,7 @@ class IframeFacebookTagTransformPass extends BasePass
             $this->setStandardAttributesFrom($el, $new_el, self::DEFAULT_WIDTH, self::DEFAULT_HEIGHT, self::DEFAULT_ASPECT_RATIO);
 
             $el->removeChildren()->remove();
-            $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::FACEBOOK_CONVERTED, $lineno, $context_string));
+            $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::FACEBOOK_IFRAME_CONVERTED, $lineno, $context_string));
 
             $this->context->addLineAssociation($new_dom_el, $lineno);
         }
