@@ -62,7 +62,7 @@ class FacebookNonIframeTransformPass extends BasePass
                 continue;
             }
 
-            $attrs = $this->getFacebookEmbedAttrs($el, $el->attr('data-href'));
+            $attrs = $this->getFacebookEmbedAttrs($el);
             if (empty($attrs)) {
                 continue;
             }
@@ -101,8 +101,13 @@ class FacebookNonIframeTransformPass extends BasePass
      * @param DOMQuery $el
      * @return string[]|bool
      */
-    protected function getFacebookEmbedAttrs(DOMQuery $el, $src)
+    protected function getFacebookEmbedAttrs(DOMQuery $el)
     {
+        $src = $el->attr('data-href');
+        if (empty($src)) {
+            return false;
+        }
+
         $card = true;
         // e.g https://www.facebook.com/facebook/videos/10153231379946729/
         if (preg_match('&(*UTF8)facebook\.com/facebook/videos/\d+/?&i', $src)) {
@@ -122,9 +127,12 @@ class FacebookNonIframeTransformPass extends BasePass
 
         // This is going to be responsive. We worry about aspect ratio and not specific numbers
         if (!empty($el->attr('width')) && !empty($el->attr('height'))) {
+            // We're very rarely going to be in this if branch as only width is provided and
+            // height does not seem to be in non-iframe embeds
             $width = $el->attr('width');
             $height = $el->attr('height');
         } else {
+            // This is going to be the most common case
             $width = self::DEFAULT_WIDTH;
             $height = $card ? self::DEFAULT_HEIGHT_WITH_CARD : self::DEFAULT_HEIGHT;
         }
