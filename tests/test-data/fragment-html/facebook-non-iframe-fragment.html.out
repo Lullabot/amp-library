@@ -1,0 +1,58 @@
+<div id="fb-root"></div>
+
+
+<amp-facebook layout="responsive" data-href="https://www.facebook.com/zuck/posts/10101301165605491" data-embed-as="post" height="366" width="500"></amp-facebook>
+
+<amp-facebook layout="responsive" data-href="https://www.facebook.com/facebook/videos/10153231379946729/" data-embed-as="post" height="366" width="500"></amp-facebook>
+
+ORIGINAL HTML
+---------------
+Line  1: <div id="fb-root"></div>
+Line  2: <script>(function (d, s, id) {
+Line  3:     var js, fjs = d.getElementsByTagName(s)[0];
+Line  4:     if (d.getElementById(id)) return;
+Line  5:     js = d.createElement(s);
+Line  6:     js.id = id;
+Line  7:     js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.6";
+Line  8:     fjs.parentNode.insertBefore(js, fjs);
+Line  9: }(document, 'script', 'facebook-jssdk'));</script>
+Line 10: 
+Line 11: <div class="fb-post" data-href="https://www.facebook.com/zuck/posts/10101301165605491" data-width="500"
+Line 12:      data-show-text="true">
+Line 13:     <blockquote cite="https://www.facebook.com/zuck/posts/10101301165605491" class="fb-xfbml-parse-ignore"><p>As the
+Line 14:         world becomes more complex and governments everywhere struggle, trust in the internet is more important
+Line 15:         today...</p>Posted by <a href="https://www.facebook.com/zuck">Mark Zuckerberg</a> on&nbsp;<a
+Line 16:             href="https://www.facebook.com/zuck/posts/10101301165605491">Thursday, 13 March 2014</a></blockquote>
+Line 17: </div>
+Line 18: 
+Line 19: <div class="fb-video" data-href="https://www.facebook.com/facebook/videos/10153231379946729/" data-width="500"
+Line 20:      data-show-text="true">
+Line 21:     <blockquote cite="https://www.facebook.com/facebook/videos/10153231379946729/" class="fb-xfbml-parse-ignore"><a
+Line 22:             href="https://www.facebook.com/facebook/videos/10153231379946729/">How to Share With Just Friends</a>
+Line 23:         <p>How to share with just friends.</p>Posted by <a href="https://www.facebook.com/facebook/">Facebook</a> on
+Line 24:         Friday, 5 December 2014
+Line 25:     </blockquote>
+Line 26: </div>
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<script> at line 2
+ ACTION TAKEN: script facebook script tag was removed.
+
+<div class="fb-post" data-href="https://www.facebook.com/zuck/posts/10101301165605491" data-width="500" data-show-text="true"> at line 12
+ ACTION TAKEN: div.fb-post facebook javascript sdk embed code was converted to the amp-facebook tag.
+
+<div class="fb-video" data-href="https://www.facebook.com/facebook/videos/10153231379946729/" data-width="500" data-show-text="true"> at line 20
+ ACTION TAKEN: div.fb-video facebook javascript sdk embed code was converted to the amp-facebook tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-facebook', include path 'https://cdn.ampproject.org/v0/amp-facebook-0.1.js'
+

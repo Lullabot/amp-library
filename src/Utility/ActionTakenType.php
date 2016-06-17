@@ -27,7 +27,9 @@ class ActionTakenType
     const INSTAGRAM_CONVERTED = 'instagram embed code was converted to the amp-instagram tag.';
     const PINTEREST_CONVERTED = 'pinterest embed code was converted to the amp-pinterest tag.';
     const VINE_CONVERTED = 'vine embed code was converted to the amp-vine tag.';
-    const FACEBOOK_CONVERTED = 'facebook embed code was converted to the amp-facebook tag.';
+    const FACEBOOK_IFRAME_CONVERTED = 'facebook embed code was converted to the amp-facebook tag.';
+    const FACEBOOK_JSDK_CONVERTED = 'facebook javascript sdk embed code was converted to the amp-facebook tag.';
+    const FACEBOOK_SCRIPT_REMOVED = 'facebook script tag was removed.';
     const VIMEO_CONVERTED = 'vimeo embed code was converted to the amp-vimeo tag.';
     const DAILYMOTION_CONVERTED = 'dailymotion embed code was converted to the amp-dailymotion tag.';
     const TWITTER_CONVERTED = 'twitter embed code was converted to the amp-twitter tag.';
