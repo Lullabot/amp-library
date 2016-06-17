@@ -38,8 +38,9 @@ class ActionTakenLine
      * @param string $action
      * @param string|number $lineno
      * @param string $context_string
+     * @param string $error
      */
-    public function __construct($tag_attr_description, $action, $lineno, $context_string = '')
+    public function __construct($tag_attr_description, $action, $lineno, $context_string = '', $error = '')
     {
         $this->tag_attr_description = $tag_attr_description;
         $this->action_taken = $action;
@@ -51,6 +52,9 @@ class ActionTakenLine
         } else {
             $this->human_description = $context_string . " at line $lineno" . PHP_EOL;
             $this->human_description .= " ACTION TAKEN: $tag_attr_description " . $this->action_taken;
+        }
+        if (!empty($error)) {
+            $this->human_description .= PHP_EOL. " ERROR: $error";
         }
     }
 }
