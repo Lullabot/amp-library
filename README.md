@@ -18,7 +18,7 @@ The AMP PHP Library is an open source and pure PHP Library that:
        - The "correction" of the input HTML to make it more compliant with the AMP HTML standard is currently basic. The library does a decent job of _removing_ bad things but does not _add_ tags, attributes or property-value pairs where it could "fix" things
        - The library needs to be provided with well formed HTML / HTML5. Please don't give it faulty, incorrect html (e.g. non closed `<div>` tags etc). The correction it does is related to AMP HTML standard issues only. Use a HTML tidying library if you expect your HTML to be malformed.
  - Converts some non-amp elements to their AMP equivalents automatically
-    - A `<img>` tag is automatically converted to an `<amp-img>` tag
+    - A `<img>` tag is converted to an `<amp-img>` tag
     - A `<iframe>` tag is converted to an `<amp-iframe>` tag
     - A [`<audio>`](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/audio-to-amp-audio-conversion-fragment.html) tag is converted to an `<amp-audio>` tag
     - A [`<video>`](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/video-fragment-and-placeholder-test.html) tag is converted to an `<amp-video>` tag
@@ -31,7 +31,6 @@ The AMP PHP Library is an open source and pure PHP Library that:
     - [Vimeo embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/vimeo-fragment.html) for videos is converted to an `<amp-vimeo>` tag
     - [Vine embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/vine-fragment.html) for videos is converted to an `<amp-vine>` tag
     - Facebook [iframe](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/facebook-iframe-fragment.html) and [Javascript SDK](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/facebook-non-iframe-fragment.html) embed code for posts and videos is converted to an `<amp-facebook>` tag
-    - [Vine embed code](https://github.com/Lullabot/amp-library/blob/master/tests/test-data/fragment-html/vine-fragment.html) for videos is converted to an `<amp-vine>` tag
     - _Notes_: 
        - Some of these embed code conversions may not have the advanced features you may require. File an issue if you need enhancements to the functionality already provided or new embed code conversions
        - Some of the embed codes have an associated `<script>` tag. These conversions will work even if no `<script>` tag was added to your HTML document. The AMP library will add the appropriate AMP component `<script>` tag to the `<head>` if it is provided a full html document.
