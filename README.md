@@ -68,7 +68,7 @@ $ vendor/bin/phpunit tests
 
 To use this in your composer based PHP project, refer to [composer docs here](https://getcomposer.org/doc/05-repositories.md#loading-a-package-from-a-vcs-repository) to make changes to your `composer.json`
 
-Or you can simply do `$ composer require lullabot/amp:"1.0.*"` to fetch the library from [here](https://packagist.org/packages/lullabot/amp) and automatically update your `composer.json`
+Or you can simply do `$ composer require lullabot/amp:"^1.0.0-RC1"` to fetch the library from [here](https://packagist.org/packages/lullabot/amp) and automatically update your `composer.json`
 
 ##### Advanced
 Should you wish to follow the bleeding edge you can do `$ composer require lullabot/amp:"dev-master"`. Note that this will create a `.git` folder in `vendor/lullabot/amp`. If you want to avoid that,  do `$ composer require lullabot/amp:"dev-master" --prefer-dist`
