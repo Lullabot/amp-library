@@ -89,9 +89,7 @@
 
 <template type="amp-mustache">
   <div>
-    <template type="amp-mustache">
-      Nested Template tags are not allowed.
-    </template>
+    
   </div>
 </template>
 
@@ -338,6 +336,7 @@ FAIL
 <template type="amp-mustache"> on line 95
 - The tag 'template' may not appear as a descendant of tag 'template'.
    [code: DISALLOWED_TAG_ANCESTOR  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: template tag was removed due to validation issues.
 
 <amp-audio src="https://example.com/audio" layout="fixed" autoplay="{{invalid}}"> on line 107
 - The attribute 'autoplay' in tag 'amp-audio' is set to the invalid value '{{invalid}}'.

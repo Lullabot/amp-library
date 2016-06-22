@@ -55,7 +55,7 @@
     <source src="https://example.com/island-of-lemurs.mp4" type="video/mp4">
   </amp-video>
   <!-- Invalid: nested noscript tags don't correctly parse. -->
-  <noscript> <noscript> </noscript> </noscript>
+  <noscript>  </noscript>
 </body>
 
 </html>
@@ -158,6 +158,7 @@ FAIL
 <noscript> on line 61
 - The tag 'noscript' may not appear as a descendant of tag 'noscript'.
    [code: DISALLOWED_TAG_ANCESTOR  category: GENERIC]
+   ACTION TAKEN: noscript tag was removed due to validation issues.
 
 GLOBAL WARNING
 - The tag 'amp-audio extension .js script' is missing or incorrect, but required by 'amp-audio'.
