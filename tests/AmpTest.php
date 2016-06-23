@@ -41,7 +41,11 @@ class AmpTest extends PHPUnit_Framework_TestCase
     {
         $options = $this->amp->getOptionsFromStandardOptionFile($test_filename);
         $output = $this->amp->consoleOutput($test_filename, $options, $fragment, true, true);
-        $expected_output = file_get_contents("$test_filename.out");
+        $expected_output = @file_get_contents("$test_filename.out");
+        if ($expected_output === false) {
+            // An out file does not exist, skip this test
+            $this->markTestSkipped("$test_filename.out file does not exist. Skipping test.");
+        }
         $this->assertEquals($expected_output, $output);
     }
 
