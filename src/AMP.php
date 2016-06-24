@@ -62,6 +62,7 @@ class AMP
         'Lullabot\AMP\Pass\FacebookNonIframeTransformPass',
         'Lullabot\AMP\Pass\TwitterTransformPass',
         'Lullabot\AMP\Pass\StandardScanPass',
+        'Lullabot\AMP\Pass\MinimumValidFixPass',
         'Lullabot\AMP\Pass\StandardFixPass',
         'Lullabot\AMP\Pass\StatisticsPass'
     ];

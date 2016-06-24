@@ -46,6 +46,8 @@ class SValidationError extends ValidationError
     public $action_taken = null;
     /** @var float */
     public $time_stamp;
+    /** Was the error resolved? @var bool */
+    public $resolved = false;
 
     public function __construct()
     {

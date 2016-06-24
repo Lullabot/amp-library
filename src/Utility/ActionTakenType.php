@@ -41,4 +41,6 @@ class ActionTakenType
     const VIDEO_CONVERTED = 'tag was converted to the amp-video tag.';
     const BLACKLISTED_TAG_REMOVED = 'and was removed as it matched a user submitted CSS selector blacklist.';
     const BAD_BLACKLIST_CSS_SELECTOR = 'is a bad CSS selector for tag blacklisting. Ignoring.';
+    const TAG_ADDED = 'tag was added to the document.';
+    const CDATA_ADDED_MODIFIED = 'CDATA was added or modified to fit requirements.';
 }
