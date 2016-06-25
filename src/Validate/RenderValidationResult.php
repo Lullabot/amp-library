@@ -20,6 +20,7 @@ namespace Lullabot\AMP\Validate;
 use Lullabot\AMP\Spec\ErrorCategoryCode;
 use Lullabot\AMP\Spec\ValidationError;
 use Lullabot\AMP\Spec\ValidationErrorCode;
+use Lullabot\AMP\Spec\ValidationResultStatus;
 
 /**
  * Class RenderValidationResult
@@ -35,6 +36,7 @@ class RenderValidationResult
 {
     /** @var string[] */
     public $format_by_code;
+    public $grouped_validation_result;
 
     public function __construct(array $format_by_code)
     {
@@ -141,7 +143,7 @@ class RenderValidationResult
      * Corresponds to amp.validator.renderValidationResult() in validator.js
      * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
      *
-     * Ported into this class for convenience as a member function
+     * The implementation here is different from the one in validator.js. We're doing some grouping.
      *
      * @param SValidationResult $validation_result
      * @param string $filename_or_url
@@ -149,35 +151,67 @@ class RenderValidationResult
      */
     public function renderValidationResult(SValidationResult $validation_result, $filename_or_url = '')
     {
-        $this->annotateWithErrorCategories($validation_result);
-        $this->sortValidationWarningsByLineno($validation_result);
-        /** @var string $rendered */
-        if (empty($validation_result->errors)) {
-            $rendered = 'PASS' . PHP_EOL;
-        } else {
-            $rendered = $validation_result->status . PHP_EOL;
-        }
-        /** @var SValidationError $validation_error */
-        $last_context_string = null;
-        $last_dom_tag = null;
-        $last_line_num = -1;
-        foreach ($validation_result->errors as $validation_error) {
-            if (($validation_error->phase == Phase::LOCAL_PHASE && !empty($last_dom_tag) && !$validation_error->dom_tag->isSameNode($last_dom_tag)) ||
-                ($last_context_string !== $validation_error->context_string) ||
-                ($validation_error->line !== $last_line_num)
-            ) {
-                if ($validation_error->context_string == 'GLOBAL WARNING') {
-                    $rendered .= PHP_EOL . 'GLOBAL WARNING' . PHP_EOL;
-                } else {
-                    $rendered .= PHP_EOL . $validation_error->context_string . " on line $validation_error->line" . PHP_EOL;
-                }
-                $last_context_string = $validation_error->context_string;
-                $last_dom_tag = $validation_error->dom_tag;
+        $grouped_validation_result = $this->groupValidationResult($validation_result, $filename_or_url);
+        $rendered = $grouped_validation_result->status . PHP_EOL;
+
+        /** @var GroupedValidationError $group_validation_error */
+        foreach ($grouped_validation_result->grouped_validation_errors as $group_validation_error) {
+            if ($group_validation_error->context_string == 'GLOBAL WARNING') {
+                $rendered .= PHP_EOL . 'GLOBAL WARNING' . PHP_EOL;
+            } else {
+                $rendered .= PHP_EOL . $group_validation_error->context_string . " on line $group_validation_error->line" . PHP_EOL;
             }
-            $rendered .= $this->errorLine($validation_error, $filename_or_url) . PHP_EOL;
-            $last_line_num = $validation_error->line;
+
+            foreach ($group_validation_error->validation_errors as $validation_error) {
+                $rendered .= $this->errorLine($validation_error, $filename_or_url) . PHP_EOL;
+            }
         }
         return $rendered;
+    }
+
+    /**
+     * @param SValidationResult $validation_result
+     * @param string $filename_or_url
+     * @return GroupedValidationResult
+     */
+    public function groupValidationResult(SValidationResult $validation_result, $filename_or_url = '')
+    {
+        $this->annotateWithErrorCategories($validation_result);
+        $this->sortValidationWarningsByLineno($validation_result);
+        $group_validation_result = new GroupedValidationResult();
+        /** @var string $rendered */
+        if (empty($validation_result->errors)) {
+            $group_validation_result->status = ValidationResultStatus::PASS;
+        } else {
+            $group_validation_result->status = $validation_result->status;
+        }
+
+        /** @var SValidationError $validation_error */
+        $group_context_string = null;
+        $group_dom_tag = null;
+        $group_line_num = -1;
+        $group_validation_error = null;
+        foreach ($validation_result->errors as $validation_error) {
+            if ((!empty($validation_error->dom_tag) &&
+                    !empty($group_dom_tag) &&
+                    !$validation_error->dom_tag->isSameNode($group_dom_tag)) ||
+                ($group_context_string !== $validation_error->context_string) ||
+                ($validation_error->line !== $group_line_num)
+            ) {
+                $group_line_num = $validation_error->line;
+                $group_context_string = $validation_error->context_string;
+                $group_dom_tag = $validation_error->dom_tag;
+                $group_validation_error = new GroupedValidationError($group_context_string, $group_line_num, $group_dom_tag, $validation_error->phase);
+                $group_validation_result->grouped_validation_errors[] = $group_validation_error;
+            }
+            assert($group_context_string == $validation_error->context_string);
+            assert($group_validation_error !== null);
+            assert($group_line_num == $validation_error->line);
+            $group_validation_error->addValidationError($validation_error);
+            $group_line_num = $validation_error->line;
+        }
+
+        return $group_validation_result;
     }
 
     protected function sortValidationWarningsByLineno(SValidationResult $result)
@@ -192,8 +226,6 @@ class RenderValidationResult
                 $result = $error_1->time_stamp < $error_2->time_stamp ? -1 : 1;
                 return $result;
             }
-
-            return 0;
         });
     }
 
