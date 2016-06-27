@@ -18,10 +18,16 @@
 namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Spec\ValidationErrorCode;
+use Lullabot\AMP\Validate\GroupedValidationError;
+use Lullabot\AMP\Validate\GroupedValidationResult;
 use Lullabot\AMP\Validate\SValidationError;
 use Lullabot\AMP\Utility\ActionTakenLine;
 use Lullabot\AMP\Utility\ActionTakenType;
 use QueryPath\DOMQuery;
+use Lullabot\AMP\Validate\Phase;
+use Lullabot\AMP\Spec\ValidationResultStatus;
+use Lullabot\AMP\Validate\SValidationResult;
+use Lullabot\AMP\Validate\Context;
 
 /**
  * Class MinimumValidFixPass
@@ -69,14 +75,30 @@ class MinimumValidFixPass extends BasePass
             '<style amp-boilerplate="">body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>'],
     ];
 
-    // CDATA components in head
-    protected $cdata_components = [
-        'noscript > style[amp-boilerplate]' => 'body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}',
-        'head > style[amp-boilerplate]' => 'body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}'
-    ];
-
     public function pass()
     {
+        $local_context = new Context($this->context->getErrorScope(), $this->context->getOptions());
+
+        // Set the phase to LOCAL_PHASE before starting out
+        $local_context->setPhase(Phase::LOCAL_PHASE);
+
+        $temp_validation_result = new SValidationResult();
+        $temp_validation_result->status = ValidationResultStatus::FAIL;
+
+        // Re-validate all the tags
+        $all_tags = $this->q->find('*')->get();
+        /** @var \DOMElement $tag */
+        foreach ($all_tags as $tag) {
+            $local_context->attachDomTag($tag);
+            $this->parsed_rules->validateTag($local_context, $tag->nodeName, $this->encounteredAttributes($tag), $temp_validation_result);
+            $this->parsed_rules->validateTagOnExit($local_context, $temp_validation_result);
+            $local_context->detachDomTag();
+        }
+
+        $temp_validation_result_global_errors = new SValidationResult();
+        $this->parsed_rules->maybeEmitGlobalTagValidationErrors($local_context, $temp_validation_result_global_errors, $this);
+
+        // Add <head>, <body>, <noscript> tags if necessary
         foreach ($this->components as $tagname => $details) {
             $parent_path = $details[0];
             $description = $details[1];
@@ -96,9 +118,8 @@ class MinimumValidFixPass extends BasePass
 
         // Now go ahead and create any head components
         /** @var SValidationError $error */
-        foreach ($this->validation_result->errors as $error) {
-            if ($error->line === PHP_INT_MAX &&
-                $error->code === ValidationErrorCode::MANDATORY_TAG_MISSING &&
+        foreach ($temp_validation_result_global_errors->errors as $error) {
+            if ($error->code === ValidationErrorCode::MANDATORY_TAG_MISSING &&
                 !empty($error->params[0]) &&
                 isset($this->head_components[$error->params[0]]) &&
                 !$error->resolved
@@ -108,15 +129,80 @@ class MinimumValidFixPass extends BasePass
                 $parent_path = $this->head_components[$tag_description][0];
 
                 $this->q->find($parent_path)->append($tag_html);
-                $error->addActionTaken(new ActionTakenLine($tag_description, ActionTakenType::TAG_ADDED));
+                $this->addActionTakenInCorrectLocation($tag_description, new ActionTakenLine($tag_description, ActionTakenType::TAG_ADDED));
                 $error->resolved = true;
             }
         }
 
-        // Fix any incorrect boilerplate CDATA
-        $this->fixBoilerPlateCDATA();
+        /** @var SValidationError[] $current_global_warnings */
+        $current_global_warnings = $this->getCurrentGlobalWarnings();
+        foreach ($current_global_warnings as $error) {
+            if ($error->code === ValidationErrorCode::MANDATORY_TAG_MISSING &&
+                !empty($error->params[0]) &&
+                !$error->resolved
+            ) {
+                if (!$this->findSameError($error->params[0], $temp_validation_result_global_errors->errors)) {
+                    $error->addActionTaken(new ActionTakenLine('', ActionTakenType::ISSUE_RESOLVED));
+                    $error->resolved = true;
+                }
+            }
+        }
 
         return [];
+    }
+
+    /**
+     * @param string $tag_description
+     * @param SValidationError[] $global_errors
+     * @return bool
+     */
+    protected function findSameError($tag_description, $global_errors)
+    {
+        /** @var SValidationError $error */
+        foreach ($global_errors as $error) {
+            if ($error->code === ValidationErrorCode::MANDATORY_TAG_MISSING &&
+                !empty($error->params[0]) &&
+                $tag_description == $error->params[0]
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return SValidationError[]
+     */
+    protected function getCurrentGlobalWarnings()
+    {
+        /** @var GroupedValidationError $error */
+        foreach ($this->grouped_validation_result->grouped_validation_errors as $error) {
+            if ($error->context_string == 'GLOBAL WARNING') {
+                return $error->validation_errors;
+            }
+        }
+
+        return [];
+    }
+
+    /**
+     * @param $tag_description
+     * @param ActionTakenLine $a
+     * @return bool
+     */
+    protected function addActionTakenInCorrectLocation($tag_description, ActionTakenLine $a)
+    {
+        /** @var SValidationError $error */
+        foreach ($this->validation_result->errors as $error) {
+            if ($this->skipError($error, $tag_description)) {
+                continue;
+            }
+
+            $error->addActionTaken($a);
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -131,22 +217,12 @@ class MinimumValidFixPass extends BasePass
         $full_tag_path = "$parent_path > $tagname"; // e.g. html > head
         // First check, if tag exists, if not, then create it
         if (!$this->q->find($full_tag_path)->count()) {
-            /** @var SValidationError $error */
-            foreach ($this->validation_result->errors as $error) {
-                if ($this->skipError($error, $description)) {
-                    continue;
-                }
-
-                if ($prepend) {
-                    $this->q->find($parent_path)->prepend("<{$tagname}></{$tagname}>");
-                } else {
-                    $this->q->find($parent_path)->append("<{$tagname}></{$tagname}>");
-                }
-
-                $error->addActionTaken(new ActionTakenLine($tagname, ActionTakenType::TAG_ADDED));
-                $error->resolved = true;
-                break;
+            if ($prepend) {
+                $this->q->find($parent_path)->prepend("<{$tagname}></{$tagname}>");
+            } else {
+                $this->q->find($parent_path)->append("<{$tagname}></{$tagname}>");
             }
+            $this->addActionTakenInCorrectLocation($tagname, new ActionTakenLine($tagname, ActionTakenType::TAG_ADDED));
         }
     }
 
@@ -157,7 +233,7 @@ class MinimumValidFixPass extends BasePass
      */
     protected function skipError(SValidationError $error, $tagname)
     {
-        if ($error->line !== PHP_INT_MAX ||
+        if ($error->phase !== Phase::GLOBAL_PHASE ||
             $error->code !== ValidationErrorCode::MANDATORY_TAG_MISSING ||
             empty($error->params[0]) ||
             $error->params[0] !== $tagname
@@ -166,27 +242,5 @@ class MinimumValidFixPass extends BasePass
         }
 
         return false;
-    }
-
-    protected function fixBoilerPlateCDATA()
-    {
-        /** @var SValidationError $error */
-        foreach ($this->validation_result->errors as $error) {
-            if ($error->code === ValidationErrorCode::MANDATORY_CDATA_MISSING_OR_INCORRECT &&
-                !empty($error->params[0]) &&
-                !$error->resolved &&
-                !empty($error->dom_tag) &&
-                !empty($this->cdata_components[$error->params[0]])
-            ) {
-                $tag_description = $error->params[0];
-                $text_content = $this->cdata_components[$tag_description];
-
-                // Modify the existing CDATA
-                $el = new DOMQuery($error->dom_tag);
-                $el->text($text_content);
-                $error->addActionTaken(new ActionTakenLine($tag_description, ActionTakenType::CDATA_ADDED_MODIFIED));
-                $error->resolved = true;
-            }
-        }
     }
 }

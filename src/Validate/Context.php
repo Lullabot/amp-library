@@ -88,6 +88,10 @@ class Context
         $this->child_tag_matcher = new ChildTagMatcher(new TagSpec());
     }
 
+    public function getOptions() {
+        return $this->options;
+    }
+
     /**
      * @param CdataMatcher $matcher
      */
