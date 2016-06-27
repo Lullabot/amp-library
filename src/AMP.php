@@ -427,9 +427,9 @@ class AMP
             // Run the pass
             $pass->pass();
             $this->action_taken = array_merge($this->action_taken, $pass->getWarnings());
-            $this->component_js = array_merge($this->component_js, $pass->getComponentJs());
         }
 
+        $this->component_js = $this->context->getComponentJs();
         $this->sortActionTakeByLineno();
         $temp_amp_html = $this->getOutputHTML($qp);
         $this->amp_html = $this->addStatisticsIfEnabled($temp_amp_html);

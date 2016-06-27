@@ -316,7 +316,7 @@ class ParsedValidatorRules
                 $parsed_tag_spec_require = $this->all_parsed_specs_by_specs[$tagspec_require];
                 assert(!empty($parsed_tag_spec_require));
                 if (preg_match('/(*UTF8)extension \.js script$/i', $tagspec_require->spec_name)) {
-                    $base_pass->addComponent($parsed_tag_spec->getSpec()->tag_name);
+                    $context->addComponent($parsed_tag_spec->getSpec()->tag_name);
                 }
 
                 // Note that this comes after the addComponent call
