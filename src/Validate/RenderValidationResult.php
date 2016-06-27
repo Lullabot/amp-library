@@ -36,7 +36,6 @@ class RenderValidationResult
 {
     /** @var string[] */
     public $format_by_code;
-    public $grouped_validation_result;
 
     public function __construct(array $format_by_code)
     {
@@ -149,11 +148,9 @@ class RenderValidationResult
      * @param string $filename_or_url
      * @return string
      */
-    public function renderValidationResult(SValidationResult $validation_result, $filename_or_url = '')
+    public function renderValidationResult(GroupedValidationResult $grouped_validation_result, $filename_or_url = '')
     {
-        $grouped_validation_result = $this->groupValidationResult($validation_result, $filename_or_url);
         $rendered = $grouped_validation_result->status . PHP_EOL;
-
         /** @var GroupedValidationError $group_validation_error */
         foreach ($grouped_validation_result->grouped_validation_errors as $group_validation_error) {
             if ($group_validation_error->context_string == 'GLOBAL WARNING') {
@@ -165,6 +162,10 @@ class RenderValidationResult
             foreach ($group_validation_error->validation_errors as $validation_error) {
                 $rendered .= $this->errorLine($validation_error, $filename_or_url) . PHP_EOL;
             }
+
+            if (!empty($group_validation_error->action_taken)) {
+                $rendered .= $group_validation_error->action_taken->human_description . PHP_EOL;
+            }
         }
         return $rendered;
     }
@@ -172,13 +173,13 @@ class RenderValidationResult
     /**
      * @param SValidationResult $validation_result
      * @param string $filename_or_url
+     * @param GroupedValidationResult $group_validation_result
      * @return GroupedValidationResult
      */
-    public function groupValidationResult(SValidationResult $validation_result, $filename_or_url = '')
+    public function groupValidationResult(SValidationResult $validation_result, GroupedValidationResult $group_validation_result, $filename_or_url = '')
     {
         $this->annotateWithErrorCategories($validation_result);
         $this->sortValidationWarningsByLineno($validation_result);
-        $group_validation_result = new GroupedValidationResult();
         /** @var string $rendered */
         if (empty($validation_result->errors)) {
             $group_validation_result->status = ValidationResultStatus::PASS;

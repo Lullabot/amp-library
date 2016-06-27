@@ -18,6 +18,7 @@
 namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Utility\ParseUrl;
+use Lullabot\AMP\Validate\GroupedValidationResult;
 use Lullabot\AMP\Validate\Scope;
 use Lullabot\AMP\Utility\ActionTakenLine;
 use Lullabot\AMP\Utility\ActionTakenType;
@@ -46,10 +47,10 @@ class ImgTagTransformPass extends BasePass
      */
     protected $fastimage;
 
-    function __construct(DOMQuery $q, Context $context, SValidationResult $validation_result, ParsedValidatorRules $parsed_rules, array $options)
+    function __construct(DOMQuery $q, Context $context, SValidationResult $validation_result, GroupedValidationResult $grouped_validation_result, ParsedValidatorRules $parsed_rules, array $options)
     {
         $this->fastimage = new FastImageSize();
-        parent::__construct($q, $context, $validation_result, $parsed_rules, $options);
+        parent::__construct($q, $context, $validation_result, $grouped_validation_result, $parsed_rules, $options);
     }
 
     function pass()

@@ -18,6 +18,7 @@
 namespace Lullabot\AMP\Validate;
 
 use Lullabot\AMP\Spec\ValidationError;
+use Lullabot\AMP\Utility\ActionTakenLine;
 
 /**
  * Class GroupedValidationError
@@ -30,11 +31,18 @@ use Lullabot\AMP\Spec\ValidationError;
  */
 class GroupedValidationError
 {
+    /** @var string */
     public $context_string;
+    /** @var \DOMElement */
     public $dom_tag;
+    /** @var int */
     public $line;
+    /** @var SValidationError[] */
     public $validation_errors = [];
+    /** @var string */
     public $phase;
+    /** @var ActionTakenLine $action_taken */
+    public $action_taken = null;
 
     public function __construct($context_string, $line = PHP_INT_MAX, $dom_tag = null, $phase = Phase::LOCAL_PHASE)
     {
@@ -51,4 +59,13 @@ class GroupedValidationError
     {
         $this->validation_errors[] = $validation_error;
     }
+
+    /**
+     * @param ActionTakenLine $a
+     */
+    public function addGroupActionTaken(ActionTakenLine $a)
+    {
+        $this->action_taken = $a;
+    }
+
 }

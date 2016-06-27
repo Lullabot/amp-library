@@ -19,6 +19,7 @@ namespace Lullabot\AMP;
 
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Utility\AMPHTML5;
+use Lullabot\AMP\Validate\GroupedValidationResult;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
 use Lullabot\AMP\Pass\BasePass;
@@ -80,7 +81,9 @@ class AMP
     /** @var Context */
     protected $context = null;
     /** @var  SValidationResult */
-    protected $validation_result = null;
+    protected $validation_result;
+    /** @var GroupedValidationResult */
+    protected $grouped_validation_result;
     /** @var string */
     protected $scope = Scope::BODY_SCOPE;
     /** @var string[] */
@@ -222,6 +225,7 @@ class AMP
         $this->component_js = [];
         $this->validation_result = new SValidationResult();
         $this->validation_result->status = ValidationResultStatus::FAIL;
+        $this->grouped_validation_result = new GroupedValidationResult();
         $this->context = null;
         $this->scope = Scope::BODY_SCOPE;
     }
@@ -417,7 +421,7 @@ class AMP
 
             // Each of the $qp objects are pointing to the same DOMDocument
             /** @var BasePass $pass */
-            $pass = (new $pass_name($qp_branch, $this->context, $this->validation_result, $this->parsed_rules, $this->options));
+            $pass = (new $pass_name($qp_branch, $this->context, $this->validation_result, $this->grouped_validation_result, $this->parsed_rules, $this->options));
 
             // Run the pass
             $pass->pass();
@@ -505,7 +509,7 @@ class AMP
         /** @var RenderValidationResult $render_validation_result */
         $render_validation_result = new RenderValidationResult($this->parsed_rules->format_by_code);
         $filename = !empty($this->options['filename']) ? $this->options['filename'] : '';
-        return $render_validation_result->renderValidationResult($this->validation_result, $filename);
+        return $render_validation_result->renderValidationResult($this->grouped_validation_result, $filename);
     }
 
     /**

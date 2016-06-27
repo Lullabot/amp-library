@@ -19,6 +19,7 @@ namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Spec\AmpLayoutLayout;
 use Lullabot\AMP\Utility\ParseUrl;
+use Lullabot\AMP\Validate\GroupedValidationResult;
 use Lullabot\AMP\Validate\ParsedTagSpec;
 use Lullabot\AMP\Validate\ParsedValidatorRules;
 use Lullabot\AMP\Validate\Scope;
@@ -43,6 +44,8 @@ abstract class BasePass
     protected $context;
     /** @var SValidationResult */
     protected $validation_result;
+    /** @var  GroupedValidationResult */
+    protected $grouped_validation_result;
 
     protected static $component_mappings = [
         'amp-analytics' => 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js',
@@ -78,13 +81,14 @@ abstract class BasePass
      * @param ParsedValidatorRules $parsed_rules
      * @param array $options
      */
-    function __construct(DOMQuery $q, Context $context, SValidationResult $validation_result, ParsedValidatorRules $parsed_rules, $options = [])
+    function __construct(DOMQuery $q, Context $context, SValidationResult $validation_result, GroupedValidationResult $grouped_validation_result, ParsedValidatorRules $parsed_rules, $options = [])
     {
         $this->q = $q;
         $this->parsed_rules = $parsed_rules;
         $this->options = $options;
         $this->context = $context;
         $this->validation_result = $validation_result;
+        $this->grouped_validation_result = $grouped_validation_result;
     }
 
     function getWarnings()
