@@ -1,0 +1,4 @@
+{
+  "_readme" : "requires_internet is just for information for the test runner and has no significance for the functioning of library",
+  "requires_internet": "true"
+}
