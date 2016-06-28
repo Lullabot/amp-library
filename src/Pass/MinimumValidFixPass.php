@@ -77,6 +77,11 @@ class MinimumValidFixPass extends BasePass
 
     public function pass()
     {
+        // Only run this pass if we have some errors that we can try to fix
+        if ($this->noFixableGlobalErrors()) {
+            return [];
+        }
+
         // Add <head>, <body>, <noscript> tags if necessary
         foreach ($this->components as $tagname => $details) {
             $parent_path = $details[0];
@@ -120,7 +125,7 @@ class MinimumValidFixPass extends BasePass
         // Now go ahead and create any head components
         /** @var SValidationError $error */
         foreach ($temp_validation_result_global_errors->errors as $error) {
-            if ($error->code === ValidationErrorCode::MANDATORY_TAG_MISSING &&
+            if (in_array($error->code, [ValidationErrorCode::MANDATORY_TAG_MISSING, ValidationErrorCode::TAG_REQUIRED_BY_MISSING]) &&
                 !empty($error->params[0]) &&
                 isset($this->head_components[$error->params[0]]) &&
                 !$error->resolved
@@ -140,7 +145,7 @@ class MinimumValidFixPass extends BasePass
         /** @var SValidationError[] $current_global_warnings */
         $current_global_warnings = $this->getCurrentGlobalWarnings();
         foreach ($current_global_warnings as $error) {
-            if ($error->code === ValidationErrorCode::MANDATORY_TAG_MISSING &&
+            if (in_array($error->code, [ValidationErrorCode::MANDATORY_TAG_MISSING, ValidationErrorCode::TAG_REQUIRED_BY_MISSING]) &&
                 !empty($error->params[0]) &&
                 !$error->resolved
             ) {
@@ -163,7 +168,7 @@ class MinimumValidFixPass extends BasePass
     {
         /** @var SValidationError $error */
         foreach ($global_errors as $error) {
-            if ($error->code === ValidationErrorCode::MANDATORY_TAG_MISSING &&
+            if (in_array($error->code, [ValidationErrorCode::MANDATORY_TAG_MISSING, ValidationErrorCode::TAG_REQUIRED_BY_MISSING]) &&
                 !empty($error->params[0]) &&
                 $tag_description == $error->params[0]
             ) {
@@ -209,6 +214,24 @@ class MinimumValidFixPass extends BasePass
         return false;
     }
 
+
+    /**
+     * @return bool
+     */
+    protected function noFixableGlobalErrors()
+    {
+        /** @var SValidationError $error */
+        foreach ($this->validation_result->errors as $error) {
+            if ($error->context_string == AMP::AMP_GLOBAL_WARNING &&
+                in_array($error->code, [ValidationErrorCode::MANDATORY_TAG_MISSING, ValidationErrorCode::TAG_REQUIRED_BY_MISSING]) &&
+                !empty($error->params[0])
+            ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * @param string $tagname
      * @param string $parent_path
@@ -239,7 +262,7 @@ class MinimumValidFixPass extends BasePass
     protected function skipError(SValidationError $error, $tagname)
     {
         if ($error->phase !== Phase::GLOBAL_PHASE ||
-            $error->code !== ValidationErrorCode::MANDATORY_TAG_MISSING ||
+            !in_array($error->code, [ValidationErrorCode::MANDATORY_TAG_MISSING, ValidationErrorCode::TAG_REQUIRED_BY_MISSING]) ||
             empty($error->params[0]) ||
             $error->params[0] !== $tagname
         ) {
