@@ -19,11 +19,11 @@
     attributes.
 --><html amp><head>
   <meta charset="utf-8">
-  <link rel="canonical">
+  
   <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
   <script src="https://cdn.ampproject.org/v0.js" async></script>
-<link rel="canonical" href="./unknown-canonical-path.html"></head>
+</head>
 <body>
   <a href="https://google.com/">Valid URL</a>
   <a href=" http://google.com/ ">Valid URL</a>
@@ -182,6 +182,7 @@ FAIL
 - Invalid URL protocol 'javascript:' for attribute 'href' in tag 'link rel=canonical'.
    [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
    ACTION TAKEN: link.href attribute was removed due to validation issues.
+- FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 <a href="https://"> on line 37
 - Malformed URL 'https://' for attribute 'href' in tag 'a'.
@@ -306,7 +307,6 @@ FAIL
 GLOBAL WARNING
 - The mandatory tag 'link rel=canonical' is missing or incorrect.
    [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
-   ACTION TAKEN: link rel=canonical tag was added to the document.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
