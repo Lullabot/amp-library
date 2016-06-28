@@ -145,7 +145,8 @@ abstract class BasePass
             return false;
         }
 
-        $new_script = $head->append('<script></script>')->lastChild();
+        // Add new line to just make it look good in the html
+        $new_script = $head->append('  <script></script>' . PHP_EOL)->lastChild();
         $new_script->attr('async', '');
         $new_script->attr('custom-element', $component);
         $new_script->attr('src', Context::$component_mappings[$component]);
