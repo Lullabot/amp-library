@@ -166,7 +166,7 @@ class RenderValidationResult
 
             if (!empty($group_validation_error->action_taken)) {
                 // This becomes FINAL ACTION TAKEN
-                $rendered .= 'FINAL ' . $group_validation_error->action_taken->human_description . PHP_EOL;
+                $rendered .= '- FINAL ' . $group_validation_error->action_taken->human_description . PHP_EOL;
             }
         }
         return $rendered;

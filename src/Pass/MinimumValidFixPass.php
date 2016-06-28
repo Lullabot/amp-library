@@ -77,6 +77,19 @@ class MinimumValidFixPass extends BasePass
 
     public function pass()
     {
+        // Add <head>, <body>, <noscript> tags if necessary
+        foreach ($this->components as $tagname => $details) {
+            $parent_path = $details[0];
+            $description = $details[1];
+            if ($tagname == 'head') {
+                $this->addTagIfNotExists($tagname, $parent_path, $description, true);
+            } else {
+                $this->addTagIfNotExists($tagname, $parent_path, $description);
+            }
+        }
+
+        // Re-validate document
+        // Start revalidate
         $local_context = new Context($this->context->getErrorScope(), $this->context->getOptions());
 
         // Set the phase to LOCAL_PHASE before starting out
@@ -97,23 +110,11 @@ class MinimumValidFixPass extends BasePass
 
         $temp_validation_result_global_errors = new SValidationResult();
         $this->parsed_rules->maybeEmitGlobalTagValidationErrors($local_context, $temp_validation_result_global_errors, $this);
+        // End revalidate
 
-        // Add <head>, <body>, <noscript> tags if necessary
-        foreach ($this->components as $tagname => $details) {
-            $parent_path = $details[0];
-            $description = $details[1];
-            if ($tagname == 'head') {
-                $this->addTagIfNotExists($tagname, $parent_path, $description, true);
-            } else {
-                $this->addTagIfNotExists($tagname, $parent_path, $description);
-            }
-        }
-
-        // Set the canonical path
+        // Allow the canonical path to be inserted, if available
         if (isset($this->options['canonical_path'])) {
             $this->head_components['link rel=canonical'] = ['html > head', "<link rel='canonical' href='{$this->options['canonical_path']}'></link>"];
-        } else {
-            $this->head_components['link rel=canonical'] = ['html > head', "<link rel='canonical' href='./unknown-canonical-path.html'></link>"];
         }
 
         // Now go ahead and create any head components
@@ -128,12 +129,14 @@ class MinimumValidFixPass extends BasePass
                 $tag_html = $this->head_components[$tag_description][1];
                 $parent_path = $this->head_components[$tag_description][0];
 
-                $this->q->find($parent_path)->append($tag_html);
+                // Add a new line after so that it looks good when being printed out
+                $this->q->find($parent_path)->append($tag_html . PHP_EOL);
                 $this->addActionTakenInCorrectLocation($tag_description, new ActionTakenLine($tag_description, ActionTakenType::TAG_ADDED));
                 $error->resolved = true;
             }
         }
 
+        // This block of code marks issues as resolved if they got fixed by the StandardFixPass or the StandardFixPassTwo
         /** @var SValidationError[] $current_global_warnings */
         $current_global_warnings = $this->getCurrentGlobalWarnings();
         foreach ($current_global_warnings as $error) {
@@ -199,6 +202,7 @@ class MinimumValidFixPass extends BasePass
             }
 
             $error->addActionTaken($a);
+            $error->resolved = true;
             return true;
         }
 
@@ -217,12 +221,13 @@ class MinimumValidFixPass extends BasePass
         $full_tag_path = "$parent_path > $tagname"; // e.g. html > head
         // First check, if tag exists, if not, then create it
         if (!$this->q->find($full_tag_path)->count()) {
+            // Add a new line so that it looks good when being printed out
             if ($prepend) {
-                $this->q->find($parent_path)->prepend("<{$tagname}></{$tagname}>");
+                $this->q->find($parent_path)->prepend("<{$tagname}>" . PHP_EOL . "</{$tagname}>" . PHP_EOL);
             } else {
-                $this->q->find($parent_path)->append("<{$tagname}></{$tagname}>");
+                $this->q->find($parent_path)->append("<{$tagname}>" . PHP_EOL . "</{$tagname}>" . PHP_EOL);
             }
-            $this->addActionTakenInCorrectLocation($tagname, new ActionTakenLine($tagname, ActionTakenType::TAG_ADDED));
+            $this->addActionTakenInCorrectLocation($description, new ActionTakenLine($tagname, ActionTakenType::TAG_ADDED));
         }
     }
 
