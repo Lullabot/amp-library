@@ -23,12 +23,14 @@ use Lullabot\AMP\AMP;
  */
 class AmpTest extends PHPUnit_Framework_TestCase
 {
-    /** @var AMP|null */
+    /** @var AMP */
     protected $amp = null;
+    protected $skip_internet = false;
 
     public function setup()
     {
         $this->amp = new AMP();
+        $this->skip_internet = getenv('AMP_TEST_SKIP_INTERNET');
     }
 
     /**
@@ -45,6 +47,10 @@ class AmpTest extends PHPUnit_Framework_TestCase
         if ($expected_output === false) {
             // An out file does not exist, skip this test
             $this->markTestSkipped("$test_filename.out file does not exist. Skipping test.");
+        }
+
+        if (!empty($this->skip_internet) && !empty($options['requires_internet'])) {
+            $this->markTestSkipped("Skipping test as it requires internet and AMP_TEST_SKIP_INTERNET environment variable is set.");
         }
         $this->assertEquals($expected_output, $output);
     }
