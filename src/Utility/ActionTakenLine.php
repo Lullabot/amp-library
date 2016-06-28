@@ -36,7 +36,7 @@ class ActionTakenLine
      * ActionTakenLine constructor.
      * @param string $tag_attr_description
      * @param string $action
-     * @param string|number $lineno
+     * @param string|int $lineno
      * @param string $context_string
      * @param string $error
      */

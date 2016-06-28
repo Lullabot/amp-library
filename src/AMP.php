@@ -43,6 +43,7 @@ use QueryPath\DOMQuery;
 class AMP
 {
     const AMP_LINENUM_ATTRIBUTE = 'data-amp-library-linenum';
+    const AMP_GLOBAL_WARNING = 'GLOBAL WARNING';
 
     // The StandardScanPass should be first after all transform passes
     // The StandardFixPass should be after StandardScanPass

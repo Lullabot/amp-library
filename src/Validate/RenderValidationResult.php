@@ -21,6 +21,7 @@ use Lullabot\AMP\Spec\ErrorCategoryCode;
 use Lullabot\AMP\Spec\ValidationError;
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Spec\ValidationResultStatus;
+use Lullabot\AMP\AMP;
 
 /**
  * Class RenderValidationResult
@@ -144,7 +145,7 @@ class RenderValidationResult
      *
      * The implementation here is different from the one in validator.js. We're doing some grouping.
      *
-     * @param SValidationResult $validation_result
+     * @param GroupedValidationResult $grouped_validation_result
      * @param string $filename_or_url
      * @return string
      */
@@ -153,8 +154,8 @@ class RenderValidationResult
         $rendered = $grouped_validation_result->status . PHP_EOL;
         /** @var GroupedValidationError $group_validation_error */
         foreach ($grouped_validation_result->grouped_validation_errors as $group_validation_error) {
-            if ($group_validation_error->context_string == 'GLOBAL WARNING') {
-                $rendered .= PHP_EOL . 'GLOBAL WARNING' . PHP_EOL;
+            if ($group_validation_error->context_string == AMP::AMP_GLOBAL_WARNING) {
+                $rendered .= PHP_EOL . AMP::AMP_GLOBAL_WARNING . PHP_EOL;
             } else {
                 $rendered .= PHP_EOL . $group_validation_error->context_string . " on line $group_validation_error->line" . PHP_EOL;
             }
@@ -164,7 +165,8 @@ class RenderValidationResult
             }
 
             if (!empty($group_validation_error->action_taken)) {
-                $rendered .= '   ' . $group_validation_error->action_taken->human_description . PHP_EOL;
+                // This becomes FINAL ACTION TAKEN
+                $rendered .= 'FINAL ' . $group_validation_error->action_taken->human_description . PHP_EOL;
             }
         }
         return $rendered;

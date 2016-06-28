@@ -43,6 +43,6 @@ class ActionTakenType
     const BAD_BLACKLIST_CSS_SELECTOR = 'is a bad CSS selector for tag blacklisting. Ignoring.';
     const TAG_ADDED = 'tag was added to the document.';
     const CDATA_ADDED_MODIFIED = 'CDATA was added or modified to fit requirements.';
-    const TAG_REMOVED_FROM_HEAD_AFTER_REVALIDATE_FAILED = 'tag removed from head as these fixes did not help';
+    const TAG_REMOVED_FROM_HEAD_AFTER_REVALIDATE_FAILED = 'tag removed from head as it still does not validate. Could not fix tag validation problems.';
     const ISSUE_RESOLVED = 'no further action required as this issue was resolved due to an earlier fix';
 }

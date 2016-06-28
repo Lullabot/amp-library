@@ -19,7 +19,6 @@ namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Validate\GroupedValidationError;
-use Lullabot\AMP\Validate\GroupedValidationResult;
 use Lullabot\AMP\Validate\SValidationError;
 use Lullabot\AMP\Utility\ActionTakenLine;
 use Lullabot\AMP\Utility\ActionTakenType;
@@ -28,6 +27,7 @@ use Lullabot\AMP\Validate\Phase;
 use Lullabot\AMP\Spec\ValidationResultStatus;
 use Lullabot\AMP\Validate\SValidationResult;
 use Lullabot\AMP\Validate\Context;
+use Lullabot\AMP\AMP;
 
 /**
  * Class MinimumValidFixPass
@@ -177,7 +177,7 @@ class MinimumValidFixPass extends BasePass
     {
         /** @var GroupedValidationError $error */
         foreach ($this->grouped_validation_result->grouped_validation_errors as $error) {
-            if ($error->context_string == 'GLOBAL WARNING') {
+            if ($error->context_string == AMP::AMP_GLOBAL_WARNING) {
                 return $error->validation_errors;
             }
         }
