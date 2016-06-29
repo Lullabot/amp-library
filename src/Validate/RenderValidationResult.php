@@ -152,11 +152,8 @@ class RenderValidationResult
         $this->annotateWithErrorCategories($validation_result);
         $this->sortValidationWarningsByLineno($validation_result);
         /** @var string $rendered */
-        if (empty($validation_result->errors)) {
-            $rendered = 'PASS' . PHP_EOL;
-        } else {
-            $rendered = $validation_result->status . PHP_EOL;
-        }
+        $rendered = $validation_result->status . PHP_EOL;
+
         /** @var SValidationError $validation_error */
         $last_context_string = null;
         $last_dom_tag = null;

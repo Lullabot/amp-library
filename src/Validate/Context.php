@@ -400,8 +400,8 @@ class Context
     }
 
     /**
-     * @param $line
-     * @param $validation_error_code
+     * @param int|string $line
+     * @param string $validation_error_code
      * @param array $params
      * @param $spec_url
      * @param SValidationResult $validation_result
@@ -516,7 +516,6 @@ class Context
      */
     public static function severityFor($validation_error_code)
     {
-        // @todo make more error codes less severe as we're going to be able to fix some of them
         if ($validation_error_code === ValidationErrorCode::DEPRECATED_TAG) {
             return ValidationErrorSeverity::WARNING;
         } else if ($validation_error_code == ValidationErrorCode::DEPRECATED_ATTR) {

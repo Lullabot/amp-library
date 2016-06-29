@@ -259,6 +259,13 @@ class ParsedValidatorRules
         $result_for_best_attempt->status = $result_for_attempt->status;
         $result_for_best_attempt->errors = $result_for_attempt->errors;
 
+        /** @var TagSpec $spec */
+        $spec = $parsed_spec->getSpec();
+        if (!empty($spec->deprecation)) {
+            $context->addError(ValidationErrorCode::DEPRECATED_TAG, [ParsedTagSpec::getTagSpecName($spec), $spec->deprecation], $spec->deprecation_url, $result_for_best_attempt);
+            // don't return as its just a warning, see Context::severityFor()
+        }
+
         if ($parsed_spec->shouldRecordTagspecValidated()) {
             $is_unique = $context->recordTagspecValidated($parsed_spec);
             if ($parsed_spec->getSpec()->unique && $is_unique !== true) {
@@ -381,5 +388,16 @@ class ParsedValidatorRules
             return;
         }
         $this->maybeEmitMandatoryAlternativesSatisfiedErrors($context, $validation_result);
+    }
+
+    /**
+     * Call this at the end of the validation
+     * @param SValidationResult $validation_result
+     */
+    public function endValidation(SValidationResult $validation_result)
+    {
+        if ($validation_result->status == ValidationResultStatus::UNKNOWN) {
+            $validation_result->status = ValidationResultStatus::PASS;
+        }
     }
 }
