@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html amp><head>
+  <meta charset="utf-8">
+  <title>Twitter examples</title>
+  <link rel="canonical" href="amps.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet" type="text/css">
+  <style>body {opacity: 0}</style><noscript><style>body {opacity: 1}</style></noscript>
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+</head>
+<body>
+  <h1>AMP boilerplate</h1>
+  <h2>Testing if the old validator is still accepted.</h2>
+  <p>
+    "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+    "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+  </p>
+</body>
+
+</html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!doctype html>
+Line  2: <html ⚡>
+Line  3: <head>
+Line  4:   <meta charset="utf-8">
+Line  5:   <title>Twitter examples</title>
+Line  6:   <link rel="canonical" href="amps.html" >
+Line  7:   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+Line  8:   <link href='https://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+Line  9:   <style>body {opacity: 0}</style><noscript><style>body {opacity: 1}</style></noscript>
+Line 10:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line 11: </head>
+Line 12: <body>
+Line 13:   <h1>AMP boilerplate</h1>
+Line 14:   <h2>Testing if the old validator is still accepted.</h2>
+Line 15:   <p>
+Line 16:     "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+Line 17:     "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+Line 18:   </p>
+Line 19: </body>
+Line 20: </html>
+Line 21: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+<style> on line 9
+- The tag 'head > style[amp-boilerplate] - old variant' is deprecated - use 'head > style[amp-boilerplate]' instead.
+   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+
+<style> on line 9
+- The tag 'noscript > style[amp-boilerplate] - old variant' is deprecated - use 'noscript > style[amp-boilerplate]' instead.
+   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required

@@ -16,6 +16,7 @@ Note: An explicit commit is noted as these files can change.
 * `test-data/full-html/minimum_valid_amp.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/minimum_valid_amp.html
 * `test-data/full-html/no_custom_js.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/no_custom_js.html
 * `test-data/full-html/noscript.html` https://github.com/ampproject/amphtml/blob/e1aa24df8432963423ee6cec1ce4d57529767e6e/validator/testdata/feature_tests/noscript.html
+* `test-data/full-html/old-boilerplate.amp.html` https://github.com/ampproject/amphtml/blob/0a056ca50ac8cb9ba8e5a6489baeecb5ed958556/examples/old-boilerplate.amp.html
 * `test-data/full-html/regexps.html` https://github.com/ampproject/amphtml/blob/de471567c924ce51e401248ef69c001cee599cfc/validator/testdata/feature_tests/regexps.html 
   There is a slight custom modification made by us to this file (see our repo's 36c67aace ) and that is to close the `<amp-audio>` tags in the file that are not closed. This causes problems for PHP dom.
 * `test-data/full-html/several_errors.html` from https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/several_errors.html
