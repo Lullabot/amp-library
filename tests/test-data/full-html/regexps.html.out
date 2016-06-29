@@ -171,6 +171,8 @@ AMP-HTML Validation Issues and Fixes
 FAIL
 
 <style> on line 27
+- The tag 'head > style[amp-boilerplate] - old variant' is deprecated - use 'head > style[amp-boilerplate]' instead.
+   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
 - The mandatory text (CDATA) inside tag 'head > style[amp-boilerplate] - old variant' is missing or incorrect.
    [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
 
