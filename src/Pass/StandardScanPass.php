@@ -49,6 +49,7 @@ class StandardScanPass extends BasePass
         // This will be used by the StatisticsPass
         $this->context->setNumTagsProcessed($count);
         $this->parsed_rules->maybeEmitGlobalTagValidationErrors($this->context, $this->validation_result, $this);
+        $this->parsed_rules->endValidation($this->validation_result);
 
         // Group the errors generated in the scan
         /** @var RenderValidationResult $render_validation_result */

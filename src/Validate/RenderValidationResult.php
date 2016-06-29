@@ -182,12 +182,6 @@ class RenderValidationResult
     {
         $this->annotateWithErrorCategories($validation_result);
         $this->sortValidationWarningsByLineno($validation_result);
-        /** @var string $rendered */
-        if (empty($validation_result->errors)) {
-            $group_validation_result->status = ValidationResultStatus::PASS;
-        } else {
-            $group_validation_result->status = $validation_result->status;
-        }
 
         /** @var SValidationError $validation_error */
         $group_context_string = null;

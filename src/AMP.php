@@ -226,7 +226,7 @@ class AMP
         $this->options = [];
         $this->component_js = [];
         $this->validation_result = new SValidationResult();
-        $this->validation_result->status = ValidationResultStatus::FAIL;
+        $this->validation_result->status = ValidationResultStatus::UNKNOWN;
         $this->grouped_validation_result = new GroupedValidationResult();
         $this->context = null;
         $this->scope = Scope::BODY_SCOPE;
