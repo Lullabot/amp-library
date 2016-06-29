@@ -479,7 +479,7 @@ class Context
                 $error->dom_tag = $this->dom_tag;
                 $error->context_string = $this->getContextString($this->dom_tag);
             } else {
-                $error->context_string = "GLOBAL WARNING";
+                $error->context_string = AMP::AMP_GLOBAL_WARNING;
             }
 
             assert(isset($validation_result->errors));
