@@ -100,7 +100,7 @@ class MinimumValidFixPass extends BasePass
         $local_context->setPhase(Phase::LOCAL_PHASE);
 
         $temp_validation_result = new SValidationResult();
-        $temp_validation_result->status = ValidationResultStatus::FAIL;
+        $temp_validation_result->status = ValidationResultStatus::UNKNOWN;
 
         // Re-validate all the tags
         $all_tags = $this->q->find('*')->get();
@@ -113,7 +113,9 @@ class MinimumValidFixPass extends BasePass
         }
 
         $temp_validation_result_global_errors = new SValidationResult();
+        $temp_validation_result_global_errors->status = ValidationResultStatus::UNKNOWN;
         $this->parsed_rules->maybeEmitGlobalTagValidationErrors($local_context, $temp_validation_result_global_errors, $this);
+        $this->parsed_rules->endValidation($temp_validation_result_global_errors);
         // End revalidate
 
         // Allow the canonical path to be inserted, if available

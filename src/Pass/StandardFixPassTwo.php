@@ -40,7 +40,7 @@ class StandardFixPassTwo extends BasePass
         'noscript > style[amp-boilerplate]' => 'body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}',
         'head > style[amp-boilerplate]' => 'body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}',
         'noscript > style[amp-boilerplate] - old variant' => 'body {opacity: 1}',
-      //  'head > style[amp-boilerplate] - old variant' => 'body {opacity: 0}'
+        'head > style[amp-boilerplate] - old variant' => 'body {opacity: 0}'
     ];
 
     public function pass()
@@ -64,14 +64,17 @@ class StandardFixPassTwo extends BasePass
             }
 
             $test_validation_result = new SValidationResult();
-            $test_validation_result->status = ValidationResultStatus::PASS;
+            $test_validation_result->status = ValidationResultStatus::UNKNOWN;
 
             $local_context->attachDomTag($error->dom_tag);
             $this->parsed_rules->validateTag($local_context, $error->dom_tag->nodeName, $this->encounteredAttributes($error->dom_tag), $test_validation_result);
             $this->parsed_rules->validateTagOnExit($local_context, $test_validation_result);
 
-            if (!empty($test_validation_result->errors) &&
-                $test_validation_result->status !== ValidationResultStatus::PASS &&
+            if ($test_validation_result->status == ValidationResultStatus::UNKNOWN) {
+                $test_validation_result->status = ValidationResultStatus::PASS;
+            }
+
+            if ($test_validation_result->status !== ValidationResultStatus::PASS &&
                 in_array('head', $local_context->getAncestorTagNames())
             ) {
                 if ($error->dom_tag->tagName !== 'style' || !$error->dom_tag->hasAttribute('amp-custom')) {

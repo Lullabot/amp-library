@@ -182,6 +182,7 @@ class RenderValidationResult
     {
         $this->annotateWithErrorCategories($validation_result);
         $this->sortValidationWarningsByLineno($validation_result);
+        $group_validation_result->status = $validation_result->status;
 
         /** @var SValidationError $validation_error */
         $group_context_string = null;
