@@ -34,6 +34,7 @@ class ActionTakenType
     const DAILYMOTION_CONVERTED = 'dailymotion embed code was converted to the amp-dailymotion tag.';
     const TWITTER_CONVERTED = 'twitter embed code was converted to the amp-twitter tag.';
     const IFRAME_CONVERTED = 'tag was converted to the amp-iframe tag.';
+    const IFRAME_CONVERTED_AND_HTTPS = 'tag was converted to the amp-iframe tag. The url protocol was changed from http to https. amp-iframe does not support http';
     const YOUTUBE_IFRAME_CONVERTED = 'tag was converted to the amp-youtube tag.';
     const SOUNDCLOUD_IFRAME_CONVERTED = 'tag was converted to the amp-soundcloud tag.';
     const COMPONENT_SCRIPT_TAG_ADDED = 'custom component script tag added to head';
