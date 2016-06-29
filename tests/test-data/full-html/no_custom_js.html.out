@@ -82,7 +82,6 @@ FAIL
    [code: GENERAL_DISALLOWED_TAG  category: CUSTOM_JAVASCRIPT_DISALLOWED]
    ACTION TAKEN: script tag was removed due to validation issues.
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 No custom amp script includes required

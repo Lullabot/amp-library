@@ -154,7 +154,6 @@ FAIL
 - CSS syntax error in tag 'style amp-custom' - invalid url protocol 'absolute:'.
    [code: CSS_SYNTAX_INVALID_URL_PROTOCOL  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 No custom amp script includes required

@@ -1,0 +1,52 @@
+<!-- video -->
+<amp-facebook layout="responsive" data-href="https://www.facebook.com/facebook/videos/10153231379946729/" data-embed-as="video" height="281" width="500"></amp-facebook>
+
+<!-- video with card; also with height and width attributes removed (they should be inferred from src) -->
+<amp-facebook layout="responsive" data-href="https://www.facebook.com/facebook/videos/10153231379946729/" data-embed-as="post" height="366" width="500"></amp-facebook>
+
+<!-- post -->
+<amp-facebook layout="responsive" data-href="https://www.facebook.com/20531316728/posts/10154009990506729/" data-embed-as="post" height="290" width="500"></amp-facebook>
+
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!-- video -->
+Line  2: <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F10153231379946729%2F&width=500&show_text=false&height=281&appId"
+Line  3:         width="500" height="281" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+Line  4:         allowTransparency="true"></iframe>
+Line  5: 
+Line  6: <!-- video with card; also with height and width attributes removed (they should be inferred from src) -->
+Line  7: <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F10153231379946729%2F&width=500&show_text=true&height=366&appId"
+Line  8:         style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+Line  9:         allowTransparency="true"></iframe>
+Line 10: 
+Line 11: <!-- post -->
+Line 12: <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F20531316728%2Fposts%2F10154009990506729%2F&width=500&show_text=false&height=290&appId"
+Line 13:         width="500" height="290" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+Line 14:         allowTransparency="true"></iframe>
+Line 15: 
+Line 16: 
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F10153231379946729%2F&width=500&show_text=false&height=281&appId" width="500" height="2... at line 4
+ ACTION TAKEN: iframe facebook embed code was converted to the amp-facebook tag.
+
+<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F10153231379946729%2F&width=500&show_text=true&height=366&appId" style="border:none;ove... at line 9
+ ACTION TAKEN: iframe facebook embed code was converted to the amp-facebook tag.
+
+<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F20531316728%2Fposts%2F10154009990506729%2F&width=500&show_text=false&height=290&appId" width="500" height="... at line 14
+ ACTION TAKEN: iframe facebook embed code was converted to the amp-facebook tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-facebook', include path 'https://cdn.ampproject.org/v0/amp-facebook-0.1.js'
+

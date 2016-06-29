@@ -67,7 +67,7 @@ class AMPDOMTreeBuilder extends DOMTreeBuilder
      */
     public function startTag($name, $attributes = [], $selfClosing = false)
     {
-        // Add this attribute to every tag so what we know the line number
+        // Add this attribute to every tag so that we know the line number
         $attributes[AMP::AMP_LINENUM_ATTRIBUTE] = $this->scanner->currentLine();
         return parent::startTag($name, $attributes, $selfClosing);
     }

@@ -92,7 +92,6 @@ FAIL
    [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 No custom amp script includes required

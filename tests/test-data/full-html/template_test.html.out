@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html amp><head>
+  <meta charset="utf-8">
+  <link rel="canonical" href="./regular-template_test.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+<script async custom-element="template" src="https://cdn.ampproject.org/v0/amp-mustache-0.1.js"></script></head>
+<body>
+  <template type="amp-mustache">
+    <div>hello {{name}}</div>
+    <!-- mustache templates are not allowed in attribute names -->
+    <p>Rat</p>
+    <!-- template partials are not allowed in attribute values and template escapes are not allowed in attribute values -->
+    <div></div>
+    <!-- template escapes are not allowed in attribute values -->
+    <div></div>
+    <!--
+      template escapes should not be allowed, even in attributes named data-*
+      See https://github.com/ampproject/amphtml/issues/3460
+    -->
+    <div></div>
+    <!--
+      template partials should not be allowed, even in attributes named data-*
+      See https://github.com/ampproject/amphtml/issues/3460
+    -->
+    <div></div>
+    <!-- valid -->
+    <div data-something="{{valid}}"></div>
+  </template>
+</body>
+
+</html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!doctype html>
+Line  2: <html amp>
+Line  3: <head>
+Line  4:   <meta charset="utf-8">
+Line  5:   <link rel="canonical" href="./regular-template_test.html" />
+Line  6:   <meta name="viewport" content="width=device-width,minimum-scale=1">
+Line  7:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line  8:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line  9: </head>
+Line 10: <body>
+Line 11:   <template type="amp-mustache">
+Line 12:     <div>hello {{name}}</div>
+Line 13:     <!-- mustache templates are not allowed in attribute names -->
+Line 14:     <p data-{{cat}}>Rat</p>
+Line 15:     <!-- template partials are not allowed in attribute values and template escapes are not allowed in attribute values -->
+Line 16:     <div class="{{>something}}}" id="{{{foo}}}"></div>
+Line 17:     <!-- template escapes are not allowed in attribute values -->
+Line 18:     <div class="{{{bar}}}"></div>
+Line 19:     <!--
+Line 20:       template escapes should not be allowed, even in attributes named data-*
+Line 21:       See https://github.com/ampproject/amphtml/issues/3460
+Line 22:     -->
+Line 23:     <div data-anything="{{{bar}}}"></div>
+Line 24:     <!--
+Line 25:       template partials should not be allowed, even in attributes named data-*
+Line 26:       See https://github.com/ampproject/amphtml/issues/3460
+Line 27:     -->
+Line 28:     <div data-foo="{{ >hat}}"></div>
+Line 29:     <!-- valid -->
+Line 30:     <div data-something="{{valid}}"></div>
+Line 31:   </template>
+Line 32: </body>
+Line 33: </html>
+Line 34: 
+
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<div class="{{>something}}}" id="{{{foo}}}"> on line 16
+- The attribute 'class' in tag 'div' is set to '{{>something}}}', which contains a Mustache template partial.
+   [code: TEMPLATE_PARTIAL_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: div.class attribute was removed due to validation issues.
+- The attribute 'id' in tag 'div' is set to '{{{foo}}}', which contains unescaped Mustache template syntax.
+   [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: div.id attribute was removed due to validation issues.
+
+<div class="{{{bar}}}"> on line 18
+- The attribute 'class' in tag 'div' is set to '{{{bar}}}', which contains unescaped Mustache template syntax.
+   [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: div.class attribute was removed due to validation issues.
+
+<div data-anything="{{{bar}}}"> on line 23
+- The attribute 'data-anything' in tag 'div' is set to '{{{bar}}}', which contains unescaped Mustache template syntax.
+   [code: UNESCAPED_TEMPLATE_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: div.data-anything attribute was removed due to validation issues.
+
+<div data-foo="{{ >hat}}"> on line 28
+- The attribute 'data-foo' in tag 'div' is set to '{{ >hat}}', which contains a Mustache template partial.
+   [code: TEMPLATE_PARTIAL_IN_ATTR_VALUE  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: div.data-foo attribute was removed due to validation issues.
+
+GLOBAL WARNING
+- Mustache template syntax in attribute name 'data-{{cat}}' in tag 'at location line 14, col 19'.
+   [code: TEMPLATE_IN_ATTR_NAME  category: AMP_HTML_TEMPLATE_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+- The tag 'amp-mustache extension .js script' is missing or incorrect, but required by 'template'.
+   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-mustache.html]
+   ACTION TAKEN: template custom component script tag added to head
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'template', include path 'https://cdn.ampproject.org/v0/amp-mustache-0.1.js'
+

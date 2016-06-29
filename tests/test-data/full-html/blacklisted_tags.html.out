@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+  This file is basically minimum_valid_amp.html with some additional prefetch related tags added to <head>.
+  minimum_valid_amp.html is Copyright 2015 The AMP HTML Authors and licensed under Apache 2.0
+  (see http://www.apache.org/licenses/LICENSE-2.0 )
+  --><html amp><head>
+  <meta charset="utf-8">
+  <link rel="canonical" href="./regular-html-version.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  
+  
+  <!--[if IE 9]> <link rel="prefetch" href="//cdn.potatopro.com" /> <![endif]-->
+</head>
+<body>
+Hello, world.
+</body>
+
+</html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!--
+Line  2:   This file is basically minimum_valid_amp.html with some additional prefetch related tags added to <head>.
+Line  3:   minimum_valid_amp.html is Copyright 2015 The AMP HTML Authors and licensed under Apache 2.0
+Line  4:   (see http://www.apache.org/licenses/LICENSE-2.0 )
+Line  5:   -->
+Line  6: <!doctype html>
+Line  7: <html ⚡>
+Line  8: <head>
+Line  9:   <meta charset="utf-8">
+Line 10:   <link rel="canonical" href="./regular-html-version.html" />
+Line 11:   <meta name="viewport" content="width=device-width,minimum-scale=1">
+Line 12:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line 13:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line 14:   <meta http-equiv="x-dns-prefetch-control" content="on" />
+Line 15:   <link rel="dns-prefetch" href="//cdn.potatopro.com" />
+Line 16:   <!--[if IE 9]> <link rel="prefetch" href="//cdn.potatopro.com" /> <![endif]-->
+Line 17: </head>
+Line 18: <body>
+Line 19: Hello, world.
+Line 20: </body>
+Line 21: </html>
+Line 22: 
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<meta http-equiv="x-dns-prefetch-control" content="on"> at line 14
+ ACTION TAKEN: meta tag matches CSS selector 'meta[http-equiv="x-dns-prefetch-control"]' and was removed as it matched a user submitted CSS selector blacklist.
+
+<link rel="dns-prefetch" href="//cdn.potatopro.com"> at line 15
+ ACTION TAKEN: link tag matches CSS selector 'link[rel="dns-prefetch"]' and was removed as it matched a user submitted CSS selector blacklist.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required

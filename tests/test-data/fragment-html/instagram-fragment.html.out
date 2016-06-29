@@ -1,4 +1,4 @@
-<amp-instagram layout="responsive" width="400" height="600" data-shortcode="BCW-bHsLDVg"></amp-instagram>
+<amp-instagram layout="responsive" data-shortcode="BCW-bHsLDVg" width="640" height="799"></amp-instagram>
 
 
 
@@ -36,7 +36,6 @@ Transformations made from HTML tags to AMP custom tags
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
 PASS
-
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------

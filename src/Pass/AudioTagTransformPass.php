@@ -26,6 +26,8 @@ use Lullabot\AMP\Utility\ActionTakenType;
  * Class AudioTagTransformPass
  * @package Lullabot\AMP\Pass
  *
+ * Support for <audio> to <amp-audio> tag conversion. Similar to VideoTagTransformPass in many ways.
+ *
  * @see https://github.com/ampproject/amphtml/blob/master/extensions/amp-audio/amp-audio.md
  * @see https://developer.mozilla.org/en/docs/Web/HTML/Element/audio
  */
@@ -47,6 +49,7 @@ class AudioTagTransformPass extends BasePass
             $el->remove();
 
             $this->addFallbackAndPlaceholder($new_el);
+
             $this->addActionTaken(new ActionTakenLine('audio', ActionTakenType::AUDIO_CONVERTED, $lineno, $context_string));
             $this->context->addLineAssociation($new_dom_el, $lineno);
         }
@@ -61,9 +64,9 @@ class AudioTagTransformPass extends BasePass
     {
         /** @var DOMQuery $wrap_this */
         $wrap_this = $el->children()->not('source')->not('track');
-
         if ($wrap_this->count()) {
-            $wrap_this->wrapAll('<div fallback=""></div>');
+            $wrapped = $wrap_this->wrapAll('<div fallback=""></div>')->parent();
+            $wrapped->remove()->prependTo($el);
         }
 
         if (isset($this->options['audio_placeholder_html'])) {

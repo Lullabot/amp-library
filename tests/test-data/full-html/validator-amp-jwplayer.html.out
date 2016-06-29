@@ -115,7 +115,6 @@ FAIL
 - The tag 'amp-jwplayer' is missing a mandatory attribute - pick one of data-media-id or data-playlist-id.
    [code: MANDATORY_ONEOF_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-jwplayer/amp-jwplayer.md]
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 No custom amp script includes required

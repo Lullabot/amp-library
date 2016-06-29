@@ -17,6 +17,8 @@
 
 namespace Lullabot\AMP\Pass;
 
+use Lullabot\AMP\Validate\Phase;
+
 /**
  * Class StandardScanPass
  * @package Lullabot\AMP\Pass
@@ -26,6 +28,9 @@ class StandardScanPass extends BasePass
 {
     public function pass()
     {
+        // Set the phase to LOCAL_PHASE before starting out
+        $this->context->setPhase(Phase::LOCAL_PHASE);
+
         // We get back a DOMElements, this is a faster way of iterating over all tags
         // See http://technosophos.com/2009/11/26/iteration-techniques-and-performance-querypath.html
         $all_tags = $this->q->find('*')->get();
@@ -42,6 +47,8 @@ class StandardScanPass extends BasePass
         // This will be used by the StatisticsPass
         $this->context->setNumTagsProcessed($count);
         $this->parsed_rules->maybeEmitGlobalTagValidationErrors($this->context, $this->validation_result, $this);
+        $this->parsed_rules->endValidation($this->validation_result);
+
         return [];
     }
 }

@@ -17,6 +17,7 @@
 
 namespace Lullabot\AMP;
 
+use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Utility\AMPHTML5;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
@@ -45,17 +46,21 @@ class AMP
     // The StandardScanPass should be first after all transform passes
     // The StandardFixPass should be after StandardScanPass
     public $passes = [
-        'Lullabot\AMP\Pass\ImgTagTransformPass', // Transform pass
-        'Lullabot\AMP\Pass\IframeSoundCloudTagTransformPass', // Transform Pass
-        'Lullabot\AMP\Pass\AudioTagTransformPass', // Transform Pass
-        'Lullabot\AMP\Pass\IframeVimeoTagTransformPass', // Transform Pass
-        'Lullabot\AMP\Pass\IframeVineTagTransformPass', // Transform Pass
-        'Lullabot\AMP\Pass\IframeDailymotionTagTransformPass', // Transform Pass
-        'Lullabot\AMP\Pass\IframeYouTubeTagTransformPass', // Transform pass
-        'Lullabot\AMP\Pass\IframeTagTransformPass', // Transform pass
-        'Lullabot\AMP\Pass\InstagramTransformPass', // Transform pass
-        'Lullabot\AMP\Pass\PinterestTagTransformPass', // Transform pass
-        'Lullabot\AMP\Pass\TwitterTransformPass', // Transform pass
+        'Lullabot\AMP\Pass\PreliminaryPass', // Removes user blacklisted tags
+        'Lullabot\AMP\Pass\ImgTagTransformPass',
+        'Lullabot\AMP\Pass\IframeSoundCloudTagTransformPass',
+        'Lullabot\AMP\Pass\IframeFacebookTagTransformPass',
+        'Lullabot\AMP\Pass\AudioTagTransformPass',
+        'Lullabot\AMP\Pass\VideoTagTransformPass',
+        'Lullabot\AMP\Pass\IframeVimeoTagTransformPass',
+        'Lullabot\AMP\Pass\IframeVineTagTransformPass',
+        'Lullabot\AMP\Pass\IframeDailymotionTagTransformPass',
+        'Lullabot\AMP\Pass\IframeYouTubeTagTransformPass',
+        'Lullabot\AMP\Pass\IframeTagTransformPass',
+        'Lullabot\AMP\Pass\InstagramTransformPass',
+        'Lullabot\AMP\Pass\PinterestTagTransformPass',
+        'Lullabot\AMP\Pass\FacebookNonIframeTransformPass',
+        'Lullabot\AMP\Pass\TwitterTransformPass',
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
         'Lullabot\AMP\Pass\StatisticsPass'
@@ -215,7 +220,7 @@ class AMP
         $this->options = [];
         $this->component_js = [];
         $this->validation_result = new SValidationResult();
-        $this->validation_result->status = ValidationResultStatus::FAIL;
+        $this->validation_result->status = ValidationResultStatus::UNKNOWN;
         $this->context = null;
         $this->scope = Scope::BODY_SCOPE;
     }
@@ -267,7 +272,12 @@ class AMP
 
         $stats_data = $this->context->getStatsData();
         $end_time = microtime(true);
-        $time_taken = sprintf('%.3f milliseconds (1 second = 1000 milliseconds)', 1000 * ($end_time - $stats_data['start_time']));
+        if (!empty($this->options['testing_mode'])) {
+            $time_taken = sprintf('[template] milliseconds (1 second = 1000 milliseconds)', 1000 * ($end_time - $stats_data['start_time']));
+        } else {
+            $time_taken = sprintf('%.3f milliseconds (1 second = 1000 milliseconds)', 1000 * ($end_time - $stats_data['start_time']));
+        }
+
         $date = date(DATE_RFC2822);
         $num_tags_processed = $this->context->getNumTagsProcessed();
 
@@ -281,8 +291,17 @@ class AMP
         $end_memory_peak_str = sprintf('%.3f MiB', $end_memory_peak / 1000000.0);
         $peak_change = ($end_memory_peak == $stats_data['start_memory_peak']) ? '(unchanged)' : '';
 
-        $comment_start = " ==START== $scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date";
-        $comment_end = " $scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date" . PHP_EOL
+        if (!empty($this->options['testing_mode'])) {
+            $date = '[template]';
+            $time_taken = '[template]';
+            $start_memory_peak_str = '[template]';
+            $end_memory_peak_str = '[template]';
+            $peak_change = '[template]';
+        }
+
+        $comment_start = " =AMP-STATS-HEADER= $scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date =END-AMP-STATS-HEADER=";
+        $comment_end = " =AMP-STATS-FOOTER=" . PHP_EOL
+            . "$scope_text processed by AMP PHP Library (https://github.com/Lullabot/amp-library) at $date" . PHP_EOL
             . " Time Taken: $time_taken" . PHP_EOL
             . " Number of html tags processed: $num_tags_processed" . PHP_EOL
             . " PHP Peak memory usage before calling convertToAmpHtml: $start_memory_peak_str" . PHP_EOL
@@ -290,7 +309,7 @@ class AMP
             . " * Please note that time taken will increase significantly if you don't have opcache enabled or have XDEBUG enabled." . PHP_EOL
             . "   Also note that the library downloads initial portions of images to determine dimensions for amp-img tags. " . PHP_EOL
             . "   If your network is slow, your library processing time will increase and network download time may dominate total time taken for library processing." . PHP_EOL
-            . "==END==";
+            . "=END-AMP-STATS-FOOTER=";
 
         $start_replaced = str_replace("#AMP-START-PLACEHOLDER-${stats_data['start_time']}#", $comment_start, $html);
         $end_replaced = str_replace("#AMP-END-PLACEHOLDER-${stats_data['start_time']}#", $comment_end, $start_replaced);
@@ -333,11 +352,31 @@ class AMP
             $amphtml5 = new AMPHTML5();
             $html5_dom = $amphtml5->loadHTML($document_html);
             $qp = new DOMQuery($html5_dom, null, ['convert_to_encoding' => 'UTF-8']);
+            $this->addParsingErrors($amphtml5);
         } else {
             $qp = QueryPath::withHTML($document_html, null, ['convert_to_encoding' => 'UTF-8']);
         }
 
         return $qp;
+    }
+
+    /**
+     * @param AMPHTML5 $amphtml
+     */
+    protected function addParsingErrors(AMPHTML5 $amphtml)
+    {
+        /** @var string[] $errors */
+        $errors = $amphtml->getErrors();
+        foreach ($errors as $error_msg) {
+            $matches = [];
+            if (preg_match('/(*UTF8)Line(?:.*?)(\d+)(?:.*?)Col(?:.*?)(\d+)(?:.*?)Unexpected characters in attribute name: (.*)/i', $error_msg, $matches)) {
+                if (mb_strpos($matches[3], '{{', 0, 'UTF-8') !== false) {
+                    $this->context->addError(ValidationErrorCode::TEMPLATE_IN_ATTR_NAME,
+                        [$matches[3], "at location line $matches[1], col $matches[2]"],
+                        $this->rules->template_spec_url, $this->validation_result);
+                }
+            }
+        }
     }
 
     /**
@@ -521,6 +560,7 @@ class AMP
 
     /**
      * @param string $filename
+     * @param array $options
      * @param bool $full_document
      * @param bool $no_lines
      * @param bool $diff
@@ -530,7 +570,7 @@ class AMP
      * @return string
      * @throws \Exception
      */
-    public function consoleOutput($filename = 'php://stdin', $full_document = false, $js = false, $no_lines = false, $diff = false, $no_orig_and_warn = false, $verbose = false)
+    public function consoleOutput($filename = 'php://stdin', $options = [], $full_document = false, $js = false, $no_lines = false, $diff = false, $no_orig_and_warn = false, $verbose = false)
     {
         if ($verbose) {
             error_reporting(E_ALL);
@@ -541,39 +581,53 @@ class AMP
             throw new \Exception("No such file or file not accessible: $filename Exiting...");
         }
 
-        $options = ['filename' => $filename]; // So warnings can be printed out with filename appending to line number
+        // original setting takes precedence
+        $options += ['filename' => $filename]; // So warnings can be printed out with filename appending to line number
+
         if ($full_document) {
+            // original setting takes precedence
             $options += ['scope' => Scope::HTML_SCOPE];
         }
 
         $this->loadHtml($file_html, $options);
         $amp_html = $this->convertToAmpHtml();
 
-        if (!$no_lines) {
+        // original setting takes precedence
+        $options += ['no_lines' => $no_lines];
+        if (!$options['no_lines']) {
             // now this is our new output html
             $amp_html = $this->getStringWithLineNumbers($amp_html);
         }
 
+        // original setting takes precedence
+        $options += ['diff' => $diff];
+
         $output = '';
         // Show the diff if the option is set
-        if (!$diff) {
+        if (!$options['diff']) {
             $output .= $amp_html . PHP_EOL;
         } else {
             // $escape_html is FALSE since we're outputting to the console
             $output .= $this->getInputOutputHtmlDiff($escape_html = FALSE) . PHP_EOL;
         }
 
+        // original setting takes precedence
+        $options += ['no_orig_and_warn' => $no_orig_and_warn];
+
         // Show the warnings by default
-        if (!$no_orig_and_warn) {
+        if (!$options['no_orig_and_warn']) {
             $output .= PHP_EOL . 'ORIGINAL HTML' . PHP_EOL;
             $output .= '---------------' . PHP_EOL;
             $output .= $this->getStringWithLineNumbers($this->getInputHtml()) . PHP_EOL;
             $output .= $this->warningsHumanText() . PHP_EOL;
         }
 
+        // original setting takes precedence
+        $options += ['js' => $js];
+
         // Show the components with js urls
-        if ($js) {
-            $output .= PHP_EOL . 'COMPONENT NAMES WITH JS PATH' . PHP_EOL;
+        if ($options['js']) {
+            $output .= 'COMPONENT NAMES WITH JS PATH' . PHP_EOL;
             $output .= '------------------------------' . PHP_EOL;
             $output .= $this->componentList($this->getComponentJs()) . PHP_EOL;
         }
@@ -607,5 +661,40 @@ class AMP
         }
 
         return $str;
+    }
+
+    /**
+     * @param $options_filename
+     * @return array|mixed
+     * @throws \Exception
+     */
+    public function getOptions($options_filename)
+    {
+        if (file_exists($options_filename)) {
+            $options = json_decode(@file_get_contents($options_filename), true);
+            if (!is_array($options)) {
+                throw new \Exception("$options_filename does not contain a well formed option array");
+            }
+        } else {
+            throw new \Exception("$options_filename file not found");
+        }
+
+        return $options;
+    }
+
+    /**
+     * @param string $test_filename
+     * @return array|mixed
+     * @throws \Exception
+     */
+    public function getOptionsFromStandardOptionFile($test_filename)
+    {
+        $options_filename = $test_filename . '.options.json';
+        $options = [];
+        if (file_exists($options_filename)) {
+            $options = $this->getOptions($options_filename);
+        }
+
+        return $options;
     }
 }

@@ -105,7 +105,6 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 PASS
 
-
 COMPONENT NAMES WITH JS PATH
 ------------------------------
 'amp-facebook', include path 'https://cdn.ampproject.org/v0/amp-facebook-0.1.js'

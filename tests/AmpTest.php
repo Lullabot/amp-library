@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 
-
 use Lullabot\AMP\AMP;
 
 /**
@@ -24,12 +23,14 @@ use Lullabot\AMP\AMP;
  */
 class AmpTest extends PHPUnit_Framework_TestCase
 {
-    /** @var AMP|null */
+    /** @var AMP */
     protected $amp = null;
+    protected $skip_internet = false;
 
     public function setup()
     {
         $this->amp = new AMP();
+        $this->skip_internet = getenv('AMP_TEST_SKIP_INTERNET');
     }
 
     /**
@@ -40,12 +41,18 @@ class AmpTest extends PHPUnit_Framework_TestCase
      */
     public function testFiles($test_filename, $fragment)
     {
-        $output = $this->amp->consoleOutput($test_filename, $fragment, true, true);
-        $expected_output = file_get_contents("$test_filename.out");
-        $expected_output_arr = explode('ORIGINAL HTML', $expected_output);
-        $output_arr = explode('ORIGINAL HTML', $output);
-        $this->assertEquals($expected_output_arr[0], $output_arr[0]);
-        $this->assertEquals($expected_output_arr[1], $output_arr[1]);
+        $options = $this->amp->getOptionsFromStandardOptionFile($test_filename);
+        $output = $this->amp->consoleOutput($test_filename, $options, $fragment, true, true);
+        $expected_output = @file_get_contents("$test_filename.out");
+        if ($expected_output === false) {
+            // An out file does not exist, skip this test
+            $this->markTestSkipped("$test_filename.out file does not exist. Skipping test.");
+        }
+
+        if (!empty($this->skip_internet) && !empty($options['requires_internet'])) {
+            $this->markTestSkipped("Skipping test as it requires internet and AMP_TEST_SKIP_INTERNET environment variable is set.");
+        }
+        $this->assertEquals($expected_output, $output);
     }
 
     public function filenameProvider()

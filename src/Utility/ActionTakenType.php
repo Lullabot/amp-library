@@ -27,6 +27,9 @@ class ActionTakenType
     const INSTAGRAM_CONVERTED = 'instagram embed code was converted to the amp-instagram tag.';
     const PINTEREST_CONVERTED = 'pinterest embed code was converted to the amp-pinterest tag.';
     const VINE_CONVERTED = 'vine embed code was converted to the amp-vine tag.';
+    const FACEBOOK_IFRAME_CONVERTED = 'facebook embed code was converted to the amp-facebook tag.';
+    const FACEBOOK_JSDK_CONVERTED = 'facebook javascript sdk embed code was converted to the amp-facebook tag.';
+    const FACEBOOK_SCRIPT_REMOVED = 'facebook script tag was removed.';
     const VIMEO_CONVERTED = 'vimeo embed code was converted to the amp-vimeo tag.';
     const DAILYMOTION_CONVERTED = 'dailymotion embed code was converted to the amp-dailymotion tag.';
     const TWITTER_CONVERTED = 'twitter embed code was converted to the amp-twitter tag.';
@@ -35,4 +38,7 @@ class ActionTakenType
     const SOUNDCLOUD_IFRAME_CONVERTED = 'tag was converted to the amp-soundcloud tag.';
     const COMPONENT_SCRIPT_TAG_ADDED = 'custom component script tag added to head';
     const AUDIO_CONVERTED = 'tag was converted to the amp-audio tag.';
+    const VIDEO_CONVERTED = 'tag was converted to the amp-video tag.';
+    const BLACKLISTED_TAG_REMOVED = 'and was removed as it matched a user submitted CSS selector blacklist.';
+    const BAD_BLACKLIST_CSS_SELECTOR = 'is a bad CSS selector for tag blacklisting. Ignoring.';
 }

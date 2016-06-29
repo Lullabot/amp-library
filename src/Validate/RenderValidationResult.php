@@ -25,9 +25,11 @@ use Lullabot\AMP\Spec\ValidationErrorCode;
  * Class RenderValidationResult
  * @package Lullabot\AMP\Validate
  *
- * This class doesn't exist in validator.js (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
- * Rather, its a mishmash of some useful functions ported from validator.js into PHP, added to this class.
+ * This class does not exist in the canonical validator [1].  Rather, its a mishmash of some useful functions
+ * ported from the JavaScript canonical validator into PHP and then agglomerated in this class.
  *
+ * [1] See https://github.com/ampproject/amphtml/blob/master/validator/validator.js
+ *     Also see https://github.com/ampproject/amphtml/blob/master/validator/validator-full.js
  */
 class RenderValidationResult
 {
@@ -150,11 +152,8 @@ class RenderValidationResult
         $this->annotateWithErrorCategories($validation_result);
         $this->sortValidationWarningsByLineno($validation_result);
         /** @var string $rendered */
-        if (empty($validation_result->errors)) {
-            $rendered = 'PASS' . PHP_EOL;
-        } else {
-            $rendered = $validation_result->status . PHP_EOL;
-        }
+        $rendered = $validation_result->status . PHP_EOL;
+
         /** @var SValidationError $validation_error */
         $last_context_string = null;
         $last_dom_tag = null;
@@ -198,8 +197,6 @@ class RenderValidationResult
     /**
      * Corresponds to amp.validator.categorizeError() in validator-full.js
      * (see https://github.com/ampproject/amphtml/blob/master/validator/validator-full.js )
-     *
-     * @todo currently a partial port. Also does not support templates and css validation
      *
      * @param ValidationError $error
      * @return ErrorCategoryCode
@@ -311,8 +308,8 @@ class RenderValidationResult
             ($error->code === ValidationErrorCode::MANDATORY_ATTR_MISSING &&
                 isset($error->params[0]) && $error->params[0] === '\\u26a') ||
             ($error->code === ValidationErrorCode::MANDATORY_CDATA_MISSING_OR_INCORRECT
-                && isset($error->params[0]) && ((strpos($error->params[0], 'head > style : boilerplate') === 0) ||
-                    (strpos($error->params[0], 'noscript > style : boilerplate') === 0)))
+                && isset($error->params[0]) && ((strpos($error->params[0], 'head > style[amp-boilerplate]') === 0) ||
+                    (strpos($error->params[0], 'noscript > style[amp-boilerplate]') === 0)))
         ) {
             return ErrorCategoryCode::MANDATORY_AMP_TAG_MISSING_OR_INCORRECT;
         }
@@ -325,9 +322,17 @@ class RenderValidationResult
             return ErrorCategoryCode::MANDATORY_AMP_TAG_MISSING_OR_INCORRECT;
         }
 
-        if (($error->code == ValidationErrorCode::INVALID_ATTR_VALUE || $error->code === ValidationErrorCode::MANDATORY_ATTR_MISSING) &&
-            isset($error->params[0]) && in_array($error->params[0], ['width', 'height', 'layout'])
+        if (in_array($error->code, [ValidationErrorCode::ATTR_VALUE_REQUIRED_BY_LAYOUT, ValidationErrorCode::IMPLIED_LAYOUT_INVALID,
+                ValidationErrorCode::SPECIFIED_LAYOUT_INVALID]) ||
+            ($error->code === ValidationErrorCode::INCONSISTENT_UNITS_FOR_WIDTH_AND_HEIGHT ||
+                (($error->code === ValidationErrorCode::INVALID_ATTR_VALUE || $error->code === ValidationErrorCode::MANDATORY_ATTR_MISSING) &&
+                    (isset($error->params[0]) && in_array($error->params[0], ['width', 'height', 'layout']))))
         ) {
+            return ErrorCategoryCode::AMP_LAYOUT_PROBLEM;
+        }
+
+        if (in_array($error->code, [ValidationErrorCode::ATTR_DISALLOWED_BY_IMPLIED_LAYOUT,
+            ValidationErrorCode::ATTR_DISALLOWED_BY_SPECIFIED_LAYOUT])) {
             return ErrorCategoryCode::AMP_LAYOUT_PROBLEM;
         }
 
@@ -392,7 +397,10 @@ class RenderValidationResult
         }
 
         if ($error->code === ValidationErrorCode::TAG_REQUIRED_BY_MISSING &&
-            (isset($error->params[1]) && strpos($error->params[1], 'amp-') === 0)
+            (isset($error->params[1]) && (
+                    (strpos($error->params[1], 'amp-') === 0) ||
+                    $error->params[1] === 'template'
+                ))
         ) {
             return ErrorCategoryCode::AMP_TAG_PROBLEM;
         }
@@ -411,6 +419,26 @@ class RenderValidationResult
             return ErrorCategoryCode::MANDATORY_AMP_TAG_MISSING_OR_INCORRECT;
         }
 
+        if (in_array($error->code, [ValidationErrorCode::UNESCAPED_TEMPLATE_IN_ATTR_VALUE,
+            ValidationErrorCode::TEMPLATE_PARTIAL_IN_ATTR_VALUE,
+            ValidationErrorCode::TEMPLATE_IN_ATTR_NAME])) {
+            return ErrorCategoryCode::AMP_HTML_TEMPLATE_PROBLEM;
+        }
+
+        if ($error->code ===
+            ValidationErrorCode::DISALLOWED_TAG_ANCESTOR &&
+            (isset($error->params[1]) && strpos($error->params[1], 'amp-') === 0)
+        ) {
+            return ErrorCategoryCode::AMP_TAG_PROBLEM;
+        }
+
+        if ($error->code ===
+            ValidationErrorCode::DISALLOWED_TAG_ANCESTOR &&
+            (isset($error->params[1]) && $error->params[1] === 'template')
+        ) {
+            return ErrorCategoryCode::AMP_HTML_TEMPLATE_PROBLEM;
+        }
+
         if ((in_array($error->code, [ValidationErrorCode::MISSING_URL,
             ValidationErrorCode::INVALID_URL,
             ValidationErrorCode::INVALID_URL_PROTOCOL,
@@ -419,6 +447,10 @@ class RenderValidationResult
             if (isset($error->params[1]) && strpos($error->params[1], 'amp-') === 0) {
                 return ErrorCategoryCode::AMP_TAG_PROBLEM;
             }
+            return ErrorCategoryCode::DISALLOWED_HTML;
+        }
+
+        if ($error->code == ValidationErrorCode::DUPLICATE_DIMENSION) {
             return ErrorCategoryCode::DISALLOWED_HTML;
         }
 

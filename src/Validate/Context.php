@@ -56,7 +56,7 @@ class Context
     protected $ancestor_tag_names = [];
     /** @var string[] */
     protected $child_tag_names = [];
-    protected $phase = Phase::LOCAL_PHASE;
+    protected $phase = Phase::PRE_LOCAL_PHASE;
     protected $error_scope = Scope::HTML_SCOPE;
     /** @var \SplObjectStorage */
     protected $line_association;
@@ -403,8 +403,8 @@ class Context
     }
 
     /**
-     * @param $line
-     * @param $validation_error_code
+     * @param int|string $line
+     * @param string $validation_error_code
      * @param array $params
      * @param $spec_url
      * @param SValidationResult $validation_result
@@ -483,6 +483,7 @@ class Context
      */
     public function recordMandatoryAlternativesSatisfied($satisfied)
     {
+        // Treat as a Set
         $this->mandatory_alternatives_satisfied[$satisfied] = 1;
     }
 
@@ -512,9 +513,12 @@ class Context
         return $this->tagspecs_validated;
     }
 
+    /**
+     * @param SValidationError $validation_error_code
+     * @return string
+     */
     public static function severityFor($validation_error_code)
     {
-        // @todo make more error codes less severe as we're going to be able to fix some of them
         if ($validation_error_code === ValidationErrorCode::DEPRECATED_TAG) {
             return ValidationErrorSeverity::WARNING;
         } else if ($validation_error_code == ValidationErrorCode::DEPRECATED_ATTR) {
@@ -522,6 +526,14 @@ class Context
         }
 
         return ValidationErrorSeverity::ERROR;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTemplateAncestor()
+    {
+        return in_array('template', $this->ancestor_tag_names);
     }
 }
 

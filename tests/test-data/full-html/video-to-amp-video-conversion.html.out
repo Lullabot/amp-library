@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html amp><head>
+  <meta charset="utf-8">
+  <link rel="canonical" href="./regular-video.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+</head>
+<body>
+  <amp-video controls autoplay width="500" data-provider="MGM" layout="responsive" height="281"><div fallback><div>Your browser does not support the <strong>video</strong> tag</div><p>Try using recent versions of Google Chrome or Firefox</p></div>
+    <source type="video/mp4" src="/video/movie.mp4">
+    <source type="video/webm" src="/video/movie.webm">
+    <track kind="captions" src="/captions.en.vtt" srclang="en" label="English">
+    <track kind="captions" src="/captions.hi.vtt" srclang="hi" label="Hindi">
+    
+    
+  </amp-video>
+</body>
+
+</html>
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!doctype html>
+Line  2: <html amp>
+Line  3: <head>
+Line  4:   <meta charset="utf-8">
+Line  5:   <link rel="canonical" href="./regular-video.html" />
+Line  6:   <meta name="viewport" content="width=device-width,minimum-scale=1">
+Line  7:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+Line  8:   <script async src="https://cdn.ampproject.org/v0.js"></script>
+Line  9: </head>
+Line 10: <body>
+Line 11:   <video controls autoplay width="500" data-provider="MGM">
+Line 12:     <source type="video/mp4" src="/video/movie.mp4">
+Line 13:     <source type="video/webm" src="/video/movie.webm">
+Line 14:     <track kind="captions" src="/captions.en.vtt" srclang="en" label="English">
+Line 15:     <track kind="captions" src="/captions.hi.vtt" srclang="hi" label="Hindi">
+Line 16:     <div>Your browser does not support the <strong>video</strong> tag</div>
+Line 17:     <p>Try using recent versions of Google Chrome or Firefox</p>
+Line 18:   </video>
+Line 19: </body>
+Line 20: </html>
+Line 21: 
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<video controls autoplay width="500" data-provider="MGM"> at line 11
+ ACTION TAKEN: video tag was converted to the amp-video tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<track kind="captions" src="/captions.en.vtt" srclang="en" label="English"> on line 14
+- The relative URL '/captions.en.vtt' for attribute 'src' in tag 'amp-video > track' is disallowed.
+   [code: DISALLOWED_RELATIVE_URL  category: AMP_TAG_PROBLEM]
+
+<track kind="captions" src="/captions.hi.vtt" srclang="hi" label="Hindi"> on line 15
+- The relative URL '/captions.hi.vtt' for attribute 'src' in tag 'amp-video > track' is disallowed.
+   [code: DISALLOWED_RELATIVE_URL  category: AMP_TAG_PROBLEM]
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required
