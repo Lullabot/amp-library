@@ -400,8 +400,8 @@ class Context
     }
 
     /**
-     * @param $line
-     * @param $validation_error_code
+     * @param int|string $line
+     * @param string $validation_error_code
      * @param array $params
      * @param $spec_url
      * @param SValidationResult $validation_result

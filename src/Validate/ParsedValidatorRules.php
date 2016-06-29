@@ -389,4 +389,15 @@ class ParsedValidatorRules
         }
         $this->maybeEmitMandatoryAlternativesSatisfiedErrors($context, $validation_result);
     }
+
+    /**
+     * Call this at the end of the validation
+     * @param SValidationResult $validation_result
+     */
+    public function endValidation(SValidationResult $validation_result)
+    {
+        if ($validation_result->status == ValidationResultStatus::UNKNOWN) {
+            $validation_result->status = ValidationResultStatus::PASS;
+        }
+    }
 }
