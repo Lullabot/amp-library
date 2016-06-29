@@ -49,6 +49,7 @@ class StandardFixPassTwo extends BasePass
         $local_context = new Context($this->context->getErrorScope(), $this->context->getOptions());
 
         $this->fixBoilerPlateCDATA();
+        $this->fixMutuallyExclusiveAttrsError();
 
         // Set the phase to LOCAL_PHASE before starting out
         $local_context->setPhase(Phase::LOCAL_PHASE);
@@ -87,6 +88,36 @@ class StandardFixPassTwo extends BasePass
         }
 
         return [];
+    }
+
+    /**
+     * If there are any mutually exclusive attributes found, remove all except the first one
+     */
+    protected function fixMutuallyExclusiveAttrsError()
+    {
+        /** @var SValidationError $error */
+        foreach ($this->validation_result->errors as $error) {
+            if ($error->code === ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS &&
+                !empty($error->params[1]) &&
+                !$error->resolved &&
+                !empty($error->dom_tag)
+            ) {
+                // $error->params[1] looks something like this ['src', 'data-videoid']
+                $attributes = json_decode(str_replace("'", '"', $error->params[1]));
+                if (!is_array($attributes) || count($attributes) < 2) {
+                    continue;
+                }
+
+                // Remove all attributes except the first one
+                unset($attributes[0]);
+                foreach ($attributes as $num => $attr_name) {
+                    $error->dom_tag->removeAttribute($attr_name);
+                }
+                $attributes_removed = implode(',', $attributes);
+                $error->addActionTaken(new ActionTakenLine($attributes_removed, ActionTakenType::ATTRIBUTE_REMOVED_MUTUALLY_EXCLUSIVE));
+                $error->resolved = true;
+            }
+        }
     }
 
     protected function fixBoilerPlateCDATA()

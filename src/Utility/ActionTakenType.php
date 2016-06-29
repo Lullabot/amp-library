@@ -44,5 +44,6 @@ class ActionTakenType
     const TAG_ADDED = 'tag was added to the document.';
     const CDATA_ADDED_MODIFIED = 'CDATA was added or modified to fit requirements.';
     const TAG_REMOVED_FROM_HEAD_AFTER_REVALIDATE_FAILED = 'tag removed from head as it still does not validate. Could not fix tag validation problems.';
+    const ATTRIBUTE_REMOVED_MUTUALLY_EXCLUSIVE = 'attribute(s) removed as they were mutually exclusive.';
     const ISSUE_RESOLVED = 'no further action required as this issue was resolved due to an earlier fix';
 }
