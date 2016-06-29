@@ -38,7 +38,9 @@ class StandardFixPassTwo extends BasePass
     // CDATA components in head
     protected $cdata_components = [
         'noscript > style[amp-boilerplate]' => 'body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}',
-        'head > style[amp-boilerplate]' => 'body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}'
+        'head > style[amp-boilerplate]' => 'body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}',
+        'noscript > style[amp-boilerplate] - old variant' => 'body {opacity: 1}',
+      //  'head > style[amp-boilerplate] - old variant' => 'body {opacity: 0}'
     ];
 
     public function pass()
@@ -92,8 +94,7 @@ class StandardFixPassTwo extends BasePass
                 !empty($error->params[0]) &&
                 !$error->resolved &&
                 !empty($error->dom_tag) &&
-                !empty($this->cdata_components[$error->params[0]]) &&
-                $error->dom_tag->hasAttribute('amp-boilerplate')
+                !empty($this->cdata_components[$error->params[0]])
             ) {
                 $tag_description = $error->params[0];
                 $text_content = $this->cdata_components[$tag_description];
