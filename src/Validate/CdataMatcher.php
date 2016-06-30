@@ -161,7 +161,7 @@ class CdataMatcher
 
                 if ($parse_as == 'PARSE_AS_ERROR') {
                     $context->addError(ValidationErrorCode::CSS_SYNTAX_INVALID_AT_RULE,
-                        [ParsedTagSpec::getTagSpecName($this->tag_spec), $rule->atRuleName()], $this->tag_spec->spec_url, $result, '', '', $rule->getLineNo());
+                        [ParsedTagSpec::getTagSpecName($this->tag_spec), $rule->atRuleName()], $this->tag_spec->spec_url, $result, '', '', $rule->getLineNo() - 1);
                 }
             }
 
@@ -169,10 +169,10 @@ class CdataMatcher
                 if ($value instanceof URL) {
                     /** @var URL $value */
                     if ($font_face) {
-                        $parsed_font_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result, $value->getLineNo());
+                        $parsed_font_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result, $value->getLineNo() - 1);
                     } /** @var AtRule $rule */
                     else {
-                        $parsed_image_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result, $value->getLineNo());
+                        $parsed_image_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result, $value->getLineNo() - 1);
                     }
                 }
             }
