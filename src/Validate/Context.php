@@ -290,9 +290,11 @@ class Context
      * @param string $spec_url
      * @param SValidationResult $validationResult
      * @param string $attr_name
+     * @param string $segment
+     * @param int $line_delta
      * @return bool
      */
-    public function addError($code, array $params, $spec_url, SValidationResult $validationResult, $attr_name = '', $segment = '')
+    public function addError($code, array $params, $spec_url, SValidationResult $validationResult, $attr_name = '', $segment = '', $line_override = 0)
     {
         if (empty($spec_url)) {
             $spec_url = '';
@@ -308,6 +310,9 @@ class Context
             $line = PHP_INT_MAX;
         }
 
+        if (!empty($line_override)) {
+            $line = $line_override;
+        }
         return $this->addErrorWithLine($line, $code, $params, $spec_url, $validationResult, $attr_name, $segment);
     }
 

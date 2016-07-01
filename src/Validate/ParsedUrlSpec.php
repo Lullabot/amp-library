@@ -67,10 +67,11 @@ class ParsedUrlSpec
      * @param string $url
      * @param TagSpec $tagspec
      * @param SValidationResult $validation_result
+     * @param int $line_delta
      */
-    public function validateUrlAndProtocolInStyleSheet(Context $context, $url, TagSpec $tagspec, SValidationResult $validation_result)
+    public function validateUrlAndProtocolInStyleSheet(Context $context, $url, TagSpec $tagspec, SValidationResult $validation_result, $line_delta = 0)
     {
-        $this->validateUrlAndProtocol(new ParsedUrlSpecStyleSheetErrorAdapter(), $context, $url, $tagspec, $validation_result);
+        $this->validateUrlAndProtocol(new ParsedUrlSpecStyleSheetErrorAdapter(), $context, $url, $tagspec, $validation_result, $line_delta);
     }
 
     /**
@@ -79,30 +80,31 @@ class ParsedUrlSpec
      * @param string $url
      * @param TagSpec $tagspec
      * @param SValidationResult $validation_result
+     * @param int $line_delta
      */
-    public function validateUrlAndProtocol($adapter, Context $context, $url, TagSpec $tagspec, SValidationResult $validation_result)
+    public function validateUrlAndProtocol($adapter, Context $context, $url, TagSpec $tagspec, SValidationResult $validation_result, $line_delta = 0)
     {
         if (empty(trim($url)) && empty($this->spec->allow_empty)) {
-            $adapter->missingUrl($context, $tagspec, $validation_result);
+            $adapter->missingUrl($context, $tagspec, $validation_result, $line_delta);
             return;
         }
 
         $url_components = ParseUrl::parse_url($url);
         if ($url_components === false) {
-            $adapter->invalidUrl($context, $url, $tagspec, $validation_result);
+            $adapter->invalidUrl($context, $url, $tagspec, $validation_result, $line_delta);
             return;
         }
 
         if (!empty($url_components['scheme'])) {
             $scheme = mb_strtolower($url_components['scheme'], 'UTF-8');
             if (!isset($this->allowed_protocols[$scheme])) {
-                $adapter->invalidUrlProtocol($context, $scheme, $tagspec, $validation_result);
+                $adapter->invalidUrlProtocol($context, $scheme, $tagspec, $validation_result, $line_delta);
                 return;
             }
         }
 
         if (empty($this->spec->allow_relative) && empty($url_components['scheme'])) {
-            $adapter->disallowedRelativeUrl($context, $url, $tagspec, $validation_result);
+            $adapter->disallowedRelativeUrl($context, $url, $tagspec, $validation_result, $line_delta);
             return;
         }
     }
