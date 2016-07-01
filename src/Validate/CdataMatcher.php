@@ -92,7 +92,7 @@ class CdataMatcher
                 $this->validateCssSpec($cdata, $context, $result, $cdata_spec);
             } catch (\Exception $e) {
                 $context->addError(ValidationErrorCode::CSS_SYNTAX,
-                    [ParsedTagSpec::getTagSpecName($this->tag_spec), 'see within tag for malformed CSS'], $this->tag_spec->spec_url, $result);
+                    [ParsedTagSpec::getTagSpecName($this->tag_spec), 'CSS Parser Error: ' . $e->getMessage()], $this->tag_spec->spec_url, $result);
             }
         }
 
@@ -135,8 +135,9 @@ class CdataMatcher
     {
         $parsed_font_url_spec = new ParsedUrlSpec($cdata_spec->css_spec->font_url_spec);
         $parsed_image_url_spec = new ParsedUrlSpec($cdata_spec->css_spec->image_url_spec);
-        // We want to start off with line number 0 as we are using a delta based system from current line number in a tag
-        $css_parser = new Parser($cdata, null, 0);
+
+        // We want to start off with line number of the current tag
+        $css_parser = new Parser($cdata, null, $context->getLineNo());
         /** @var Document $css_document */
         $css_document = $css_parser->parse();
         /** @var AtRuleSpec $item */
