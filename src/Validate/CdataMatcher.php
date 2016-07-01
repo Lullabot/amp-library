@@ -135,7 +135,8 @@ class CdataMatcher
     {
         $parsed_font_url_spec = new ParsedUrlSpec($cdata_spec->css_spec->font_url_spec);
         $parsed_image_url_spec = new ParsedUrlSpec($cdata_spec->css_spec->image_url_spec);
-        $css_parser = new Parser($cdata);
+        // We want to start off with line number 0 as we are using a delta based system from current line number in a tag
+        $css_parser = new Parser($cdata, null, 0);
         /** @var Document $css_document */
         $css_document = $css_parser->parse();
         /** @var AtRuleSpec $item */
@@ -161,7 +162,7 @@ class CdataMatcher
 
                 if ($parse_as == 'PARSE_AS_ERROR') {
                     $context->addError(ValidationErrorCode::CSS_SYNTAX_INVALID_AT_RULE,
-                        [ParsedTagSpec::getTagSpecName($this->tag_spec), $rule->atRuleName()], $this->tag_spec->spec_url, $result, '', '', $rule->getLineNo() - 1);
+                        [ParsedTagSpec::getTagSpecName($this->tag_spec), $rule->atRuleName()], $this->tag_spec->spec_url, $result, '', '', $rule->getLineNo());
                 }
             }
 
@@ -169,10 +170,10 @@ class CdataMatcher
                 if ($value instanceof URL) {
                     /** @var URL $value */
                     if ($font_face) {
-                        $parsed_font_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result, $value->getLineNo() - 1);
+                        $parsed_font_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result, $value->getLineNo());
                     } /** @var AtRule $rule */
                     else {
-                        $parsed_image_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result, $value->getLineNo() - 1);
+                        $parsed_image_url_spec->validateUrlAndProtocolInStyleSheet($context, $this->url_string($value), $this->tag_spec, $result, $value->getLineNo());
                     }
                 }
             }
