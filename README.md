@@ -63,6 +63,17 @@ After doing a `$ composer install` for setting up the command line console, you 
 $ vendor/bin/phpunit tests
 ```
 
+##### Looking at test coverage
+
+To see test coverage data first ensure you have the xdebug extenstion installed in your PHP installation.
+
+```bash
+$ php -m | grep xdebug # should output xdebug
+$ vendor/bin/phpunit tests --coverage-html=coverage-data
+$ cd coverage-data
+$ firefox index.html
+```
+
 #### Setup for your composer based PHP project
 
 To use this in your composer based PHP project, refer to [composer docs here](https://getcomposer.org/doc/05-repositories.md#loading-a-package-from-a-vcs-repository) to make changes to your `composer.json`
