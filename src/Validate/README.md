@@ -1,3 +1,5 @@
+_This note is for developers of the AMP PHP Library only. You don't need to read it if you are a consumer of the library_
+
 ### A Note on the Source Files in this Directory
 
 The source files in this directory represent a Javascript to PHP port of the AMP HTML [validator](https://github.com/ampproject/amphtml/tree/master/validator) (aka "canonical validator").
