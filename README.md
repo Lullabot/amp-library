@@ -63,6 +63,17 @@ After doing a `$ composer install` for setting up the command line console, you 
 $ vendor/bin/phpunit tests
 ```
 
+##### Looking at test coverage
+
+To see test coverage data first ensure you have the xdebug extenstion installed in your PHP installation.
+
+```bash
+$ php -m | grep xdebug # should output xdebug
+$ vendor/bin/phpunit tests --coverage-html=coverage-data
+$ cd coverage-data
+$ firefox index.html
+```
+
 #### Setup for your composer based PHP project
 
 To use this in your composer based PHP project, refer to [composer docs here](https://getcomposer.org/doc/05-repositories.md#loading-a-package-from-a-vcs-repository) to make changes to your `composer.json`
@@ -225,6 +236,9 @@ print($amp->warningsHumanText());
 // ...
 
 ```
+
+### Tips
+- Its probably not a good idea to run the library on your HTML dynamically on _every_ page view. You should try caching the results of `$amp->convertToAmpHtml()` once the library has run. If you're using the library from a CMS then you should consider using the caching facilities provided by the CMS.
 
 ### Caveats and Known issues
 - We only support UTF-8 string input and output from the library. If you're using ASCII, then you don't need to worry as UTF-8 is a superset of ASCII. If you're using another encoding like Latin-1 (etc.) you'll need to convert to UTF-8 strings before you use this library 
