@@ -76,6 +76,7 @@ class ImgTagTransformPass extends BasePass
             $el->remove(); // remove the old img tag
 
             $this->setAmpImgAttributes($new_el);
+            $this->setLayoutIfNoLayout($new_el, 'responsive');
             $this->context->addLineAssociation($new_dom_el, $lineno);
             $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
         }
@@ -165,7 +166,5 @@ class ImgTagTransformPass extends BasePass
                 $el->attr('height', $dimensions['height']);
             }
         }
-
-        $this->setLayoutIfNoLayout($el, 'responsive');
     }
 }

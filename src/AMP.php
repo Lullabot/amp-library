@@ -65,6 +65,7 @@ class AMP
         'Lullabot\AMP\Pass\TwitterTransformPass',
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
+        'Lullabot\AMP\Pass\AmpImgFixPass',
         'Lullabot\AMP\Pass\StandardFixPassTwo',
         'Lullabot\AMP\Pass\MinimumValidFixPass',
         'Lullabot\AMP\Pass\StatisticsPass'
