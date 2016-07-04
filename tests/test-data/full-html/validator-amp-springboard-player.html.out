@@ -45,7 +45,7 @@
   <!-- invalid: data-site-id required -->
   <amp-springboard-player data-mode="video" data-content-id="1578473" data-player-id="test401" data-domain="test.com" data-items="10" layout="fixed" width="480" height="270"></amp-springboard-player>
   <!-- invalid: bad layout -->
-  <amp-springboard-player data-site-id="261" data-mode="playlist" data-player-id="test401" layout="fixed-height" width="480" height="270"></amp-springboard-player>
+  <amp-springboard-player data-site-id="261" data-mode="playlist" data-player-id="test401" width="480" height="270"></amp-springboard-player>
 </body>
 
 </html>
@@ -180,6 +180,7 @@ FAIL
 <amp-springboard-player data-site-id="261" data-mode="playlist" data-player-id="test401" layout="fixed-height" width="480" height="270"> on line 80
 - The specified layout 'FIXED_HEIGHT' is not supported by tag 'amp-springboard-player'.
    [code: SPECIFIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
+   ACTION TAKEN: amp-springboard-player.layout attribute was removed due to validation issues.
 - The mandatory attribute 'data-content-id' is missing in tag 'amp-springboard-player'.
    [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
 - The mandatory attribute 'data-domain' is missing in tag 'amp-springboard-player'.

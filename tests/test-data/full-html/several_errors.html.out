@@ -29,7 +29,7 @@
   <table><tr><td>Tables are allowed</td></tr></table>
   <amp-img src="dimensions_are_missing.jpg" layout="fixed"></amp-img>
   <!-- We don't allow percent as a size unit either. -->
-  <amp-ad width="100%" height="300">
+  <amp-ad height="300">
     <!-- <script>document.write(…)</script> -->
   </amp-ad>
   <amp-ad width="42" height="42"></amp-ad>
@@ -104,6 +104,7 @@ FAIL
 <amp-ad width="100%" height="300"> on line 34
 - The attribute 'width' in tag 'amp-ad' is set to the invalid value '100%'.
    [code: INVALID_ATTR_VALUE  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-ad.html]
+   ACTION TAKEN: amp-ad.width attribute was removed due to validation issues.
 - The mandatory attribute 'type' is missing in tag 'amp-ad'.
    [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-ad.html]
 
