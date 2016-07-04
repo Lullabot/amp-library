@@ -19,6 +19,7 @@ namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Spec\AmpLayoutLayout;
 use Lullabot\AMP\Utility\ParseUrl;
+use Lullabot\AMP\Validate\GroupedValidationResult;
 use Lullabot\AMP\Validate\ParsedTagSpec;
 use Lullabot\AMP\Validate\ParsedValidatorRules;
 use Lullabot\AMP\Validate\Scope;
@@ -43,32 +44,8 @@ abstract class BasePass
     protected $context;
     /** @var SValidationResult */
     protected $validation_result;
-
-    protected static $component_mappings = [
-        'amp-analytics' => 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js',
-        'amp-anim' => 'https://cdn.ampproject.org/v0/amp-anim-0.1.js',
-        'amp-audio' => 'https://cdn.ampproject.org/v0/amp-audio-0.1.js',
-        'amp-brightcove' => 'https://cdn.ampproject.org/v0/amp-brightcove-0.1.js',
-        'amp-carousel' => 'https://cdn.ampproject.org/v0/amp-carousel-0.1.js',
-        'amp-dailymotion' => 'https://cdn.ampproject.org/v0/amp-dailymotion-0.1.js',
-        'amp-facebook' => 'https://cdn.ampproject.org/v0/amp-facebook-0.1.js',
-        'amp-fit-text' => 'https://cdn.ampproject.org/v0/amp-fit-text-0.1.js',
-        'amp-font' => 'https://cdn.ampproject.org/v0/amp-font-0.1.js',
-        'amp-iframe' => 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js',
-        'amp-instagram' => 'https://cdn.ampproject.org/v0/amp-instagram-0.1.js',
-        'amp-install-serviceworker' => 'https://cdn.ampproject.org/v0/amp-install-serviceworker-0.1.js',
-        'amp-image-lightbox' => 'https://cdn.ampproject.org/v0/amp-image-lightbox-0.1.js',
-        'amp-lightbox' => 'https://cdn.ampproject.org/v0/amp-lightbox-0.1.js',
-        'amp-list' => 'https://cdn.ampproject.org/v0/amp-list-0.1.js',
-        'amp-pinterest' => 'https://cdn.ampproject.org/v0/amp-pinterest-0.1.js',
-        'amp-soundcloud' => 'https://cdn.ampproject.org/v0/amp-soundcloud-0.1.js',
-        'amp-twitter' => 'https://cdn.ampproject.org/v0/amp-twitter-0.1.js',
-        'amp-user-notification' => 'https://cdn.ampproject.org/v0/amp-user-notification-0.1.js',
-        'amp-vine' => 'https://cdn.ampproject.org/v0/amp-vine-0.1.js',
-        'amp-vimeo' => 'https://cdn.ampproject.org/v0/amp-vimeo-0.1.js',
-        'amp-youtube' => 'https://cdn.ampproject.org/v0/amp-youtube-0.1.js',
-        'template' => 'https://cdn.ampproject.org/v0/amp-mustache-0.1.js'
-    ];
+    /** @var  GroupedValidationResult */
+    protected $grouped_validation_result;
 
     /**
      * FixBasePass constructor.
@@ -78,30 +55,19 @@ abstract class BasePass
      * @param ParsedValidatorRules $parsed_rules
      * @param array $options
      */
-    function __construct(DOMQuery $q, Context $context, SValidationResult $validation_result, ParsedValidatorRules $parsed_rules, $options = [])
+    function __construct(DOMQuery $q, Context $context, SValidationResult $validation_result, GroupedValidationResult $grouped_validation_result, ParsedValidatorRules $parsed_rules, $options = [])
     {
         $this->q = $q;
         $this->parsed_rules = $parsed_rules;
         $this->options = $options;
         $this->context = $context;
         $this->validation_result = $validation_result;
+        $this->grouped_validation_result = $grouped_validation_result;
     }
 
     function getWarnings()
     {
         return $this->transformations;
-    }
-
-    function getComponentJs()
-    {
-        return $this->component_js;
-    }
-
-    function addComponent($component_name)
-    {
-        if (isset(self::$component_mappings[$component_name])) {
-            $this->component_js[$component_name] = self::$component_mappings[$component_name];
-        }
     }
 
     abstract function pass();
@@ -169,7 +135,7 @@ abstract class BasePass
      */
     protected function addComponentJsToHead($component)
     {
-        if ($this->options['scope'] != Scope::HTML_SCOPE || !isset(self::$component_mappings[$component])) {
+        if ($this->options['scope'] != Scope::HTML_SCOPE || !isset(Context::$component_mappings[$component])) {
             return false;
         }
 
@@ -179,10 +145,11 @@ abstract class BasePass
             return false;
         }
 
-        $new_script = $head->append('<script></script>')->lastChild();
+        // Add new line to just make it look good in the html
+        $new_script = $head->append('  <script></script>' . PHP_EOL)->lastChild();
         $new_script->attr('async', '');
         $new_script->attr('custom-element', $component);
-        $new_script->attr('src', self::$component_mappings[$component]);
+        $new_script->attr('src', Context::$component_mappings[$component]);
         return true;
     }
 

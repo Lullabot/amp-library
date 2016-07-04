@@ -40,7 +40,7 @@ https://github.com/ampproject/amphtml/blob/master/extensions/amp-youtube/amp-you
   <amp-youtube data-videoid="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
   </amp-youtube>
   <!-- This is invalid, one can only have one of these two. -->
-  <amp-youtube width="480" height="270" video-id="https://www.youtube.com/watch?v=9bZkp7q19f0" data-videoid="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+  <amp-youtube width="480" height="270" video-id="https://www.youtube.com/watch?v=9bZkp7q19f0">
   </amp-youtube>
 </body>
 
@@ -132,6 +132,7 @@ FAIL
    [code: DEPRECATED_ATTR  category: DEPRECATION see: https://www.ampproject.org/docs/reference/extended/amp-youtube.html]
 - Mutually exclusive attributes encountered in tag 'amp-youtube' - pick one of ['src', 'data-videoid'].
    [code: MUTUALLY_EXCLUSIVE_ATTRS  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-youtube.html]
+   ACTION TAKEN: data-videoid attribute(s) removed as they were mutually exclusive.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------

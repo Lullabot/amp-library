@@ -38,7 +38,7 @@
   <script async src="https://cdn.ampproject.org/v0.js"></script>
 
   <!-- Invalid as we need some additional attributes e.g. "rel=canonical" -->
-  <link href="foo">
+  
 </head>
 <body>
 Hello, world.
@@ -113,6 +113,7 @@ FAIL
 <link href="foo"> on line 43
 - The mandatory attribute 'rel' is missing in tag 'link rel='.
    [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML]
+- FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------

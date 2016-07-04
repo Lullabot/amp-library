@@ -34,6 +34,7 @@ class ActionTakenType
     const DAILYMOTION_CONVERTED = 'dailymotion embed code was converted to the amp-dailymotion tag.';
     const TWITTER_CONVERTED = 'twitter embed code was converted to the amp-twitter tag.';
     const IFRAME_CONVERTED = 'tag was converted to the amp-iframe tag.';
+    const IFRAME_CONVERTED_AND_HTTPS = 'tag was converted to the amp-iframe tag. The url protocol was changed from http to https. amp-iframe does not support http';
     const YOUTUBE_IFRAME_CONVERTED = 'tag was converted to the amp-youtube tag.';
     const SOUNDCLOUD_IFRAME_CONVERTED = 'tag was converted to the amp-soundcloud tag.';
     const COMPONENT_SCRIPT_TAG_ADDED = 'custom component script tag added to head';
@@ -41,4 +42,9 @@ class ActionTakenType
     const VIDEO_CONVERTED = 'tag was converted to the amp-video tag.';
     const BLACKLISTED_TAG_REMOVED = 'and was removed as it matched a user submitted CSS selector blacklist.';
     const BAD_BLACKLIST_CSS_SELECTOR = 'is a bad CSS selector for tag blacklisting. Ignoring.';
+    const TAG_ADDED = 'tag was added to the document.';
+    const CDATA_ADDED_MODIFIED = 'CDATA was added or modified to fit requirements.';
+    const TAG_REMOVED_FROM_HEAD_AFTER_REVALIDATE_FAILED = 'tag removed from head as it still does not validate. Could not fix tag validation problems.';
+    const ATTRIBUTE_REMOVED_MUTUALLY_EXCLUSIVE = 'attribute(s) removed as they were mutually exclusive.';
+    const ISSUE_RESOLVED = 'no further action required as this issue was resolved due to an earlier fix';
 }

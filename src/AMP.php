@@ -19,6 +19,7 @@ namespace Lullabot\AMP;
 
 use Lullabot\AMP\Spec\ValidationErrorCode;
 use Lullabot\AMP\Utility\AMPHTML5;
+use Lullabot\AMP\Validate\GroupedValidationResult;
 use QueryPath;
 use SebastianBergmann\Diff\Differ;
 use Lullabot\AMP\Pass\BasePass;
@@ -42,6 +43,7 @@ use QueryPath\DOMQuery;
 class AMP
 {
     const AMP_LINENUM_ATTRIBUTE = 'data-amp-library-linenum';
+    const AMP_GLOBAL_WARNING = 'GLOBAL WARNING';
 
     // The StandardScanPass should be first after all transform passes
     // The StandardFixPass should be after StandardScanPass
@@ -63,6 +65,8 @@ class AMP
         'Lullabot\AMP\Pass\TwitterTransformPass',
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
+        'Lullabot\AMP\Pass\StandardFixPassTwo',
+        'Lullabot\AMP\Pass\MinimumValidFixPass',
         'Lullabot\AMP\Pass\StatisticsPass'
     ];
 
@@ -79,7 +83,9 @@ class AMP
     /** @var Context */
     protected $context = null;
     /** @var  SValidationResult */
-    protected $validation_result = null;
+    protected $validation_result;
+    /** @var GroupedValidationResult */
+    protected $grouped_validation_result;
     /** @var string */
     protected $scope = Scope::BODY_SCOPE;
     /** @var string[] */
@@ -221,6 +227,7 @@ class AMP
         $this->component_js = [];
         $this->validation_result = new SValidationResult();
         $this->validation_result->status = ValidationResultStatus::UNKNOWN;
+        $this->grouped_validation_result = new GroupedValidationResult();
         $this->context = null;
         $this->scope = Scope::BODY_SCOPE;
     }
@@ -416,14 +423,14 @@ class AMP
 
             // Each of the $qp objects are pointing to the same DOMDocument
             /** @var BasePass $pass */
-            $pass = (new $pass_name($qp_branch, $this->context, $this->validation_result, $this->parsed_rules, $this->options));
+            $pass = (new $pass_name($qp_branch, $this->context, $this->validation_result, $this->grouped_validation_result, $this->parsed_rules, $this->options));
 
             // Run the pass
             $pass->pass();
             $this->action_taken = array_merge($this->action_taken, $pass->getWarnings());
-            $this->component_js = array_merge($this->component_js, $pass->getComponentJs());
         }
 
+        $this->component_js = $this->context->getComponentJs();
         $this->sortActionTakeByLineno();
         $temp_amp_html = $this->getOutputHTML($qp);
         $this->amp_html = $this->addStatisticsIfEnabled($temp_amp_html);
@@ -504,7 +511,7 @@ class AMP
         /** @var RenderValidationResult $render_validation_result */
         $render_validation_result = new RenderValidationResult($this->parsed_rules->format_by_code);
         $filename = !empty($this->options['filename']) ? $this->options['filename'] : '';
-        return $render_validation_result->renderValidationResult($this->validation_result, $filename);
+        return $render_validation_result->renderValidationResult($this->grouped_validation_result, $filename);
     }
 
     /**

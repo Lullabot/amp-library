@@ -36,11 +36,11 @@ class ActionTakenLine
      * ActionTakenLine constructor.
      * @param string $tag_attr_description
      * @param string $action
-     * @param string|number $lineno
+     * @param string|int $lineno
      * @param string $context_string
      * @param string $error
      */
-    public function __construct($tag_attr_description, $action, $lineno, $context_string = '', $error = '')
+    public function __construct($tag_attr_description, $action, $lineno = PHP_INT_MAX, $context_string = '', $error = '')
     {
         $this->tag_attr_description = $tag_attr_description;
         $this->action_taken = $action;

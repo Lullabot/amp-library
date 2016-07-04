@@ -57,11 +57,17 @@ class StandardFixPass extends BasePass
     {
         /** @var SValidationError $error */
         foreach ($this->validation_result->errors as $error) {
+            // If the error was resolved, continue
+            if ($error->resolved) {
+                continue;
+            }
+
             // Special Case for TAG_REQUIRED_BY_MISSING
             // Add custom component script tag
             if ($error->code == ValidationErrorCode::TAG_REQUIRED_BY_MISSING) {
                 if (!empty($error->params[1]) && $this->addComponentJsToHead($error->params[1])) {
                     $error->addActionTaken(new ActionTakenLine($error->params[1], ActionTakenType::COMPONENT_SCRIPT_TAG_ADDED, $error->line));
+                    $error->resolved = true;
                 }
             }
 
@@ -71,6 +77,7 @@ class StandardFixPass extends BasePass
             }
 
             $tag_name = $error->dom_tag->tagName;
+
             // Property value pairs
             if (in_array($error->code, $this->remove_properties_for_codes)
                 && !empty($error->attr_name)
@@ -86,9 +93,11 @@ class StandardFixPass extends BasePass
                 if (empty($new_attr_value_trimmed)) {  // There is nothing here now so we should just remove the attribute
                     $error->dom_tag->removeAttribute($error->attr_name);
                     $error->addActionTaken(new ActionTakenLine("In $tag_name.$error->attr_name the \"$error->segment\"", ActionTakenType::PROPERTY_REMOVED_ATTRIBUTE_REMOVED, $error->line));
+                    $error->resolved = true;
                 } else {
                     $error->dom_tag->setAttribute($error->attr_name, $new_attr_value);
                     $error->addActionTaken(new ActionTakenLine("In $tag_name.$error->attr_name the \"$error->segment\"", ActionTakenType::PROPERTY_REMOVED, $error->line));
+                    $error->resolved = true;
                 }
             }
 
@@ -99,6 +108,7 @@ class StandardFixPass extends BasePass
             ) {
                 $error->dom_tag->removeAttribute($error->attr_name);
                 $error->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line));
+                $error->resolved = true;
             }
 
             // Tags
@@ -106,6 +116,7 @@ class StandardFixPass extends BasePass
                 // Remove the offending tag
                 $error->dom_tag->parentNode->removeChild($error->dom_tag);
                 $error->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line));
+                $error->resolved = true;
             }
 
         }

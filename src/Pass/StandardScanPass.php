@@ -18,6 +18,8 @@
 namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Validate\Phase;
+use Lullabot\AMP\Validate\RenderValidationResult;
+use Lullabot\AMP\Validate\GroupedValidationResult;
 
 /**
  * Class StandardScanPass
@@ -48,6 +50,12 @@ class StandardScanPass extends BasePass
         $this->context->setNumTagsProcessed($count);
         $this->parsed_rules->maybeEmitGlobalTagValidationErrors($this->context, $this->validation_result, $this);
         $this->parsed_rules->endValidation($this->validation_result);
+
+        // Group the errors generated in the scan
+        /** @var RenderValidationResult $render_validation_result */
+        $render_validation_result = new RenderValidationResult($this->parsed_rules->format_by_code);
+        /** @var GroupedValidationResult $grouped_validation_result */
+        $render_validation_result->groupValidationResult($this->validation_result, $this->grouped_validation_result);
 
         return [];
     }

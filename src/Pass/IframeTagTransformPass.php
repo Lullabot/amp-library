@@ -18,6 +18,7 @@
 
 namespace Lullabot\AMP\Pass;
 
+use Lullabot\AMP\Utility\ParseUrl;
 use QueryPath\DOMQuery;
 
 use Lullabot\AMP\Utility\ActionTakenLine;
@@ -51,7 +52,13 @@ class IframeTagTransformPass extends BasePass
 
             $lineno = $this->getLineNo($dom_el);
             $context_string = $this->getContextString($dom_el);
-            $src = $this->getIframeSrc($el);
+            list($src, $converted_to_https) = $this->getIframeSrc($el);
+
+            // Don't try to convert if a proper url was not found
+            if ($src === false) {
+                continue;
+            }
+
             if ($el->hasAttr('class')) {
                 $class_attr = $el->attr('class');
             }
@@ -68,15 +75,37 @@ class IframeTagTransformPass extends BasePass
 
             // Remove the iframe and its children
             $el->removeChildren()->remove();
-            $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::IFRAME_CONVERTED, $lineno, $context_string));
+            if ($converted_to_https) {
+                $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::IFRAME_CONVERTED_AND_HTTPS, $lineno, $context_string));
+            } else {
+                $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::IFRAME_CONVERTED, $lineno, $context_string));
+            }
             $this->context->addLineAssociation($new_dom_el, $lineno);
         }
 
         return $this->transformations;
     }
 
+    /**
+     * @param DOMQuery $el
+     * @return array
+     */
     protected function getIframeSrc(DOMQuery $el)
     {
-        return $el->attr('src');
+        $src = trim($el->attr('src'));
+        if (empty($src)) {
+            return [false, false];
+        }
+
+        $parsed_url = ParseUrl::parse_url($src);
+        if ($parsed_url === false) {
+            return [false, false];
+        }
+
+        if ($parsed_url['scheme'] == 'http') {
+            return [preg_replace('/(*UTF8)^http:/i', 'https:', $src), true];
+        } else {
+            return [$src, false];
+        }
     }
 }
