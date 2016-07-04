@@ -164,7 +164,12 @@ class ImgTagTransformPass extends BasePass
             if ($dimensions !== false) {
                 $el->attr('width', $dimensions['width']);
                 $el->attr('height', $dimensions['height']);
+                return true;
+            } else {
+                return false;
             }
         }
+
+        return true;
     }
 }

@@ -56,6 +56,8 @@ class AmpImgFixPass extends ImgTagTransformPass
 
                 if (in_array($error->code, [ValidationErrorCode::IMPLIED_LAYOUT_INVALID, ValidationErrorCode::SPECIFIED_LAYOUT_INVALID])) {
                     $amp_img_el->attr('layout', 'responsive');
+                    $error->addActionTaken(new ActionTakenLine('amp-img', ActionTakenType::AMP_IMG_FIX_RESPONSIVE));
+                    $error->resolved = true;
                 }
 
                 $layout = ParsedTagSpec::parseLayout($amp_img_el->attr('layout'));
@@ -65,9 +67,13 @@ class AmpImgFixPass extends ImgTagTransformPass
                     continue;
                 }
 
-                $this->setAmpImgAttributes($amp_img_el);
-                $error->addActionTaken(new ActionTakenLine('amp-img', ActionTakenType::AMP_IMG_FIX));
-                $error->resolved = true;
+                $success = $this->setAmpImgAttributes($amp_img_el);
+                if ($success) {
+                    $error->addActionTaken(new ActionTakenLine('amp-img', ActionTakenType::AMP_IMG_FIX));
+                    $error->resolved = true;
+                } else {
+                    $error->resolved = false;
+                }
             }
         }
     }
