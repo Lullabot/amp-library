@@ -675,7 +675,7 @@ class ParsedTagSpec
             $code = empty($layout_attr) ? ValidationErrorCode::IMPLIED_LAYOUT_INVALID :
                 ValidationErrorCode::SPECIFIED_LAYOUT_INVALID;
             $context->addError($code,
-                [$layout, self::getTagSpecName($this->spec)], $this->spec->spec_url, $result, $layout_attr);
+                [$layout, self::getTagSpecName($this->spec)], $this->spec->spec_url, $result, empty($layout_attr) ? '' : 'layout');
             return;
         }
 

@@ -42,9 +42,12 @@ class StandardFixPass extends BasePass
         ValidationErrorCode::DISALLOWED_ATTR,
         ValidationErrorCode::MISSING_URL,
         ValidationErrorCode::UNESCAPED_TEMPLATE_IN_ATTR_VALUE,
-        ValidationErrorCode::TEMPLATE_PARTIAL_IN_ATTR_VALUE
+        ValidationErrorCode::TEMPLATE_PARTIAL_IN_ATTR_VALUE,
+        ValidationErrorCode::ATTR_DISALLOWED_BY_SPECIFIED_LAYOUT,
+        ValidationErrorCode::ATTR_DISALLOWED_BY_IMPLIED_LAYOUT,
+        ValidationErrorCode::SPECIFIED_LAYOUT_INVALID
     ];
-    
+
     protected $remove_tags_for_codes = [
         ValidationErrorCode::WRONG_PARENT_TAG,
         ValidationErrorCode::DISALLOWED_TAG,
