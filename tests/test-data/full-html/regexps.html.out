@@ -21,7 +21,7 @@
   <meta charset="utf-8">
   <link rel="canonical" href="./regular-html-version.html">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
-  <style>invalid body</style>
+  <style>body {opacity: 0}</style>
   <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
   <script async src="https://cdn.ampproject.org/v0.js"></script>
 
@@ -30,15 +30,15 @@
   The first example is valid. The latter two examples are invalid.
   -->
   <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-latest.js"></script>
-  <script async custom-element="amp-vine"></script>
-  <script async custom-element="amp-vine"></script>
+  
+  
 
   <!--
   href value_regex: "https://fonts\\.googleapis\\.com/css\\?.*|https://fast\\.fonts\\.net/.*"
   The first example is valid, the second example is invalid.
   -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?foobar">
-  <link rel="stylesheet" type="text/css">
+  
 
   <!--
   rel value_regex: lenghty, see protoascii
@@ -47,9 +47,9 @@
   <link rel="accessibility">
   <link rel="accessibility alternate">
   <link rel="accessibility alternate archives">
-  <link>
-  <link>
-  <link>
+  
+  
+  
 
   <!--
   name blacklisted_value_regex: "(^|\\s)(viewport|content-disposition|revisit-after)($|\\s)"
@@ -60,7 +60,8 @@
   <meta content="">
   <meta content="">
 
-<script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js"></script></head>
+  <script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js"></script>
+</head>
 <body>
 
   <!--
@@ -175,36 +176,43 @@ FAIL
    [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
 - The mandatory text (CDATA) inside tag 'head > style[amp-boilerplate] - old variant' is missing or incorrect.
    [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: head > style[amp-boilerplate] - old variant CDATA was added or modified to fit requirements.
 
 <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"> on line 36
 - The attribute 'src' in tag 'amp-vine extension .js script' is set to the invalid value 'https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar'.
    [code: INVALID_ATTR_VALUE  category: CUSTOM_JAVASCRIPT_DISALLOWED see: https://www.ampproject.org/docs/reference/extended/amp-vine.html]
    ACTION TAKEN: script.src attribute was removed due to validation issues.
+- FINAL ACTION TAKEN: script tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 <script async custom-element="amp-vine" src="http://xss.com/https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"> on line 37
 - The attribute 'src' in tag 'amp-vine extension .js script' is set to the invalid value 'http://xss.com/https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar'.
    [code: INVALID_ATTR_VALUE  category: CUSTOM_JAVASCRIPT_DISALLOWED see: https://www.ampproject.org/docs/reference/extended/amp-vine.html]
    ACTION TAKEN: script.src attribute was removed due to validation issues.
+- FINAL ACTION TAKEN: script tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 <link rel="stylesheet" type="text/css" href="http://xss.com/https://fonts.googleapis.com/css?foobar"> on line 46
 - The attribute 'href' in tag 'link rel=stylesheet for fonts' is set to the invalid value 'http://xss.com/https://fonts.googleapis.com/css?foobar'.
    [code: INVALID_ATTR_VALUE  category: AUTHOR_STYLESHEET_PROBLEM]
    ACTION TAKEN: link.href attribute was removed due to validation issues.
+- FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 <link rel="import"> on line 55
 - The attribute 'rel' in tag 'link rel=' is set to the invalid value 'import'.
    [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
    ACTION TAKEN: link.rel attribute was removed due to validation issues.
+- FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 <link rel="accessibility subresource"> on line 56
 - The attribute 'rel' in tag 'link rel=' is set to the invalid value 'accessibility subresource'.
    [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
    ACTION TAKEN: link.rel attribute was removed due to validation issues.
+- FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 <link rel="manifest accessibility"> on line 57
 - The attribute 'rel' in tag 'link rel=' is set to the invalid value 'manifest accessibility'.
    [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
    ACTION TAKEN: link.rel attribute was removed due to validation issues.
+- FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 <meta name="content-disposition" content> on line 65
 - The attribute 'name' in tag 'meta name= and content=' is set to the invalid value 'content-disposition'.
