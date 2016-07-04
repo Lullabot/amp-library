@@ -126,7 +126,7 @@ class MinimumValidFixPass extends BasePass
         // Now go ahead and create any head components
         /** @var SValidationError $error */
         foreach ($temp_validation_result_global_errors->errors as $error) {
-            if (in_array($error->code, [ValidationErrorCode::MANDATORY_TAG_MISSING, ValidationErrorCode::TAG_REQUIRED_BY_MISSING]) &&
+            if ($error->code == ValidationErrorCode::MANDATORY_TAG_MISSING &&
                 !empty($error->params[0]) &&
                 isset($this->head_components[$error->params[0]]) &&
                 !$error->resolved
@@ -146,7 +146,7 @@ class MinimumValidFixPass extends BasePass
         /** @var SValidationError[] $current_global_warnings */
         $current_global_warnings = $this->getCurrentGlobalWarnings();
         foreach ($current_global_warnings as $error) {
-            if (in_array($error->code, [ValidationErrorCode::MANDATORY_TAG_MISSING, ValidationErrorCode::TAG_REQUIRED_BY_MISSING]) &&
+            if ($error->code == ValidationErrorCode::MANDATORY_TAG_MISSING &&
                 !empty($error->params[0]) &&
                 !$error->resolved
             ) {
@@ -169,7 +169,7 @@ class MinimumValidFixPass extends BasePass
     {
         /** @var SValidationError $error */
         foreach ($global_errors as $error) {
-            if (in_array($error->code, [ValidationErrorCode::MANDATORY_TAG_MISSING, ValidationErrorCode::TAG_REQUIRED_BY_MISSING]) &&
+            if ($error->code == ValidationErrorCode::MANDATORY_TAG_MISSING &&
                 !empty($error->params[0]) &&
                 $tag_description == $error->params[0]
             ) {
