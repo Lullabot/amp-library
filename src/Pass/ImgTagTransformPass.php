@@ -73,9 +73,18 @@ class ImgTagTransformPass extends BasePass
             $context_string = $this->getContextString($dom_el);
             $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
             $new_el = $el->prev();
-            $el->remove(); // remove the old img tag
 
-            $this->setAmpImgAttributes($new_el);
+            $success = $this->setAmpImgAttributes($new_el);
+            // We were not able to get the image dimensions, abort conversion.
+            if(!$success) {
+                $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_COULD_NOT_BE_CONVERTED, $lineno, $context_string));
+                // Abort the conversion and remove the new img tag
+                $new_el->remove();
+                continue;
+            }
+
+            $el->remove(); // remove the old img tag
+            $this->setLayoutIfNoLayout($new_el, 'responsive');
             $this->context->addLineAssociation($new_dom_el, $lineno);
             $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
         }
@@ -163,9 +172,12 @@ class ImgTagTransformPass extends BasePass
             if ($dimensions !== false) {
                 $el->attr('width', $dimensions['width']);
                 $el->attr('height', $dimensions['height']);
+                return true;
+            } else {
+                return false;
             }
         }
 
-        $this->setLayoutIfNoLayout($el, 'responsive');
+        return true;
     }
 }

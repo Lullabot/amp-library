@@ -65,7 +65,7 @@
 
   <!-- invalid: layout=fill with height=auto; height=auto is only allowed
        for flex-item -->
-  <amp-img layout="fill" width="50" height="auto"></amp-img>
+  <amp-img layout="fill" width="50"></amp-img>
 
   <!-- valid: layout=flex-item -->
   <amp-img layout="flex-item" src="itshappening.gif"></amp-img>
@@ -82,10 +82,10 @@
        TODO(johannes): Long run we should get rid of container or use it.
        https://github.com/ampproject/amphtml/issues/1109
     -->
-  <amp-img layout="container" src="itshappening.gif"></amp-img>
+  <amp-img src="itshappening.gif"></amp-img>
 
   <!-- invalid: layout=unknown -->
-  <amp-img layout="unknown" src="itshappening.gif"></amp-img>
+  <amp-img src="itshappening.gif"></amp-img>
 
   <!-- valid: should configure natural dimensions; default layout -->
   <amp-pixel src="https://www.example.com/make-my-visit-count"></amp-pixel>
@@ -116,10 +116,10 @@
   <amp-pixel src="https://www.example.com/make-my-visit-count" width="auto" height="1px"></amp-pixel>
 
   <!-- invalid: width=X. -->
-  <amp-pixel src="https://www.example.com/make-my-visit-count" width="X" height="1px"></amp-pixel>
+  <amp-pixel src="https://www.example.com/make-my-visit-count" height="1px"></amp-pixel>
 
   <!-- invalid: height=X. -->
-  <amp-pixel src="https://www.example.com/make-my-visit-count" height="X" width="1px"></amp-pixel>
+  <amp-pixel src="https://www.example.com/make-my-visit-count" width="1px"></amp-pixel>
 
   <!-- valid responsive layout with heights -->
   <amp-img src="https://lh3.googleusercontent.com/5rcQ32ml8E5ONp9f9-Rf78IofLb9QjS5_0mqsY1zEFc=w400-h300-no-n" width="400" height="300" layout="responsive" heights="(min-width:760px)  33%, (min-width:500px) 75%, 125%"></amp-img>
@@ -128,10 +128,10 @@
   <amp-img src="https://lh3.googleusercontent.com/5rcQ32ml8E5ONp9f9-Rf78IofLb9QjS5_0mqsY1zEFc=w400-h300-no-n" width="400" height="300" heights="(min-width:760px)  33%, (min-width:500px) 75%, 125%"></amp-img>
 
   <!-- invalid: can't have heights with specified layout fixed -->
-  <amp-img src="https://lh3.googleusercontent.com/5rcQ32ml8E5ONp9f9-Rf78IofLb9QjS5_0mqsY1zEFc=w400-h300-no-n" width="400" height="300" layout="fixed" heights="(min-width:760px)  33%, (min-width:500px) 75%, 125%"></amp-img>
+  <amp-img src="https://lh3.googleusercontent.com/5rcQ32ml8E5ONp9f9-Rf78IofLb9QjS5_0mqsY1zEFc=w400-h300-no-n" width="400" height="300" layout="fixed"></amp-img>
 
   <!-- invalid: can't have heights with implied layout fixed_height -->
-  <amp-img src="https://lh3.googleusercontent.com/5rcQ32ml8E5ONp9f9-Rf78IofLb9QjS5_0mqsY1zEFc=w400-h300-no-n" height="300" heights="(min-width:760px)  33%, (min-width:500px) 75%, 125%"></amp-img>
+  <amp-img src="https://lh3.googleusercontent.com/5rcQ32ml8E5ONp9f9-Rf78IofLb9QjS5_0mqsY1zEFc=w400-h300-no-n" height="300"></amp-img>
 </body>
 
 </html>
@@ -318,16 +318,19 @@ FAIL
 <amp-img layout="fill" width="50" height="auto"> on line 76
 - The attribute 'height' in tag 'amp-img' is set to the invalid value 'auto'.
    [code: INVALID_ATTR_VALUE  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.height attribute was removed due to validation issues.
 - The mandatory attribute 'src' is missing in tag 'amp-img'.
    [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
 
 <amp-img layout="container" src="itshappening.gif"> on line 96
 - The specified layout 'CONTAINER' is not supported by tag 'amp-img'.
    [code: SPECIFIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.layout attribute was removed due to validation issues.
 
 <amp-img layout="unknown" src="itshappening.gif"> on line 99
 - The attribute 'layout' in tag 'amp-img' is set to the invalid value 'unknown'.
    [code: INVALID_ATTR_VALUE  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.layout attribute was removed due to validation issues.
 
 <amp-pixel src="https://www.example.com/make-my-visit-count" width="auto" height="1px"> on line 130
 - The implied layout 'FIXED_HEIGHT' is not supported by tag 'amp-pixel'.
@@ -336,18 +339,22 @@ FAIL
 <amp-pixel src="https://www.example.com/make-my-visit-count" width="X" height="1px"> on line 134
 - The attribute 'width' in tag 'amp-pixel' is set to the invalid value 'X'.
    [code: INVALID_ATTR_VALUE  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-pixel.html]
+   ACTION TAKEN: amp-pixel.width attribute was removed due to validation issues.
 
 <amp-pixel src="https://www.example.com/make-my-visit-count" height="X" width="1px"> on line 138
 - The attribute 'height' in tag 'amp-pixel' is set to the invalid value 'X'.
    [code: INVALID_ATTR_VALUE  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-pixel.html]
+   ACTION TAKEN: amp-pixel.height attribute was removed due to validation issues.
 
 <amp-img src="https://lh3.googleusercontent.com/5rcQ32ml8E5ONp9f9-Rf78IofLb9QjS5_0mqsY1zEFc=w400-h300-no-n" width="400" height="300" layout="fixed" heights="(min-width:760px)  33%, (min-width:500px) 7... on line 150
 - The attribute 'heights' in tag 'amp-img' is disallowed by specified layout 'FIXED'.
    [code: ATTR_DISALLOWED_BY_SPECIFIED_LAYOUT  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.heights attribute was removed due to validation issues.
 
 <amp-img src="https://lh3.googleusercontent.com/5rcQ32ml8E5ONp9f9-Rf78IofLb9QjS5_0mqsY1zEFc=w400-h300-no-n" height="300" heights="(min-width:760px)  33%, (min-width:500px) 75%, 125%"> on line 154
 - The attribute 'heights' in tag 'amp-img' is disallowed by implied layout 'FIXED_HEIGHT'.
    [code: ATTR_DISALLOWED_BY_IMPLIED_LAYOUT  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.heights attribute was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------

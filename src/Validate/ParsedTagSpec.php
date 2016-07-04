@@ -643,21 +643,21 @@ class ParsedTagSpec
         $input_layout = self::parseLayout($layout_attr);
         if (!empty($layout_attr) && $input_layout === AmpLayoutLayout::UNKNOWN) {
             $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
-                ['layout', self::getTagSpecName($this->spec), $layout_attr], $this->spec->spec_url, $result);
+                ['layout', self::getTagSpecName($this->spec), $layout_attr], $this->spec->spec_url, $result, 'layout');
             return;
         }
 
         $input_width = new CssLengthAndUnit($width_attr, true);
         if (!$input_width->is_valid) {
             $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
-                ['width', self::getTagSpecName($this->spec), $width_attr], $this->spec->spec_url, $result);
+                ['width', self::getTagSpecName($this->spec), $width_attr], $this->spec->spec_url, $result, 'width');
             return;
         }
 
         $input_height = new CssLengthAndUnit($height_attr, true);
         if (!$input_height->is_valid) {
             $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
-                ['height', self::getTagSpecName($this->spec), $height_attr], $this->spec->spec_url, $result);
+                ['height', self::getTagSpecName($this->spec), $height_attr], $this->spec->spec_url, $result, 'height');
             return;
         }
 
@@ -667,7 +667,7 @@ class ParsedTagSpec
 
         if ($height->is_auto && $layout !== AmpLayoutLayout::FLEX_ITEM) {
             $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
-                ['height', self::getTagSpecName($this->spec), $height_attr], $this->spec->spec_url, $result);
+                ['height', self::getTagSpecName($this->spec), $height_attr], $this->spec->spec_url, $result, 'height');
             return;
         }
 
@@ -675,7 +675,7 @@ class ParsedTagSpec
             $code = empty($layout_attr) ? ValidationErrorCode::IMPLIED_LAYOUT_INVALID :
                 ValidationErrorCode::SPECIFIED_LAYOUT_INVALID;
             $context->addError($code,
-                [$layout, self::getTagSpecName($this->spec)], $this->spec->spec_url, $result);
+                [$layout, self::getTagSpecName($this->spec)], $this->spec->spec_url, $result, empty($layout_attr) ? '' : 'layout');
             return;
         }
 
@@ -702,7 +702,7 @@ class ParsedTagSpec
                 return;
             } else if ($width->is_auto) {
                 $context->addError(ValidationErrorCode::INVALID_ATTR_VALUE,
-                    ['width', self::getTagSpecName($this->spec), 'auto'], $this->spec->spec_url, $result);
+                    ['width', self::getTagSpecName($this->spec), 'auto'], $this->spec->spec_url, $result, 'width');
                 return;
             }
         }
@@ -717,7 +717,7 @@ class ParsedTagSpec
             $code = empty($layout_attr) ? ValidationErrorCode::ATTR_DISALLOWED_BY_IMPLIED_LAYOUT :
                 ValidationErrorCode::ATTR_DISALLOWED_BY_SPECIFIED_LAYOUT;
             $context->addError($code,
-                ['heights', self::getTagSpecName($this->spec), $layout], $this->spec->spec_url, $result);
+                ['heights', self::getTagSpecName($this->spec), $layout], $this->spec->spec_url, $result, 'heights');
             return;
         }
     }

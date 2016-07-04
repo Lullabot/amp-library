@@ -35,7 +35,7 @@
   <!-- invalid: bad trackid-->
   <amp-soundcloud height="166" data-visual="false" layout="fixed-height"></amp-soundcloud>
   <!-- invalid: bad layout -->
-  <amp-soundcloud height="166" width="42" data-trackid="243169232" data-visual="true" layout="responsive"></amp-soundcloud>
+  <amp-soundcloud height="166" width="42" data-trackid="243169232" data-visual="true"></amp-soundcloud>
   <!-- valid: classic mode with three letter color -->
   <amp-soundcloud height="166" data-trackid="243169232" data-color="fff" layout="fixed-height"></amp-soundcloud>
 </body>
@@ -117,6 +117,7 @@ FAIL
 <amp-soundcloud height="166" width="42" data-trackid="243169232" data-visual="true" layout="responsive"> on line 46
 - The specified layout 'RESPONSIVE' is not supported by tag 'amp-soundcloud'.
    [code: SPECIFIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-soundcloud.html]
+   ACTION TAKEN: amp-soundcloud.layout attribute was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------

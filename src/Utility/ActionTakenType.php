@@ -24,6 +24,7 @@ class ActionTakenType
     const PROPERTY_REMOVED = 'property value pair was removed from attribute due to validation issues.';
     const PROPERTY_REMOVED_ATTRIBUTE_REMOVED = 'property value pair was removed from attribute due to validation issues. The resulting attribute was empty and was also removed.';
     const IMG_CONVERTED = 'tag was converted to the amp-img tag.';
+    const IMG_COULD_NOT_BE_CONVERTED = 'tag could NOT be converted to the amp-img tag as the image is not accessible.';
     const INSTAGRAM_CONVERTED = 'instagram embed code was converted to the amp-instagram tag.';
     const PINTEREST_CONVERTED = 'pinterest embed code was converted to the amp-pinterest tag.';
     const VINE_CONVERTED = 'vine embed code was converted to the amp-vine tag.';
@@ -47,4 +48,6 @@ class ActionTakenType
     const TAG_REMOVED_FROM_HEAD_AFTER_REVALIDATE_FAILED = 'tag removed from head as it still does not validate. Could not fix tag validation problems.';
     const ATTRIBUTE_REMOVED_MUTUALLY_EXCLUSIVE = 'attribute(s) removed as they were mutually exclusive.';
     const ISSUE_RESOLVED = 'no further action required as this issue was resolved due to an earlier fix';
+    const AMP_IMG_FIX = 'tried to fix problems with amp-img by adjusting one or more of: height, width, and setting layout to responsive';
+    const AMP_IMG_FIX_RESPONSIVE = 'tried to fix problems with amp-img by setting layout to responsive';
 }

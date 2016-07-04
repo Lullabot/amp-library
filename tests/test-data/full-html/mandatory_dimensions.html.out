@@ -113,17 +113,17 @@
 
   <!-- Invalid Examples -->
     <!-- Container layout isn't supported by amp-img. -->
-    <amp-img src="img" layout="container">
-    <amp-img src="img" layout="container" width="42" height="42">
     <amp-img src="img">
+    <amp-img src="img" width="42" height="42">
+    <amp-img src="img" layout="responsive">
 
     <!-- Layout of responsive/fixed without width/height -->
     <amp-img src="img" layout="responsive">
     <amp-img src="img" layout="fixed">
     <amp-img src="img" layout="responsive" width="42">
     <amp-img src="img" layout="fixed" height="42">
-    <amp-img src="img" layout="fixed" height="auto">
-    <amp-img src="img" layout="fixed" width="auto" height="42">
+    <amp-img src="img" layout="fixed">
+    <amp-img src="img" layout="fixed" height="42">
 
     <!-- Inconsistent units -->
     <amp-img src="img" layout="responsive" width="42px" height="42rem">
@@ -320,14 +320,17 @@ FAIL
 <amp-img src="img" layout="container"> on line 110
 - The specified layout 'CONTAINER' is not supported by tag 'amp-img'.
    [code: SPECIFIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.layout attribute was removed due to validation issues.
 
 <amp-img src="img" layout="container" width="42" height="42"> on line 111
 - The specified layout 'CONTAINER' is not supported by tag 'amp-img'.
    [code: SPECIFIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.layout attribute was removed due to validation issues.
 
 <amp-img src="img"> on line 112
 - The implied layout 'CONTAINER' is not supported by tag 'amp-img'.
    [code: IMPLIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img tried to fix problems with amp-img by setting layout to responsive
 
 <amp-img src="img" layout="responsive"> on line 115
 - The mandatory attribute 'height' is missing in tag 'amp-img'.
@@ -348,10 +351,12 @@ FAIL
 <amp-img src="img" layout="fixed" height="auto"> on line 119
 - The attribute 'height' in tag 'amp-img' is set to the invalid value 'auto'.
    [code: INVALID_ATTR_VALUE  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.height attribute was removed due to validation issues.
 
 <amp-img src="img" layout="fixed" width="auto" height="42"> on line 120
 - The attribute 'width' in tag 'amp-img' is set to the invalid value 'auto'.
    [code: INVALID_ATTR_VALUE  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img.width attribute was removed due to validation issues.
 
 <amp-img src="img" layout="responsive" width="42px" height="42rem"> on line 123
 - Inconsistent units for width and height in tag 'amp-img' - width is specified in 'px' whereas height is specified in 'rem'.
