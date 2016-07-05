@@ -67,7 +67,7 @@ class AmpImgFixPass extends ImgTagTransformPass
                     continue;
                 }
 
-                $success = $this->setResponsiveImgAttributes($amp_img_el);
+                $success = $this->setResponsiveImgHeightAndWidth($amp_img_el);
                 if ($success) {
                     $error->addActionTaken(new ActionTakenLine('amp-img', ActionTakenType::AMP_IMG_FIX));
                     $error->resolved = true;

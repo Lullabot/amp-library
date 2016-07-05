@@ -75,9 +75,9 @@ class ImgTagTransformPass extends BasePass
             $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
             $new_el = $el->prev();
 
-            $success = $this->setResponsiveImgAttributes($new_el);
+            $success = $this->setResponsiveImgHeightAndWidth($new_el);
             // We were not able to get the image dimensions, abort conversion.
-            if(!$success) {
+            if (!$success) {
                 $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_COULD_NOT_BE_CONVERTED, $lineno, $context_string));
                 // Abort the conversion and remove the new img tag
                 $new_el->remove();
@@ -166,8 +166,11 @@ class ImgTagTransformPass extends BasePass
      * @param DOMQuery $el
      * @return bool
      */
-    protected function setResponsiveImgAttributes(DOMQuery $el)
+    protected function setResponsiveImgHeightAndWidth(DOMQuery $el)
     {
+        // Static cache
+        static $image_dimensions_cache = [];
+
         $wcss = new CssLengthAndUnit($el->attr('width'), false);
         $hcss = new CssLengthAndUnit($el->attr('height'), false);
 
@@ -175,8 +178,19 @@ class ImgTagTransformPass extends BasePass
             return true;
         }
 
-        $dimensions = $this->getImageWidthHeight($el->attr('src'));
+        $src = trim($el->attr('src'));
+        if (empty($src)) {
+            return false;
+        }
+
+        if (isset($image_dimensions_cache[$src])) {
+            $dimensions = $image_dimensions_cache[$src];
+        } else {
+            $dimensions = $this->getImageWidthHeight($src);
+        }
+
         if ($dimensions !== false) {
+            $image_dimensions_cache[$src] = $dimensions;
             $el->attr('width', $dimensions['width']);
             $el->attr('height', $dimensions['height']);
             return true;
