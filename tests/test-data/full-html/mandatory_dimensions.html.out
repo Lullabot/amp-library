@@ -113,8 +113,8 @@
 
   <!-- Invalid Examples -->
     <!-- Container layout isn't supported by amp-img. -->
-    <amp-img src="img">
-    <amp-img src="img" width="42" height="42">
+    <amp-img src="img" layout="responsive">
+    <amp-img src="img" width="42" height="42" layout="responsive">
     <amp-img src="img" layout="responsive">
 
     <!-- Layout of responsive/fixed without width/height -->
@@ -320,12 +320,12 @@ FAIL
 <amp-img src="img" layout="container"> on line 110
 - The specified layout 'CONTAINER' is not supported by tag 'amp-img'.
    [code: SPECIFIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.layout attribute was removed due to validation issues.
+   ACTION TAKEN: amp-img tried to fix problems with amp-img by setting layout to responsive
 
 <amp-img src="img" layout="container" width="42" height="42"> on line 111
 - The specified layout 'CONTAINER' is not supported by tag 'amp-img'.
    [code: SPECIFIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.layout attribute was removed due to validation issues.
+   ACTION TAKEN: amp-img tried to fix problems with amp-img by fetching height, width from image directly and/or setting layout to responsive
 
 <amp-img src="img"> on line 112
 - The implied layout 'CONTAINER' is not supported by tag 'amp-img'.
