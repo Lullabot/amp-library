@@ -250,7 +250,8 @@ print($amp->warningsHumanText());
 
 ### Caveats and Known issues
 - We only support UTF-8 string input and output from the library. If you're using ASCII, then you don't need to worry as UTF-8 is a superset of ASCII. If you're using another encoding like Latin-1 (etc.) you'll need to convert to UTF-8 strings before you use this library 
-- If you have `<img>`s with `https` urls _and_ they don't have height/width attributes _and_ you are using PHP 5.6 or higher _and_ you have not listed any certificate authorities (`cafile`) in your `php.ini` file  _then_ the library may have problems converting these to `<amp-img>`. This is because of http://php.net/manual/en/migration56.openssl.php . That link also has a work around. 
+- If you have `<img>`s with `https` urls _and_ they don't have height/width attributes _and_ you are using PHP 5.6 or higher _and_ you have not listed any certificate authorities (`cafile`) in your `php.ini` file  _then_ the library may have problems converting these to `<amp-img>`. This is because of http://php.net/manual/en/migration56.openssl.php . That link also has a work around.
+- If your `<amp-pinterest>` pins are appearing "chopped off" (after pinterest embed code conversion) try the workaround [here](https://github.com/Lullabot/amp-library/issues/46#issuecomment-230424580) 
 
 ### Useful Links
 - [Composer homepage](https://packagist.org/packages/lullabot/amp) for the AMP PHP Library on [Packagist](https://packagist.org/), the PHP package repository
