@@ -47,7 +47,7 @@ class AmpImgFixPass extends ImgTagTransformPass
     {
         /** @var SValidationError $error */
         foreach ($this->validation_result->errors as $error) {
-            if (in_array($error->code, [ValidationErrorCode::MANDATORY_ATTR_MISSING, ValidationErrorCode::IMPLIED_LAYOUT_INVALID, ValidationErrorCode::SPECIFIED_LAYOUT_INVALID]) &&
+            if (in_array($error->code, [ValidationErrorCode::MANDATORY_ATTR_MISSING, ValidationErrorCode::INVALID_ATTR_VALUE, ValidationErrorCode::IMPLIED_LAYOUT_INVALID, ValidationErrorCode::SPECIFIED_LAYOUT_INVALID]) &&
                 !$error->resolved &&
                 !empty($error->dom_tag) &&
                 $error->dom_tag->tagName == 'amp-img'
@@ -61,7 +61,7 @@ class AmpImgFixPass extends ImgTagTransformPass
                 }
 
                 $layout = ParsedTagSpec::parseLayout($amp_img_el->attr('layout'));
-                if ($error->code == ValidationErrorCode::MANDATORY_ATTR_MISSING &&
+                if (in_array($error->code, [ValidationErrorCode::MANDATORY_ATTR_MISSING, ValidationErrorCode::INVALID_ATTR_VALUE]) &&
                     ($layout !== AmpLayoutLayout::RESPONSIVE || !in_array($error->params[0], ['height', 'width']))
                 ) {
                     continue;

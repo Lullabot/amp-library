@@ -163,11 +163,15 @@ class ImgTagTransformPass extends BasePass
 
     /**
      * @param DOMQuery $el
+     * @return bool
      */
     protected function setAmpImgAttributes(DOMQuery $el)
     {
+        $width =$el->attr('width');
+        $height = $el->attr('height');
+
         // If height or image is not set, get it from the image
-        if (!$el->attr('width') || !$el->attr('height')) {
+        if (!is_numeric($width) || !is_numeric($height)) {
             $dimensions = $this->getImageWidthHeight($el->attr('src'));
             if ($dimensions !== false) {
                 $el->attr('width', $dimensions['width']);
