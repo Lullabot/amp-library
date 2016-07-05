@@ -10,12 +10,20 @@ The AMP PHP Library is an open source and pure PHP Library that:
  - Reports compliance of a whole/partial HTML document with the [AMP HTML specification](https://www.ampproject.org/). We implement an AMP HTML validator in pure PHP to report compliance of an arbitrary HTML document / HTML fragment with the AMP HTML standard. This validator is a ported subset of the [canonical validator](https://github.com/ampproject/amphtml/tree/master/validator) that is implemented in JavaScript 
     - Specifically, the PHP validator supports tag specification validation, attribute specification validation, CDATA validation, CSS validation, layout validation, template validation and attribute property-value pair validation. It will report tags and attributes that are missing, illegal, mandatory according to spec but not present, unique according to spec but multiply present, having wrong parents or ancestors or children and so forth.
     - _Note_: while the AMP PHP library (already) supports many of the features and capabilities of the canonical validator, it is not intended to achieve parity in _every_ respect with the canonical validator. Even _within_ the features we support (e.g. CSS validation) there may be certain validation issues that we don't flag but the canonical validator does.   
- - Using the feedback given by the in-house PHP validator, the AMP PHP library tries to "correct" some issues found in the HTML to make it more AMP HTML compliant. This would, for example, involve removing:
-    - Illegal attributes e.g. `style` within `<body>` tag 
-    - Illegal tags e.g. `<script>` within `<body>` tag 
-    - Illegal property value pairs e.g. remove `minimum-scale=hello` from `<meta name="viewport" content="minimum-scale=hello">`
+ - Using the feedback given by the in-house PHP validator, the AMP PHP library tries to "correct" some issues found in the HTML to make it more AMP HTML compliant. This would, for example, involve:
+    - Removing illegal attributes e.g. `style` attribute within `<body>` tag 
+    - Removing all kinds of illegal tags e.g. `<script>` within `<body>` tag, a tag with a disallowed ancestor, a duplicate unique tag etc.
+    - Removing illegal property value pairs e.g. removing `minimum-scale=hello` from `<meta name="viewport" content="minimum-scale=hello">`
+    - Adding or correcting the tags necessary for a minimally valid AMP document:
+      - `<head>`, `<body>`, `meta viewport`, `meta charset`, `<style>` and `<noscript>` tags
+      - The `link rel=canonical` tag if you let the library know the canonical path of the document
+      - Javascript `<script>` tags for the various AMP components and generic AMP Javascript `<script>` tag
+      - Boilerplate CSS
+    - If there are mutually exclusive attributes for a tag, removing all but one of them
+    - Fixing issues with `amp-img` tags that have problems like inconsistent units, invalid attributes, missing mandatory attributes, invalid implied or specified layouts.
     - _Notes_: 
-       - The "correction" of the input HTML to make it more compliant with the AMP HTML standard is currently basic. The library does a decent job of _removing_ bad things but does not _add_ tags, attributes or property-value pairs where it could "fix" things
+       - The library does a decent job of _removing_ bad things and in a few cases makes some corrections/additions to the HTML. As the library cannot understand the true _intention_ of the user, most of the validation problems in the HTML may need to be fixed manually by the human.
+       - In general, the library will try to fix validation errors in `<head>` and if its not successful in doing so, _remove_ those tags from `<head>`. Within `<body>` the AMP PHP library is less aggressive and in most cases will _not_ remove the tag from the document if the tag does not validate after it attempts any fixes on it.
        - The library needs to be provided with well formed HTML / HTML5. Please don't give it faulty, incorrect html (e.g. non closed `<div>` tags etc). The correction it does is related to AMP HTML standard issues only. Use a HTML tidying library if you expect your HTML to be malformed.
  - Converts some non-amp elements to their AMP equivalents automatically
     - A `<img>` tag is converted to an `<amp-img>` tag
