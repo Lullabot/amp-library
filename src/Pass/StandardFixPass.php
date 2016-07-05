@@ -79,7 +79,7 @@ class StandardFixPass extends BasePass
                 continue;
             }
 
-            $tag_name = $error->dom_tag->tagName;
+            $tag_name = mb_strtolower($error->dom_tag->tagName, 'UTF-8');
 
             // Property value pairs
             if (in_array($error->code, $this->remove_properties_for_codes)

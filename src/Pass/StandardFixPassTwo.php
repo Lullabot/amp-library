@@ -68,7 +68,8 @@ class StandardFixPassTwo extends BasePass
             $test_validation_result->status = ValidationResultStatus::UNKNOWN;
 
             $local_context->attachDomTag($error->dom_tag);
-            $this->parsed_rules->validateTag($local_context, $error->dom_tag->nodeName, $this->encounteredAttributes($error->dom_tag), $test_validation_result);
+            $tagname = mb_strtolower($error->dom_tag->tagName, 'UTF-8');
+            $this->parsed_rules->validateTag($local_context, $tagname, $this->encounteredAttributes($error->dom_tag), $test_validation_result);
             $this->parsed_rules->validateTagOnExit($local_context, $test_validation_result);
 
             if ($test_validation_result->status == ValidationResultStatus::UNKNOWN) {
@@ -78,9 +79,10 @@ class StandardFixPassTwo extends BasePass
             if ($test_validation_result->status !== ValidationResultStatus::PASS &&
                 in_array('head', $local_context->getAncestorTagNames())
             ) {
-                if ($error->dom_tag->tagName !== 'style' || !$error->dom_tag->hasAttribute('amp-custom')) {
+                if (strtolower($error->dom_tag->tagName) !== 'style' || !$error->dom_tag->hasAttribute('amp-custom')) {
                     $error->dom_tag->parentNode->removeChild($error->dom_tag);
-                    $error->addGroupActionTaken(new ActionTakenLine($error->dom_tag->nodeName, ActionTakenType::TAG_REMOVED_FROM_HEAD_AFTER_REVALIDATE_FAILED));
+                    $tagname = mb_strtolower($error->dom_tag->tagName, 'UTF-8');
+                    $error->addGroupActionTaken(new ActionTakenLine($tagname, ActionTakenType::TAG_REMOVED_FROM_HEAD_AFTER_REVALIDATE_FAILED));
                 }
             }
 

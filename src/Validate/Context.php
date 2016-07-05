@@ -244,7 +244,7 @@ class Context
         $ancestor_tag_names = [];
         $tag = $this->dom_tag;
         while (($tag = $tag->parentNode) && !empty($tag->tagName)) {
-            $ancestor_tag_names[] = $tag->tagName;
+            $ancestor_tag_names[] = mb_strtolower($tag->tagName, 'UTF-8');;
         }
         $ancestor_tag_names[] = '!doctype';
         $this->ancestor_tag_names = $ancestor_tag_names;
@@ -256,7 +256,9 @@ class Context
         /** @var \DOMNode $child_node */
         foreach ($this->dom_tag->childNodes as $child_node) {
             if ($child_node->nodeType == XML_ELEMENT_NODE) {
-                $this->child_tag_names[] = $child_node->nodeName;
+                /** @var \DOMElement $child_node */
+                $tagname = mb_strtolower($child_node->tagName, 'UTF-8');
+                $this->child_tag_names[] = $tagname;
             }
         }
     }
@@ -277,7 +279,7 @@ class Context
         if (empty($this->dom_tag->parentNode->tagName)) {
             $this->parent_tag_name = '!doctype';
         } else {
-            $this->parent_tag_name = $this->dom_tag->parentNode->tagName;
+            $this->parent_tag_name = mb_strtolower($this->dom_tag->parentNode->tagName, 'UTF-8');
         }
     }
 
@@ -377,7 +379,8 @@ class Context
 
         /** @var string[] $attributes */
         $attributes = $this->encounteredAttributes($dom_el);
-        $context_string = "<$dom_el->tagName";
+        $tagname = mb_strtolower($dom_el->tagName, 'UTF-8');
+        $context_string = "<$tagname";
         foreach ($attributes as $attr_name => $attr_value) {
             // Skip embedded line numbers
             if ($attr_name == AMP::AMP_LINENUM_ATTRIBUTE) {

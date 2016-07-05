@@ -49,7 +49,8 @@ class PreliminaryPass extends BasePass
                 $dom_el = $el->get(0);
                 $context_string = $this->getContextString($dom_el);
                 $lineno = $this->getLineNo($dom_el);
-                $message = "$dom_el->tagName tag matches CSS selector '$remove_this'";
+                $tagname = mb_strtolower($dom_el->tagName, 'UTF-8');
+                $message = "$tagname tag matches CSS selector '$remove_this'";
                 $this->addActionTaken(new ActionTakenLine($message, ActionTakenType::BLACKLISTED_TAG_REMOVED, $lineno, $context_string));
                 $el->remove();
             }

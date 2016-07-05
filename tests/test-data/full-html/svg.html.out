@@ -62,8 +62,23 @@
      stuff in HTML5, we allow it just like browsers would do in practice.
  -->
 <svg version="1.0" width="640" height="480" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <circle id="another_svg_circle" r="89.560036" cy="275" cx="315" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#007f00" />
+  <circle id="svg_3_2" r="89.560036" cy="275" cx="315" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#007f00" />
 </svg>
+
+<!-- Allow version to be 1.1 and stop tags for lineargradient and
+  radialgradient -->
+  <svg version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <linearGradient x1="30%" y1="-55%" x2="58%" y2="94%">
+      <stop offset="0%" stop-color="#fff" />
+      <stop offset="67.36%" stop-color="#aaa" />
+      <stop offset="100%" stop-color="#333" />
+    </linearGradient>
+    <radialGradient cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#fff" />
+      <stop offset="67.36%" stop-color="#aaa" />
+      <stop offset="100%" stop-color="#333" />
+    </radialGradient>
+  </svg>
 </body>
 
 </html>
@@ -138,11 +153,26 @@ Line 64:      output from graphics tools. While it's a bit weird to have this na
 Line 65:      stuff in HTML5, we allow it just like browsers would do in practice.
 Line 66:  -->
 Line 67: <svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="640" height="480">
-Line 68:   <circle id="another_svg_circle" r="89.560036" cy="275" cx="315" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#007f00"/>
+Line 68:   <circle id="svg_3_2" r="89.560036" cy="275" cx="315" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#007f00"/>
 Line 69: </svg>
-Line 70: </body>
-Line 71: </html>
-Line 72: 
+Line 70: 
+Line 71: <!-- Allow version to be 1.1 and stop tags for lineargradient and
+Line 72:   radialgradient -->
+Line 73:   <svg version = "1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+Line 74:     <lineargradient x1="30%" y1="-55%" x2="58%" y2="94%">
+Line 75:       <stop offset="0%" stop-color="#fff" offset="0%" />
+Line 76:       <stop offset="0%" stop-color="#aaa" offset="67.36%" />
+Line 77:       <stop offset="0%" stop-color="#333" offset="100%" />
+Line 78:     </lineargradient>
+Line 79:     <radialgradient cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+Line 80:       <stop offset="0%" stop-color="#fff" offset="0%" />
+Line 81:       <stop offset="0%" stop-color="#aaa" offset="67.36%" />
+Line 82:       <stop offset="0%" stop-color="#333" offset="100%" />
+Line 83:     </radialgradient>
+Line 84:   </svg>
+Line 85: </body>
+Line 86: </html>
+Line 87: 
 
 
 
