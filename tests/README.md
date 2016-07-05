@@ -24,8 +24,7 @@ Note: An explicit commit is noted as these files can change.
   There is a slight custom modification made by us to this file (see our repo's 36c67aace ) and that is to close the `<amp-audio>` tags in the file that are not closed. This causes problems for PHP dom.
 * `test-data/full-html/several_errors.html` from https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/several_errors.html
 * `test-data/full-html/spec_example.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/spec_example.html
-* `test-data/full-html/svg.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/svg.html
-  Small modification: css id `svg_3` was repeated and has been made unique by changing line 68 to `another_svg_circle`.
+* `test-data/full-html/svg.html` https://github.com/ampproject/amphtml/raw/8ab5d550fae93b9a1bb8a06d9fb82ffc08569b44/validator/testdata/feature_tests/svg.html
 * `test-data/full-html/track_tag.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/validator/testdata/feature_tests/track_tag.html
 * `test-data/full-html/urls.html` from https://github.com/ampproject/amphtml/blob/eddc6fd2224559cb7ccc6a1e27484e52de3d9301/validator/testdata/feature_tests/urls.html
 * `test-data/full-html/validator-amp-accordion.html` https://github.com/ampproject/amphtml/blob/27ee29ffc3d809fcc8143044d22df9d176ad8169/extensions/amp-accordion/0.1/test/validator-amp-accordion.html
