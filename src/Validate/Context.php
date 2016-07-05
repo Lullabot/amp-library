@@ -244,7 +244,7 @@ class Context
         $ancestor_tag_names = [];
         $tag = $this->dom_tag;
         while (($tag = $tag->parentNode) && !empty($tag->tagName)) {
-            $ancestor_tag_names[] = mb_strtolower($tag->tagName, 'UTF-8');;
+            $ancestor_tag_names[] = mb_strtolower($tag->tagName, 'UTF-8');
         }
         $ancestor_tag_names[] = '!doctype';
         $this->ancestor_tag_names = $ancestor_tag_names;
