@@ -50,7 +50,7 @@ class AmpImgFixPass extends ImgTagTransformPass
             if (in_array($error->code, [ValidationErrorCode::INCONSISTENT_UNITS_FOR_WIDTH_AND_HEIGHT, ValidationErrorCode::MANDATORY_ATTR_MISSING, ValidationErrorCode::INVALID_ATTR_VALUE, ValidationErrorCode::IMPLIED_LAYOUT_INVALID, ValidationErrorCode::SPECIFIED_LAYOUT_INVALID]) &&
                 !$error->resolved &&
                 !empty($error->dom_tag) &&
-                $error->dom_tag->tagName == 'amp-img'
+                strtolower($error->dom_tag->tagName) == 'amp-img'
             ) {
                 $amp_img_el = new DOMQuery($error->dom_tag);
 

@@ -78,7 +78,7 @@ class StandardFixPassTwo extends BasePass
             if ($test_validation_result->status !== ValidationResultStatus::PASS &&
                 in_array('head', $local_context->getAncestorTagNames())
             ) {
-                if ($error->dom_tag->tagName !== 'style' || !$error->dom_tag->hasAttribute('amp-custom')) {
+                if (strtolower($error->dom_tag->tagName) !== 'style' || !$error->dom_tag->hasAttribute('amp-custom')) {
                     $error->dom_tag->parentNode->removeChild($error->dom_tag);
                     $error->addGroupActionTaken(new ActionTakenLine($error->dom_tag->nodeName, ActionTakenType::TAG_REMOVED_FROM_HEAD_AFTER_REVALIDATE_FAILED));
                 }

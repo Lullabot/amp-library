@@ -244,7 +244,7 @@ class Context
         $ancestor_tag_names = [];
         $tag = $this->dom_tag;
         while (($tag = $tag->parentNode) && !empty($tag->tagName)) {
-            $ancestor_tag_names[] = $tag->tagName;
+            $ancestor_tag_names[] = mb_strtolower($tag->tagName, 'UTF-8');;
         }
         $ancestor_tag_names[] = '!doctype';
         $this->ancestor_tag_names = $ancestor_tag_names;
@@ -277,7 +277,7 @@ class Context
         if (empty($this->dom_tag->parentNode->tagName)) {
             $this->parent_tag_name = '!doctype';
         } else {
-            $this->parent_tag_name = $this->dom_tag->parentNode->tagName;
+            $this->parent_tag_name = mb_strtolower($this->dom_tag->parentNode->tagName, 'UTF-8');
         }
     }
 
@@ -377,7 +377,8 @@ class Context
 
         /** @var string[] $attributes */
         $attributes = $this->encounteredAttributes($dom_el);
-        $context_string = "<$dom_el->tagName";
+        $tagname = mb_strtolower($dom_el->tagName, 'UTF-8');
+        $context_string = "<$tagname";
         foreach ($attributes as $attr_name => $attr_value) {
             // Skip embedded line numbers
             if ($attr_name == AMP::AMP_LINENUM_ATTRIBUTE) {
