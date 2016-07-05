@@ -51,12 +51,13 @@ class PinterestTagTransformPass extends BasePass
 
             $context_string = $this->getContextString($dom_el);
             $script_tag = $this->getScriptTag($el, '&(*UTF8)pinterest\.com/js/pinit\.js&i');
-            $pinterest_dimensions = $this->getPinterestDimensions($el);
 
             // hard code width and height for now (medium size pin)
             // layout="responsive" is not the way to go. Omit that.
-            $el->after('<amp-pinterest ' . $pinterest_dimensions . ' data-url="' . $data_url . '" data-do="embedPin"></amp-pinterest>');
+            $el->after('<amp-pinterest data-url="' . $data_url . '" data-do="embedPin"></amp-pinterest>');
+            $new_el = $el->next();
             $new_dom_el = $el->next()->get(0);
+            $this->setPinterestDimensionsFrom($el, $new_el);
 
             // Remove the a, its children and the script tag that may follow after the a tag
             $el->removeChildren()->remove();
@@ -75,17 +76,30 @@ class PinterestTagTransformPass extends BasePass
 
     /**
      * @param DOMQuery $el
-     * @return string
+     * @param DOMQuery $new_el
      */
-    protected function getPinterestDimensions($el)
+    protected function setPinterestDimensionsFrom(DOMQuery $el, DOMQuery $new_el)
     {
+        $dimensions = [
+            'medium' => ['width' => '345', 'height' => '426'],
+            'large' => ['width' => '562', 'height' => '627'],
+            'small' => ['width' => '236', 'height' => '345']
+        ];
+
         $pin_width = trim($el->attr('data-pin-width'));
-        if ($pin_width == 'medium') {
-            return ' width="345" height="426" data-width="medium" ';
-        } else if ($pin_width == 'large') {
-            return ' width="562" height="627" data-width="large" ';
+        if (!in_array($pin_width, ['small', 'medium', 'large'])) {
+            $pin_width = 'small';
+        }
+
+        $width = $el->attr('width');
+        $height = $el->attr('height');
+        $hw_available = !empty($width) && !empty($height);
+        $new_el->attr('data-pin-width', $pin_width);
+        if ($hw_available) {
+            $new_el->attr('width', $width);
+            $new_el->attr('height', $height);
         } else {
-            return ' width="236" height="345" data-width="small" ';
+            $new_el->attr($dimensions[$pin_width]);
         }
     }
 }
