@@ -22,7 +22,7 @@ The AMP PHP Library is an open source and pure PHP Library that:
     - If there are mutually exclusive attributes for a tag, removing all but one of them
     - Fixing issues with `amp-img` tags that have problems like inconsistent units, invalid attributes, missing mandatory attributes, invalid implied or specified layouts.
     - _Notes_: 
-       - The library does a decent job of _removing_ bad things and in a few cases makes some corrections/additions to the HTML. As the library cannot understand the true _intention_ of the user, most of the validation problems in the HTML may need to be fixed manually by the human.
+       - The library does a decent job of _removing_ bad things and in a few cases makes some corrections/additions to the HTML. As the library cannot understand the true _intention_ of the user, a lot the validation problems in the HTML may eventually need to be fixed manually by the human.
        - In general, the library will try to fix validation errors in `<head>` and if its not successful in doing so, _remove_ those tags from `<head>`. Within `<body>` the AMP PHP library is less aggressive and in most cases will _not_ remove the tag from the document if the tag does not validate after it attempts any fixes on it.
        - The library needs to be provided with well formed HTML / HTML5. Please don't give it faulty, incorrect html (e.g. non closed `<div>` tags etc). The correction it does is related to AMP HTML standard issues only. Use a HTML tidying library if you expect your HTML to be malformed.
  - Converts some non-amp elements to their AMP equivalents automatically
