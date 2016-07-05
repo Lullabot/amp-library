@@ -1,0 +1,93 @@
+<!-- Note: this image is in the public domain. https://commons.wikimedia.org/wiki/File:"Birdcatcher"_with_jockey_up.jpg -->
+
+<!-- should transform to amp-img -->
+<amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625" height="480" layout="responsive"></amp-img>
+
+<!-- should transform to amp-img with responsive layout, preserving the width and height -->
+<amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="125" height="96" layout="responsive"></amp-img>
+
+<!-- nonexistent image, should refuse to convert to amp-img -->
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg">
+
+<!-- should provide layout and height width and make layout responsive -->
+<amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" layout="responsive" width="625" height="480"></amp-img>
+
+<!-- since only width exists, overwrite with height and width from original image -->
+<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="500"></amp-img>
+
+<!-- since height is illegal, overwrite with height and width from original image -->
+<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625"></amp-img>
+
+<!-- since units are inconsistent, overwrite with height+width from original image -->
+<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625" height="480"></amp-img>
+
+ORIGINAL HTML
+---------------
+Line  1: <!-- Note: this image is in the public domain. https://commons.wikimedia.org/wiki/File:"Birdcatcher"_with_jockey_up.jpg -->
+Line  2: 
+Line  3: <!-- should transform to amp-img -->
+Line  4: <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg">
+Line  5: 
+Line  6: <!-- should transform to amp-img with responsive layout, preserving the width and height -->
+Line  7: <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="125" height="96">
+Line  8: 
+Line  9: <!-- nonexistent image, should refuse to convert to amp-img -->
+Line 10: <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg">
+Line 11: 
+Line 12: <!-- should provide layout and height width and make layout responsive -->
+Line 13: <amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg"></amp-img>
+Line 14: 
+Line 15: <!-- since only width exists, overwrite with height and width from original image -->
+Line 16: <amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="500"></amp-img>
+Line 17: 
+Line 18: <!-- since height is illegal, overwrite with height and width from original image -->
+Line 19: <amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625" height="auto"></amp-img>
+Line 20: 
+Line 21: <!-- since units are inconsistent, overwrite with height+width from original image -->
+Line 22: <amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625rem" height="480"></amp-img>
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg"> at line 4
+ ACTION TAKEN: img tag was converted to the amp-img tag.
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="125" height="96"> at line 7
+ ACTION TAKEN: img tag was converted to the amp-img tag.
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg"> at line 10
+ ACTION TAKEN: img tag could NOT be converted to the amp-img tag as the image is not accessible.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg"> on line 10
+- The tag 'img' may only appear as a descendant of tag 'noscript'. Did you mean 'amp-img'?
+   [code: MANDATORY_TAG_ANCESTOR_WITH_HINT  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT see: https://www.ampproject.org/docs/reference/amp-img.html]
+
+<amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg"> on line 13
+- The implied layout 'CONTAINER' is not supported by tag 'amp-img'.
+   [code: IMPLIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img tried to fix problems with amp-img by trying to fetch height, width from image directly and/or setting layout to responsive
+
+<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="500"> on line 16
+- The mandatory attribute 'height' is missing in tag 'amp-img'.
+   [code: MANDATORY_ATTR_MISSING  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img tried to fix problems with amp-img by trying to fetch height, width from image directly and/or setting layout to responsive
+
+<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625" height="auto"> on line 19
+- The attribute 'height' in tag 'amp-img' is set to the invalid value 'auto'.
+   [code: INVALID_ATTR_VALUE  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img tried to fix problems with amp-img by trying to fetch height, width from image directly and/or setting layout to responsive
+
+<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625rem" height="480"> on line 22
+- Inconsistent units for width and height in tag 'amp-img' - width is specified in 'rem' whereas height is specified in 'px'.
+   [code: INCONSISTENT_UNITS_FOR_WIDTH_AND_HEIGHT  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img tried to fix problems with amp-img by trying to fetch height, width from image directly and/or setting layout to responsive
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required
