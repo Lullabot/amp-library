@@ -107,7 +107,8 @@ class MinimumValidFixPass extends BasePass
         /** @var \DOMElement $tag */
         foreach ($all_tags as $tag) {
             $local_context->attachDomTag($tag);
-            $this->parsed_rules->validateTag($local_context, $tag->nodeName, $this->encounteredAttributes($tag), $temp_validation_result);
+            $tagname = mb_strtolower($tag->tagName, 'UTF-8');
+            $this->parsed_rules->validateTag($local_context, $tagname, $this->encounteredAttributes($tag), $temp_validation_result);
             $this->parsed_rules->validateTagOnExit($local_context, $temp_validation_result);
             $local_context->detachDomTag();
         }

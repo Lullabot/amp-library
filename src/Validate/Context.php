@@ -256,7 +256,9 @@ class Context
         /** @var \DOMNode $child_node */
         foreach ($this->dom_tag->childNodes as $child_node) {
             if ($child_node->nodeType == XML_ELEMENT_NODE) {
-                $this->child_tag_names[] = $child_node->nodeName;
+                /** @var \DOMElement $child_node */
+                $tagname = mb_strtolower($child_node->tagName, 'UTF-8');
+                $this->child_tag_names[] = $tagname;
             }
         }
     }

@@ -41,7 +41,8 @@ class StandardScanPass extends BasePass
         foreach ($all_tags as $tag) {
             $count++;
             $this->context->attachDomTag($tag);
-            $this->parsed_rules->validateTag($this->context, $tag->nodeName, $this->encounteredAttributes($tag), $this->validation_result);
+            $tagname = mb_strtolower($tag->tagName, 'UTF-8');
+            $this->parsed_rules->validateTag($this->context, $tagname, $this->encounteredAttributes($tag), $this->validation_result);
             $this->parsed_rules->validateTagOnExit($this->context, $this->validation_result);
             $this->context->detachDomTag();
         }
