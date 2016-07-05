@@ -18,6 +18,7 @@
 namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Utility\ParseUrl;
+use Lullabot\AMP\Validate\CssLengthAndUnit;
 use Lullabot\AMP\Validate\GroupedValidationResult;
 use Lullabot\AMP\Validate\Scope;
 use Lullabot\AMP\Utility\ActionTakenLine;
@@ -74,7 +75,7 @@ class ImgTagTransformPass extends BasePass
             $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
             $new_el = $el->prev();
 
-            $success = $this->setAmpImgAttributes($new_el);
+            $success = $this->setResponsiveImgAttributes($new_el);
             // We were not able to get the image dimensions, abort conversion.
             if(!$success) {
                 $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_COULD_NOT_BE_CONVERTED, $lineno, $context_string));
@@ -165,23 +166,22 @@ class ImgTagTransformPass extends BasePass
      * @param DOMQuery $el
      * @return bool
      */
-    protected function setAmpImgAttributes(DOMQuery $el)
+    protected function setResponsiveImgAttributes(DOMQuery $el)
     {
-        $width =$el->attr('width');
-        $height = $el->attr('height');
+        $wcss = new CssLengthAndUnit($el->attr('width'), false);
+        $hcss = new CssLengthAndUnit($el->attr('height'), false);
 
-        // If height or image is not set, get it from the image
-        if (!is_numeric($width) || !is_numeric($height)) {
-            $dimensions = $this->getImageWidthHeight($el->attr('src'));
-            if ($dimensions !== false) {
-                $el->attr('width', $dimensions['width']);
-                $el->attr('height', $dimensions['height']);
-                return true;
-            } else {
-                return false;
-            }
+        if ($wcss->is_set && $wcss->is_valid && $wcss->is_set && $wcss->is_valid && $wcss->unit == $hcss->unit) {
+            return true;
         }
 
-        return true;
+        $dimensions = $this->getImageWidthHeight($el->attr('src'));
+        if ($dimensions !== false) {
+            $el->attr('width', $dimensions['width']);
+            $el->attr('height', $dimensions['height']);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

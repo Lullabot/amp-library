@@ -48,6 +48,6 @@ class ActionTakenType
     const TAG_REMOVED_FROM_HEAD_AFTER_REVALIDATE_FAILED = 'tag removed from head as it still does not validate. Could not fix tag validation problems.';
     const ATTRIBUTE_REMOVED_MUTUALLY_EXCLUSIVE = 'attribute(s) removed as they were mutually exclusive.';
     const ISSUE_RESOLVED = 'no further action required as this issue was resolved due to an earlier fix';
-    const AMP_IMG_FIX = 'tried to fix problems with amp-img by fetching height, width from image directly and/or setting layout to responsive';
+    const AMP_IMG_FIX = 'tried to fix problems with amp-img by trying to fetch height, width from image directly and/or setting layout to responsive';
     const AMP_IMG_FIX_RESPONSIVE = 'tried to fix problems with amp-img by setting layout to responsive';
 }
