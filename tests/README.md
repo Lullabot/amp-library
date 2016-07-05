@@ -13,6 +13,7 @@ Note: An explicit commit is noted as these files can change.
 * `test-data/full-html/link_meta_values.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/link_meta_values.html
 * `test-data/full-html/mandatory-dimensions.html` https://github.com/ampproject/amphtml/blob/e1aa24df8432963423ee6cec1ce4d57529767e6e/validator/testdata/feature_tests/mandatory_dimensions.html
   There is a trivial modification: `</amp-anum>` is changed to `</amp-anim>`. See https://github.com/ampproject/amphtml/issues/3609
+  Also all `<amp-img>` tags are closed. See https://github.com/ampproject/amphtml/issues/3713
 * `test-data/full-html/minimum_valid_amp.html` https://github.com/ampproject/amphtml/blob/96335e0540532264b3b38d498070f17473692b21/validator/testdata/feature_tests/minimum_valid_amp.html
 * `test-data/full-html/new_and_old_boilerplate_mixed.html` https://github.com/ampproject/amphtml/blob/3bd74c3915f9e29824eebedbf6f14f6c531a3449/validator/testdata/feature_tests/new_and_old_boilerplate_mixed.html
 * `test-data/full-html/new_and_old_boilerplate_mixed2.html` https://github.com/ampproject/amphtml/blob/d17719548ca786ec8c3778743da7f2020c7d0460/validator/testdata/feature_tests/new_and_old_boilerplate_mixed2.html

@@ -18,6 +18,7 @@
 namespace Lullabot\AMP\Pass;
 
 use Lullabot\AMP\Utility\ParseUrl;
+use Lullabot\AMP\Validate\CssLengthAndUnit;
 use Lullabot\AMP\Validate\GroupedValidationResult;
 use Lullabot\AMP\Validate\Scope;
 use Lullabot\AMP\Utility\ActionTakenLine;
@@ -74,9 +75,9 @@ class ImgTagTransformPass extends BasePass
             $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
             $new_el = $el->prev();
 
-            $success = $this->setAmpImgAttributes($new_el);
+            $success = $this->setResponsiveImgHeightAndWidth($new_el);
             // We were not able to get the image dimensions, abort conversion.
-            if(!$success) {
+            if (!$success) {
                 $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_COULD_NOT_BE_CONVERTED, $lineno, $context_string));
                 // Abort the conversion and remove the new img tag
                 $new_el->remove();
@@ -163,21 +164,38 @@ class ImgTagTransformPass extends BasePass
 
     /**
      * @param DOMQuery $el
+     * @return bool
      */
-    protected function setAmpImgAttributes(DOMQuery $el)
+    protected function setResponsiveImgHeightAndWidth(DOMQuery $el)
     {
-        // If height or image is not set, get it from the image
-        if (!$el->attr('width') || !$el->attr('height')) {
-            $dimensions = $this->getImageWidthHeight($el->attr('src'));
-            if ($dimensions !== false) {
-                $el->attr('width', $dimensions['width']);
-                $el->attr('height', $dimensions['height']);
-                return true;
-            } else {
-                return false;
-            }
+        // Static cache
+        static $image_dimensions_cache = [];
+
+        $wcss = new CssLengthAndUnit($el->attr('width'), false);
+        $hcss = new CssLengthAndUnit($el->attr('height'), false);
+
+        if ($wcss->is_set && $wcss->is_valid && $wcss->is_set && $wcss->is_valid && $wcss->unit == $hcss->unit) {
+            return true;
         }
 
-        return true;
+        $src = trim($el->attr('src'));
+        if (empty($src)) {
+            return false;
+        }
+
+        if (isset($image_dimensions_cache[$src])) {
+            $dimensions = $image_dimensions_cache[$src];
+        } else {
+            $dimensions = $this->getImageWidthHeight($src);
+        }
+
+        if ($dimensions !== false) {
+            $image_dimensions_cache[$src] = $dimensions;
+            $el->attr('width', $dimensions['width']);
+            $el->attr('height', $dimensions['height']);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

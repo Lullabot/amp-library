@@ -96,11 +96,9 @@ class StandardFixPass extends BasePass
                 if (empty($new_attr_value_trimmed)) {  // There is nothing here now so we should just remove the attribute
                     $error->dom_tag->removeAttribute($error->attr_name);
                     $error->addActionTaken(new ActionTakenLine("In $tag_name.$error->attr_name the \"$error->segment\"", ActionTakenType::PROPERTY_REMOVED_ATTRIBUTE_REMOVED, $error->line));
-                    $error->resolved = true;
                 } else {
                     $error->dom_tag->setAttribute($error->attr_name, $new_attr_value);
                     $error->addActionTaken(new ActionTakenLine("In $tag_name.$error->attr_name the \"$error->segment\"", ActionTakenType::PROPERTY_REMOVED, $error->line));
-                    $error->resolved = true;
                 }
             }
 
@@ -111,7 +109,6 @@ class StandardFixPass extends BasePass
             ) {
                 $error->dom_tag->removeAttribute($error->attr_name);
                 $error->addActionTaken(new ActionTakenLine("$tag_name.$error->attr_name", ActionTakenType::ATTRIBUTE_REMOVED, $error->line));
-                $error->resolved = true;
             }
 
             // Tags
@@ -119,7 +116,6 @@ class StandardFixPass extends BasePass
                 // Remove the offending tag
                 $error->dom_tag->parentNode->removeChild($error->dom_tag);
                 $error->addActionTaken(new ActionTakenLine($tag_name, ActionTakenType::TAG_REMOVED, $error->line));
-                $error->resolved = true;
             }
 
         }

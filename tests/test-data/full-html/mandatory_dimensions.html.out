@@ -64,7 +64,7 @@
     <amp-img src="img" height="42"></amp-img>
 
     <!-- It's OK to have inconsistent units for layout="fixed" -->
-    <amp-img src="img" layout="fixed" width="42px" height="42rem">
+    <amp-img src="img" layout="fixed" width="42px" height="42rem"></amp-img>
 
 
     <!-- throw in some fully optional attrs -->
@@ -113,20 +113,20 @@
 
   <!-- Invalid Examples -->
     <!-- Container layout isn't supported by amp-img. -->
-    <amp-img src="img">
-    <amp-img src="img" width="42" height="42">
-    <amp-img src="img" layout="responsive">
+    <amp-img src="img" layout="responsive"></amp-img>
+    <amp-img src="img" width="42" height="42" layout="responsive"></amp-img>
+    <amp-img src="img" layout="responsive"></amp-img>
 
     <!-- Layout of responsive/fixed without width/height -->
-    <amp-img src="img" layout="responsive">
-    <amp-img src="img" layout="fixed">
-    <amp-img src="img" layout="responsive" width="42">
-    <amp-img src="img" layout="fixed" height="42">
-    <amp-img src="img" layout="fixed">
-    <amp-img src="img" layout="fixed" height="42">
+    <amp-img src="img" layout="responsive"></amp-img>
+    <amp-img src="img" layout="fixed"></amp-img>
+    <amp-img src="img" layout="responsive" width="42"></amp-img>
+    <amp-img src="img" layout="fixed" height="42"></amp-img>
+    <amp-img src="img" layout="fixed"></amp-img>
+    <amp-img src="img" layout="fixed" height="42"></amp-img>
 
     <!-- Inconsistent units -->
-    <amp-img src="img" layout="responsive" width="42px" height="42rem">
+    <amp-img src="img" layout="responsive" width="42px" height="42rem"></amp-img>
 
     <!-- src or srcset or both are all valid -->
     <amp-img width="42" height="42"></amp-img>
@@ -152,7 +152,7 @@
     <amp-img height="42" src="img"></amp-img>
   <!-- /Invalid Examples -->
 
-</amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></amp-img></body>
+</body>
 
 </html>
 
@@ -219,7 +219,7 @@ Line  57:     <amp-img src="img" width="auto" height="42"></amp-img>
 Line  58:     <amp-img src="img" height="42"></amp-img>
 Line  59: 
 Line  60:     <!-- It's OK to have inconsistent units for layout="fixed" -->
-Line  61:     <amp-img src="img" layout="fixed" width="42px" height="42rem">
+Line  61:     <amp-img src="img" layout="fixed" width="42px" height="42rem"></amp-img>
 Line  62: 
 Line  63: 
 Line  64:     <!-- throw in some fully optional attrs -->
@@ -268,20 +268,20 @@ Line 106:   <!-- /Valid Examples -->
 Line 107: 
 Line 108:   <!-- Invalid Examples -->
 Line 109:     <!-- Container layout isn't supported by amp-img. -->
-Line 110:     <amp-img src="img" layout="container">
-Line 111:     <amp-img src="img" layout="container" width="42" height="42">
-Line 112:     <amp-img src="img">
+Line 110:     <amp-img src="img" layout="container"></amp-img>
+Line 111:     <amp-img src="img" layout="container" width="42" height="42"></amp-img>
+Line 112:     <amp-img src="img"></amp-img>
 Line 113: 
 Line 114:     <!-- Layout of responsive/fixed without width/height -->
-Line 115:     <amp-img src="img" layout="responsive">
-Line 116:     <amp-img src="img" layout="fixed">
-Line 117:     <amp-img src="img" layout="responsive" width="42">
-Line 118:     <amp-img src="img" layout="fixed" height="42">
-Line 119:     <amp-img src="img" layout="fixed" height="auto">
-Line 120:     <amp-img src="img" layout="fixed" width="auto" height="42">
+Line 115:     <amp-img src="img" layout="responsive"></amp-img>
+Line 116:     <amp-img src="img" layout="fixed"></amp-img>
+Line 117:     <amp-img src="img" layout="responsive" width="42"></amp-img>
+Line 118:     <amp-img src="img" layout="fixed" height="42"></amp-img>
+Line 119:     <amp-img src="img" layout="fixed" height="auto"></amp-img>
+Line 120:     <amp-img src="img" layout="fixed" width="auto" height="42"></amp-img>
 Line 121: 
 Line 122:     <!-- Inconsistent units -->
-Line 123:     <amp-img src="img" layout="responsive" width="42px" height="42rem">
+Line 123:     <amp-img src="img" layout="responsive" width="42px" height="42rem"></amp-img>
 Line 124: 
 Line 125:     <!-- src or srcset or both are all valid -->
 Line 126:     <amp-img width="42" height="42"></amp-img>
@@ -320,12 +320,12 @@ FAIL
 <amp-img src="img" layout="container"> on line 110
 - The specified layout 'CONTAINER' is not supported by tag 'amp-img'.
    [code: SPECIFIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.layout attribute was removed due to validation issues.
+   ACTION TAKEN: amp-img tried to fix problems with amp-img by setting layout to responsive
 
 <amp-img src="img" layout="container" width="42" height="42"> on line 111
 - The specified layout 'CONTAINER' is not supported by tag 'amp-img'.
    [code: SPECIFIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.layout attribute was removed due to validation issues.
+   ACTION TAKEN: amp-img tried to fix problems with amp-img by trying to fetch height, width from image directly and/or setting layout to responsive
 
 <amp-img src="img"> on line 112
 - The implied layout 'CONTAINER' is not supported by tag 'amp-img'.
@@ -343,6 +343,7 @@ FAIL
 <amp-img src="img" layout="responsive" width="42"> on line 117
 - The mandatory attribute 'height' is missing in tag 'amp-img'.
    [code: MANDATORY_ATTR_MISSING  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: amp-img tried to fix problems with amp-img by trying to fetch height, width from image directly and/or setting layout to responsive
 
 <amp-img src="img" layout="fixed" height="42"> on line 118
 - The mandatory attribute 'width' is missing in tag 'amp-img'.
