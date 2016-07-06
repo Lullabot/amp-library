@@ -13,7 +13,7 @@ The AMP PHP Library is an open source and pure PHP Library that:
  - Using the feedback given by the in-house PHP validator, the AMP PHP library tries to "correct" some issues found in the HTML to make it more AMP HTML compliant. This would, for example, involve:
     - Removing illegal attributes e.g. `style` attribute within `<body>` tag 
     - Removing all kinds of illegal tags e.g. `<script>` within `<body>` tag, a tag with a disallowed ancestor, a duplicate unique tag etc.
-    - Removing illegal property value pairs e.g. removing `minimum-scale=hello` from `<meta name="viewport" content="minimum-scale=hello">`
+    - Removing illegal property value pairs e.g. removing `minimum-scale=hello` from `<meta name="viewport" content="width=device-width,minimum-scale=hello">`
     - Adding or correcting the tags necessary for a minimally valid AMP document:
       - `<head>`, `<body>`, `meta viewport`, `meta charset`, `<style>` and `<noscript>` tags
       - The `link rel=canonical` tag if you let the library know the canonical path of the document
@@ -43,7 +43,10 @@ The AMP PHP Library is an open source and pure PHP Library that:
        - Some of these embed code conversions may not have the advanced features you may require. File an issue if you need enhancements to the functionality already provided or new embed code conversions
        - Some of the embed codes have an associated `<script>` tag. These conversions will work even if no `<script>` tag was added to your HTML document. The AMP library will add the appropriate AMP component `<script>` tag to the `<head>` if it is provided a full html document.
        - You may experiment with the command line utility `amp-console` on the above HTML fragments to see how the converted HTML looks
-- Provides both a console and programmatic interface with which to call the library. It works like this: the programmer/user provides some HTML and we return (1) The AMPized HTML (2) A list of warnings reported by the Validator (3) A list of fixes/tag conversions made by the library
+- Provides both a console and programmatic interface with which to call the library. It works like this: the developer first provides some HTML. After processing it, the library returns: 
+    - The AMPized HTML
+    - A list of validation errors in the HTML provided 
+    - A description of fixes and embed code conversions made to the HTML  
 
 ### Use Cases
 
