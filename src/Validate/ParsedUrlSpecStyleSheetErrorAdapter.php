@@ -50,7 +50,7 @@ class ParsedUrlSpecStyleSheetErrorAdapter
      */
     public function invalidUrl(Context $context, $url, TagSpec $tagspec, SValidationResult $result, $line_delta = 0)
     {
-        $context->addError(ValidationErrorCode::CSS_SYNTAX_MISSING_URL,
+        $context->addError(ValidationErrorCode::CSS_SYNTAX_INVALID_URL,
             [ParsedTagSpec::getTagSpecName($tagspec), $url], $tagspec->spec_url, $result, '', '', $line_delta);
     }
 
