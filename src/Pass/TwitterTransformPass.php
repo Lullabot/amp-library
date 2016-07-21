@@ -30,7 +30,7 @@ class TwitterTransformPass extends BasePass
 {
     function pass()
     {
-        $all_tweets = $this->q->top()->find('blockquote[class="twitter-tweet"]');
+        $all_tweets = $this->q->top()->find('blockquote[class~="twitter-tweet"]');
         /** @var DOMQuery $el */
         foreach ($all_tweets as $el) {
             /** @var \DOMElement $dom_el */
