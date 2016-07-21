@@ -102,7 +102,10 @@ class IframeTagTransformPass extends BasePass
             return [false, false];
         }
 
-        if ($parsed_url['scheme'] == 'http') {
+        // Deal with relative URLs e.g "//example.com/iframe.html"
+        if (empty($parsed_url['scheme']) && strpos($src, '//') === 0) {
+            return ['https:' . $src, true];
+        } else if (!empty($parsed_url['scheme']) && $parsed_url['scheme'] == 'http') {
             return [preg_replace('/(*UTF8)^http:/i', 'https:', $src), true];
         } else {
             return [$src, false];
