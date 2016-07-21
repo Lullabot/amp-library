@@ -1,19 +1,30 @@
 <amp-iframe sandbox="allow-scripts allow-same-origin" layout="responsive" height="450" width="600" src="https://www.kickstarter.com/projects/1081571316/rhino-shield-the-impact-resistant-screen-protector/widget/video.html"></amp-iframe>
 
+<amp-iframe sandbox="allow-scripts allow-same-origin" layout="responsive" height="450" width="600" src="https://www.kickstarter.com/projects/1081571316/rhino-shield-the-impact-resistant-screen-protector/widget/video.html"></amp-iframe>
+
 ORIGINAL HTML
 ---------------
-Line 1: <iframe frameborder="0"
-Line 2:         height="450"
-Line 3:         src="http://www.kickstarter.com/projects/1081571316/rhino-shield-the-impact-resistant-screen-protector/widget/video.html"
-Line 4:         width="600">
-Line 5: </iframe>
+Line  1: <iframe frameborder="0"
+Line  2:         height="450"
+Line  3:         src="http://www.kickstarter.com/projects/1081571316/rhino-shield-the-impact-resistant-screen-protector/widget/video.html"
+Line  4:         width="600">
+Line  5: </iframe>
+Line  6: 
+Line  7: <iframe frameborder="0"
+Line  8:         height="450"
+Line  9:         src="//www.kickstarter.com/projects/1081571316/rhino-shield-the-impact-resistant-screen-protector/widget/video.html"
+Line 10:         width="600">
+Line 11: </iframe>
 
 
 Transformations made from HTML tags to AMP custom tags
 -------------------------------------------------------
 
 <iframe frameborder height="450" src="http://www.kickstarter.com/projects/1081571316/rhino-shield-the-impact-resistant-screen-protector/widget/video.html" width="600"> at line 4
- ACTION TAKEN: iframe tag was converted to the amp-iframe tag. The url protocol was changed from http to https. amp-iframe does not support http
+ ACTION TAKEN: iframe tag was converted to the amp-iframe tag. The url protocol was changed to explicitly use https. amp-iframe does not support http
+
+<iframe frameborder height="450" src="//www.kickstarter.com/projects/1081571316/rhino-shield-the-impact-resistant-screen-protector/widget/video.html" width="600"> at line 10
+ ACTION TAKEN: iframe tag was converted to the amp-iframe tag. The url protocol was changed to explicitly use https. amp-iframe does not support http
 
 
 AMP-HTML Validation Issues and Fixes
