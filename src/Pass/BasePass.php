@@ -249,7 +249,7 @@ abstract class BasePass
 
         $query = ParseUrl::parse_url($href, PHP_URL_QUERY);
         if ($query === null) {
-            return false;
+            return [];
         }
 
         $arr = [];
