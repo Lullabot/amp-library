@@ -110,7 +110,7 @@ class FacebookNonIframeTransformPass extends BasePass
 
         $card = true;
         // e.g https://www.facebook.com/facebook/videos/10153231379946729/
-        if (preg_match('&(*UTF8)facebook\.com/facebook/videos/\d+/?&i', $src)) {
+        if (preg_match('&(*UTF8)facebook\.com/.*/videos/\d+/?&i', $src)) {
             // A facebook video can be embedded as a post. Doing that enables the video "card" to display
             if ($el->attr('data-show-text') !== "false") {
                 $embed_as = 'post';
