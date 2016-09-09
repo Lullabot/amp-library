@@ -5,6 +5,8 @@
 
 <amp-facebook layout="responsive" data-href="https://www.facebook.com/facebook/videos/10153231379946729/" data-embed-as="post" height="366" width="500"></amp-facebook>
 
+<amp-facebook layout="responsive" data-href="https://www.facebook.com/zuck/videos/10103066366848051/" data-embed-as="video" height="366" width="500"></amp-facebook>
+
 ORIGINAL HTML
 ---------------
 Line  1: <div id="fb-root"></div>
@@ -33,6 +35,13 @@ Line 23:         <p>How to share with just friends.</p>Posted by <a href="https:
 Line 24:         Friday, 5 December 2014
 Line 25:     </blockquote>
 Line 26: </div>
+Line 27: 
+Line 28: <div class="fb-video" data-href="https://www.facebook.com/zuck/videos/10103066366848051/" data-width="500" data-show-text="false">
+Line 29:     <blockquote cite="https://www.facebook.com/zuck/videos/10103066366848051/" class="fb-xfbml-parse-ignore">
+Line 30:     <a href="https://www.facebook.com/zuck/videos/10103066366848051/">Live from our Townhall Q&amp;A in Rome. Comment to ask a question!</a>
+Line 31:     <p>Live from our Townhall Q&amp;A in Rome. Comment to ask a question!</p>Posted by <a href="https://www.facebook.com/zuck">Mark Zuckerberg</a> on Monday, August 29, 2016
+Line 32:     </blockquote>
+Line 33: </div>
 
 
 Transformations made from HTML tags to AMP custom tags
@@ -45,6 +54,9 @@ Transformations made from HTML tags to AMP custom tags
  ACTION TAKEN: div.fb-post facebook javascript sdk embed code was converted to the amp-facebook tag.
 
 <div class="fb-video" data-href="https://www.facebook.com/facebook/videos/10153231379946729/" data-width="500" data-show-text="true"> at line 20
+ ACTION TAKEN: div.fb-video facebook javascript sdk embed code was converted to the amp-facebook tag.
+
+<div class="fb-video" data-href="https://www.facebook.com/zuck/videos/10103066366848051/" data-width="500" data-show-text="false"> at line 28
  ACTION TAKEN: div.fb-video facebook javascript sdk embed code was converted to the amp-facebook tag.
 
 
