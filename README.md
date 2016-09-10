@@ -263,6 +263,13 @@ print($amp->warningsHumanText());
 - [AMP HTML JavaScript validator subtree](https://github.com/ampproject/amphtml/tree/master/validator) on Github within the AMP Project code repository
 - [Technical Specification](https://github.com/ampproject/amphtml/blob/master/validator/validator-main.protoascii) of AMP HTML in [Protocol Buffers](https://developers.google.com/protocol-buffers/) ASCII message format. See [here](https://github.com/ampproject/amphtml/blob/master/validator/validator.proto) for the Schema definition of the technical specification
 
+### Useful Links for amp-library developers
+
+- [Notes](https://github.com/Lullabot/amp-library/blob/master/src/Spec/README.md) on the contents of the `src/Spec` folder
+- [Notes](https://github.com/Lullabot/amp-library/blob/master/src/Validate/README.md) on the contents of the `src/Validate` folder
+
+You can ignore these links if you simply plan to _use_ this library and not develop for it
+
 ### Sponsored by
 
 - Google for creating the AMP Project and sponsoring development
