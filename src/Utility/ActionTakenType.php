@@ -37,7 +37,7 @@ class ActionTakenType
     const IFRAME_CONVERTED = 'tag was converted to the amp-iframe tag.';
     const IFRAME_CONVERTED_AND_HTTPS = 'tag was converted to the amp-iframe tag. The url protocol was changed to explicitly use https. amp-iframe does not support http';
     const YOUTUBE_IFRAME_CONVERTED = 'tag was converted to the amp-youtube tag.';
-    const BRIGHTCOVE_IFRAME_CONVERTED = 'tag was converted to the amp-youtube tag.';
+    const BRIGHTCOVE_IFRAME_CONVERTED = 'tag was converted to the amp-brightcove tag.';
     const SOUNDCLOUD_IFRAME_CONVERTED = 'tag was converted to the amp-soundcloud tag.';
     const COMPONENT_SCRIPT_TAG_ADDED = 'custom component script tag added to head';
     const AUDIO_CONVERTED = 'tag was converted to the amp-audio tag.';

@@ -100,7 +100,7 @@ class IframeBrighCoveTagTransformPass extends BasePass
             return false;
         }
 
-        if (preg_match('&(*UTF8)(brighcove\.com|youtu\.be)&i', $href)) {
+        if (preg_match('&(*UTF8)(brighcove\.com)&i', $href)) {
             return true;
         }
 
