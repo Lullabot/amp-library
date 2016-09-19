@@ -95,7 +95,7 @@ class ImgTagTransformPass extends BasePass
         $new_dom_el = $dom_el->ownerDocument->createElement('amp-pixel');
         $new_dom_el->setAttribute('src', $el->attr('src'));
         $dom_el->parentNode->insertBefore($new_dom_el, $dom_el);
-        $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
+        $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_PIXEL_CONVERTED, $lineno, $context_string));
         return $new_dom_el;
     }
 
@@ -104,7 +104,7 @@ class ImgTagTransformPass extends BasePass
         $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
         $new_el = $el->prev();
         $this->setLayoutIfNoLayout($new_el, 'responsive');
-        $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_PIXEL_CONVERTED, $lineno, $context_string));
+        $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
         return $new_dom_el;
     }
 
@@ -154,9 +154,6 @@ class ImgTagTransformPass extends BasePass
      */
     protected function isPixel(DOMQuery $el)
     {
-        if (!$this->setResponsiveImgHeightAndWidth($el)) {
-            return false;
-        }
         return $el->attr('width') === '1' && $el->attr('height') === '1';
     }
 
