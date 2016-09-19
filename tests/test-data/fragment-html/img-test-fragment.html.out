@@ -4,7 +4,7 @@
 <amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625" height="480" layout="responsive"></amp-img>
 
 <!-- should transform to amp-img with responsive layout, preserving the width and height -->
-<amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="125" height="96" layout="responsive"></amp-img>
+<amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="125" height="96" layout="fixed"></amp-img>
 
 <!-- nonexistent image, should refuse to convert to amp-img -->
 <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg">
