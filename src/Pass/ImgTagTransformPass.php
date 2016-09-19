@@ -78,14 +78,10 @@ class ImgTagTransformPass extends BasePass
                 continue;
             }
             if ($this->isPixel($el)) {
-                $new_dom_el = $this->convertAmpPixel($el);
-                $this->context->addLineAssociation($new_dom_el, $lineno);
-                $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_PIXEL_CONVERTED, $lineno, $context_string));
+                $this->convertAmpPixel($el, $lineno, $context_string);
             }
             else {
-                $new_dom_el = $this->convertAmpImg($el);
-                $this->context->addLineAssociation($new_dom_el, $lineno);
-                $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
+                $this->convertAmpImg($el, $lineno, $context_string);
             }
             $el->remove(); // remove the old img tag
         }
@@ -93,20 +89,22 @@ class ImgTagTransformPass extends BasePass
         return $this->transformations;
     }
 
-    protected function convertAmpPixel($el) {
+    protected function convertAmpPixel($el, $lineno, $context_string) {
         $dom_el = $el->get(0);
         $new_dom_el = $dom_el->ownerDocument->createElement('amp-pixel');
         $new_dom_el->setAttribute('src', $el->attr('src'));
         $dom_el->parentNode->insertBefore($new_dom_el, $dom_el);
-        return $new_dom_el;
+        $this->context->addLineAssociation($new_dom_el, $lineno);
+        $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
     }
 
-    protected function convertAmpImg($el) {
+    protected function convertAmpImg($el, $lineno, $context_string) {
         $dom_el = $el->get(0);
         $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
         $new_el = $el->prev();
         $this->setLayoutIfNoLayout($new_el, 'responsive');
-        return $new_dom_el;
+        $this->context->addLineAssociation($new_dom_el, $lineno);
+        $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_PIXEL_CONVERTED, $lineno, $context_string));
     }
 
     /**
