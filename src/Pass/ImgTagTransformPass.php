@@ -145,12 +145,14 @@ class ImgTagTransformPass extends BasePass
 
     /**
      * Detects if the img is a 1x1 pixel. In that case we convert to <amp-pixel> instead of <amp-img>
-     * @param \DOMElement $el
+     * @param DOMQuery $el
      * @return bool
      */
     protected function isPixel(DOMQuery $el)
     {
-        $this->setResponsiveImgHeightAndWidth($el);
+        if (!$this->setResponsiveImgHeightAndWidth($el)) {
+            return false;
+        }
         return $el->attr('width') === '1' && $el->attr('height') === '1';
     }
 
