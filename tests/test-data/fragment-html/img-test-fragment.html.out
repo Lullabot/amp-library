@@ -22,7 +22,7 @@
 <amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625" height="480"></amp-img>
 
 <!-- should transform to amp-pixel -->
-<amp-pixel src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="1" height="1"></amp-pixel>
+<amp-pixel src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></amp-pixel>
 
 ORIGINAL HTML
 ---------------
@@ -50,7 +50,7 @@ Line 21: <!-- since units are inconsistent, overwrite with height+width from ori
 Line 22: <amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625rem" height="480"></amp-img>
 Line 23: 
 Line 24: <!-- should transform to amp-pixel -->
-Line 25: <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="1" height="1">
+Line 25: <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif">
 
 
 Transformations made from HTML tags to AMP custom tags
@@ -65,7 +65,7 @@ Transformations made from HTML tags to AMP custom tags
 <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg"> at line 10
  ACTION TAKEN: img tag could NOT be converted to the amp-img tag as the image is not accessible.
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="1" height="1"> at line 25
+<img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"> at line 25
  ACTION TAKEN: img tag was converted to the amp-pixel tag.
 
 

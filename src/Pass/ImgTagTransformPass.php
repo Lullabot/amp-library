@@ -72,9 +72,11 @@ class ImgTagTransformPass extends BasePass
                 continue;
             }
             $context_string = $this->getContextString($dom_el);
-            if ($el->attr('width') === '1' && $el->attr('height') === '1') {
+            if ($this->isPixel($el)) {
                 // Convert 1x1 images to amp-pixel tracking tags
-                $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-pixel');
+                $new_dom_el = $dom_el->ownerDocument->createElement('amp-pixel');
+                $new_dom_el->setAttribute('src', $el->attr('src'));
+                $dom_el->parentNode->insertBefore($new_dom_el, $dom_el);
                 $this->context->addLineAssociation($new_dom_el, $lineno);
                 $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_PIXEL_CONVERTED, $lineno, $context_string));
             }
@@ -139,6 +141,17 @@ class ImgTagTransformPass extends BasePass
         }
 
         return false;
+    }
+
+    /**
+     * Detects if the img is a 1x1 pixel. In that case we convert to <amp-pixel> instead of <amp-img>
+     * @param \DOMElement $el
+     * @return bool
+     */
+    protected function isPixel(DOMQuery $el)
+    {
+        $this->setResponsiveImgHeightAndWidth($el);
+        return $el->attr('width') === '1' && $el->attr('height') === '1';
     }
 
     /**
