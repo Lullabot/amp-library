@@ -73,35 +73,48 @@ class ImgTagTransformPass extends BasePass
             }
             $context_string = $this->getContextString($dom_el);
             if ($this->isPixel($el)) {
-                // Convert 1x1 images to amp-pixel tracking tags
-                $new_dom_el = $dom_el->ownerDocument->createElement('amp-pixel');
-                $new_dom_el->setAttribute('src', $el->attr('src'));
-                $dom_el->parentNode->insertBefore($new_dom_el, $dom_el);
+                $new_dom_el = $this->convertAmpPixel($el);
                 $this->context->addLineAssociation($new_dom_el, $lineno);
                 $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_PIXEL_CONVERTED, $lineno, $context_string));
             }
             else {
-                $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
-                $new_el = $el->prev();
-
-                $success = $this->setResponsiveImgHeightAndWidth($new_el);
-                // We were not able to get the image dimensions, abort conversion.
-                if (!$success) {
+                $new_dom_el = $this->convertAmpImg($el);
+                if (!$new_dom_el) {
                     $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_COULD_NOT_BE_CONVERTED, $lineno, $context_string));
                     // Abort the conversion and remove the new img tag
-                    $new_el->remove();
                     continue;
                 }
-
-                $this->setLayoutIfNoLayout($new_el, 'responsive');
                 $this->context->addLineAssociation($new_dom_el, $lineno);
                 $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
             }
-
             $el->remove(); // remove the old img tag
         }
 
         return $this->transformations;
+    }
+
+    protected function convertAmpPixel($el) {
+        $dom_el = $el->get(0);
+        $new_dom_el = $dom_el->ownerDocument->createElement('amp-pixel');
+        $new_dom_el->setAttribute('src', $el->attr('src'));
+        $dom_el->parentNode->insertBefore($new_dom_el, $dom_el);
+        return $new_dom_el;
+    }
+
+    protected function convertAmpImg($el) {
+        $dom_el = $el->get(0);
+        $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
+        $new_el = $el->prev();
+
+        $success = $this->setResponsiveImgHeightAndWidth($new_el);
+        // We were not able to get the image dimensions, abort conversion.
+        if (!$success) {
+            $new_el->remove();
+            return false;
+        }
+
+        $this->setLayoutIfNoLayout($new_el, 'responsive');
+        return $new_dom_el;
     }
 
     /**
