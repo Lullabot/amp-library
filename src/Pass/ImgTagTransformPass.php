@@ -78,11 +78,12 @@ class ImgTagTransformPass extends BasePass
                 continue;
             }
             if ($this->isPixel($el)) {
-                $this->convertAmpPixel($el, $lineno, $context_string);
+                $new_dom_el = $this->convertAmpPixel($el, $lineno, $context_string);
             }
             else {
-                $this->convertAmpImg($el, $lineno, $context_string);
+                $new_dom_el = $this->convertAmpImg($el, $lineno, $context_string);
             }
+            $this->context->addLineAssociation($new_dom_el, $lineno);
             $el->remove(); // remove the old img tag
         }
 
@@ -94,8 +95,8 @@ class ImgTagTransformPass extends BasePass
         $new_dom_el = $dom_el->ownerDocument->createElement('amp-pixel');
         $new_dom_el->setAttribute('src', $el->attr('src'));
         $dom_el->parentNode->insertBefore($new_dom_el, $dom_el);
-        $this->context->addLineAssociation($new_dom_el, $lineno);
         $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
+        return $new_dom_el;
     }
 
     protected function convertAmpImg($el, $lineno, $context_string) {
@@ -103,8 +104,8 @@ class ImgTagTransformPass extends BasePass
         $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
         $new_el = $el->prev();
         $this->setLayoutIfNoLayout($new_el, 'responsive');
-        $this->context->addLineAssociation($new_dom_el, $lineno);
         $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_PIXEL_CONVERTED, $lineno, $context_string));
+        return $new_dom_el;
     }
 
     /**
