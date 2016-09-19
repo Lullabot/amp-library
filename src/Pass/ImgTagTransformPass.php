@@ -66,12 +66,17 @@ class ImgTagTransformPass extends BasePass
         foreach ($all_a as $el) {
             /** @var \DOMElement $dom_el */
             $dom_el = $el->get(0);
-            $lineno = $this->getLineNo($dom_el);
             if ($this->isSvg($dom_el)) {
                 // @TODO This should be marked as a validation warning later?
                 continue;
             }
+            $lineno = $this->getLineNo($dom_el);
             $context_string = $this->getContextString($dom_el);
+            $hasWidthAndHeight = $this->setResponsiveImgHeightAndWidth($el);
+            if (!$hasWidthAndHeight) {
+                $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_COULD_NOT_BE_CONVERTED, $lineno, $context_string));
+                continue;
+            }
             if ($this->isPixel($el)) {
                 $new_dom_el = $this->convertAmpPixel($el);
                 $this->context->addLineAssociation($new_dom_el, $lineno);
@@ -79,11 +84,6 @@ class ImgTagTransformPass extends BasePass
             }
             else {
                 $new_dom_el = $this->convertAmpImg($el);
-                if (!$new_dom_el) {
-                    $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_COULD_NOT_BE_CONVERTED, $lineno, $context_string));
-                    // Abort the conversion and remove the new img tag
-                    continue;
-                }
                 $this->context->addLineAssociation($new_dom_el, $lineno);
                 $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
             }
@@ -105,14 +105,6 @@ class ImgTagTransformPass extends BasePass
         $dom_el = $el->get(0);
         $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
         $new_el = $el->prev();
-
-        $success = $this->setResponsiveImgHeightAndWidth($new_el);
-        // We were not able to get the image dimensions, abort conversion.
-        if (!$success) {
-            $new_el->remove();
-            return false;
-        }
-
         $this->setLayoutIfNoLayout($new_el, 'responsive');
         return $new_dom_el;
     }
