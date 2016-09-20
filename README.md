@@ -214,7 +214,7 @@ print($amp->warningsHumanText());
 - Symfony:
     - [takeit/amp-html-bundle](https://github.com/takeit/AmpHtmlBundle)
 
-- Drupal
+- Drupal:
     - [Drupal AMP Module](https://www.drupal.org/project/amp)
 
 ### Sponsored by
