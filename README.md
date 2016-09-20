@@ -270,6 +270,14 @@ print($amp->warningsHumanText());
 
 You can ignore these links if you simply plan to _use_ this library and not develop for it
 
+### Third-party libraries
+
+- Symfony:
+    - [takeit/amp-html-bundle](https://github.com/takeit/AmpHtmlBundle)
+
+- Drupal:
+    - [Drupal AMP Module](https://www.drupal.org/project/amp)
+
 ### Sponsored by
 
 - Google for creating the AMP Project and sponsoring development
