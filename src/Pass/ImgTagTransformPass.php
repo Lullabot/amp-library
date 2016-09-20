@@ -90,6 +90,14 @@ class ImgTagTransformPass extends BasePass
         return $this->transformations;
     }
 
+    /**
+     * Given an image element returns an amp-pixel element with the same source
+     *
+     * @param DOMQuery $el
+     * @param int $lineno
+     * @param string $context_string
+     * @return DOMElement
+     */
     protected function convertAmpPixel($el, $lineno, $context_string)
     {
         $dom_el = $el->get(0);
@@ -100,6 +108,14 @@ class ImgTagTransformPass extends BasePass
         return $new_dom_el;
     }
 
+    /**
+     * Given an image element returns an amp-img element with the same attributes and children
+     *
+     * @param DOMQuery $el
+     * @param int $lineno
+     * @param string $context_string
+     * @return DOMElement
+     */
     protected function convertAmpImg($el, $lineno, $context_string)
     {
         $dom_el = $el->get(0);
