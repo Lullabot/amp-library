@@ -58,6 +58,11 @@ class StandardFixPass extends BasePass
 
     public function pass()
     {
+        $all_ampad = $this->q->top()->find('amp-ad');
+        if ($all_ampad->length > 0) {
+            $this->addComponentJsToHead('amp-ad');
+        }
+
         /** @var SValidationError $error */
         foreach ($this->validation_result->errors as $error) {
             // If the error was resolved, continue
