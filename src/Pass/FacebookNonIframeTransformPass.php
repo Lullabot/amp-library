@@ -38,7 +38,7 @@ use Lullabot\AMP\Utility\ActionTakenType;
  * @see https://github.com/ampproject/amphtml/blob/master/extensions/amp-facebook/amp-facebook.md
  * @see https://github.com/ampproject/amphtml/blob/master/extensions/amp-facebook/0.1/validator-amp-facebook.protoascii
  */
-class FacebookNonIframeTransformPass extends BasePass
+class FacebookNonIframeTransformPass extends BaseFacebookPass
 {
     const DEFAULT_WIDTH = 500;
     const DEFAULT_HEIGHT = 281;
@@ -109,8 +109,7 @@ class FacebookNonIframeTransformPass extends BasePass
         }
 
         $card = true;
-        // e.g https://www.facebook.com/facebook/videos/10153231379946729/
-        if (preg_match('&(*UTF8)facebook\.com/.*/videos/\d+/?&i', $src)) {
+        if ($this->isValidVideoUrl($src)) {
             // A facebook video can be embedded as a post. Doing that enables the video "card" to display
             if ($el->attr('data-show-text') !== "false") {
                 $embed_as = 'post';
@@ -118,8 +117,8 @@ class FacebookNonIframeTransformPass extends BasePass
             } else {
                 $embed_as = 'video';
             }
-        } // e.g. https://www.facebook.com/20531316728/posts/10154009990506729/
-        else if (preg_match('&(*UTF8)facebook\.com/.*/posts/\d+/?&i', $src)) {
+        }
+        elseif ($this->isValidPostUrl($src)) {
             $embed_as = 'post';
         } else {
             return false;

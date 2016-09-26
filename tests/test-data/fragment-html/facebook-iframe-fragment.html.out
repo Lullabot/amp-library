@@ -7,6 +7,8 @@
 <!-- post -->
 <amp-facebook layout="responsive" data-href="https://www.facebook.com/20531316728/posts/10154009990506729/" data-embed-as="post" height="290" width="500"></amp-facebook>
 
+<!-- post -->
+<amp-facebook layout="responsive" data-href="https://www.facebook.com/photo.php?fbid=986393557241&amp;set=a.941146602501.2418915.4&amp;type=3" data-embed-as="post" height="439" width="500"></amp-facebook>
 
 
 ORIGINAL HTML
@@ -26,7 +28,11 @@ Line 12: <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F
 Line 13:         width="500" height="290" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
 Line 14:         allowTransparency="true"></iframe>
 Line 15: 
-Line 16: 
+Line 16: <!-- post -->
+Line 17: <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto.php%3Ffbid%3D986393557241%26set%3Da.941146602501.2418915.4%26type%3D3&width=500&show_text=true&appId=1355737204455009&height=439"
+Line 18:         width="500" height="439" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+Line 19:         allowTransparency="true"></iframe>
+Line 20: 
 
 
 Transformations made from HTML tags to AMP custom tags
@@ -39,6 +45,9 @@ Transformations made from HTML tags to AMP custom tags
  ACTION TAKEN: iframe facebook embed code was converted to the amp-facebook tag.
 
 <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F20531316728%2Fposts%2F10154009990506729%2F&width=500&show_text=false&height=290&appId" width="500" height="... at line 14
+ ACTION TAKEN: iframe facebook embed code was converted to the amp-facebook tag.
+
+<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto.php%3Ffbid%3D986393557241%26set%3Da.941146602501.2418915.4%26type%3D3&width=500&show_text=true&appId=... at line 19
  ACTION TAKEN: iframe facebook embed code was converted to the amp-facebook tag.
 
 
