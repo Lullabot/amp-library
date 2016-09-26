@@ -7,7 +7,7 @@
 <amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="125" height="96" layout="fixed"></amp-img>
 
 <!-- nonexistent image, should refuse to convert to amp-img -->
-<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg">
+
 
 <!-- should provide layout and height width and make layout responsive -->
 <amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" layout="responsive" width="625" height="480"></amp-img>
@@ -20,6 +20,9 @@
 
 <!-- since units are inconsistent, overwrite with height+width from original image -->
 <amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625" height="480"></amp-img>
+
+<!-- should transform to amp-pixel -->
+<amp-pixel src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></amp-pixel>
 
 ORIGINAL HTML
 ---------------
@@ -45,6 +48,9 @@ Line 19: <amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedi
 Line 20: 
 Line 21: <!-- since units are inconsistent, overwrite with height+width from original image -->
 Line 22: <amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625rem" height="480"></amp-img>
+Line 23: 
+Line 24: <!-- should transform to amp-pixel -->
+Line 25: <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif">
 
 
 Transformations made from HTML tags to AMP custom tags
@@ -59,14 +65,13 @@ Transformations made from HTML tags to AMP custom tags
 <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg"> at line 10
  ACTION TAKEN: img tag could NOT be converted to the amp-img tag as the image is not accessible.
 
+<img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"> at line 25
+ ACTION TAKEN: img tag was converted to the amp-pixel tag.
+
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg"> on line 10
-- The tag 'img' may only appear as a descendant of tag 'noscript'. Did you mean 'amp-img'?
-   [code: MANDATORY_TAG_ANCESTOR_WITH_HINT  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT see: https://www.ampproject.org/docs/reference/amp-img.html]
 
 <amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg"> on line 13
 - The implied layout 'CONTAINER' is not supported by tag 'amp-img'.

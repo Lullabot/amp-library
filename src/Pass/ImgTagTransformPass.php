@@ -66,31 +66,128 @@ class ImgTagTransformPass extends BasePass
         foreach ($all_a as $el) {
             /** @var \DOMElement $dom_el */
             $dom_el = $el->get(0);
-            $lineno = $this->getLineNo($dom_el);
             if ($this->isSvg($dom_el)) {
                 // @TODO This should be marked as a validation warning later?
                 continue;
             }
+            $lineno = $this->getLineNo($dom_el);
             $context_string = $this->getContextString($dom_el);
-            $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
-            $new_el = $el->prev();
-
-            $success = $this->setResponsiveImgHeightAndWidth($new_el);
-            // We were not able to get the image dimensions, abort conversion.
-            if (!$success) {
+            $has_height_and_width = $this->setResponsiveImgHeightAndWidth($el);
+            if (!$has_height_and_width) {
                 $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_COULD_NOT_BE_CONVERTED, $lineno, $context_string));
-                // Abort the conversion and remove the new img tag
-                $new_el->remove();
-                continue;
             }
-
-            $el->remove(); // remove the old img tag
-            $this->setLayoutIfNoLayout($new_el, 'responsive');
+            elseif ($this->isPixel($el)) {
+                $new_dom_el = $this->convertAmpPixel($el, $lineno, $context_string);
+            }
+            elseif ($this->isAnimation($el)) {
+                $new_dom_el = $this->convertAmpAnim($el, $lineno, $context_string);
+            }
+            else {
+                $new_dom_el = $this->convertAmpImg($el, $lineno, $context_string);
+            }
             $this->context->addLineAssociation($new_dom_el, $lineno);
-            $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
+            $el->remove(); // remove the old img tag
         }
 
         return $this->transformations;
+    }
+
+    /**
+     * Given an image element returns an amp-pixel element with the same source
+     *
+     * @param DOMQuery $el
+     * @param int $lineno
+     * @param string $context_string
+     * @return DOMElement
+     */
+    protected function convertAmpPixel($el, $lineno, $context_string)
+    {
+        $dom_el = $el->get(0);
+        $new_dom_el = $dom_el->ownerDocument->createElement('amp-pixel');
+        $new_dom_el->setAttribute('src', $el->attr('src'));
+        $dom_el->parentNode->insertBefore($new_dom_el, $dom_el);
+        $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_PIXEL_CONVERTED, $lineno, $context_string));
+        return $new_dom_el;
+    }
+
+    /**
+     * Given an image element returns an amp-img element with the same attributes and children
+     *
+     * @param DOMQuery $el
+     * @param int $lineno
+     * @param string $context_string
+     * @return DOMElement
+     */
+    protected function convertAmpImg($el, $lineno, $context_string)
+    {
+        $dom_el = $el->get(0);
+        $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
+        $new_el = $el->prev();
+        $this->setLayoutIfNoLayout($new_el, $this->getLayout($el));
+        $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
+        return $new_dom_el;
+    }
+
+    /**
+     * Given an image element returns its layout attribute value
+     *
+     * @param DOMQuery $el
+     * @return string
+     */
+    protected function getLayout($el)
+    {
+        return (isset($this->options['img_max_fixed_layout_width'])
+            && $this->options['img_max_fixed_layout_width'] >= $el->attr('width'))
+            ? 'fixed' : 'responsive';
+    }
+
+    /**
+     * Given an image element returns an amp-img element with the same attributes and children
+     *
+     * @param DOMQuery $el
+     * @param int $lineno
+     * @param string $context_string
+     * @return DOMElement
+     */
+    protected function convertAmpAnim($el, $lineno, $context_string)
+    {
+        $dom_el = $el->get(0);
+        $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-anim');
+        $new_el = $el->prev();
+        $this->setLayoutIfNoLayout($new_el, $this->getLayout($el));
+        $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_ANIM_CONVERTED, $lineno, $context_string));
+        return $new_dom_el;
+    }
+
+    /**
+     * http://stackoverflow.com/a/415942/3574819
+     *
+     * @param $el
+     * @return bool
+     */
+    function isAnimation($el) {
+        if (pathinfo($el->attr('src'), PATHINFO_EXTENSION) != 'gif') {
+            return false;
+        }
+        if(!($fh = @fopen($el->attr('src'), 'rb'))) {
+            return false;
+        }
+        $count = 0;
+        //an animated gif contains multiple "frames", with each frame having a
+        //header made up of:
+        // * a static 4-byte sequence (\x00\x21\xF9\x04)
+        // * 4 variable bytes
+        // * a static 2-byte sequence (\x00\x2C)
+
+        // We read through the file til we reach the end of the file, or we've found
+        // at least 2 frame headers
+        while(!feof($fh) && $count < 2) {
+            $chunk = fread($fh, 1024 * 100); //read 100kb at a time
+            $count += preg_match_all('#\x00\x21\xF9\x04.{4}\x00[\x2C\x21]#s', $chunk, $matches);
+        }
+
+        fclose($fh);
+        return $count > 1;
     }
 
     /**
@@ -110,6 +207,19 @@ class ImgTagTransformPass extends BasePass
 
         // Try obtaining image size without having to download the whole image
         $size = $this->fastimage->getImageSize($img_url);
+
+        if (!$size) {
+            // Now try with downloading the whole image
+            list($width, $height) = @getimagesize($src);
+
+            if ($width && $height) {
+                $size = [
+                    'width' => $width,
+                    'height' => $height,
+                ];
+            }
+        }
+
         return $size;
     }
 
@@ -130,6 +240,17 @@ class ImgTagTransformPass extends BasePass
         }
 
         return false;
+    }
+
+    /**
+     * Detects if the img is a pixel. In that case we convert to <amp-pixel> instead of <amp-img>
+     * @param DOMQuery $el
+     * @return bool
+     */
+    protected function isPixel(DOMQuery $el)
+    {
+        return ($el->attr('width') === '1' || $el->attr('width') === '0')
+        && ($el->attr('height') === '1' || $el->attr('height') === '0');
     }
 
     /**

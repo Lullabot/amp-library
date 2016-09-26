@@ -74,6 +74,7 @@ class Context
     protected $component_js = [];
 
     public static $component_mappings = [
+        'amp-ad' => 'https://cdn.ampproject.org/v0/amp-ad-0.1.js',
         'amp-analytics' => 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js',
         'amp-anim' => 'https://cdn.ampproject.org/v0/amp-anim-0.1.js',
         'amp-audio' => 'https://cdn.ampproject.org/v0/amp-audio-0.1.js',
