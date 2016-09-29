@@ -7,7 +7,7 @@
 <amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="125" height="96" layout="responsive"></amp-img>
 
 <!-- nonexistent image, should refuse to convert to amp-img -->
-<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg">
+
 
 <!-- should provide layout and height width and make layout responsive -->
 <amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" layout="responsive" width="625" height="480"></amp-img>
@@ -72,10 +72,6 @@ Transformations made from HTML tags to AMP custom tags
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg"> on line 10
-- The tag 'img' may only appear as a descendant of tag 'noscript'. Did you mean 'amp-img'?
-   [code: MANDATORY_TAG_ANCESTOR_WITH_HINT  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT see: https://www.ampproject.org/docs/reference/amp-img.html]
 
 <amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg"> on line 13
 - The implied layout 'CONTAINER' is not supported by tag 'amp-img'.
