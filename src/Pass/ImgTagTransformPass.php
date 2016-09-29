@@ -74,6 +74,7 @@ class ImgTagTransformPass extends BasePass
             $context_string = $this->getContextString($dom_el);
             $has_height_and_width = $this->setResponsiveImgHeightAndWidth($el);
             if (!$has_height_and_width) {
+                $el->remove();
                 $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_COULD_NOT_BE_CONVERTED, $lineno, $context_string));
                 continue;
             }
