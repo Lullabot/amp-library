@@ -51,4 +51,7 @@ class ActionTakenType
     const ISSUE_RESOLVED = 'no further action required as this issue was resolved due to an earlier fix';
     const AMP_IMG_FIX = 'tried to fix problems with amp-img by trying to fetch height, width from image directly and/or setting layout to responsive';
     const AMP_IMG_FIX_RESPONSIVE = 'tried to fix problems with amp-img by setting layout to responsive';
+    const YOUTUBE_OBJECT_CONVERTED = 'youtube object code was converted to the amp-youtube tag.';
+    const VIMEO_OBJECT_CONVERTED = 'vimeo object code was converted to the amp-vimeo tag.';
+    const OBJECT_CONVERTED_TO_A = 'video object code was converted to a#href tag.';
 }
