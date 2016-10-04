@@ -109,7 +109,7 @@ class IframeFacebookTagTransformPass extends BasePass
         }
 
         // e.g https://www.facebook.com/facebook/videos/10153231379946729/
-        if (preg_match('&(*UTF8)facebook\.com/facebook/videos/\d+/?&i', $query_arr['href'])) {
+        if (preg_match('&(*UTF8)facebook\.com/.*/videos/\d+/?&i', $query_arr['href'])) {
             // A facebook video can be embedded as a post. Doing that enables the video "card" to display
             if (isset($query_arr['show_text']) && $query_arr['show_text'] !== "false") {
                 $embed_as = 'post';
