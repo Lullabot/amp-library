@@ -4,9 +4,15 @@ namespace Lullabot\AMP\Pass;
 
 class SugarStandardFixPass extends StandardFixPass {
     public function pass() {
-        $all_ampad = $this->q->top()->find('amp-ad');
-        if ($all_ampad->length > 0) {
-            $this->addComponentJsToHead('amp-ad');
+        // amp-ad and amp-anim are special cases
+        // because amp-ad is not a converted tag
+        // and amp-anim is converted from img, which also corresponds to amp-img.
+        // Other required components are added in parent::pass()
+        foreach (['amp-ad', 'amp-anim'] as $tag) {
+            $all_tags = $this->q->top()->find($tag);
+            if ($all_tags->length > 0) {
+                $this->addComponentJsToHead($tag);
+            }
         }
         return parent::pass();
     }
