@@ -101,5 +101,7 @@ class PinterestTagTransformPass extends BasePass
         } else {
             $new_el->attr($dimensions[$pin_width]);
         }
+        // Add responsive so it doesn't look like sh*t
+        $new_el->attr('layout', 'responsive');
     }
 }
