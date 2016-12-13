@@ -122,7 +122,7 @@ class IframeYouTubeTagTransformPass extends BasePass
 
         // @todo there seem to be a lot of ways to embed a youtube video. We probably need to capture all patterns here
         // The next one is the embed code that youtube gives you
-        if (preg_match('&(*UTF8)/embed/([^/?]+)&i', $href, $matches)) {
+        if (preg_match('&(*UTF8)/embed/([^/?\&]+)&i', $href, $matches)) {
             if (!empty($matches[1])) {
                 $youtube_code = $matches[1];
                 return $youtube_code;
