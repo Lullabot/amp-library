@@ -63,7 +63,7 @@ class AMP
         'Lullabot\AMP\Pass\IframeTagTransformPass',
         'Lullabot\AMP\Pass\InstagramTransformPass',
         'Lullabot\AMP\Pass\PinterestTagTransformPass',
-        'Lullabot\AMP\Pass\FacebookNonIframeTransformPass',
+        'Lullabot\AMP\Pass\SugarFacebookNonIframeTransformPass',
         'Lullabot\AMP\Pass\TwitterTransformPass',
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\SugarStandardFixPass',
