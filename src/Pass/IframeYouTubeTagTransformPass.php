@@ -125,25 +125,25 @@ class IframeYouTubeTagTransformPass extends BasePass
         if (preg_match('&(*UTF8)/embed/([^/?]+)&i', $href, $matches)) {
             if (!empty($matches[1])) {
                 $youtube_code = $matches[1];
-                return $youtube_code;
+                return htmlspecialchars($youtube_code);
             }
         }
 
         if (preg_match('&(*UTF8)youtu\.be/([^/?]+)&i', $href, $matches)) {
             if (!empty($matches[1])) {
                 $youtube_code = $matches[1];
-                return $youtube_code;
+                return htmlspecialchars($youtube_code);
             }
         }
 
         if (preg_match('!(*UTF8)watch\?v=([^&]+)!i', $href, $matches)) {
             if (!empty($matches[1])) {
                 $youtube_code = $matches[1];
-                return $youtube_code;
+                return htmlspecialchars($youtube_code);
             }
         }
 
-        return $youtube_code;
+        return htmlspecialchars($youtube_code);
     }
 
     /**
