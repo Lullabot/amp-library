@@ -8,10 +8,10 @@ class SugarStandardFixPass extends StandardFixPass {
         // because amp-ad is not a converted tag
         // and amp-anim is converted from img, which also corresponds to amp-img.
         // Other required components are added in parent::pass()
-        foreach (['amp-ad', 'amp-anim'] as $tag) {
+        foreach (['amp-ad', 'amp-embed', 'amp-anim', 'amp-video'] as $tag) {
             $all_tags = $this->q->top()->find($tag);
             if ($all_tags->length > 0) {
-                $this->addComponentJsToHead($tag);
+                $this->context->addComponent($tag);
             }
         }
         return parent::pass();
