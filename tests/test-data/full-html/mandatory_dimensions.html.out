@@ -117,7 +117,7 @@
     <amp-img src="img" width="42" height="42" layout="responsive"></amp-img>
     <amp-img src="img" layout="responsive"></amp-img>
 
-    <!-- Layout of responsive/fixed without width/height -->
+    <!-- Layout of responsive/fixed without width/height - This should all fail -->
     <amp-img src="img" layout="responsive"></amp-img>
     <amp-img src="img" layout="fixed"></amp-img>
     <amp-img src="img" layout="responsive" width="42"></amp-img>
@@ -272,7 +272,7 @@ Line 110:     <amp-img src="img" layout="container"></amp-img>
 Line 111:     <amp-img src="img" layout="container" width="42" height="42"></amp-img>
 Line 112:     <amp-img src="img"></amp-img>
 Line 113: 
-Line 114:     <!-- Layout of responsive/fixed without width/height -->
+Line 114:     <!-- Layout of responsive/fixed without width/height - This should all fail -->
 Line 115:     <amp-img src="img" layout="responsive"></amp-img>
 Line 116:     <amp-img src="img" layout="fixed"></amp-img>
 Line 117:     <amp-img src="img" layout="responsive" width="42"></amp-img>
@@ -343,7 +343,6 @@ FAIL
 <amp-img src="img" layout="responsive" width="42"> on line 117
 - The mandatory attribute 'height' is missing in tag 'amp-img'.
    [code: MANDATORY_ATTR_MISSING  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img tried to fix problems with amp-img by trying to fetch height, width from image directly and/or setting layout to responsive
 
 <amp-img src="img" layout="fixed" height="42"> on line 118
 - The mandatory attribute 'width' is missing in tag 'amp-img'.
