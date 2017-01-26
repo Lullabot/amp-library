@@ -118,7 +118,7 @@
     <amp-img src="img" width="42" height="42" layout="responsive"></amp-img>
     <amp-img src="img" layout="responsive"></amp-img>
 
-    <!-- Layout of responsive/fixed without width/height -->
+    <!-- Layout of responsive/fixed without width/height - This should all fail -->
     <amp-img src="img" layout="responsive"></amp-img>
     <amp-img src="img" layout="fixed"></amp-img>
     <amp-img src="img" layout="responsive" width="42"></amp-img>
@@ -273,7 +273,7 @@ Line 110:     <amp-img src="img" layout="container"></amp-img>
 Line 111:     <amp-img src="img" layout="container" width="42" height="42"></amp-img>
 Line 112:     <amp-img src="img"></amp-img>
 Line 113: 
-Line 114:     <!-- Layout of responsive/fixed without width/height -->
+Line 114:     <!-- Layout of responsive/fixed without width/height - This should all fail -->
 Line 115:     <amp-img src="img" layout="responsive"></amp-img>
 Line 116:     <amp-img src="img" layout="fixed"></amp-img>
 Line 117:     <amp-img src="img" layout="responsive" width="42"></amp-img>

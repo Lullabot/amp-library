@@ -1,15 +1,19 @@
 {
-    "name": "lullabot/amp",
+    "name": "GuideToIceland/amp",
     "description": "A set of useful classes and utilities to convert html to AMP html (See https://www.ampproject.org/)",
     "authors": [
         {
             "name": "Sidharth Kshatriya",
             "email": "sid.kshatriya@gmail.com"
+        },
+        {
+            "name": "Aurelien Gerbore",
+            "email": "agerbore@gmail.com"
         }
     ],
     "license": "Apache-2.0",
-    "keywords": ["Drupal", "AMP", "mobile"],
-    "homepage": "https://github.com/Lullabot/amp-library",
+    "keywords": ["AMP", "mobile"],
+    "homepage": "https://github.com/GuideToIceland/amp-library",
     "require" : {
         "php" : ">=5.5.0",
         "querypath/QueryPath": ">=3.0.4",
