@@ -174,6 +174,17 @@ class AMP
             $options['use_html5_parser'] = true;
         }
 
+        // By default the convertion of img into amp-anim is disabled (because of ressource cost)
+        //  => they will be converted into amp-img instead
+        if (!isset($options['use_img_anim_tag'])) {
+            $options['use_img_anim_tag'] = false;
+        }
+
+        // By default img that can't be converted are kept as it is and not removed
+        if (!isset($options['remove_non_converted_img_tag'])) {
+            $options['remove_non_converted_img_tag'] = false;
+        }
+
         $this->options = $options;
         $this->scope = !empty($options['scope']) ? $options['scope'] : Scope::BODY_SCOPE;
 

@@ -25,6 +25,7 @@ class ActionTakenType
     const PROPERTY_REMOVED_ATTRIBUTE_REMOVED = 'property value pair was removed from attribute due to validation issues. The resulting attribute was empty and was also removed.';
     const IMG_CONVERTED = 'tag was converted to the amp-img tag.';
     const IMG_PIXEL_CONVERTED = 'tag was converted to the amp-pixel tag.';
+    const IMG_ANIM_CONVERTED = 'tag was converted to the amp-anim tag.';
     const IMG_COULD_NOT_BE_CONVERTED = 'tag could NOT be converted to the amp-img tag as the image is not accessible.';
     const INSTAGRAM_CONVERTED = 'instagram embed code was converted to the amp-instagram tag.';
     const PINTEREST_CONVERTED = 'pinterest embed code was converted to the amp-pinterest tag.';
