@@ -1,0 +1,25 @@
+<amp-vine layout="responsive" data-vineid="ixtpg1zrLQt" height="600" width="600"></amp-vine>
+
+
+
+ORIGINAL HTML
+---------------
+Line 1: <iframe width="854" height="480" frameborder="0" allowfullscreen="allowfullscreen" src="//www.hulu.com/embed.html?eid=_hHzwnAcj3RrXMJFDDvkuw"></iframe>
+Line 2:
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<amp-hulu width="854" height="480" layout="responsive" data-eid="_hHzwnAcj3RrXMJFDDvkuw"></amp-hulu> at line 1
+ ACTION TAKEN: iframe (with associated script tag) hulu embed code was converted to the amp-hulu tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-vine', include path 'https://cdn.ampproject.org/v0/amp-vine-0.1.js'
+

@@ -58,6 +58,7 @@ class AMP
         'Lullabot\AMP\Pass\IframeVineTagTransformPass',
         'Lullabot\AMP\Pass\IframeDailymotionTagTransformPass',
         'Lullabot\AMP\Pass\IframeYouTubeTagTransformPass',
+        'Lullabot\AMP\Pass\IframeHuluTagTransformPass',
         'Lullabot\AMP\Pass\IframeTagTransformPass',
         'Lullabot\AMP\Pass\InstagramTransformPass',
         'Lullabot\AMP\Pass\PinterestTagTransformPass',
