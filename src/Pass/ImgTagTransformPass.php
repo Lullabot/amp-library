@@ -72,22 +72,28 @@ class ImgTagTransformPass extends BasePass
             }
             $lineno = $this->getLineNo($dom_el);
             $context_string = $this->getContextString($dom_el);
-            $has_height_and_width = $this->setResponsiveImgHeightAndWidth($el);
-            if (!$has_height_and_width) {
-                $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_COULD_NOT_BE_CONVERTED, $lineno, $context_string));
-                continue;
-            }
-            else if ($this->isPixel($el)) {
+
+            if ($this->isPixel($el)) {
                 $new_dom_el = $this->convertAmpPixel($el, $lineno, $context_string);
             }
-            elseif ($this->isAnimation($el)) {
-                $new_dom_el = $this->convertAmpAnim($el, $lineno, $context_string);
-            }
             else {
-                $new_dom_el = $this->convertAmpImg($el, $lineno, $context_string);
+                $has_height_and_width = $this->setResponsiveImgHeightAndWidth($el);
+                if (!$has_height_and_width) {
+                    $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_COULD_NOT_BE_CONVERTED, $lineno, $context_string));
+                }
+                elseif ($this->isAnimation($el)) {
+                    $new_dom_el = $this->convertAmpAnim($el, $lineno, $context_string);
+                }
+                else {
+                    $new_dom_el = $this->convertAmpImg($el, $lineno, $context_string);
+                }
             }
-            $this->context->addLineAssociation($new_dom_el, $lineno);
-            $el->remove(); // remove the old img tag
+
+            if (isset($new_dom_el)) {
+                $this->context->addLineAssociation($new_dom_el, $lineno);
+                $new_dom_el = NULL;
+            }
+            $el->remove(); // remove the old img tag whether we replace it or not
         }
 
         return $this->transformations;
