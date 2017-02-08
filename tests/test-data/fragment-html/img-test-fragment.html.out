@@ -13,10 +13,10 @@
 <amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" layout="responsive" width="625" height="480"></amp-img>
 
 <!-- since only width exists, overwrite with height and width from original image -->
-<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="500"></amp-img>
+<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625" height="480"></amp-img>
 
 <!-- since height is illegal, overwrite with height and width from original image -->
-<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625"></amp-img>
+<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625" height="480"></amp-img>
 
 <!-- since units are inconsistent, overwrite with height+width from original image -->
 <amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625" height="480"></amp-img>
