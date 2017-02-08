@@ -74,12 +74,14 @@ class Context
     protected $component_js = [];
 
     public static $component_mappings = [
+        'amp-ad' => 'https://cdn.ampproject.org/v0/amp-ad-0.1.js',
         'amp-analytics' => 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js',
         'amp-anim' => 'https://cdn.ampproject.org/v0/amp-anim-0.1.js',
         'amp-audio' => 'https://cdn.ampproject.org/v0/amp-audio-0.1.js',
         'amp-brightcove' => 'https://cdn.ampproject.org/v0/amp-brightcove-0.1.js',
         'amp-carousel' => 'https://cdn.ampproject.org/v0/amp-carousel-0.1.js',
         'amp-dailymotion' => 'https://cdn.ampproject.org/v0/amp-dailymotion-0.1.js',
+        'amp-embed' => 'https://cdn.ampproject.org/v0/amp-ad-0.1.js',
         'amp-facebook' => 'https://cdn.ampproject.org/v0/amp-facebook-0.1.js',
         'amp-fit-text' => 'https://cdn.ampproject.org/v0/amp-fit-text-0.1.js',
         'amp-font' => 'https://cdn.ampproject.org/v0/amp-font-0.1.js',
@@ -93,6 +95,7 @@ class Context
         'amp-soundcloud' => 'https://cdn.ampproject.org/v0/amp-soundcloud-0.1.js',
         'amp-twitter' => 'https://cdn.ampproject.org/v0/amp-twitter-0.1.js',
         'amp-user-notification' => 'https://cdn.ampproject.org/v0/amp-user-notification-0.1.js',
+        'amp-video' => 'https://cdn.ampproject.org/v0/amp-video-0.1.js',
         'amp-vine' => 'https://cdn.ampproject.org/v0/amp-vine-0.1.js',
         'amp-vimeo' => 'https://cdn.ampproject.org/v0/amp-vimeo-0.1.js',
         'amp-youtube' => 'https://cdn.ampproject.org/v0/amp-youtube-0.1.js',
