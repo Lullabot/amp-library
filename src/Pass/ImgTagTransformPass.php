@@ -121,9 +121,22 @@ class ImgTagTransformPass extends BasePass
         $dom_el = $el->get(0);
         $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
         $new_el = $el->prev();
-        $this->setLayoutIfNoLayout($new_el, 'responsive');
+        $this->setLayoutIfNoLayout($new_el, $this->getLayout($el));
         $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
         return $new_dom_el;
+    }
+
+    /**
+     * Given an image DOMQuery
+     * Returns whether the image should have 'fixed' or 'responsive' layout
+     *
+     * @param DOMQuery $el
+     * @return string
+     */
+    protected function getLayout($el) {
+        return (isset($this->options['img_max_fixed_layout_width'])
+            && $this->options['img_max_fixed_layout_width'] >= $el->attr('width'))
+            ? 'fixed' : 'responsive';
     }
 
     /**
