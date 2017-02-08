@@ -50,12 +50,12 @@ class IframeHuluTagTransformPass extends BasePass
             }
             $eid = $query['eid'];
             $width = $el->attr('width') ?: 800;
-            $heigth = $el->attr('height') ?: 600;
+            $height = $el->attr('height') ?: 600;
 
             $context_string = $this->getContextString($dom_el);
 
             // width and height are intended to be aspect ratios here
-            $el->after('<amp-hulu width="' . $width . '" height="' . $heigth . '" layout="responsive" data-eid="' . $eid . '"></amp-hulu>');
+            $el->after('<amp-hulu width="' . $width . '" height="' . $height . '" layout="responsive" data-eid="' . $eid . '"></amp-hulu>');
             $new_dom_el = $el->next()->get(0);
 
             $el->removeChildren()->remove();
