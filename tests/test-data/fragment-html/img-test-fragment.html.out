@@ -25,7 +25,7 @@
 <amp-pixel src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></amp-pixel>
 
 <!-- should transform to amp-img instead of amp-anim because of default option['use_amp_anim_tag'] = false -->
-<amp-img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif" width="46" height="46" layout="responsive"></amp-img>
+<amp-img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif" width="46" height="46" layout="fixed"></amp-img>
 
 
 ORIGINAL HTML
