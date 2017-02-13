@@ -43,25 +43,21 @@ class IframeHuluTagTransformPass extends BasePass
             /** @var \DOMElement $dom_el */
             $dom_el = $el->get(0);
             $lineno = $this->getLineNo($dom_el);
-            $query = $this->getQueryArray($el);
-            // If we can't get the videoid, abort
-            if (empty($query['eid'])) {
-                continue;
+
+            if ($eid = $this->getArtifactId($el, '&(*UTF8)hulu\.com/embed\.html\?edit=(\d+)&i')) {
+                $width = $el->attr('width') ?: 800;
+                $height = $el->attr('height') ?: 600;
+
+                $context_string = $this->getContextString($dom_el);
+
+                // width and height are intended to be aspect ratios here
+                $el->after('<amp-hulu width="' . $width . '" height="' . $height . '" layout="responsive" data-eid="' . $eid . '"></amp-hulu>');
+                $new_dom_el = $el->next()->get(0);
+
+                $el->removeChildren()->remove();
+                $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::HULU_CONVERTED, $lineno, $context_string));
+                $this->context->addLineAssociation($new_dom_el, $lineno);
             }
-            $eid = $query['eid'];
-            $width = $el->attr('width') ?: 800;
-            $height = $el->attr('height') ?: 600;
-
-            $context_string = $this->getContextString($dom_el);
-
-            // width and height are intended to be aspect ratios here
-            $el->after('<amp-hulu width="' . $width . '" height="' . $height . '" layout="responsive" data-eid="' . $eid . '"></amp-hulu>');
-            $new_dom_el = $el->next()->get(0);
-
-            $el->removeChildren()->remove();
-            $this->addActionTaken(new ActionTakenLine('iframe', ActionTakenType::HULU_CONVERTED, $lineno, $context_string));
-
-            $this->context->addLineAssociation($new_dom_el, $lineno);
         }
 
         return $this->transformations;
