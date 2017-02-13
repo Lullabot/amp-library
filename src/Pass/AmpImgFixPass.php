@@ -75,6 +75,17 @@ class AmpImgFixPass extends ImgTagTransformPass
                     $error->resolved = false;
                 }
             }
+            elseif (in_array($error->code, [ValidationErrorCode::MANDATORY_TAG_ANCESTOR_WITH_HINT]) &&
+                !$error->resolved &&
+                !empty($error->dom_tag) &&
+                strtolower($error->dom_tag->tagName) == 'img' &&
+                !empty($this->options['remove_non_converted_img_tag'])
+            ) {
+                 // Remove the offending tag
+                $error->dom_tag->parentNode->removeChild($error->dom_tag);
+                $error->addActionTaken(new ActionTakenLine('img', ActionTakenType::TAG_REMOVED));
+                $error->resolved = TRUE;
+            }
         }
     }
 }

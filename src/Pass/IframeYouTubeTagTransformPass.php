@@ -113,6 +113,7 @@ class IframeYouTubeTagTransformPass extends BasePass
      *
      * @param DOMQuery $el
      * @return string
+     *
      */
     protected function getYouTubeCode(DOMQuery $el)
     {
@@ -120,30 +121,17 @@ class IframeYouTubeTagTransformPass extends BasePass
         $youtube_code = '';
         $href = $el->attr('src');
 
-        // @todo there seem to be a lot of ways to embed a youtube video. We probably need to capture all patterns here
-        // The next one is the embed code that youtube gives you
-        if (preg_match('&(*UTF8)/embed/([^/?\&]+)&i', $href, $matches)) {
-            if (!empty($matches[1])) {
+        // This regex is supposed to catch all possible way to embed youtube video
+        if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $href, $matches))
+        {
+            if (!empty($matches[1]))
+            {
                 $youtube_code = $matches[1];
-                return $youtube_code;
+                return htmlspecialchars($youtube_code);
             }
         }
 
-        if (preg_match('&(*UTF8)youtu\.be/([^/?\&]+)&i', $href, $matches)) {
-            if (!empty($matches[1])) {
-                $youtube_code = $matches[1];
-                return $youtube_code;
-            }
-        }
-
-        if (preg_match('!(*UTF8)watch\?v=([^&]+)!i', $href, $matches)) {
-            if (!empty($matches[1])) {
-                $youtube_code = $matches[1];
-                return $youtube_code;
-            }
-        }
-
-        return $youtube_code;
+        return htmlspecialchars($youtube_code);
     }
 
     /**

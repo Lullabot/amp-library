@@ -6,7 +6,7 @@
 <!-- should transform to amp-img with fixed layout, preserving the width and height -->
 <amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="125" height="96" layout="fixed"></amp-img>
 
-<!-- nonexistent image, should refuse to convert to amp-img -->
+<!-- nonexistent image, should refuse to convert to amp-img and keep it as it is -->
 <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg">
 
 <!-- should provide layout and height width and make layout responsive -->
@@ -24,6 +24,10 @@
 <!-- should transform to amp-pixel -->
 <amp-pixel src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></amp-pixel>
 
+<!-- should transform to amp-img instead of amp-anim because of default option['use_amp_anim_tag'] = false -->
+<amp-img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif" width="46" height="46" layout="fixed"></amp-img>
+
+
 ORIGINAL HTML
 ---------------
 Line  1: <!-- Note: this image is in the public domain. https://commons.wikimedia.org/wiki/File:"Birdcatcher"_with_jockey_up.jpg -->
@@ -34,7 +38,7 @@ Line  5:
 Line  6: <!-- should transform to amp-img with fixed layout, preserving the width and height -->
 Line  7: <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="125" height="96">
 Line  8: 
-Line  9: <!-- nonexistent image, should refuse to convert to amp-img -->
+Line  9: <!-- nonexistent image, should refuse to convert to amp-img and keep it as it is -->
 Line 10: <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg">
 Line 11: 
 Line 12: <!-- should provide layout and height width and make layout responsive -->
@@ -51,6 +55,10 @@ Line 22: <amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedi
 Line 23: 
 Line 24: <!-- should transform to amp-pixel -->
 Line 25: <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif">
+Line 26: 
+Line 27: <!-- should transform to amp-img instead of amp-anim because of default option['use_amp_anim_tag'] = false -->
+Line 28: <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif">
+Line 29: 
 
 
 Transformations made from HTML tags to AMP custom tags
@@ -67,6 +75,9 @@ Transformations made from HTML tags to AMP custom tags
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"> at line 25
  ACTION TAKEN: img tag was converted to the amp-pixel tag.
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif"> at line 28
+ ACTION TAKEN: img tag was converted to the amp-img tag.
 
 
 AMP-HTML Validation Issues and Fixes
