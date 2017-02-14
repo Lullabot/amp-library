@@ -1,0 +1,67 @@
+<!-- should transform to amp-anim-->
+<amp-anim src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Rotating_earth_%28large%29.gif/200px-Rotating_earth_%28large%29.gif" width="200" height="200" layout="responsive"></amp-anim>
+
+<!-- should transform to amp-img because this gif is not animated -->
+<amp-img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif" width="46" height="46" layout="responsive"></amp-img>
+
+<!-- should transform to amp-anim-->
+<amp-anim src="https://upload.wikimedia.org/wikipedia/commons/1/14/Animated_PNG_example_bouncing_beach_ball.png" width="100" height="100" layout="responsive"></amp-anim>
+
+<!-- should transform to amp-img because this png is not animated -->
+<amp-img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/240px-Wikimedia-logo.png" width="240" height="240" layout="responsive"></amp-img>
+
+<!-- nonexistent image, should refuse to convert to amp-img and delete it -->
+
+
+
+ORIGINAL HTML
+---------------
+Line  1: <!-- should transform to amp-anim-->
+Line  2: <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Rotating_earth_%28large%29.gif/200px-Rotating_earth_%28large%29.gif">
+Line  3: 
+Line  4: <!-- should transform to amp-img because this gif is not animated -->
+Line  5: <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif">
+Line  6: 
+Line  7: <!-- should transform to amp-anim-->
+Line  8: <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Animated_PNG_example_bouncing_beach_ball.png">
+Line  9: 
+Line 10: <!-- should transform to amp-img because this png is not animated -->
+Line 11: <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/240px-Wikimedia-logo.png">
+Line 12: 
+Line 13: <!-- nonexistent image, should refuse to convert to amp-img and delete it -->
+Line 14: <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg">
+Line 15: 
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Rotating_earth_%28large%29.gif/200px-Rotating_earth_%28large%29.gif"> at line 2
+ ACTION TAKEN: img tag was converted to the amp-anim tag.
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif"> at line 5
+ ACTION TAKEN: img tag was converted to the amp-img tag.
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Animated_PNG_example_bouncing_beach_ball.png"> at line 8
+ ACTION TAKEN: img tag was converted to the amp-anim tag.
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/240px-Wikimedia-logo.png"> at line 11
+ ACTION TAKEN: img tag was converted to the amp-img tag.
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg"> at line 14
+ ACTION TAKEN: img tag could NOT be converted to the amp-img tag as the image is not accessible.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+FAIL
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg"> on line 14
+- The tag 'img' may only appear as a descendant of tag 'noscript'. Did you mean 'amp-img'?
+   [code: MANDATORY_TAG_ANCESTOR_WITH_HINT  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT see: https://www.ampproject.org/docs/reference/amp-img.html]
+   ACTION TAKEN: img tag was removed due to validation issues.
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-anim', include path 'https://cdn.ampproject.org/v0/amp-anim-0.1.js'
+

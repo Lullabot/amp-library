@@ -24,6 +24,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
   <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
   <script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js"></script>
   <script async custom-element="amp-lightbox" src="https://cdn.ampproject.org/v0/amp-lightbox-0.1.js"></script>
   <script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>
@@ -117,7 +118,7 @@
     <amp-img src="img" width="42" height="42" layout="responsive"></amp-img>
     <amp-img src="img" layout="responsive"></amp-img>
 
-    <!-- Layout of responsive/fixed without width/height -->
+    <!-- Layout of responsive/fixed without width/height - This should all fail -->
     <amp-img src="img" layout="responsive"></amp-img>
     <amp-img src="img" layout="fixed"></amp-img>
     <amp-img src="img" layout="responsive" width="42"></amp-img>
@@ -272,7 +273,7 @@ Line 110:     <amp-img src="img" layout="container"></amp-img>
 Line 111:     <amp-img src="img" layout="container" width="42" height="42"></amp-img>
 Line 112:     <amp-img src="img"></amp-img>
 Line 113: 
-Line 114:     <!-- Layout of responsive/fixed without width/height -->
+Line 114:     <!-- Layout of responsive/fixed without width/height - This should all fail -->
 Line 115:     <amp-img src="img" layout="responsive"></amp-img>
 Line 116:     <amp-img src="img" layout="fixed"></amp-img>
 Line 117:     <amp-img src="img" layout="responsive" width="42"></amp-img>
@@ -343,7 +344,6 @@ FAIL
 <amp-img src="img" layout="responsive" width="42"> on line 117
 - The mandatory attribute 'height' is missing in tag 'amp-img'.
    [code: MANDATORY_ATTR_MISSING  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img tried to fix problems with amp-img by trying to fetch height, width from image directly and/or setting layout to responsive
 
 <amp-img src="img" layout="fixed" height="42"> on line 118
 - The mandatory attribute 'width' is missing in tag 'amp-img'.

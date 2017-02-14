@@ -74,6 +74,7 @@ class Context
     protected $component_js = [];
 
     public static $component_mappings = [
+        'amp-ad' => 'https://cdn.ampproject.org/v0/amp-ad-0.1.js',
         'amp-analytics' => 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js',
         'amp-anim' => 'https://cdn.ampproject.org/v0/amp-anim-0.1.js',
         'amp-audio' => 'https://cdn.ampproject.org/v0/amp-audio-0.1.js',
@@ -96,6 +97,7 @@ class Context
         'amp-vine' => 'https://cdn.ampproject.org/v0/amp-vine-0.1.js',
         'amp-vimeo' => 'https://cdn.ampproject.org/v0/amp-vimeo-0.1.js',
         'amp-youtube' => 'https://cdn.ampproject.org/v0/amp-youtube-0.1.js',
+        'amp-sidebar' => 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js',
         'template' => 'https://cdn.ampproject.org/v0/amp-mustache-0.1.js'
     ];
 
