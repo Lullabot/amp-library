@@ -44,7 +44,7 @@ class IframeHuluTagTransformPass extends BasePass
             $dom_el = $el->get(0);
             $lineno = $this->getLineNo($dom_el);
 
-            if ($eid = $this->getArtifactId($el, '&(*UTF8)hulu\.com/embed\.html\?edit=(\d+)&i')) {
+            if ($eid = $this->getArtifactId($el, '&(*UTF8)hulu\.com/embed\.html\?eid=(\w+)&i')) {
                 $width = $el->attr('width') ?: 800;
                 $height = $el->attr('height') ?: 600;
 
