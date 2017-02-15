@@ -84,6 +84,7 @@ class Context
         'amp-facebook' => 'https://cdn.ampproject.org/v0/amp-facebook-0.1.js',
         'amp-fit-text' => 'https://cdn.ampproject.org/v0/amp-fit-text-0.1.js',
         'amp-font' => 'https://cdn.ampproject.org/v0/amp-font-0.1.js',
+        'amp-hulu' => 'https://cdn.ampproject.org/v0/amp-hulu-0.1.js',
         'amp-iframe' => 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js',
         'amp-instagram' => 'https://cdn.ampproject.org/v0/amp-instagram-0.1.js',
         'amp-install-serviceworker' => 'https://cdn.ampproject.org/v0/amp-install-serviceworker-0.1.js',
