@@ -454,7 +454,7 @@ class Context
     public function addErrorWithLine($line, $validation_error_code, array $params, $spec_url, SValidationResult $validation_result, $attr_name = '', $segment = '')
     {
         // We currently don't issue this error as we're only looking at DOMElements
-        if ($validation_error_code == ValidationErrorCode::MANDATORY_TAG_MISSING && isset($params[0]) && $params[0] == 'html doctype') {
+        if ($validation_error_code == ValidationErrorCode::MANDATORY_TAG_MISSING && isset($params[0]) && in_array($params[0], ['html doctype', 'html \u26a14ads for top-level html', 'amp4ads engine amp4ads-v0.js script'])) {
             return true;
         }
 

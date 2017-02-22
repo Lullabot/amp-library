@@ -74,22 +74,22 @@ FAIL
 
 <a href="javascript:alert('boo')"> on line 27
 - Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
 <a href="JavaScript:alert('boo')"> on line 28
 - Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links\]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
 <a href="vbscript:bar"> on line 29
 - Invalid URL protocol 'vbscript:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
 <a href="data:baz"> on line 30
 - Invalid URL protocol 'data:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH

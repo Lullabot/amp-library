@@ -267,37 +267,37 @@ FAIL
 
 <p notallowed> on line 53
 - The attribute 'notallowed' may not appear in tag 'p'.
-   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: p.notallowed attribute was removed due to validation issues.
 
 <p notallowed> on line 54
 - The attribute 'notallowed' may not appear in tag 'p'.
-   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: p.notallowed attribute was removed due to validation issues.
 
 <p notallowed> on line 55
 - The attribute 'notallowed' may not appear in tag 'p'.
-   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: p.notallowed attribute was removed due to validation issues.
 
 <p notallowed> on line 56
 - The attribute 'notallowed' may not appear in tag 'p'.
-   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: p.notallowed attribute was removed due to validation issues.
 
 <p notallowed> on line 59
 - The attribute 'notallowed' may not appear in tag 'p'.
-   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: p.notallowed attribute was removed due to validation issues.
 
 <p notallowed> on line 62
 - The attribute 'notallowed' may not appear in tag 'p'.
-   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: p.notallowed attribute was removed due to validation issues.
 
 <p notallowed> on line 63
 - The attribute 'notallowed' may not appear in tag 'p'.
-   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: p.notallowed attribute was removed due to validation issues.
 
 <p title="{{{ notallowed }}}"> on line 64

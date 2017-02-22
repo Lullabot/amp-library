@@ -90,7 +90,7 @@ FAIL
 
 <meta charset="pick-a-key"> on line 23
 - The attribute 'charset' may not appear in tag 'meta name= and content='.
-   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: meta.charset attribute was removed due to validation issues.
 
 <script type="javascript"> on line 26

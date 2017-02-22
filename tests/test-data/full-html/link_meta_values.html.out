@@ -107,7 +107,7 @@ FAIL
 
 <meta name="content-disposition" content="any"> on line 32
 - The attribute 'name' in tag 'meta name= and content=' is set to the invalid value 'content-disposition'.
-   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#html-tags]
    ACTION TAKEN: meta.name attribute was removed due to validation issues.
 
 <link href="foo"> on line 43

@@ -192,36 +192,36 @@ FAIL
 
 <link rel="stylesheet" type="text/css" href="http://xss.com/https://fonts.googleapis.com/css?foobar"> on line 46
 - The attribute 'href' in tag 'link rel=stylesheet for fonts' is set to the invalid value 'http://xss.com/https://fonts.googleapis.com/css?foobar'.
-   [code: INVALID_ATTR_VALUE  category: AUTHOR_STYLESHEET_PROBLEM]
+   [code: INVALID_ATTR_VALUE  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#custom-fonts]
    ACTION TAKEN: link.href attribute was removed due to validation issues.
 - FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 <link rel="import"> on line 55
 - The attribute 'rel' in tag 'link rel=' is set to the invalid value 'import'.
-   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#html-tags]
    ACTION TAKEN: link.rel attribute was removed due to validation issues.
 - FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 <link rel="accessibility subresource"> on line 56
 - The attribute 'rel' in tag 'link rel=' is set to the invalid value 'accessibility subresource'.
-   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#html-tags]
    ACTION TAKEN: link.rel attribute was removed due to validation issues.
 - FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 <link rel="manifest accessibility"> on line 57
 - The attribute 'rel' in tag 'link rel=' is set to the invalid value 'manifest accessibility'.
-   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#html-tags]
    ACTION TAKEN: link.rel attribute was removed due to validation issues.
 - FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 <meta name="content-disposition" content> on line 65
 - The attribute 'name' in tag 'meta name= and content=' is set to the invalid value 'content-disposition'.
-   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#html-tags]
    ACTION TAKEN: meta.name attribute was removed due to validation issues.
 
 <meta name="invalid content-disposition" content> on line 66
 - The attribute 'name' in tag 'meta name= and content=' is set to the invalid value 'invalid content-disposition'.
-   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#html-tags]
    ACTION TAKEN: meta.name attribute was removed due to validation issues.
 
 <amp-audio src="https://example.com/audio" layout="fixed" autoplay="invalid"> on line 77
