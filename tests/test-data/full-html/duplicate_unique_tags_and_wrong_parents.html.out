@@ -82,11 +82,6 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
 
-<style amp-custom> on line 31
-- The tag 'style amp-custom' appears more than once in the document.
-   [code: DUPLICATE_UNIQUE_TAG  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
-   ACTION TAKEN: style tag was removed due to validation issues.
-
 <style amp-custom> on line 35
 - The parent tag of tag 'style' is 'body', but it can only be 'head'.
    [code: WRONG_PARENT_TAG  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
