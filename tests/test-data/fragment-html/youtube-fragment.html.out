@@ -1,17 +1,79 @@
 <amp-youtube data-videoid="MnR9AVs6Q_c" layout="responsive" data-priority="high" height="315" width="560" data-param-autoplay="1" data-param-controls="0"></amp-youtube>
 
+<amp-youtube data-videoid="MnR9AVs6Q_c" layout="responsive" data-priority="high" height="315" width="560"></amp-youtube>
+
+<amp-youtube data-videoid="MnR9AVs6Q_c" layout="responsive" data-priority="high" height="315" width="560" data-param-t="15"></amp-youtube>
+
+<amp-youtube data-videoid="dQw4w9WgXcQ" layout="responsive" data-priority="high" height="315" width="560"></amp-youtube>
+
+<amp-youtube data-videoid="dQw4w9WgXcQ" layout="responsive" data-priority="high" height="315" width="560" data-param-v="dQw4w9WgXcQ"></amp-youtube>
+
+<amp-youtube data-videoid="dQw4w9WgXcQ" layout="responsive" data-priority="high" height="315" width="560"></amp-youtube>
+
+<amp-youtube data-videoid="MnR9AVs6Q_c" layout="responsive" data-priority="high" height="315" width="560"></amp-youtube>
+
+
 ORIGINAL HTML
 ---------------
-Line 1: <iframe data-priority="high" width="560" height="315"
-Line 2:         src="https://www.youtube.com/embed/MnR9AVs6Q_c?autoplay=1&controls=0"
-Line 3:         frameborder="0" allowfullscreen>
-Line 4: </iframe>
+Line  1: <iframe data-priority="high" width="560" height="315"
+Line  2:         src="https://www.youtube.com/embed/MnR9AVs6Q_c?autoplay=1&controls=0"
+Line  3:         frameborder="0" allowfullscreen>
+Line  4: </iframe>
+Line  5: 
+Line  6: <iframe data-priority="high" width="560" height="315"
+Line  7:         src="https://www.youtube.com/embed/MnR9AVs6Q_c#t=15"
+Line  8:         frameborder="0" allowfullscreen>
+Line  9: </iframe>
+Line 10: 
+Line 11: <iframe data-priority="high" width="560" height="315"
+Line 12:         src="https://www.youtube.com/embed/MnR9AVs6Q_c?&t=15"
+Line 13:         frameborder="0" allowfullscreen>
+Line 14: </iframe>
+Line 15: 
+Line 16: <iframe data-priority="high" width="560" height="315"
+Line 17:         src="http://youtu.be/dQw4w9WgXcQ"
+Line 18:         frameborder="0" allowfullscreen>
+Line 19: </iframe>
+Line 20: 
+Line 21: <iframe data-priority="high" width="560" height="315"
+Line 22:         src="http://www.youtube.com/watch?v=dQw4w9WgXcQ#t=15"
+Line 23:         frameborder="0" allowfullscreen>
+Line 24: </iframe>
+Line 25: 
+Line 26: <iframe data-priority="high" width="560" height="315"
+Line 27:         src="http://www.youtube.com/user/username#p/u/11/dQw4w9WgXcQ"
+Line 28:         frameborder="0" allowfullscreen>
+Line 29: </iframe>
+Line 30: 
+Line 31: <iframe data-priority="high" width="560" height="315"
+Line 32:         src="https://www.youtube.com/embed/MnR9AVs6Q_c&amp;t=15"
+Line 33:         frameborder="0" allowfullscreen>
+Line 34: </iframe>
+Line 35: 
 
 
 Transformations made from HTML tags to AMP custom tags
 -------------------------------------------------------
 
 <iframe data-priority="high" width="560" height="315" src="https://www.youtube.com/embed/MnR9AVs6Q_c?autoplay=1&controls=0" frameborder allowfullscreen> at line 3
+ ACTION TAKEN: iframe tag was converted to the amp-youtube tag.
+
+<iframe data-priority="high" width="560" height="315" src="https://www.youtube.com/embed/MnR9AVs6Q_c#t=15" frameborder allowfullscreen> at line 8
+ ACTION TAKEN: iframe tag was converted to the amp-youtube tag.
+
+<iframe data-priority="high" width="560" height="315" src="https://www.youtube.com/embed/MnR9AVs6Q_c?&t=15" frameborder allowfullscreen> at line 13
+ ACTION TAKEN: iframe tag was converted to the amp-youtube tag.
+
+<iframe data-priority="high" width="560" height="315" src="http://youtu.be/dQw4w9WgXcQ" frameborder allowfullscreen> at line 18
+ ACTION TAKEN: iframe tag was converted to the amp-youtube tag.
+
+<iframe data-priority="high" width="560" height="315" src="http://www.youtube.com/watch?v=dQw4w9WgXcQ#t=15" frameborder allowfullscreen> at line 23
+ ACTION TAKEN: iframe tag was converted to the amp-youtube tag.
+
+<iframe data-priority="high" width="560" height="315" src="http://www.youtube.com/user/username#p/u/11/dQw4w9WgXcQ" frameborder allowfullscreen> at line 28
+ ACTION TAKEN: iframe tag was converted to the amp-youtube tag.
+
+<iframe data-priority="high" width="560" height="315" src="https://www.youtube.com/embed/MnR9AVs6Q_c&t=15" frameborder allowfullscreen> at line 33
  ACTION TAKEN: iframe tag was converted to the amp-youtube tag.
 
 

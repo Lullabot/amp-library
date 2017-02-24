@@ -60,20 +60,10 @@ class IframeYouTubeTagTransformPass extends BasePass
             $lineno = $this->getLineNo($dom_el);
             $context_string = $this->getContextString($dom_el);
             $youtube_code = $this->getYouTubeCode($el);
-            $youtube_hash = $this->getYouTubeCodeHash($el);
 
             // If we couldnt find a youtube videoid then we abort
             if (empty($youtube_code)) {
                 continue;
-            }
-
-            $extra_data = NULL;
-            if (!empty($youtube_hash)) {
-                // Try to parse this into a start value:  t=333
-                parse_str($youtube_hash, $extras);
-                if (!empty($extras['t'])) {
-                    $extra_data = "data-param-start=\"{$extras['t']}\"";
-                }
             }
 
             if ($el->hasAttr('class')) {
@@ -81,7 +71,7 @@ class IframeYouTubeTagTransformPass extends BasePass
             }
 
             /** @var \DOMElement $new_dom_el */
-            $el->after("<amp-youtube data-videoid=\"$youtube_code\" ${extra_data} layout=\"responsive\"></amp-youtube>");
+            $el->after("<amp-youtube data-videoid=\"$youtube_code\" layout=\"responsive\"></amp-youtube>");
             $new_el = $el->next();
             $new_dom_el = $new_el->get(0);
             if (!empty($class_attr)) {
@@ -123,67 +113,25 @@ class IframeYouTubeTagTransformPass extends BasePass
      *
      * @param DOMQuery $el
      * @return string
+     *
      */
-    protected function getYouTubeCode(DOMQuery $el) {
-        $youtube_code = $this->_getYouTubeCode($el);
-
-        // Remove hash-tag timestamp jump:  #t=243 if present
-        $youtube_code = explode('#', $youtube_code);
-        return $youtube_code[0];
-    }
-
-    /**
-     *
-     * Get the youtube anchor hash (if available)
-     *
-     * @param DOMQuery $el
-     * @return string
-     */
-    protected function getYouTubeCodeHash(DOMQuery $el) {
-        $youtube_code = $this->_getYouTubeCode($el);
-        // Return hash-tag timestamp jump:  #t=243
-        $youtube_code = explode('#', $youtube_code);
-        return $youtube_code[1] ?? NULL;
-    }
-
-    /**
-     *
-     * Get the entire youtube videoid string
-     *
-     * @param DOMQuery $el
-     * @return string
-     */
-    private function _getYouTubeCode(DOMQuery $el)
+    protected function getYouTubeCode(DOMQuery $el)
     {
         $matches = [];
         $youtube_code = '';
         $href = $el->attr('src');
 
-        // @todo there seem to be a lot of ways to embed a youtube video. We probably need to capture all patterns here
-        // The next one is the embed code that youtube gives you
-        if (preg_match('&(*UTF8)/embed/([^/?]+)&i', $href, $matches)) {
-            if (!empty($matches[1])) {
+        // This regex is supposed to catch all possible way to embed youtube video
+        if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $href, $matches))
+        {
+            if (!empty($matches[1]))
+            {
                 $youtube_code = $matches[1];
-                return $youtube_code;
+                return htmlspecialchars($youtube_code);
             }
         }
 
-        if (preg_match('&(*UTF8)youtu\.be/([^/?]+)&i', $href, $matches)) {
-            if (!empty($matches[1])) {
-                $youtube_code = $matches[1];
-                return $youtube_code;
-            }
-        }
-
-        if (preg_match('!(*UTF8)watch\?v=([^&]+)!i', $href, $matches)) {
-            if (!empty($matches[1])) {
-                $youtube_code = $matches[1];
-                return $youtube_code;
-            }
-        }
-
-
-        return $youtube_code;
+        return htmlspecialchars($youtube_code);
     }
 
     /**

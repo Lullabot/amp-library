@@ -136,5 +136,6 @@ FAIL
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
+'amp-sidebar', include path 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js'
 'amp-fit-text', include path 'https://cdn.ampproject.org/v0/amp-fit-text-0.1.js'
 

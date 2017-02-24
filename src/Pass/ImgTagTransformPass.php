@@ -72,28 +72,20 @@ class ImgTagTransformPass extends BasePass
             }
             $lineno = $this->getLineNo($dom_el);
             $context_string = $this->getContextString($dom_el);
-
+            $has_height_and_width = $this->setResponsiveImgHeightAndWidth($el);
+            if (!$has_height_and_width) {
+                $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_COULD_NOT_BE_CONVERTED, $lineno, $context_string));
+                continue;
+            }
             if ($this->isPixel($el)) {
                 $new_dom_el = $this->convertAmpPixel($el, $lineno, $context_string);
+            } else if (!empty($this->options['use_amp_anim_tag']) && $this->isAnimatedImg($dom_el)) {
+                $new_dom_el = $this->convertAmpAnim($el, $lineno, $context_string);
+            } else {
+                $new_dom_el = $this->convertAmpImg($el, $lineno, $context_string);
             }
-            else {
-                $has_height_and_width = $this->setResponsiveImgHeightAndWidth($el);
-                if (!$has_height_and_width) {
-                    $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_COULD_NOT_BE_CONVERTED, $lineno, $context_string));
-                }
-                elseif ($this->isAnimation($el)) {
-                    $new_dom_el = $this->convertAmpAnim($el, $lineno, $context_string);
-                }
-                else {
-                    $new_dom_el = $this->convertAmpImg($el, $lineno, $context_string);
-                }
-            }
-
-            if (isset($new_dom_el)) {
-                $this->context->addLineAssociation($new_dom_el, $lineno);
-                $new_dom_el = NULL;
-            }
-            $el->remove(); // remove the old img tag whether we replace it or not
+            $this->context->addLineAssociation($new_dom_el, $lineno);
+            $el->remove(); // remove the old img tag
         }
 
         return $this->transformations;
@@ -111,11 +103,7 @@ class ImgTagTransformPass extends BasePass
     {
         $dom_el = $el->get(0);
         $new_dom_el = $dom_el->ownerDocument->createElement('amp-pixel');
-        $src = $el->attr('src');
-        if (strpos($src, 'http://') !== false) {
-            $src = str_replace('http://', 'https://', $src);
-        }
-        $new_dom_el->setAttribute('src', $src);
+        $new_dom_el->setAttribute('src', $el->attr('src'));
         $dom_el->parentNode->insertBefore($new_dom_el, $dom_el);
         $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_PIXEL_CONVERTED, $lineno, $context_string));
         return $new_dom_el;
@@ -140,20 +128,20 @@ class ImgTagTransformPass extends BasePass
     }
 
     /**
-     * Given an image element returns its layout attribute value
+     * Given an image DOMQuery
+     * Returns whether the image should have 'fixed' or 'responsive' layout
      *
      * @param DOMQuery $el
      * @return string
      */
-    protected function getLayout($el)
-    {
+    protected function getLayout($el) {
         return (isset($this->options['img_max_fixed_layout_width'])
             && $this->options['img_max_fixed_layout_width'] >= $el->attr('width'))
             ? 'fixed' : 'responsive';
     }
 
     /**
-     * Given an image element returns an amp-img element with the same attributes and children
+     * Given an animated image element returns an amp-anim element with the same attributes and children
      *
      * @param DOMQuery $el
      * @param int $lineno
@@ -165,40 +153,9 @@ class ImgTagTransformPass extends BasePass
         $dom_el = $el->get(0);
         $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-anim');
         $new_el = $el->prev();
-        $this->setLayoutIfNoLayout($new_el, $this->getLayout($el));
+        $this->setLayoutIfNoLayout($new_el, 'responsive');
         $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_ANIM_CONVERTED, $lineno, $context_string));
         return $new_dom_el;
-    }
-
-    /**
-     * http://stackoverflow.com/a/415942/3574819
-     *
-     * @param $el
-     * @return bool
-     */
-    function isAnimation($el) {
-        if (pathinfo($el->attr('src'), PATHINFO_EXTENSION) != 'gif') {
-            return false;
-        }
-        if(!($fh = @fopen($el->attr('src'), 'rb'))) {
-            return false;
-        }
-        $count = 0;
-        //an animated gif contains multiple "frames", with each frame having a
-        //header made up of:
-        // * a static 4-byte sequence (\x00\x21\xF9\x04)
-        // * 4 variable bytes
-        // * a static 2-byte sequence (\x00\x2C)
-
-        // We read through the file til we reach the end of the file, or we've found
-        // at least 2 frame headers
-        while(!feof($fh) && $count < 2) {
-            $chunk = fread($fh, 1024 * 100); //read 100kb at a time
-            $count += preg_match_all('#\x00\x21\xF9\x04.{4}\x00[\x2C\x21]#s', $chunk, $matches);
-        }
-
-        fclose($fh);
-        return $count > 1;
     }
 
     /**
@@ -218,19 +175,6 @@ class ImgTagTransformPass extends BasePass
 
         // Try obtaining image size without having to download the whole image
         $size = $this->fastimage->getImageSize($img_url);
-
-        if (!$size) {
-            // Now try with downloading the whole image
-            list($width, $height) = @getimagesize($src);
-
-            if ($width && $height) {
-                $size = [
-                    'width' => $width,
-                    'height' => $height,
-                ];
-            }
-        }
-
         return $size;
     }
 
@@ -254,14 +198,94 @@ class ImgTagTransformPass extends BasePass
     }
 
     /**
-     * Detects if the img is a pixel. In that case we convert to <amp-pixel> instead of <amp-img>
+     * Detects if the img is a 1x1 pixel. In that case we convert to <amp-pixel> instead of <amp-img>
      * @param DOMQuery $el
      * @return bool
      */
     protected function isPixel(DOMQuery $el)
     {
-        return ($el->attr('width') === '1' || $el->attr('width') === '0')
-        && ($el->attr('height') === '1' || $el->attr('height') === '0');
+        return $el->attr('width') === '1' && $el->attr('height') === '1';
+    }
+
+    /**
+     * Detects if the img is animated. In that case we convert to <amp-anim> instead of <amp-img>
+     * @param \DOMElement $el
+     * @return bool
+     */
+    protected function isAnimatedImg(\DOMElement $el)
+    {
+        $animated_type = ['gif', 'png'];
+        if (!$el->hasAttribute('src')) {
+            return true;
+        }
+
+        $src = trim($el->getAttribute('src'));
+        if (preg_match('/\.([a-z0-9]+)$/i', parse_url($src,PHP_URL_PATH), $match)) {
+            if (!empty($match[1]) && in_array(strtolower($match[1]), $animated_type)) {
+                if ($match[1] === "gif") {
+                    if ($this->isAnimatedGif($src)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                if ($this->isApng($src)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Identifies APNGs
+     * Written by Coda, functionified by Foone/Popcorn Mariachi#!9i78bPeIxI
+     * This code is in the public domain
+     *
+     * @see http://stackoverflow.com/a/4525194
+     * @see http://foone.org/apng/identify_apng.php
+     *
+     * @param  string  $src    The filename
+     * @return bool    true if the file is an APMG
+     */
+    function isApng($src)
+    {
+        $img_bytes = @file_get_contents($src);
+        if ($img_bytes) {
+            if (strpos(substr($img_bytes, 0, strpos($img_bytes, 'IDAT')), 'acTL') !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Detects if the gif image is animated or not
+     * source: http://php.net/manual/en/function.imagecreatefromgif.php#104473
+     *
+     * @param  string  $filename
+     * @return bool
+     */
+    function isAnimatedGif($filename) {
+        if (!($fh = @fopen($filename, 'rb')))
+            return FALSE;
+        $count = 0;
+        //an animated gif contains multiple "frames", with each frame having a
+        //header made up of:
+        // * a static 4-byte sequence (\x00\x21\xF9\x04)
+        // * 4 variable bytes
+        // * a static 2-byte sequence (\x00\x2C) (some variants may use \x00\x21 ?)
+
+        // We read through the file til we reach the end of the file, or we've found
+        // at least 2 frame headers
+        while (!feof($fh) && $count < 2) {
+            $chunk = fread($fh, 1024 * 100); //read 100kb at a time
+            $count += preg_match_all('#\x00\x21\xF9\x04.{4}\x00(\x2C|\x21)#s', $chunk, $matches);
+       }
+
+        fclose($fh);
+        return $count > 1;
     }
 
     /**
