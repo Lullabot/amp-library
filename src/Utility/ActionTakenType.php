@@ -27,7 +27,6 @@ class ActionTakenType
     const IMG_ANIM_CONVERTED = 'tag was converted to the amp-anim tag.';
     const IMG_ANIM_COULD_NOT_BE_CONVERTED = 'tag could NOT be converted to the amp-anim tag as the image is not accessible.';
     const IMG_PIXEL_CONVERTED = 'tag was converted to the amp-pixel tag.';
-    const IMG_ANIM_CONVERTED = 'tag was converted to the amp-anim tag.';
     const IMG_COULD_NOT_BE_CONVERTED = 'tag could NOT be converted to the amp-img tag as the image is not accessible.';
     const IMGUR_CONVERTED = 'imgur tag was converted to the amp-iframe tag';
     const IMGUR_COULD_NOT_BE_CONVERTED = 'imgur tag could NOT be converted to the amp-iframe tag';
