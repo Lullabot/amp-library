@@ -1,0 +1,27 @@
+<amp-vimeo width="16" height="9" layout="responsive" data-videoid="12223465"></amp-vimeo>
+
+ORIGINAL HTML
+---------------
+Line 1: <object width="550" height="309">
+Line 2: 	<param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=12223465&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" />
+Line 3: 	<param name="allowfullscreen" value="true" />
+Line 4: 	<param name="allowscriptaccess" value="always" />
+Line 5: 	<embed src="http://vimeo.com/moogaloop.swf?clip_id=12223465&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="550" height="309"></embed>
+Line 6: </object>
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<object width="550" height="309"> at line 1
+ ACTION TAKEN: object vimeo object code was converted to the amp-vimeo tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-vimeo', include path 'https://cdn.ampproject.org/v0/amp-vimeo-0.1.js'
+
