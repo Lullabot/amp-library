@@ -185,8 +185,13 @@ class AMP
             $options['remove_non_converted_img_tag'] = false;
         }
 
+        // By default the scope is 'body'
+        if (!isset($options['scope'])) {
+          $options['scope'] = Scope::BODY_SCOPE;
+        }
+
         $this->options = $options;
-        $this->scope = !empty($options['scope']) ? $options['scope'] : Scope::BODY_SCOPE;
+        $this->scope = $options['scope'];
 
         // Currently we only support these two scopes
         if (!in_array($this->scope, [Scope::HTML_SCOPE, Scope::BODY_SCOPE])) {
