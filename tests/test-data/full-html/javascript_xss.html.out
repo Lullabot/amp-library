@@ -79,7 +79,7 @@ FAIL
 
 <a href="JavaScript:alert('boo')"> on line 28
 - Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links\]
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
 <a href="vbscript:bar"> on line 29

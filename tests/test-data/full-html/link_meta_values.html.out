@@ -107,12 +107,12 @@ FAIL
 
 <meta name="content-disposition" content="any"> on line 32
 - The attribute 'name' in tag 'meta name= and content=' is set to the invalid value 'content-disposition'.
-   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#html-tags]
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
    ACTION TAKEN: meta.name attribute was removed due to validation issues.
 
 <link href="foo"> on line 43
 - The mandatory attribute 'rel' is missing in tag 'link rel='.
-   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML]
+   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#html-tags]
 - FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 COMPONENT NAMES WITH JS PATH
