@@ -114,7 +114,7 @@ $ ./amp-console amp:convert sample-html/several_errors.html --full-document
 ```
 Note that you need to provide `--full-document` if you're providing a full html document file for conversion.
 
-Lets see the output output of the first example command above. The first few lines is the AMPized HTML provided by our library. The rest of the headings are self explanatory.
+Lets see the output of the first example command above. The first few lines is the AMPized HTML provided by our library. The rest of the headings are self explanatory.
 
 ```html
 $ cd <amp-php-library-repo-cloned-location>

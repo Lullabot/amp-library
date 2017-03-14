@@ -25,6 +25,7 @@ class ActionTakenType
     const PROPERTY_REMOVED_ATTRIBUTE_REMOVED = 'property value pair was removed from attribute due to validation issues. The resulting attribute was empty and was also removed.';
     const IMG_CONVERTED = 'tag was converted to the amp-img tag.';
     const IMG_PIXEL_CONVERTED = 'tag was converted to the amp-pixel tag.';
+    const IMG_ANIM_CONVERTED = 'tag was converted to the amp-anim tag.';
     const IMG_COULD_NOT_BE_CONVERTED = 'tag could NOT be converted to the amp-img tag as the image is not accessible.';
     const INSTAGRAM_CONVERTED = 'instagram embed code was converted to the amp-instagram tag.';
     const PINTEREST_CONVERTED = 'pinterest embed code was converted to the amp-pinterest tag.';
@@ -51,4 +52,7 @@ class ActionTakenType
     const ISSUE_RESOLVED = 'no further action required as this issue was resolved due to an earlier fix';
     const AMP_IMG_FIX = 'tried to fix problems with amp-img by trying to fetch height, width from image directly and/or setting layout to responsive';
     const AMP_IMG_FIX_RESPONSIVE = 'tried to fix problems with amp-img by setting layout to responsive';
+    const YOUTUBE_OBJECT_CONVERTED = 'youtube object code was converted to the amp-youtube tag.';
+    const VIMEO_OBJECT_CONVERTED = 'vimeo object code was converted to the amp-vimeo tag.';
+    const OBJECT_CONVERTED_TO_A = 'video object code was converted to a#href tag.';
 }

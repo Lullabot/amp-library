@@ -79,8 +79,9 @@ class ImgTagTransformPass extends BasePass
             }
             if ($this->isPixel($el)) {
                 $new_dom_el = $this->convertAmpPixel($el, $lineno, $context_string);
-            }
-            else {
+            } else if (!empty($this->options['use_amp_anim_tag']) && $this->isAnimatedImg($dom_el)) {
+                $new_dom_el = $this->convertAmpAnim($el, $lineno, $context_string);
+            } else {
                 $new_dom_el = $this->convertAmpImg($el, $lineno, $context_string);
             }
             $this->context->addLineAssociation($new_dom_el, $lineno);
@@ -121,8 +122,39 @@ class ImgTagTransformPass extends BasePass
         $dom_el = $el->get(0);
         $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-img');
         $new_el = $el->prev();
-        $this->setLayoutIfNoLayout($new_el, 'responsive');
+        $this->setLayoutIfNoLayout($new_el, $this->getLayout($el));
         $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_CONVERTED, $lineno, $context_string));
+        return $new_dom_el;
+    }
+
+    /**
+     * Given an image DOMQuery
+     * Returns whether the image should have 'fixed' or 'responsive' layout
+     *
+     * @param DOMQuery $el
+     * @return string
+     */
+    protected function getLayout($el) {
+        return (isset($this->options['img_max_fixed_layout_width'])
+            && $this->options['img_max_fixed_layout_width'] >= $el->attr('width'))
+            ? 'fixed' : 'responsive';
+    }
+
+    /**
+     * Given an animated image element returns an amp-anim element with the same attributes and children
+     *
+     * @param DOMQuery $el
+     * @param int $lineno
+     * @param string $context_string
+     * @return DOMElement
+     */
+    protected function convertAmpAnim($el, $lineno, $context_string)
+    {
+        $dom_el = $el->get(0);
+        $new_dom_el = $this->cloneAndRenameDomElement($dom_el, 'amp-anim');
+        $new_el = $el->prev();
+        $this->setLayoutIfNoLayout($new_el, 'responsive');
+        $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_ANIM_CONVERTED, $lineno, $context_string));
         return $new_dom_el;
     }
 
@@ -176,6 +208,87 @@ class ImgTagTransformPass extends BasePass
     }
 
     /**
+     * Detects if the img is animated. In that case we convert to <amp-anim> instead of <amp-img>
+     * @param \DOMElement $el
+     * @return bool
+     */
+    protected function isAnimatedImg(\DOMElement $el)
+    {
+        $animated_type = ['gif', 'png'];
+        if (!$el->hasAttribute('src')) {
+            return true;
+        }
+
+        $src = trim($el->getAttribute('src'));
+        if (preg_match('/\.([a-z0-9]+)$/i', parse_url($src,PHP_URL_PATH), $match)) {
+            if (!empty($match[1]) && in_array(strtolower($match[1]), $animated_type)) {
+                if ($match[1] === "gif") {
+                    if ($this->isAnimatedGif($src)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                if ($this->isApng($src)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Identifies APNGs
+     * Written by Coda, functionified by Foone/Popcorn Mariachi#!9i78bPeIxI
+     * This code is in the public domain
+     *
+     * @see http://stackoverflow.com/a/4525194
+     * @see http://foone.org/apng/identify_apng.php
+     *
+     * @param  string  $src    The filename
+     * @return bool    true if the file is an APMG
+     */
+    function isApng($src)
+    {
+        $img_bytes = @file_get_contents($src);
+        if ($img_bytes) {
+            if (strpos(substr($img_bytes, 0, strpos($img_bytes, 'IDAT')), 'acTL') !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Detects if the gif image is animated or not
+     * source: http://php.net/manual/en/function.imagecreatefromgif.php#104473
+     *
+     * @param  string  $filename
+     * @return bool
+     */
+    function isAnimatedGif($filename) {
+        if (!($fh = @fopen($filename, 'rb')))
+            return FALSE;
+        $count = 0;
+        //an animated gif contains multiple "frames", with each frame having a
+        //header made up of:
+        // * a static 4-byte sequence (\x00\x21\xF9\x04)
+        // * 4 variable bytes
+        // * a static 2-byte sequence (\x00\x2C) (some variants may use \x00\x21 ?)
+
+        // We read through the file til we reach the end of the file, or we've found
+        // at least 2 frame headers
+        while (!feof($fh) && $count < 2) {
+            $chunk = fread($fh, 1024 * 100); //read 100kb at a time
+            $count += preg_match_all('#\x00\x21\xF9\x04.{4}\x00(\x2C|\x21)#s', $chunk, $matches);
+       }
+
+        fclose($fh);
+        return $count > 1;
+    }
+
+    /**
      * @param string $src
      * @return boolean|string
      */
@@ -217,7 +330,7 @@ class ImgTagTransformPass extends BasePass
         $wcss = new CssLengthAndUnit($el->attr('width'), false);
         $hcss = new CssLengthAndUnit($el->attr('height'), false);
 
-        if ($wcss->is_set && $wcss->is_valid && $wcss->is_set && $wcss->is_valid && $wcss->unit == $hcss->unit) {
+        if ($wcss->is_set && $wcss->is_valid && $hcss->is_set && $hcss->is_valid && $wcss->unit == $hcss->unit) {
             return true;
         }
 

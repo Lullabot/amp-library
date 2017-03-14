@@ -47,6 +47,7 @@ class AMP
 
     // The StandardScanPass should be first after all transform passes
     // The StandardFixPass should be after StandardScanPass
+    // The ObjectVideoTagTransformPass should be after all Object transform passes
     public $passes = [
         'Lullabot\AMP\Pass\PreliminaryPass', // Removes user blacklisted tags
         'Lullabot\AMP\Pass\ImgTagTransformPass',
@@ -63,6 +64,9 @@ class AMP
         'Lullabot\AMP\Pass\PinterestTagTransformPass',
         'Lullabot\AMP\Pass\FacebookNonIframeTransformPass',
         'Lullabot\AMP\Pass\TwitterTransformPass',
+        'Lullabot\AMP\Pass\ObjectYouTubeTagTransformPass',
+        'Lullabot\AMP\Pass\ObjectVimeoTagTransformPass',
+        'Lullabot\AMP\Pass\ObjectVideoTagTransformPass',
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
         'Lullabot\AMP\Pass\AmpImgFixPass',
@@ -174,8 +178,24 @@ class AMP
             $options['use_html5_parser'] = true;
         }
 
+        // By default the convertion of img into amp-anim is disabled (because of ressource cost)
+        //  => they will be converted into amp-img instead
+        if (!isset($options['use_img_anim_tag'])) {
+            $options['use_img_anim_tag'] = false;
+        }
+
+        // By default img that can't be converted are kept as it is and not removed
+        if (!isset($options['remove_non_converted_img_tag'])) {
+            $options['remove_non_converted_img_tag'] = false;
+        }
+
+        // By default the scope is 'body'
+        if (!isset($options['scope'])) {
+          $options['scope'] = Scope::BODY_SCOPE;
+        }
+
         $this->options = $options;
-        $this->scope = !empty($options['scope']) ? $options['scope'] : Scope::BODY_SCOPE;
+        $this->scope = $options['scope'];
 
         // Currently we only support these two scopes
         if (!in_array($this->scope, [Scope::HTML_SCOPE, Scope::BODY_SCOPE])) {
