@@ -1,0 +1,26 @@
+<a target="_blank" href="http://video.golem.de/player/videoplayer.swf?id=2883&amp;autoPl=false">http://video.golem.de/player/videoplayer.swf?id=2883&amp;autoPl=false</a>
+
+ORIGINAL HTML
+---------------
+Line 1: <object width="480" height="270">
+Line 2: 	<param name="movie" value="http://video.golem.de/player/videoplayer.swf?id=2883&autoPl=false">
+Line 3: 	<param name="allowFullScreen" value="true">
+Line 4: 	<param name="AllowScriptAccess" value="always">
+Line 5: 	<embed src="http://video.golem.de/player/videoplayer.swf?id=2883&autoPl=false" type="application/x-shockwave-flash" allowfullscreen="true" AllowScriptAccess="always" width="480" height="270"></embed>
+Line 6: </object>
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<object width="480" height="270"> at line 1
+ ACTION TAKEN: object video object code was converted to a#href tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+No custom amp script includes required

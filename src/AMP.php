@@ -47,6 +47,7 @@ class AMP
 
     // The StandardScanPass should be first after all transform passes
     // The StandardFixPass should be after StandardScanPass
+    // The ObjectVideoTagTransformPass should be after all Object transform passes
     public $passes = [
         'Lullabot\AMP\Pass\PreliminaryPass', // Removes user blacklisted tags
         'Lullabot\AMP\Pass\ImgTagTransformPass',
@@ -63,6 +64,9 @@ class AMP
         'Lullabot\AMP\Pass\PinterestTagTransformPass',
         'Lullabot\AMP\Pass\FacebookNonIframeTransformPass',
         'Lullabot\AMP\Pass\TwitterTransformPass',
+        'Lullabot\AMP\Pass\ObjectYouTubeTagTransformPass',
+        'Lullabot\AMP\Pass\ObjectVimeoTagTransformPass',
+        'Lullabot\AMP\Pass\ObjectVideoTagTransformPass',
         'Lullabot\AMP\Pass\StandardScanPass',
         'Lullabot\AMP\Pass\StandardFixPass',
         'Lullabot\AMP\Pass\AmpImgFixPass',
