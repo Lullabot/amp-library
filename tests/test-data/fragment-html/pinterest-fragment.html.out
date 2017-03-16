@@ -1,4 +1,4 @@
-<amp-pinterest data-url="https://www.pinterest.com/pin/99360735500167749/" data-do="embedPin" data-pin-width="medium" width="345" height="426"></amp-pinterest>
+<amp-pinterest data-url="https://www.pinterest.com/pin/99360735500167749/" data-do="embedPin" data-pin-width="medium" width="345" height="426" layout="responsive"></amp-pinterest>
 
 
 ORIGINAL HTML
