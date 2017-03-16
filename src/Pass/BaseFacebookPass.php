@@ -42,7 +42,8 @@ abstract class BaseFacebookPass extends BasePass
     {
         return
             // e.g https://www.facebook.com/facebook/videos/10153231379946729/
-            preg_match('&(*UTF8)facebook\.com/.*/videos/\d+/?&i', $url)
+            // https://www.facebook.com/PopSugar/videos/vb.112402358796244/848573591845780/?type=2&theater&notif_t=live_video_explicit&notif_id=1484099141368371
+            preg_match('&(*UTF8)facebook\.com/.*/videos&i', $url)
             // e.g https://www.facebook.com/video.php?v=10153231379946729
             || preg_match('&(*UTF8)facebook\.com/video\.php.*&i', $url);
     }
