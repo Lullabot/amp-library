@@ -214,7 +214,7 @@ $amp = new AMP();
 // Notice this is a HTML fragment, i.e. anything that can appear below <body>
 $html =
     '<p><a href="javascript:run();">Run</a></p>' . PHP_EOL .
-    '<p><a style="margin: 2px;" href="http://www.cnn.com" target="_parent">CNN</a></p>' . PHL_EOL .
+    '<p><a style="margin: 2px;" href="http://www.cnn.com" target="_parent">CNN</a></p>' . PHP_EOL .
     '<p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>' . PHP_EOL .
     '<p><INPUT type="submit" value="submit"></p>' . PHP_EOL .
     '<p>This is a <div onmouseover="hello();">sample</div> paragraph</p>';
