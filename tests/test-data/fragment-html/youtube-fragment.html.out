@@ -1,12 +1,12 @@
 <amp-youtube data-videoid="MnR9AVs6Q_c" layout="responsive" data-priority="high" height="315" width="560" data-param-autoplay="1" data-param-controls="0"></amp-youtube>
 
-<amp-youtube data-videoid="MnR9AVs6Q_c" layout="responsive" data-priority="high" height="315" width="560"></amp-youtube>
+<amp-youtube data-videoid="MnR9AVs6Q_c" layout="responsive" data-param-start="15" data-priority="high" height="315" width="560"></amp-youtube>
 
 <amp-youtube data-videoid="MnR9AVs6Q_c" layout="responsive" data-priority="high" height="315" width="560" data-param-t="15"></amp-youtube>
 
 <amp-youtube data-videoid="dQw4w9WgXcQ" layout="responsive" data-priority="high" height="315" width="560"></amp-youtube>
 
-<amp-youtube data-videoid="dQw4w9WgXcQ" layout="responsive" data-priority="high" height="315" width="560" data-param-v="dQw4w9WgXcQ"></amp-youtube>
+<amp-youtube data-videoid="dQw4w9WgXcQ" layout="responsive" data-param-start="15" data-priority="high" height="315" width="560" data-param-v="dQw4w9WgXcQ"></amp-youtube>
 
 <amp-youtube data-videoid="dQw4w9WgXcQ" layout="responsive" data-priority="high" height="315" width="560"></amp-youtube>
 
