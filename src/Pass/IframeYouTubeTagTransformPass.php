@@ -60,10 +60,21 @@ class IframeYouTubeTagTransformPass extends BasePass
             $lineno = $this->getLineNo($dom_el);
             $context_string = $this->getContextString($dom_el);
             $youtube_code = $this->getYouTubeCode($el);
+            $youtube_hash = $this->getYouTubeCodeHash($el);
 
             // If we couldnt find a youtube videoid then we abort
             if (empty($youtube_code)) {
                 continue;
+            }
+
+            $extra_data = NULL;
+            if (!empty($youtube_hash)) {
+                // Try to parse this into a start value:  t=333
+                // #t=333 is the old way, and youtube dropped support for it. transform it into start=333
+                parse_str($youtube_hash, $extras);
+                if (!empty($extras['t'])) {
+                    $extra_data = "data-param-start=\"{$extras['t']}\"";
+                }
             }
 
             if ($el->hasAttr('class')) {
@@ -71,7 +82,7 @@ class IframeYouTubeTagTransformPass extends BasePass
             }
 
             /** @var \DOMElement $new_dom_el */
-            $el->after("<amp-youtube data-videoid=\"$youtube_code\" layout=\"responsive\"></amp-youtube>");
+            $el->after("<amp-youtube data-videoid=\"$youtube_code\" layout=\"responsive\" {$extra_data}></amp-youtube>");
             $new_el = $el->next();
             $new_dom_el = $new_el->get(0);
             if (!empty($class_attr)) {
@@ -127,11 +138,24 @@ class IframeYouTubeTagTransformPass extends BasePass
             if (!empty($matches[1]))
             {
                 $youtube_code = $matches[1];
-                return htmlspecialchars($youtube_code);
             }
         }
 
         return htmlspecialchars($youtube_code);
+    }
+
+    /**
+     *
+     * Get the youtube anchor hash (if available)
+     *
+     * @param DOMQuery $el
+     * @return string
+     */
+    protected function getYouTubeCodeHash(DOMQuery $el) {
+        $href = $el->attr('src');
+        // Return hash-tag timestamp jump:  #t=243
+        $youtube_code_hash = explode('#', $href);
+        return !empty($youtube_code_hash[1]) ? $youtube_code_hash[1] : NULL;
     }
 
     /**
