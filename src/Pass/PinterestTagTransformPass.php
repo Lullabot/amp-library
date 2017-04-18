@@ -93,13 +93,21 @@ class PinterestTagTransformPass extends BasePass
 
         $width = $el->attr('width');
         $height = $el->attr('height');
+
+        if (!empty($height) && empty($width)) {
+            $width = 'auto';
+        }
+
         $hw_available = !empty($width) && !empty($height);
         $new_el->attr('data-pin-width', $pin_width);
         if ($hw_available) {
             $new_el->attr('width', $width);
             $new_el->attr('height', $height);
-        } else {
+            $new_el->attr('layout', $width == 'auto' ? 'fixed-height' : 'fixed');
+        }
+        else {
             $new_el->attr($dimensions[$pin_width]);
+            $new_el->attr('layout', 'responsive');
         }
     }
 }
