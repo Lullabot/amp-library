@@ -84,8 +84,11 @@ class ImgTagTransformPass extends BasePass
             } else {
                 $new_dom_el = $this->convertAmpImg($el, $lineno, $context_string);
             }
-            $this->context->addLineAssociation($new_dom_el, $lineno);
-            $el->remove(); // remove the old img tag
+            if (isset($new_dom_el)) {
+                $this->context->addLineAssociation($new_dom_el, $lineno);
+                $new_dom_el = NULL;
+            }
+            $el->remove(); // remove the old img tag whether we replace it or not
         }
 
         return $this->transformations;
@@ -208,7 +211,8 @@ class ImgTagTransformPass extends BasePass
      */
     protected function isPixel(DOMQuery $el)
     {
-        return $el->attr('width') === '1' && $el->attr('height') === '1';
+        return ($el->attr('width') === '1' || $el->attr('width') === '0')
+            && ($el->attr('height') === '1' || $el->attr('height') === '0');
     }
 
     /**
