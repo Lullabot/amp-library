@@ -161,18 +161,18 @@ FAIL
 
 <a style="color: red;" href="javascript:run();"> on line 1
 - The attribute 'style' may not appear in tag 'a'.
-   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.style attribute was removed due to validation issues.
 - Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
 <a style="margin: 2px;" href="http://www.cnn.com" target="_parent"> on line 2
 - The attribute 'style' may not appear in tag 'a'.
-   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.style attribute was removed due to validation issues.
 - The attribute 'target' in tag 'a' is set to the invalid value '_parent'.
-   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
+   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#html-tags]
    ACTION TAKEN: a.target attribute was removed due to validation issues.
 
 <input type="submit" value="submit"> on line 5
@@ -182,7 +182,7 @@ FAIL
 
 <div onmouseover="hello();"> on line 6
 - The attribute 'onmouseover' may not appear in tag 'div'.
-   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
+   [code: DISALLOWED_ATTR  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: div.onmouseover attribute was removed due to validation issues.
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> on line 8

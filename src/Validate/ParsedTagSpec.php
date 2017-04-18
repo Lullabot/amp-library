@@ -139,7 +139,7 @@ class ParsedTagSpec
         assert(!empty($attr_name));
         /** @var string $mandatory_parent */
         $mandatory_parent = empty($this->spec->mandatory_parent) ? '' : $this->spec->mandatory_parent;
-        $attr_value = $this->dispatch_key_attr_spec->getSpec()->value;
+        $attr_value = isset($this->dispatch_key_attr_spec->getSpec()->value) ? $this->dispatch_key_attr_spec->getSpec()->value : $this->dispatch_key_attr_spec->getSpec()->value_casei;
         if (empty(($attr_value))) {
             $attr_value = '';
         }

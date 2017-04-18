@@ -187,37 +187,37 @@ FAIL
 
 <a href="https://"> on line 37
 - Malformed URL 'https://' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL  category: DISALLOWED_HTML]
+   [code: INVALID_URL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
 <a href="javascript:alert('boo')"> on line 39
 - Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
 <a href="JavaScript:alert('boo')"> on line 40
 - Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
 <a href="javascript:alert(1)"> on line 41
 - Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
 <a href="vbscript:bar"> on line 42
 - Invalid URL protocol 'vbscript:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
 <a href="data:baz"> on line 43
 - Invalid URL protocol 'data:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
+   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
 <a href="http://site:80808/%AFpage"> on line 45
 - Malformed URL 'http://site:80808/%AFpage' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL  category: DISALLOWED_HTML]
+   [code: INVALID_URL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#links]
    ACTION TAKEN: a.href attribute was removed due to validation issues.
 
 <amp-img srcset="javascript:alert(1)" layout="fill"> on line 47

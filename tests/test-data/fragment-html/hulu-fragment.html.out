@@ -1,0 +1,24 @@
+<amp-hulu width="854" height="480" layout="responsive" data-eid="_hHzwnAcj3RrXMJFDDvkuw"></amp-hulu>
+
+
+ORIGINAL HTML
+---------------
+Line 1: <iframe width="854" height="480" frameborder="0" allowfullscreen="allowfullscreen" src="//www.hulu.com/embed.html?eid=_hHzwnAcj3RrXMJFDDvkuw"></iframe>
+Line 2: 
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<iframe width="854" height="480" frameborder allowfullscreen="allowfullscreen" src="//www.hulu.com/embed.html?eid=_hHzwnAcj3RrXMJFDDvkuw"> at line 1
+ ACTION TAKEN: iframe hulu embed code was converted to the amp-hulu tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-hulu', include path 'https://cdn.ampproject.org/v0/amp-hulu-0.1.js'
+

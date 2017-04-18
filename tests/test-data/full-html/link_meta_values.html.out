@@ -112,7 +112,7 @@ FAIL
 
 <link href="foo"> on line 43
 - The mandatory attribute 'rel' is missing in tag 'link rel='.
-   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML]
+   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#html-tags]
 - FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 COMPONENT NAMES WITH JS PATH

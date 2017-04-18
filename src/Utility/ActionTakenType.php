@@ -34,6 +34,7 @@ class ActionTakenType
     const FACEBOOK_JSDK_CONVERTED = 'facebook javascript sdk embed code was converted to the amp-facebook tag.';
     const FACEBOOK_SCRIPT_REMOVED = 'facebook script tag was removed.';
     const VIMEO_CONVERTED = 'vimeo embed code was converted to the amp-vimeo tag.';
+    const HULU_CONVERTED = 'hulu embed code was converted to the amp-hulu tag.';
     const DAILYMOTION_CONVERTED = 'dailymotion embed code was converted to the amp-dailymotion tag.';
     const TWITTER_CONVERTED = 'twitter embed code was converted to the amp-twitter tag.';
     const IFRAME_CONVERTED = 'tag was converted to the amp-iframe tag.';
