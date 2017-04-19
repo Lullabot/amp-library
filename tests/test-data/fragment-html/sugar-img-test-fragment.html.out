@@ -1,0 +1,45 @@
+<!-- should transform to amp-pixel -->
+<amp-pixel src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg"></amp-pixel>
+
+<!-- should transform to amp-gif -->
+<amp-anim src="https://upload.wikimedia.org/wikipedia/commons/b/b7/True_Color_GIF_image-Tc217.gif" width="217" height="217" layout="responsive"></amp-anim>
+
+<!-- should transform to amp-img -->
+<amp-iframe height="720" width="720" layout="responsive" frameborder="0" sandbox="allow-scripts allow-same-origin" src="https://imgur.com/UY7mHHT/embed">
+    <amp-img layout="fill" src="https://i.imgur.com/UY7mHHT.png" placeholder></amp-img>
+</amp-iframe>
+
+ORIGINAL HTML
+---------------
+Line 1: <!-- should transform to amp-pixel -->
+Line 2: <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" height="1" width="1" />
+Line 3: 
+Line 4: <!-- should transform to amp-gif -->
+Line 5: <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/True_Color_GIF_image-Tc217.gif" />
+Line 6: 
+Line 7: <!-- should transform to amp-img -->
+Line 8: <blockquote class="imgur-embed-pub" lang="en" data-id="UY7mHHT"><a href="//imgur.com/UY7mHHT">Another victory - it fits!</a></blockquote>
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" height="1" width="1"> at line 2
+ ACTION TAKEN: img tag was converted to the amp-pixel tag.
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/True_Color_GIF_image-Tc217.gif"> at line 5
+ ACTION TAKEN: img tag was converted to the amp-anim tag.
+
+<blockquote class="imgur-embed-pub" lang="en" data-id="UY7mHHT"> at line 8
+ ACTION TAKEN: blockquote.imgur imgur tag was converted to the amp-iframe tag
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-anim', include path 'https://cdn.ampproject.org/v0/amp-anim-0.1.js'
+'amp-iframe', include path 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js'
+

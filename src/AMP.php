@@ -51,6 +51,8 @@ class AMP
     public $passes = [
         'Lullabot\AMP\Pass\PreliminaryPass', // Removes user blacklisted tags
         'Lullabot\AMP\Pass\ImgTagTransformPass',
+        'Lullabot\AMP\Pass\SugarImgurTransformPass',
+        'Lullabot\AMP\Pass\SugarTumblrTransformPass',
         'Lullabot\AMP\Pass\IframeSoundCloudTagTransformPass',
         'Lullabot\AMP\Pass\IframeFacebookTagTransformPass',
         'Lullabot\AMP\Pass\AudioTagTransformPass',
@@ -62,17 +64,17 @@ class AMP
         'Lullabot\AMP\Pass\IframeTagTransformPass',
         'Lullabot\AMP\Pass\InstagramTransformPass',
         'Lullabot\AMP\Pass\PinterestTagTransformPass',
-        'Lullabot\AMP\Pass\FacebookNonIframeTransformPass',
+        'Lullabot\AMP\Pass\SugarFacebookNonIframeTransformPass',
         'Lullabot\AMP\Pass\TwitterTransformPass',
         'Lullabot\AMP\Pass\ObjectYouTubeTagTransformPass',
         'Lullabot\AMP\Pass\ObjectVimeoTagTransformPass',
         'Lullabot\AMP\Pass\ObjectVideoTagTransformPass',
         'Lullabot\AMP\Pass\StandardScanPass',
-        'Lullabot\AMP\Pass\StandardFixPass',
+        'Lullabot\AMP\Pass\SugarStandardFixPass',
         'Lullabot\AMP\Pass\AmpImgFixPass',
         'Lullabot\AMP\Pass\StandardFixPassTwo',
         'Lullabot\AMP\Pass\MinimumValidFixPass',
-        'Lullabot\AMP\Pass\StatisticsPass'
+        'Lullabot\AMP\Pass\StatisticsPass',
     ];
 
     /** @var ActionTakenLine[] */
