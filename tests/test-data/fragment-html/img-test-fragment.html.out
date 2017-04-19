@@ -27,6 +27,11 @@
 <!-- should transform to amp-img instead of amp-anim because of default option['use_amp_anim_tag'] = false -->
 <amp-img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif" width="46" height="46" layout="fixed"></amp-img>
 
+<!-- should transform to amp-img -->
+<amp-iframe height="720" width="720" layout="responsive" frameborder="0" sandbox="allow-scripts allow-same-origin" src="https://imgur.com/UY7mHHT/embed">
+    <amp-img layout="fill" src="https://i.imgur.com/UY7mHHT.png" placeholder></amp-img>
+</amp-iframe>
+
 
 ORIGINAL HTML
 ---------------
@@ -59,6 +64,9 @@ Line 26:
 Line 27: <!-- should transform to amp-img instead of amp-anim because of default option['use_amp_anim_tag'] = false -->
 Line 28: <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif">
 Line 29: 
+Line 30: <!-- should transform to amp-img -->
+Line 31: <blockquote class="imgur-embed-pub" lang="en" data-id="UY7mHHT"><a href="//imgur.com/UY7mHHT">Another victory - it fits!</a></blockquote>
+Line 32: 
 
 
 Transformations made from HTML tags to AMP custom tags
@@ -78,6 +86,9 @@ Transformations made from HTML tags to AMP custom tags
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif"> at line 28
  ACTION TAKEN: img tag was converted to the amp-img tag.
+
+<blockquote class="imgur-embed-pub" lang="en" data-id="UY7mHHT"> at line 31
+ ACTION TAKEN: blockquote.imgur imgur tag was converted to the amp-iframe tag
 
 
 AMP-HTML Validation Issues and Fixes
@@ -110,4 +121,5 @@ FAIL
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-No custom amp script includes required
+'amp-iframe', include path 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js'
+
