@@ -1,5 +1,5 @@
 {
-    "name": "lullabot/amp",
+    "name": "xtazii/amp-library",
     "description": "A set of useful classes and utilities to convert html to AMP html (See https://www.ampproject.org/)",
     "authors": [
         {
