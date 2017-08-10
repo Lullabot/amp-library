@@ -103,7 +103,11 @@ class ImgTagTransformPass extends BasePass
     {
         $dom_el = $el->get(0);
         $new_dom_el = $dom_el->ownerDocument->createElement('amp-pixel');
-        $new_dom_el->setAttribute('src', $el->attr('src'));
+        $src = $el->attr('src');
+        if (strpos($src, 'http://') !== false) {
+            $src = str_replace('http://', 'https://', $src);
+        }
+        $new_dom_el->setAttribute('src', $src);
         $dom_el->parentNode->insertBefore($new_dom_el, $dom_el);
         $this->addActionTaken(new ActionTakenLine('img', ActionTakenType::IMG_PIXEL_CONVERTED, $lineno, $context_string));
         return $new_dom_el;
