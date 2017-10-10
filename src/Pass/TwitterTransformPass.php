@@ -142,7 +142,8 @@ class TwitterTransformPass extends BasePass
             $matches = [];
             if (preg_match('&(*UTF8)twitter.com/.*/status(?:es)?/([^/]+)&i', $href, $matches)) {
                 if (!empty($matches[1])) {
-                    $tweet_id = $matches[1];
+                    //$tweet_id = $matches[1];
+					$tweet_id = strtok($matches[1], "?");
                     break;
                 }
             }
