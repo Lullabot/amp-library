@@ -56,6 +56,8 @@ class InstagramTransformPass extends BasePass
 
             // Set shortcode and use oembed to get the image size parameters
             $error_string = $this->setInstagramShortcodeAndDimensions($new_el, $shortcode, $url);
+            // Set caption, if it has.
+            $this->setInstagramCaptioned($el, $new_el);
 
             $new_dom_el = $new_el->get(0);
 
@@ -109,6 +111,22 @@ class InstagramTransformPass extends BasePass
         if (isset($oembed['thumbnail_width']) && isset($oembed['thumbnail_height'])) {
             $el->attr('width', $oembed['thumbnail_width']);
             $el->attr('height', $oembed['thumbnail_height']);
+        }
+
+        return null;
+    }
+
+    /**
+     * If the instragram to embed has caption, set the instagram caption attribute
+     *
+     * @param DOMQuery $el
+     * @param DOMQuery $new_el
+     * @return string|null
+     */
+    protected function setInstagramCaptioned(DOMQuery $el, DOMQuery $new_el)
+    {
+        if ($el->hasAttr('data-instgrm-captioned')) {
+            $new_el->attr('data-captioned', true);
         }
 
         return null;
