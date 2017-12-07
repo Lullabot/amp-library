@@ -1,10 +1,14 @@
 {
-    "name": "lullabot/amp",
+    "name": "pc-magas/amp",
     "description": "A set of useful classes and utilities to convert html to AMP html (See https://www.ampproject.org/)",
     "authors": [
         {
             "name": "Sidharth Kshatriya",
             "email": "sid.kshatriya@gmail.com"
+        },
+        {
+            "name":"Dimitrios Desyllas",
+            "email": "pc_magas@openmailbox.org"
         }
     ],
     "license": "Apache-2.0",
@@ -13,7 +17,7 @@
     "require" : {
         "php" : ">=5.5.0",
         "querypath/QueryPath": ">=3.0.4",
-        "sebastian/diff": "~1.2",
+        "sebastian/diff": "~2.0.1",
         "marc1706/fast-image-size": "1.*",
         "masterminds/html5": "^2.2.0",
         "sabberworm/php-css-parser": "^8.0.0",
@@ -25,7 +29,7 @@
     },
     "require-dev": {
         "php" : ">=5.5.0",
-        "phpunit/phpunit": "4.8.*",
+        "phpunit/phpunit": "6.5.*",
         "symfony/console": "^2.7.0"
     }
 }

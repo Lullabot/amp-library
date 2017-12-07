@@ -18,10 +18,12 @@
 
 use Lullabot\AMP\AMP;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class AmpTest
  */
-class AmpTest extends PHPUnit_Framework_TestCase
+class AmpTest extends TestCase
 {
     /** @var AMP */
     protected $amp = null;
