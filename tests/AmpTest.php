@@ -45,6 +45,7 @@ class AmpTest extends TestCase
     {
         $options = $this->amp->getOptionsFromStandardOptionFile($test_filename);
         $output = $this->amp->consoleOutput($test_filename, $options, $fragment, true, true);
+
         $expected_output = @file_get_contents("$test_filename.out");
         if ($expected_output === false) {
             // An out file does not exist, skip this test
@@ -54,6 +55,9 @@ class AmpTest extends TestCase
         if (!empty($this->skip_internet) && !empty($options['requires_internet'])) {
             $this->markTestSkipped("Skipping test as it requires internet and AMP_TEST_SKIP_INTERNET environment variable is set.");
         }
+        //The outputs may contain roque \n and spaces making the test fail where they are not.
+        $expected_output=trim($expected_output);
+        $output=trim($output);
         $this->assertEquals($expected_output, $output);
     }
 
