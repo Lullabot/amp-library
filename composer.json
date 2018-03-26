@@ -13,7 +13,7 @@
     "require" : {
         "php" : ">=5.5.0",
         "querypath/QueryPath": ">=3.0.4",
-        "sebastian/diff": "~1.2",
+        "sebastian/diff": "^3.0",
         "marc1706/fast-image-size": "1.*",
         "masterminds/html5": "^2.2.0",
         "sabberworm/php-css-parser": "^8.0.0",
@@ -25,7 +25,7 @@
     },
     "require-dev": {
         "php" : ">=5.5.0",
-        "phpunit/phpunit": "4.8.*",
+        "phpunit/phpunit": "^7.0",
         "symfony/console": "^2.7.0"
     }
 }
