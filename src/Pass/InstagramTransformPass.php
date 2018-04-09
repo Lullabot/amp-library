@@ -140,20 +140,17 @@ class InstagramTransformPass extends BasePass
      */
     protected function getShortcodeAndUrl(DOMQuery $el)
     {
-        $links = $el->find('a');
-        /** @var DOMQuery $link */
         $shortcode = '';
         $url = '';
-        // Get the shortcode from the first <a> tag that matches regex and exit
-        foreach ($links as $link) {
-            $href = $link->attr('href');
-            $matches = [];
-            if (preg_match('&(*UTF8)instagram.com/p/([^/]+)/?&i', $href, $matches)) {
-                if (!empty($matches[1])) {
-                    $shortcode = $matches[1];
-                    $url = $href;
-                    break;
-                }
+
+        $link = $el->attr('data-instgrm-permalink');
+
+        $matches = [];
+        if (preg_match('/instagram\.com\/p\/([^\/]+)/i', $link, $matches)) {
+
+            if (!empty($matches[1])) {
+                $shortcode = $matches[1];
+                $url = $link;
             }
         }
 
