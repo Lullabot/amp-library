@@ -17,11 +17,12 @@
  */
 
 use Lullabot\AMP\AMP;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class AmpTest
  */
-class AmpTest extends PHPUnit_Framework_TestCase
+class AmpTest extends TestCase
 {
     /** @var AMP */
     protected $amp = null;
@@ -43,7 +44,7 @@ class AmpTest extends PHPUnit_Framework_TestCase
     {
         $options = $this->amp->getOptionsFromStandardOptionFile($test_filename);
         $output = $this->amp->consoleOutput($test_filename, $options, $fragment, true, true);
-        $expected_output = @file_get_contents("$test_filename.out");
+        $expected_output = $this->getExpectedOutput($test_filename);
         if ($expected_output === false) {
             // An out file does not exist, skip this test
             $this->markTestSkipped("$test_filename.out file does not exist. Skipping test.");
@@ -53,6 +54,19 @@ class AmpTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped("Skipping test as it requires internet and AMP_TEST_SKIP_INTERNET environment variable is set.");
         }
         $this->assertEquals($expected_output, $output);
+    }
+
+    protected function getExpectedOutput($test_filename)
+    {
+        $version = explode('.', PHP_VERSION);
+        // Check if a specific version for this PHP exists.
+        if (file_exists("$test_filename.php{$version[0]}.out")) {
+            $filename = "$test_filename.php{$version[0]}.out";
+        }
+        else {
+            $filename = "$test_filename.out";
+        }
+        return @file_get_contents($filename);
     }
 
     public function filenameProvider()
