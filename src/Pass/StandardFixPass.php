@@ -62,11 +62,11 @@ class StandardFixPass extends BasePass
         if ($all_ampad->length > 0) {
             $this->addComponentJsToHead('amp-ad');
         }
-
+        $processed_tags = array();
         /** @var SValidationError $error */
         foreach ($this->validation_result->errors as $error) {
             // If the error was resolved, continue
-            if ($error->resolved) {
+            if ($error->resolved || (!empty($error->params[1]) && in_array($error->params[1], $processed_tags))) {
                 continue;
             }
 
@@ -76,6 +76,7 @@ class StandardFixPass extends BasePass
                 if (!empty($error->params[1]) && $this->addComponentJsToHead($error->params[1])) {
                     $error->addActionTaken(new ActionTakenLine($error->params[1], ActionTakenType::COMPONENT_SCRIPT_TAG_ADDED, $error->line));
                     $error->resolved = true;
+                    $processed_tags[] = $error->params[1];
                 }
             }
 
