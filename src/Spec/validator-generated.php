@@ -5273,7 +5273,7 @@ class ValidationRulesFactory {
   $o_0->error_formats[] = $o_1287;
   $o_1288 = new ErrorFormat();
   $o_1288->code = ValidationErrorCode::INVALID_URL_HOST;
-  $o_1288->format = 'Invalid URL host \'%3:\' for attribute \'%1\' in tag \'%2\'.';
+  $o_1288->format = 'Invalid URL host \'%3\' for attribute \'%1\' in tag \'%2\'.';
   $o_0->error_formats[] = $o_1288;
   return $o_0;
   }
