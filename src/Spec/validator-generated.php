@@ -210,6 +210,7 @@ class ValidationErrorCode {
  const INVALID_PROPERTY_VALUE_IN_ATTR_VALUE = 'INVALID_PROPERTY_VALUE_IN_ATTR_VALUE';
  const MISSING_URL = 'MISSING_URL';
  const INVALID_URL = 'INVALID_URL';
+ const INVALID_URL_HOST = 'INVALID_URL_HOST';
  const INVALID_URL_PROTOCOL = 'INVALID_URL_PROTOCOL';
  const DISALLOWED_RELATIVE_URL = 'DISALLOWED_RELATIVE_URL';
  const DISALLOWED_PROPERTY_IN_ATTR_VALUE = 'DISALLOWED_PROPERTY_IN_ATTR_VALUE';
@@ -5270,6 +5271,10 @@ class ValidationRulesFactory {
   $o_1287->code = ValidationErrorCode::CSS_SYNTAX_INVALID_ATTR_SELECTOR;
   $o_1287->format = 'CSS syntax error in tag \'%1\' - invalid attribute selector.';
   $o_0->error_formats[] = $o_1287;
+  $o_1288 = new ErrorFormat();
+  $o_1288->code = ValidationErrorCode::INVALID_URL_HOST;
+  $o_1288->format = 'Invalid URL host \'%3:\' for attribute \'%1\' in tag \'%2\'.';
+  $o_0->error_formats[] = $o_1288;
   return $o_0;
   }
 }
