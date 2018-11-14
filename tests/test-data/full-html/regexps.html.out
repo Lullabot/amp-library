@@ -1,82 +1,3 @@
-<!DOCTYPE html>
-<!--
-  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS-IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the license.
---><!--
-  Test Description:
-    This tests looks at specific errors related to positive and negative
-    regexps used inside the validator.
---><html amp><head>
-  <meta charset="utf-8">
-  <link rel="canonical" href="./regular-html-version.html">
-  <meta name="viewport" content="width=device-width,minimum-scale=1">
-  <style>body {opacity: 0}</style>
-  <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
-  <script async src="https://cdn.ampproject.org/v0.js"></script>
-
-  <!--
-  src value_regex: "https://cdn\\.ampproject\\.org/v0/amp-vine-(latest|0\\.1).js"
-  The first example is valid. The latter two examples are invalid.
-  -->
-  <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-latest.js"></script>
-  
-  
-
-  <!--
-  href value_regex: "https://fonts\\.googleapis\\.com/css\\?.*|https://fast\\.fonts\\.net/.*"
-  The first example is valid, the second example is invalid.
-  -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?foobar">
-  
-
-  <!--
-  rel value_regex: lenghty, see protoascii
-  The first three examples are valid. The latter three examples are invalid.
-  -->
-  <link rel="accessibility">
-  <link rel="accessibility alternate">
-  <link rel="accessibility alternate archives">
-  
-  
-  
-
-  <!--
-  name blacklisted_value_regex: "(^|\\s)(viewport|content-disposition|revisit-after)($|\\s)"
-  The first two examples are valid. The latter two examples are invalid.
-  -->
-  <meta name="valid" content="">
-  <meta name="validcontent-disposition" content="">
-  <meta content="">
-  <meta content="">
-
-  <script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js"></script>
-</head>
-<body>
-
-  <!--
-  autoplay value_regex: "^$|desktop|tablet|mobile"
-  The first two examples are valid, the latter three examples are invalid.
-  -->
-  <amp-audio src="https://exmaple.com/audio" layout="fixed" autoplay></amp-audio>
-  <amp-audio src="https://example.com/audio" layout="fixed" autoplay="desktop"></amp-audio>
-  <amp-audio src="https://example.com/audio" layout="fixed"></amp-audio>
-  <amp-audio src="https://example.com/audio" layout="fixed"></amp-audio>
-  <amp-audio src="https://example.com/audio" layout="fixed"></amp-audio>
-
-</body>
-
-</html>
 
 
 ORIGINAL HTML
@@ -171,82 +92,190 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
 
+<html amp> on line 22
+- The tag 'html' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: html tag was removed due to validation issues.
+
+<head> on line 23
+- The tag 'head' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: head tag was removed due to validation issues.
+
+<meta charset="utf-8"> on line 24
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
+
+<link rel="canonical" href="./regular-html-version.html"> on line 25
+- The tag 'link' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: link tag was removed due to validation issues.
+
+<meta name="viewport" content="width=device-width,minimum-scale=1"> on line 26
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
+
 <style> on line 27
-- The tag 'head > style[amp-boilerplate] - old variant' is deprecated - use 'head > style[amp-boilerplate]' instead.
-   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
-- The mandatory text (CDATA) inside tag 'head > style[amp-boilerplate] - old variant' is missing or incorrect.
-   [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
-   ACTION TAKEN: head > style[amp-boilerplate] - old variant CDATA was added or modified to fit requirements.
+- The tag 'style' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: style tag was removed due to validation issues.
+
+<noscript> on line 28
+- The tag 'noscript' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: noscript tag was removed due to validation issues.
+
+<style amp-boilerplate> on line 28
+- The tag 'style' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: style tag was removed due to validation issues.
+
+<script async src="https://cdn.ampproject.org/v0.js"> on line 29
+- The tag 'script' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: script tag was removed due to validation issues.
+
+<script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-latest.js"> on line 35
+- The tag 'script' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: script tag was removed due to validation issues.
 
 <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"> on line 36
-- The attribute 'src' in tag 'amp-vine extension .js script' is set to the invalid value 'https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar'.
-   [code: INVALID_ATTR_VALUE  category: CUSTOM_JAVASCRIPT_DISALLOWED see: https://www.ampproject.org/docs/reference/extended/amp-vine.html]
-   ACTION TAKEN: script.src attribute was removed due to validation issues.
-- FINAL ACTION TAKEN: script tag removed from head as it still does not validate. Could not fix tag validation problems.
+- The tag 'script' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: script tag was removed due to validation issues.
 
 <script async custom-element="amp-vine" src="http://xss.com/https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"> on line 37
-- The attribute 'src' in tag 'amp-vine extension .js script' is set to the invalid value 'http://xss.com/https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar'.
-   [code: INVALID_ATTR_VALUE  category: CUSTOM_JAVASCRIPT_DISALLOWED see: https://www.ampproject.org/docs/reference/extended/amp-vine.html]
-   ACTION TAKEN: script.src attribute was removed due to validation issues.
-- FINAL ACTION TAKEN: script tag removed from head as it still does not validate. Could not fix tag validation problems.
+- The tag 'script' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: script tag was removed due to validation issues.
+
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?foobar"> on line 44
+- The tag 'link' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: link tag was removed due to validation issues.
 
 <link rel="stylesheet" type="text/css" href="http://xss.com/https://fonts.googleapis.com/css?foobar"> on line 46
-- The attribute 'href' in tag 'link rel=stylesheet for fonts' is set to the invalid value 'http://xss.com/https://fonts.googleapis.com/css?foobar'.
-   [code: INVALID_ATTR_VALUE  category: AUTHOR_STYLESHEET_PROBLEM]
-   ACTION TAKEN: link.href attribute was removed due to validation issues.
-- FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
+- The tag 'link' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: link tag was removed due to validation issues.
+
+<link rel="accessibility"> on line 52
+- The tag 'link' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: link tag was removed due to validation issues.
+
+<link rel="accessibility alternate"> on line 53
+- The tag 'link' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: link tag was removed due to validation issues.
+
+<link rel="accessibility alternate archives"> on line 54
+- The tag 'link' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: link tag was removed due to validation issues.
 
 <link rel="import"> on line 55
-- The attribute 'rel' in tag 'link rel=' is set to the invalid value 'import'.
-   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
-   ACTION TAKEN: link.rel attribute was removed due to validation issues.
-- FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
+- The tag 'link' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: link tag was removed due to validation issues.
 
 <link rel="accessibility subresource"> on line 56
-- The attribute 'rel' in tag 'link rel=' is set to the invalid value 'accessibility subresource'.
-   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
-   ACTION TAKEN: link.rel attribute was removed due to validation issues.
-- FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
+- The tag 'link' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: link tag was removed due to validation issues.
 
 <link rel="manifest accessibility"> on line 57
-- The attribute 'rel' in tag 'link rel=' is set to the invalid value 'manifest accessibility'.
-   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
-   ACTION TAKEN: link.rel attribute was removed due to validation issues.
-- FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
+- The tag 'link' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: link tag was removed due to validation issues.
+
+<meta name="valid" content> on line 63
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
+
+<meta name="validcontent-disposition" content> on line 64
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
 
 <meta name="content-disposition" content> on line 65
-- The attribute 'name' in tag 'meta name= and content=' is set to the invalid value 'content-disposition'.
-   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
-   ACTION TAKEN: meta.name attribute was removed due to validation issues.
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
 
 <meta name="invalid content-disposition" content> on line 66
-- The attribute 'name' in tag 'meta name= and content=' is set to the invalid value 'invalid content-disposition'.
-   [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
-   ACTION TAKEN: meta.name attribute was removed due to validation issues.
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
+
+<body> on line 69
+- The tag 'body' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: body tag was removed due to validation issues.
+
+<amp-audio src="https://exmaple.com/audio" layout="fixed" autoplay> on line 75
+- The tag 'amp-audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-audio tag was removed due to validation issues.
+
+<amp-audio src="https://example.com/audio" layout="fixed" autoplay="desktop"> on line 76
+- The tag 'amp-audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-audio tag was removed due to validation issues.
 
 <amp-audio src="https://example.com/audio" layout="fixed" autoplay="invalid"> on line 77
-- The attribute 'autoplay' in tag 'amp-audio' is set to the invalid value 'invalid'.
-   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
-   ACTION TAKEN: amp-audio.autoplay attribute was removed due to validation issues.
+- The tag 'amp-audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-audio tag was removed due to validation issues.
 
 <amp-audio src="https://example.com/audio" layout="fixed" autoplay="desktopfoo"> on line 78
-- The attribute 'autoplay' in tag 'amp-audio' is set to the invalid value 'desktopfoo'.
-   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
-   ACTION TAKEN: amp-audio.autoplay attribute was removed due to validation issues.
+- The tag 'amp-audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-audio tag was removed due to validation issues.
 
 <amp-audio src="https://example.com/audio" layout="fixed" autoplay="foodesktop"> on line 79
-- The attribute 'autoplay' in tag 'amp-audio' is set to the invalid value 'foodesktop'.
-   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
-   ACTION TAKEN: amp-audio.autoplay attribute was removed due to validation issues.
+- The tag 'amp-audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-audio tag was removed due to validation issues.
 
 GLOBAL WARNING
-- The tag 'head > style[amp-boilerplate]' is missing or incorrect, but required by 'noscript > style[amp-boilerplate]'.
-   [code: TAG_REQUIRED_BY_MISSING  category: GENERIC see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
-- The tag 'amp-audio extension .js script' is missing or incorrect, but required by 'amp-audio'.
-   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
-   ACTION TAKEN: amp-audio custom component script tag added to head
+- The mandatory tag 'HTML' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'HEAD' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'link rel=canonical' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'meta charset=utf-8' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: meta charset=utf-8 tag was added to the document.
+- The mandatory tag 'meta name=viewport' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: meta name=viewport tag was added to the document.
+- The mandatory tag 'head > style[amp4ads-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-a4a/amp-a4a-format.md#boilerplate]
+- The mandatory tag 'head > style[amp4email-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+- The mandatory tag 'BODY' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'amphtml engine v0.js script' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: amphtml engine v0.js script tag was added to the document.
+- The mandatory tag 'amp4ads engine amp4ads-v0.js script' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'noscript enclosure for boilerplate' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: noscript tag was added to the document.
+- The mandatory tag 'head > style[amp-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: head > style[amp-boilerplate] tag was added to the document.
+- The mandatory tag 'noscript > style[amp-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: noscript > style[amp-boilerplate] tag was added to the document.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-audio', include path 'https://cdn.ampproject.org/v0/amp-audio-0.1.js'
-
+No custom amp script includes required

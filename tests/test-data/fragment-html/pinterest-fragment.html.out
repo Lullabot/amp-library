@@ -1,4 +1,4 @@
-<amp-pinterest data-url="https://www.pinterest.com/pin/99360735500167749/" data-do="embedPin" data-pin-width="medium" width="345" height="426" layout="responsive"></amp-pinterest>
+
 
 
 ORIGINAL HTML
@@ -16,9 +16,13 @@ Transformations made from HTML tags to AMP custom tags
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
-PASS
+FAIL
+
+<amp-pinterest data-url="https://www.pinterest.com/pin/99360735500167749/" data-do="embedPin" data-pin-width="medium" width="345" height="426" layout="responsive"> on line 1
+- The tag 'amp-pinterest' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-pinterest tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-pinterest', include path 'https://cdn.ampproject.org/v0/amp-pinterest-0.1.js'
-
+No custom amp script includes required

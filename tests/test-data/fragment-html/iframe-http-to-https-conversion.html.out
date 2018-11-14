@@ -1,6 +1,6 @@
-<amp-iframe sandbox="allow-scripts allow-same-origin" layout="responsive" height="450" width="600" src="https://www.kickstarter.com/projects/1081571316/rhino-shield-the-impact-resistant-screen-protector/widget/video.html"></amp-iframe>
 
-<amp-iframe sandbox="allow-scripts allow-same-origin" layout="responsive" height="450" width="600" src="https://www.kickstarter.com/projects/1081571316/rhino-shield-the-impact-resistant-screen-protector/widget/video.html"></amp-iframe>
+
+
 
 ORIGINAL HTML
 ---------------
@@ -29,9 +29,18 @@ Transformations made from HTML tags to AMP custom tags
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
-PASS
+FAIL
+
+<amp-iframe sandbox="allow-scripts allow-same-origin" layout="responsive" height="450" width="600" src="https://www.kickstarter.com/projects/1081571316/rhino-shield-the-impact-resistant-screen-protect... on line 4
+- The tag 'amp-iframe' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-iframe tag was removed due to validation issues.
+
+<amp-iframe sandbox="allow-scripts allow-same-origin" layout="responsive" height="450" width="600" src="https://www.kickstarter.com/projects/1081571316/rhino-shield-the-impact-resistant-screen-protect... on line 10
+- The tag 'amp-iframe' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-iframe tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-iframe', include path 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js'
-
+No custom amp script includes required

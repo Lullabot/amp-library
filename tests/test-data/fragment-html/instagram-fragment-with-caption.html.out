@@ -1,4 +1,4 @@
-<amp-instagram layout="responsive" data-shortcode="BCW-bHsLDVg" width="640" height="799" data-captioned="1"></amp-instagram>
+
 
 
 
@@ -35,9 +35,13 @@ Transformations made from HTML tags to AMP custom tags
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
-PASS
+FAIL
+
+<amp-instagram layout="responsive" data-shortcode="BCW-bHsLDVg" width="640" height="799" data-captioned="1"> on line 2
+- The tag 'amp-instagram' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-instagram tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-instagram', include path 'https://cdn.ampproject.org/v0/amp-instagram-0.1.js'
-
+No custom amp script includes required

@@ -1,161 +1,3 @@
-<!DOCTYPE html>
-<!--
-  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS-IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the license.
---><!--
-  Test Description:
-  This test validates the complex rules around mandatory dimensions for
-  responsive amp custom elements. See
-  https://github.com/ampproject/amphtml/blob/master/spec/amp-html-layout.md.
---><html amp><head>
-  <meta charset="utf-8">
-  <link rel="canonical" href="./regular-html-version.html">
-  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
-  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
-  <script async src="https://cdn.ampproject.org/v0.js"></script>
-  <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
-  <script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js"></script>
-  <script async custom-element="amp-lightbox" src="https://cdn.ampproject.org/v0/amp-lightbox-0.1.js"></script>
-  <script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>
-  <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
-  <script async custom-element="amp-fit-text" src="https://cdn.ampproject.org/v0/amp-fit-text-0.1.js"></script>
-  <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
-  <script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>
-  <script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>
-  <script async custom-element="amp-instagram" src="https://cdn.ampproject.org/v0/amp-instagram-0.1.js"></script>
-</head>
-<body>
-
-  <!-- Valid Examples -->
-    <!-- Layout of responsive/fixed with width/height -->
-    <amp-img src="img" layout="responsive" width="42" height="42"></amp-img>
-    <amp-img src="img" layout="fixed" width="42" height="42"></amp-img>
-
-    <!-- Layout of nodisplay/fill with/without width/height -->
-    <amp-img src="img" layout="nodisplay" width="42" height="42"></amp-img>
-    <amp-img src="img" layout="fill" width="42" height="42"></amp-img>
-    <amp-img src="img" layout="nodisplay"></amp-img>
-    <amp-img src="img" layout="fill"></amp-img>
-
-    <!-- Layout of nodisplay/fill with partial width/height.
-         These should not validate, but currently do. -->
-    <amp-img src="img" layout="nodisplay" width="42"></amp-img>
-    <amp-img src="img" layout="fill" height="42"></amp-img>
-
-    <!-- Missing layout implies layout="fixed" when width and height are set. -->
-    <amp-img src="img" width="42" height="42"></amp-img>
-
-    <!-- fixed-height layout allows width=auto. -->
-    <amp-img layout="fixed-height" src="img" width="auto" height="42"></amp-img>
-    <amp-img layout="fixed-height" src="img" height="42"></amp-img>
-
-    <!-- Missing layout implies layout="fixed-height" when height is set. -->
-    <amp-img src="img" width="auto" height="42"></amp-img>
-    <amp-img src="img" height="42"></amp-img>
-
-    <!-- It's OK to have inconsistent units for layout="fixed" -->
-    <amp-img src="img" layout="fixed" width="42px" height="42rem"></amp-img>
-
-
-    <!-- throw in some fully optional attrs -->
-    <amp-img src="img" width="42" height="42" placeholder=""></amp-img>
-    <amp-img src="img" layout="nodisplay" alt="" attribution></amp-img>
-    <amp-img src="img" layout="fixed" width="42" height="42" on media="">
-    </amp-img>
-
-    <!-- amp-audio/pixel/lightbox have relaxed width/heigh constraints -->
-    <amp-audio src="https://example.com/audio" layout="fixed" width="42"></amp-audio>
-    <amp-audio src="https://example.com/audio" layout="fixed"></amp-audio>
-    <amp-pixel src="https://example.com/pixel" layout="fixed" width="42"></amp-pixel>
-    <amp-pixel src="https://example.com/pixel" layout="fixed"></amp-pixel>
-    <amp-lightbox layout="nodisplay" width="42"></amp-lightbox>
-    <amp-lightbox layout="nodisplay"></amp-lightbox>
-
-    <!-- src or srcset or both are all valid -->
-    <amp-img width="42" height="42" src="img"></amp-img>
-    <amp-img width="42" height="42" srcset="img 1x, img2 2x"></amp-img>
-    <amp-img width="42" height="42" src="img" srcset="img 1x, img2 2x"></amp-img>
-    <amp-anim width="42" height="42" src="anim"></amp-anim>
-    <amp-anim width="42" height="42" srcset="img 1x, img2 2x"></amp-anim>
-    <amp-anim width="42" height="42" src="anim" srcset="img 1x, img2 2x"></amp-anim>
-
-    <!-- src optional -->
-    <amp-audio src="https://example.com/audio"></amp-audio>
-    <amp-audio></amp-audio>
-    <amp-video width="42" height="42" src="https://example.com/video"></amp-video>
-    <amp-video width="42" height="42"></amp-video>
-    <amp-ad width="42" height="42" type="" src="https://example.com/ad"></amp-ad>
-    <amp-ad width="42" height="42" type=""></amp-ad>
-
-    <!-- src or srcdoc required -->
-    <amp-iframe width="42" height="42" src="https://example.com/iframe"></amp-iframe>
-    <amp-iframe width="42" height="42" srcdoc="<p>Hello, world!</p>"></amp-iframe>
-    <amp-pixel src="https://example.com/pixel"></amp-pixel>
-
-    <!-- disallow a src or srcset -->
-    <amp-fit-text height="42"></amp-fit-text>
-    <amp-carousel height="42"></amp-carousel>
-    <amp-youtube data-videoid="" height="42"></amp-youtube>
-    <amp-twitter data-tweetid="" height="42"></amp-twitter>
-    <amp-instagram data-shortcode="" height="42"></amp-instagram>
-    <amp-lightbox layout="nodisplay"></amp-lightbox>
-  <!-- /Valid Examples -->
-
-  <!-- Invalid Examples -->
-    <!-- Container layout isn't supported by amp-img. -->
-    <amp-img src="img" layout="responsive"></amp-img>
-    <amp-img src="img" width="42" height="42" layout="responsive"></amp-img>
-    <amp-img src="img" layout="responsive"></amp-img>
-
-    <!-- Layout of responsive/fixed without width/height - This should all fail -->
-    <amp-img src="img" layout="responsive"></amp-img>
-    <amp-img src="img" layout="fixed"></amp-img>
-    <amp-img src="img" layout="responsive" width="42"></amp-img>
-    <amp-img src="img" layout="fixed" height="42"></amp-img>
-    <amp-img src="img" layout="fixed"></amp-img>
-    <amp-img src="img" layout="fixed" height="42"></amp-img>
-
-    <!-- Inconsistent units -->
-    <amp-img src="img" layout="responsive" width="42px" height="42rem"></amp-img>
-
-    <!-- src or srcset or both are all valid -->
-    <amp-img width="42" height="42"></amp-img>
-    <amp-anim width="42" height="42"></amp-anim>
-
-    <!-- src optional -->
-    <amp-audio></amp-audio>
-    <amp-ad height="42" type=""></amp-ad>
-
-    <!-- src or srcdoc required -->
-    <amp-iframe height="42"></amp-iframe>
-    <amp-pixel></amp-pixel>
-
-    <!-- disallow a src or srcset -->
-    <amp-fit-text height="42"></amp-fit-text>
-    <amp-carousel height="42"></amp-carousel>
-    <amp-youtube height="42" data-videoid=""></amp-youtube>
-    <amp-twitter height="42" data-tweetid=""></amp-twitter>
-    <amp-instagram height="42" data-shortcode=""></amp-instagram>
-    <amp-lightbox layout="nodisplay"></amp-lightbox>
-
-    <!-- Not-whitelisted attributes -->
-    <amp-img height="42" src="img"></amp-img>
-  <!-- /Invalid Examples -->
-
-</body>
-
-</html>
 
 
 ORIGINAL HTML
@@ -318,150 +160,425 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
 
+<html amp> on line 23
+- The tag 'html' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: html tag was removed due to validation issues.
+
+<head> on line 24
+- The tag 'head' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: head tag was removed due to validation issues.
+
+<meta charset="utf-8"> on line 25
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
+
+<link rel="canonical" href="./regular-html-version.html"> on line 26
+- The tag 'link' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: link tag was removed due to validation issues.
+
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui"> on line 27
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
+
+<style amp-boilerplate> on line 28
+- The tag 'style' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: style tag was removed due to validation issues.
+
+<noscript> on line 28
+- The tag 'noscript' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: noscript tag was removed due to validation issues.
+
+<style amp-boilerplate> on line 28
+- The tag 'style' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: style tag was removed due to validation issues.
+
+<script async src="https://cdn.ampproject.org/v0.js"> on line 29
+- The tag 'script' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: script tag was removed due to validation issues.
+
+<body> on line 31
+- The tag 'body' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: body tag was removed due to validation issues.
+
+<amp-img src="img" layout="responsive" width="42" height="42"> on line 35
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" layout="fixed" width="42" height="42"> on line 36
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" layout="nodisplay" width="42" height="42"> on line 39
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" layout="fill" width="42" height="42"> on line 40
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" layout="nodisplay"> on line 41
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" layout="fill"> on line 42
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" layout="nodisplay" width="42"> on line 46
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" layout="fill" height="42"> on line 47
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" width="42" height="42"> on line 50
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img layout="fixed-height" src="img" width="auto" height="42"> on line 53
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img layout="fixed-height" src="img" height="42"> on line 54
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" width="auto" height="42"> on line 57
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" height="42"> on line 58
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" layout="fixed" width="42px" height="42rem"> on line 61
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" width="42" height="42" placeholder> on line 65
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" layout="nodisplay" alt attribution> on line 66
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img src="img" layout="fixed" width="42" height="42" on media> on line 67
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-audio src="https://example.com/audio" layout="fixed" width="42"> on line 71
+- The tag 'amp-audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-audio tag was removed due to validation issues.
+
+<amp-audio src="https://example.com/audio" layout="fixed"> on line 72
+- The tag 'amp-audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-audio tag was removed due to validation issues.
+
+<amp-pixel src="https://example.com/pixel" layout="fixed" width="42"> on line 73
+- The tag 'amp-pixel' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-pixel tag was removed due to validation issues.
+
+<amp-pixel src="https://example.com/pixel" layout="fixed"> on line 74
+- The tag 'amp-pixel' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-pixel tag was removed due to validation issues.
+
+<amp-lightbox layout="nodisplay" width="42"> on line 75
+- The tag 'amp-lightbox' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-lightbox tag was removed due to validation issues.
+
+<amp-lightbox layout="nodisplay"> on line 76
+- The tag 'amp-lightbox' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-lightbox tag was removed due to validation issues.
+
+<amp-img width="42" height="42" src="img"> on line 79
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img width="42" height="42" srcset="img 1x, img2 2x"> on line 80
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img width="42" height="42" src="img" srcset="img 1x, img2 2x"> on line 81
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-anim width="42" height="42" src="anim"> on line 82
+- The tag 'amp-anim' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-anim tag was removed due to validation issues.
+
+<amp-anim width="42" height="42" srcset="img 1x, img2 2x"> on line 83
+- The tag 'amp-anim' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-anim tag was removed due to validation issues.
+
+<amp-anim width="42" height="42" src="anim" srcset="img 1x, img2 2x"> on line 84
+- The tag 'amp-anim' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-anim tag was removed due to validation issues.
+
+<amp-audio src="https://example.com/audio"> on line 87
+- The tag 'amp-audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-audio tag was removed due to validation issues.
+
+<amp-audio> on line 88
+- The tag 'amp-audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-audio tag was removed due to validation issues.
+
+<amp-video width="42" height="42" src="https://example.com/video"> on line 89
+- The tag 'amp-video' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-video tag was removed due to validation issues.
+
+<amp-video width="42" height="42"> on line 90
+- The tag 'amp-video' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-video tag was removed due to validation issues.
+
+<amp-ad width="42" height="42" type src="https://example.com/ad"> on line 91
+- The tag 'amp-ad' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-ad tag was removed due to validation issues.
+
+<amp-ad width="42" height="42" type> on line 92
+- The tag 'amp-ad' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-ad tag was removed due to validation issues.
+
+<amp-iframe width="42" height="42" src="https://example.com/iframe"> on line 95
+- The tag 'amp-iframe' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-iframe tag was removed due to validation issues.
+
+<amp-iframe width="42" height="42" srcdoc="<p>Hello, world!</p>"> on line 96
+- The tag 'amp-iframe' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-iframe tag was removed due to validation issues.
+
+<amp-pixel src="https://example.com/pixel"> on line 97
+- The tag 'amp-pixel' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-pixel tag was removed due to validation issues.
+
+<amp-fit-text height="42"> on line 100
+- The tag 'amp-fit-text' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-fit-text tag was removed due to validation issues.
+
+<amp-carousel height="42"> on line 101
+- The tag 'amp-carousel' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-carousel tag was removed due to validation issues.
+
+<amp-youtube data-videoid height="42"> on line 102
+- The tag 'amp-youtube' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-youtube tag was removed due to validation issues.
+
+<amp-twitter data-tweetid height="42"> on line 103
+- The tag 'amp-twitter' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-twitter tag was removed due to validation issues.
+
+<amp-instagram data-shortcode height="42"> on line 104
+- The tag 'amp-instagram' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-instagram tag was removed due to validation issues.
+
+<amp-lightbox layout="nodisplay"> on line 105
+- The tag 'amp-lightbox' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-lightbox tag was removed due to validation issues.
+
 <amp-img src="img" layout="container"> on line 110
-- The specified layout 'CONTAINER' is not supported by tag 'amp-img'.
-   [code: SPECIFIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img tried to fix problems with amp-img by setting layout to responsive
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img src="img" layout="container" width="42" height="42"> on line 111
-- The specified layout 'CONTAINER' is not supported by tag 'amp-img'.
-   [code: SPECIFIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img tried to fix problems with amp-img by trying to fetch height, width from image directly and/or setting layout to responsive
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img src="img"> on line 112
-- The implied layout 'CONTAINER' is not supported by tag 'amp-img'.
-   [code: IMPLIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img tried to fix problems with amp-img by setting layout to responsive
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img src="img" layout="responsive"> on line 115
-- The mandatory attribute 'height' is missing in tag 'amp-img'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img src="img" layout="fixed"> on line 116
-- The mandatory attribute 'height' is missing in tag 'amp-img'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img src="img" layout="responsive" width="42"> on line 117
-- The mandatory attribute 'height' is missing in tag 'amp-img'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img src="img" layout="fixed" height="42"> on line 118
-- The mandatory attribute 'width' is missing in tag 'amp-img'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img src="img" layout="fixed" height="auto"> on line 119
-- The attribute 'height' in tag 'amp-img' is set to the invalid value 'auto'.
-   [code: INVALID_ATTR_VALUE  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.height attribute was removed due to validation issues.
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img src="img" layout="fixed" width="auto" height="42"> on line 120
-- The attribute 'width' in tag 'amp-img' is set to the invalid value 'auto'.
-   [code: INVALID_ATTR_VALUE  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.width attribute was removed due to validation issues.
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img src="img" layout="responsive" width="42px" height="42rem"> on line 123
-- Inconsistent units for width and height in tag 'amp-img' - width is specified in 'px' whereas height is specified in 'rem'.
-   [code: INCONSISTENT_UNITS_FOR_WIDTH_AND_HEIGHT  category: AMP_LAYOUT_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img width="42" height="42"> on line 126
-- The mandatory attribute 'src' is missing in tag 'amp-img'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-anim width="42" height="42"> on line 127
-- The mandatory attribute 'src' is missing in tag 'amp-anim'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-anim.html]
+- The tag 'amp-anim' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-anim tag was removed due to validation issues.
 
 <amp-audio srcset="img 1x, img2 2x"> on line 130
-- The attribute 'srcset' may not appear in tag 'amp-audio'.
-   [code: DISALLOWED_ATTR  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
-   ACTION TAKEN: amp-audio.srcset attribute was removed due to validation issues.
+- The tag 'amp-audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-audio tag was removed due to validation issues.
 
 <amp-ad height="42" type srcset="img 1x, img2 2x"> on line 131
-- The attribute 'srcset' may not appear in tag 'amp-ad'.
-   [code: DISALLOWED_ATTR  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-ad.html]
-   ACTION TAKEN: amp-ad.srcset attribute was removed due to validation issues.
+- The tag 'amp-ad' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-ad tag was removed due to validation issues.
 
 <amp-iframe height="42"> on line 134
-- The tag 'amp-iframe' is missing a mandatory attribute - pick one of ['src', 'srcdoc'].
-   [code: MANDATORY_ONEOF_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-iframe.html]
+- The tag 'amp-iframe' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-iframe tag was removed due to validation issues.
 
 <amp-pixel> on line 135
-- The mandatory attribute 'src' is missing in tag 'amp-pixel'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-pixel.html]
+- The tag 'amp-pixel' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-pixel tag was removed due to validation issues.
 
 <amp-fit-text height="42" src="fit-text"> on line 138
-- The attribute 'src' may not appear in tag 'amp-fit-text'.
-   [code: DISALLOWED_ATTR  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-fit-text.html]
-   ACTION TAKEN: amp-fit-text.src attribute was removed due to validation issues.
+- The tag 'amp-fit-text' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-fit-text tag was removed due to validation issues.
 
 <amp-carousel height="42" src="carousel"> on line 139
-- The attribute 'src' may not appear in tag 'amp-carousel'.
-   [code: DISALLOWED_ATTR  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-carousel.html]
-   ACTION TAKEN: amp-carousel.src attribute was removed due to validation issues.
+- The tag 'amp-carousel' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-carousel tag was removed due to validation issues.
 
 <amp-youtube height="42" data-videoid srcset="img 1x, img2 2x"> on line 140
-- The attribute 'srcset' may not appear in tag 'amp-youtube'.
-   [code: DISALLOWED_ATTR  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-youtube.html]
-   ACTION TAKEN: amp-youtube.srcset attribute was removed due to validation issues.
+- The tag 'amp-youtube' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-youtube tag was removed due to validation issues.
 
 <amp-twitter height="42" data-tweetid srcset="img 1x, img2 2x"> on line 141
-- The attribute 'srcset' may not appear in tag 'amp-twitter'.
-   [code: DISALLOWED_ATTR  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-twitter.html]
-   ACTION TAKEN: amp-twitter.srcset attribute was removed due to validation issues.
+- The tag 'amp-twitter' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-twitter tag was removed due to validation issues.
 
 <amp-instagram height="42" data-shortcode srcset="img 1x, img2 2x"> on line 142
-- The attribute 'srcset' may not appear in tag 'amp-instagram'.
-   [code: DISALLOWED_ATTR  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-instagram.html]
-   ACTION TAKEN: amp-instagram.srcset attribute was removed due to validation issues.
+- The tag 'amp-instagram' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-instagram tag was removed due to validation issues.
 
 <amp-lightbox layout="nodisplay" src="lightbox"> on line 143
-- The attribute 'src' may not appear in tag 'amp-lightbox'.
-   [code: DISALLOWED_ATTR  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-lightbox.html]
-   ACTION TAKEN: amp-lightbox.src attribute was removed due to validation issues.
+- The tag 'amp-lightbox' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-lightbox tag was removed due to validation issues.
 
 <amp-img height="42" src="img" foo="bar"> on line 146
-- The attribute 'foo' may not appear in tag 'amp-img'.
-   [code: DISALLOWED_ATTR  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.foo attribute was removed due to validation issues.
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 GLOBAL WARNING
-- The tag 'amp-audio extension .js script' is missing or incorrect, but required by 'amp-audio'.
-   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
-   ACTION TAKEN: amp-audio custom component script tag added to head
-- The tag 'amp-lightbox extension .js script' is missing or incorrect, but required by 'amp-lightbox'.
-   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-lightbox.html]
-   ACTION TAKEN: amp-lightbox custom component script tag added to head
-- The tag 'amp-anim extension .js script' is missing or incorrect, but required by 'amp-anim'.
-   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-anim.html]
-   ACTION TAKEN: amp-anim custom component script tag added to head
-- The tag 'amp-iframe extension .js script' is missing or incorrect, but required by 'amp-iframe'.
-   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-iframe.html]
-   ACTION TAKEN: amp-iframe custom component script tag added to head
-- The tag 'amp-fit-text extension .js script' is missing or incorrect, but required by 'amp-fit-text'.
-   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-fit-text.html]
-   ACTION TAKEN: amp-fit-text custom component script tag added to head
-- The tag 'amp-carousel extension .js script' is missing or incorrect, but required by 'amp-carousel'.
-   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-carousel.html]
-   ACTION TAKEN: amp-carousel custom component script tag added to head
-- The tag 'amp-youtube extension .js script' is missing or incorrect, but required by 'amp-youtube'.
-   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-youtube.html]
-   ACTION TAKEN: amp-youtube custom component script tag added to head
-- The tag 'amp-twitter extension .js script' is missing or incorrect, but required by 'amp-twitter'.
-   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-twitter.html]
-   ACTION TAKEN: amp-twitter custom component script tag added to head
-- The tag 'amp-instagram extension .js script' is missing or incorrect, but required by 'amp-instagram'.
-   [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-instagram.html]
-   ACTION TAKEN: amp-instagram custom component script tag added to head
+- The mandatory tag 'HTML' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'HEAD' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'link rel=canonical' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'meta charset=utf-8' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: meta charset=utf-8 tag was added to the document.
+- The mandatory tag 'meta name=viewport' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: meta name=viewport tag was added to the document.
+- The mandatory tag 'head > style[amp4ads-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-a4a/amp-a4a-format.md#boilerplate]
+- The mandatory tag 'head > style[amp4email-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+- The mandatory tag 'BODY' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'amphtml engine v0.js script' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: amphtml engine v0.js script tag was added to the document.
+- The mandatory tag 'amp4ads engine amp4ads-v0.js script' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'noscript enclosure for boilerplate' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: noscript tag was added to the document.
+- The mandatory tag 'head > style[amp-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: head > style[amp-boilerplate] tag was added to the document.
+- The mandatory tag 'noscript > style[amp-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: noscript > style[amp-boilerplate] tag was added to the document.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-audio', include path 'https://cdn.ampproject.org/v0/amp-audio-0.1.js'
-'amp-lightbox', include path 'https://cdn.ampproject.org/v0/amp-lightbox-0.1.js'
-'amp-anim', include path 'https://cdn.ampproject.org/v0/amp-anim-0.1.js'
-'amp-iframe', include path 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js'
-'amp-fit-text', include path 'https://cdn.ampproject.org/v0/amp-fit-text-0.1.js'
-'amp-carousel', include path 'https://cdn.ampproject.org/v0/amp-carousel-0.1.js'
-'amp-youtube', include path 'https://cdn.ampproject.org/v0/amp-youtube-0.1.js'
-'amp-twitter', include path 'https://cdn.ampproject.org/v0/amp-twitter-0.1.js'
-'amp-instagram', include path 'https://cdn.ampproject.org/v0/amp-instagram-0.1.js'
-
+No custom amp script includes required

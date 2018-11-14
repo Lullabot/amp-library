@@ -1,87 +1,3 @@
-<!DOCTYPE html>
-<!--
-  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS-IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the license.
---><!--
-  Test Description:
-    This tests looks at specific errors related to URLs in href and src
-    attributes.
---><html amp><head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
-  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
-  <script src="https://cdn.ampproject.org/v0.js" async></script>
-  <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
-</head>
-<body>
-  <a href="https://google.com/">Valid URL</a>
-  <a href=" http://google.com/ ">Valid URL</a>
-  <a href="foo">Valid URL</a>
-  <a href="/bar">Valid URL</a>
-  <a href="#foobar">Valid URL</a>
-  <a href="https://⚡">Valid URL</a>
-  <a>Valid URL</a>
-  <a href="HtTpS://Google.com/">Valid URL</a>
-  <a>Invalid protocol</a>
-  <a>Invalid protocol</a>
-  <a>Invalid protocol</a>
-  <a>Invalid protocol</a>
-  <a>Invalid protocol</a>
-  <a href="ftp://google.com/">Valid protocol</a>
-  <a>Malformed URL</a>
-  <!-- invalid (javascript is not an allowed protocol: singluar src element) -->
-  <amp-img layout="fill"></amp-img>
-  <!-- invalid (javascript is not an allwoed protocol: second src element) -->
-  <amp-img layout="fill"></amp-img>
-  <!-- valid -->
-  <amp-img srcset="image-1x.png 1x, image-2x.png 2x" layout="fill"></amp-img>
-  <!-- valid -->
-  <amp-img srcset="image-1x.png 1x, image-2x.png 2x," layout="fill"></amp-img>
-  <!-- valid (commas are valid in URLs) -->
-  <amp-img srcset="image-1,x.png 1x, image-2,x.png 2x" layout="fill"></amp-img>
-  <!-- invalid (javascript is not an allowed protocol: multi src element) -->
-  <amp-img layout="fill"></amp-img>
-  <!-- invalid (javascript is not an allowed protocol: case insensitive) -->
-  <amp-img layout="fill"></amp-img>
-  <!-- invalid (not a valid URL) -->
-  <amp-img layout="fill"></amp-img>
-  <!-- invalid (empty) -->
-  <amp-img layout="fill"></amp-img>
-  <!-- invalid (duplicate pixel density) -->
-  <amp-img srcset="image-1x.png 1x, image-2x.png 1x" layout="fill"></amp-img>
-  <!-- invalid (URL has spaces that are not encoded) -->
-  <amp-img srcset="image 1x.png 1x, image 2x.png 2x" layout="fill"></amp-img>
-  <!-- valid (URL has encoded spaces) -->
-  <amp-img srcset=", image%201x.png 1x, image%202x.png 2x" layout="fill"></amp-img>
-
-  <!-- Missing src -->
-  <amp-ad width="42" height="42" type=""></amp-ad>
-  <amp-anim width="42" height="42"></amp-anim>
-  <amp-audio layout="fixed" width="42"></amp-audio>
-  <amp-iframe width="42" height="42"></amp-iframe>
-  <amp-img layout="responsive" width="42" height="42"></amp-img>
-  <amp-pixel layout="fixed" width="42"></amp-pixel>
-  <amp-video width="42" height="42"></amp-video>
-  <!-- Invalid protocol -->
-  <amp-ad width="42" height="42" type=""></amp-ad>
-  <amp-iframe width="42" height="42"></amp-iframe>
-  <amp-pixel layout="fixed" width="42"></amp-pixel>
-  <amp-video width="42" height="42"></amp-video>
-</body>
-
-</html>
 
 
 ORIGINAL HTML
@@ -179,135 +95,279 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
 
+<html amp> on line 22
+- The tag 'html' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: html tag was removed due to validation issues.
+
+<head> on line 23
+- The tag 'head' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: head tag was removed due to validation issues.
+
+<meta charset="utf-8"> on line 24
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
+
 <link rel="canonical" href="javascript://llamas"> on line 25
-- Invalid URL protocol 'javascript:' for attribute 'href' in tag 'link rel=canonical'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
-   ACTION TAKEN: link.href attribute was removed due to validation issues.
-- FINAL ACTION TAKEN: link tag removed from head as it still does not validate. Could not fix tag validation problems.
+- The tag 'link' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: link tag was removed due to validation issues.
+
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui"> on line 26
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
+
+<style amp-boilerplate> on line 27
+- The tag 'style' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: style tag was removed due to validation issues.
+
+<noscript> on line 27
+- The tag 'noscript' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: noscript tag was removed due to validation issues.
+
+<style amp-boilerplate> on line 27
+- The tag 'style' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: style tag was removed due to validation issues.
+
+<script src="https://cdn.ampproject.org/v0.js" async> on line 28
+- The tag 'script' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: script tag was removed due to validation issues.
+
+<body> on line 30
+- The tag 'body' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: body tag was removed due to validation issues.
+
+<a href="https://google.com/"> on line 31
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
+
+<a href=" http://google.com/ "> on line 32
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
+
+<a href="foo"> on line 33
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
+
+<a href="/bar"> on line 34
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
+
+<a href="#foobar"> on line 35
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
+
+<a href="https://⚡"> on line 36
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
 
 <a href="https://"> on line 37
-- Malformed URL 'https://' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL  category: DISALLOWED_HTML]
-   ACTION TAKEN: a.href attribute was removed due to validation issues.
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
+
+<a href="HtTpS://Google.com/"> on line 38
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
 
 <a href="javascript:alert('boo')"> on line 39
-- Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
-   ACTION TAKEN: a.href attribute was removed due to validation issues.
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
 
 <a href="JavaScript:alert('boo')"> on line 40
-- Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
-   ACTION TAKEN: a.href attribute was removed due to validation issues.
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
 
 <a href="javascript:alert(1)"> on line 41
-- Invalid URL protocol 'javascript:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
-   ACTION TAKEN: a.href attribute was removed due to validation issues.
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
 
 <a href="vbscript:bar"> on line 42
-- Invalid URL protocol 'vbscript:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
-   ACTION TAKEN: a.href attribute was removed due to validation issues.
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
 
 <a href="data:baz"> on line 43
-- Invalid URL protocol 'data:' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL_PROTOCOL  category: DISALLOWED_HTML]
-   ACTION TAKEN: a.href attribute was removed due to validation issues.
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
+
+<a href="ftp://google.com/"> on line 44
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
 
 <a href="http://site:80808/%AFpage"> on line 45
-- Malformed URL 'http://site:80808/%AFpage' for attribute 'href' in tag 'a'.
-   [code: INVALID_URL  category: DISALLOWED_HTML]
-   ACTION TAKEN: a.href attribute was removed due to validation issues.
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
 
 <amp-img srcset="javascript:alert(1)" layout="fill"> on line 47
-- Invalid URL protocol 'javascript:' for attribute 'srcset' in tag 'amp-img'.
-   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.srcset attribute was removed due to validation issues.
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img srcset="image-1.png 1x, javascript:alert(1)" layout="fill"> on line 49
-- Invalid URL protocol 'javascript:' for attribute 'srcset' in tag 'amp-img'.
-   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.srcset attribute was removed due to validation issues.
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img srcset="image-1x.png 1x, image-2x.png 2x" layout="fill"> on line 51
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img srcset="image-1x.png 1x, image-2x.png 2x," layout="fill"> on line 53
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img srcset="image-1,x.png 1x, image-2,x.png 2x" layout="fill"> on line 55
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img srcset="javascript:alert('boo') 1x, foo 2x" layout="fill"> on line 57
-- Invalid URL protocol 'javascript:' for attribute 'srcset' in tag 'amp-img'.
-   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.srcset attribute was removed due to validation issues.
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img srcset="image-1x.png 1x, JavaScript:baz 2x" layout="fill"> on line 59
-- Invalid URL protocol 'javascript:' for attribute 'srcset' in tag 'amp-img'.
-   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.srcset attribute was removed due to validation issues.
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img srcset="http://site:80808/%AFimg 1x, img 2x" layout="fill"> on line 61
-- Malformed URL 'http://site:80808/%AFimg' for attribute 'srcset' in tag 'amp-img'.
-   [code: INVALID_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.srcset attribute was removed due to validation issues.
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-img srcset layout="fill"> on line 63
-- Missing URL for attribute 'srcset' in tag 'amp-img'.
-   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.srcset attribute was removed due to validation issues.
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img srcset="image-1x.png 1x, image-2x.png 1x" layout="fill"> on line 65
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img srcset="image 1x.png 1x, image 2x.png 2x" layout="fill"> on line 67
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-img srcset=", image%201x.png 1x, image%202x.png 2x" layout="fill"> on line 69
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-ad src width="42" height="42" type> on line 72
-- Missing URL for attribute 'src' in tag 'amp-ad'.
-   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-ad.html]
-   ACTION TAKEN: amp-ad.src attribute was removed due to validation issues.
+- The tag 'amp-ad' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-ad tag was removed due to validation issues.
 
 <amp-anim src width="42" height="42"> on line 73
-- Missing URL for attribute 'src' in tag 'amp-anim'.
-   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-anim.html]
-   ACTION TAKEN: amp-anim.src attribute was removed due to validation issues.
+- The tag 'amp-anim' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-anim tag was removed due to validation issues.
 
 <amp-audio src layout="fixed" width="42"> on line 74
-- Missing URL for attribute 'src' in tag 'amp-audio'.
-   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
-   ACTION TAKEN: amp-audio.src attribute was removed due to validation issues.
+- The tag 'amp-audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-audio tag was removed due to validation issues.
 
 <amp-iframe src width="42" height="42"> on line 75
-- Missing URL for attribute 'src' in tag 'amp-iframe'.
-   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-iframe.html]
-   ACTION TAKEN: amp-iframe.src attribute was removed due to validation issues.
+- The tag 'amp-iframe' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-iframe tag was removed due to validation issues.
 
 <amp-img src layout="responsive" width="42" height="42"> on line 76
-- Missing URL for attribute 'src' in tag 'amp-img'.
-   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: amp-img.src attribute was removed due to validation issues.
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
 
 <amp-pixel src layout="fixed" width="42"> on line 77
-- Missing URL for attribute 'src' in tag 'amp-pixel'.
-   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-pixel.html]
-   ACTION TAKEN: amp-pixel.src attribute was removed due to validation issues.
+- The tag 'amp-pixel' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-pixel tag was removed due to validation issues.
 
 <amp-video src width="42" height="42"> on line 78
-- Missing URL for attribute 'src' in tag 'amp-video'.
-   [code: MISSING_URL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-video.html]
-   ACTION TAKEN: amp-video.src attribute was removed due to validation issues.
+- The tag 'amp-video' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-video tag was removed due to validation issues.
 
 <amp-ad src="http://amp-ad" width="42" height="42" type> on line 80
-- Invalid URL protocol 'http:' for attribute 'src' in tag 'amp-ad'.
-   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-ad.html]
-   ACTION TAKEN: amp-ad.src attribute was removed due to validation issues.
+- The tag 'amp-ad' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-ad tag was removed due to validation issues.
 
 <amp-iframe src="http://amp-iframe" width="42" height="42"> on line 81
-- Invalid URL protocol 'http:' for attribute 'src' in tag 'amp-iframe'.
-   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-iframe.html]
-   ACTION TAKEN: amp-iframe.src attribute was removed due to validation issues.
+- The tag 'amp-iframe' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-iframe tag was removed due to validation issues.
 
 <amp-pixel src="http://amp-pixel" layout="fixed" width="42"> on line 82
-- Invalid URL protocol 'http:' for attribute 'src' in tag 'amp-pixel'.
-   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-pixel.html]
-   ACTION TAKEN: amp-pixel.src attribute was removed due to validation issues.
+- The tag 'amp-pixel' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-pixel tag was removed due to validation issues.
 
 <amp-video src="http://amp-video" width="42" height="42"> on line 83
-- Invalid URL protocol 'http:' for attribute 'src' in tag 'amp-video'.
-   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/amp-video.html]
-   ACTION TAKEN: amp-video.src attribute was removed due to validation issues.
+- The tag 'amp-video' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-video tag was removed due to validation issues.
 
 GLOBAL WARNING
+- The mandatory tag 'HTML' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'HEAD' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
 - The mandatory tag 'link rel=canonical' is missing or incorrect.
-   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'meta charset=utf-8' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: meta charset=utf-8 tag was added to the document.
+- The mandatory tag 'meta name=viewport' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: meta name=viewport tag was added to the document.
+- The mandatory tag 'head > style[amp4ads-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-a4a/amp-a4a-format.md#boilerplate]
+- The mandatory tag 'head > style[amp4email-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+- The mandatory tag 'BODY' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'amphtml engine v0.js script' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: amphtml engine v0.js script tag was added to the document.
+- The mandatory tag 'amp4ads engine amp4ads-v0.js script' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'noscript enclosure for boilerplate' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: noscript tag was added to the document.
+- The mandatory tag 'head > style[amp-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: head > style[amp-boilerplate] tag was added to the document.
+- The mandatory tag 'noscript > style[amp-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: noscript > style[amp-boilerplate] tag was added to the document.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------

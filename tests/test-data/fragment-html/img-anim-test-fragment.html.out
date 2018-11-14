@@ -1,14 +1,14 @@
 <!-- should transform to amp-anim-->
-<amp-anim src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Rotating_earth_%28large%29.gif/200px-Rotating_earth_%28large%29.gif" width="200" height="200" layout="responsive"></amp-anim>
+
 
 <!-- should transform to amp-img because this gif is not animated -->
-<amp-img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif" width="46" height="46" layout="responsive"></amp-img>
+
 
 <!-- should transform to amp-anim-->
-<amp-anim src="https://upload.wikimedia.org/wikipedia/commons/1/14/Animated_PNG_example_bouncing_beach_ball.png" width="100" height="100" layout="responsive"></amp-anim>
+
 
 <!-- should transform to amp-img because this png is not animated -->
-<amp-img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/240px-Wikimedia-logo.png" width="240" height="240" layout="responsive"></amp-img>
+
 
 <!-- nonexistent image, should refuse to convert to amp-img and delete it -->
 
@@ -56,12 +56,31 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
 
+<amp-anim src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Rotating_earth_%28large%29.gif/200px-Rotating_earth_%28large%29.gif" width="200" height="200" layout="responsive"> on line 2
+- The tag 'amp-anim' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-anim tag was removed due to validation issues.
+
+<amp-img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif" width="46" height="46" layout="responsive"> on line 5
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
+<amp-anim src="https://upload.wikimedia.org/wikipedia/commons/1/14/Animated_PNG_example_bouncing_beach_ball.png" width="100" height="100" layout="responsive"> on line 8
+- The tag 'amp-anim' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-anim tag was removed due to validation issues.
+
+<amp-img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/240px-Wikimedia-logo.png" width="240" height="240" layout="responsive"> on line 11
+- The tag 'amp-img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-img tag was removed due to validation issues.
+
 <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg"> on line 14
-- The tag 'img' may only appear as a descendant of tag 'noscript'. Did you mean 'amp-img'?
-   [code: MANDATORY_TAG_ANCESTOR_WITH_HINT  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT see: https://www.ampproject.org/docs/reference/amp-img.html]
+- The tag 'img' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT]
    ACTION TAKEN: img tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-anim', include path 'https://cdn.ampproject.org/v0/amp-anim-0.1.js'
-
+No custom amp script includes required

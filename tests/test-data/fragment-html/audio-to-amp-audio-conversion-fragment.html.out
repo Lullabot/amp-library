@@ -1,12 +1,4 @@
-<amp-audio controls autoplay><div fallback><div>Your browser does not support the <strong>audio</strong> tag</div><p>Try using recent versions of Google Chrome or Firefox</p></div>
-    <source src="//example.dd:8088/sites/default/files/drums.mp3" type="audio/mpeg">
-    <source type="audio/ogg">
-    <source src="https://example.dd:8088/sites/default/files/drums.wav" type="audio/wav">
-    <track kind="captions" src="//example.dd:8088/sites/default/files/drums.en.vtt" srclang="en" label="English">
-    <track kind="captions" src="https://example.dd:8088/sites/default/files/drums.hi.vtt" srclang="hi" label="Hindi">
-    
-    
-</amp-audio>
+
 
 
 ORIGINAL HTML
@@ -34,16 +26,56 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
 
+<div fallback> on line 0
+- The tag 'div' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: div tag was removed due to validation issues.
+
+<amp-audio controls autoplay> on line 1
+- The tag 'amp-audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-audio tag was removed due to validation issues.
+
+<source src="//example.dd:8088/sites/default/files/drums.mp3" type="audio/mpeg"> on line 2
+- The tag 'source' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: source tag was removed due to validation issues.
+
 <source src="http://example.dd:8088/sites/default/files/drums.ogg" type="audio/ogg"> on line 3
-- Invalid URL protocol 'http:' for attribute 'src' in tag 'amp-audio > source'.
-   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
-   ACTION TAKEN: source.src attribute was removed due to validation issues.
+- The tag 'source' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: source tag was removed due to validation issues.
+
+<source src="https://example.dd:8088/sites/default/files/drums.wav" type="audio/wav"> on line 4
+- The tag 'source' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: source tag was removed due to validation issues.
 
 <track kind="captions" src="//example.dd:8088/sites/default/files/drums.en.vtt" srclang="en" label="English"> on line 5
-- The relative URL '//example.dd:8088/sites/default/files/drums.en.vtt' for attribute 'src' in tag 'amp-audio > track' is disallowed.
-   [code: DISALLOWED_RELATIVE_URL  category: AMP_TAG_PROBLEM]
+- The tag 'track' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: track tag was removed due to validation issues.
+
+<track kind="captions" src="https://example.dd:8088/sites/default/files/drums.hi.vtt" srclang="hi" label="Hindi"> on line 6
+- The tag 'track' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: track tag was removed due to validation issues.
+
+<div> on line 7
+- The tag 'div' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: div tag was removed due to validation issues.
+
+<strong> on line 7
+- The tag 'strong' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: strong tag was removed due to validation issues.
+
+<p> on line 8
+- The tag 'p' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: p tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-audio', include path 'https://cdn.ampproject.org/v0/amp-audio-0.1.js'
-
+No custom amp script includes required

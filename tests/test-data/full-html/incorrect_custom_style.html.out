@@ -1,61 +1,3 @@
-<!DOCTYPE html>
-<!--
-  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS-IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the license.
---><!--
-  Test Description:
-  Tests what happens when the custom style made by the author
-  of the document contains things that we disallow.
---><html amp><head>
-  <meta charset="utf-8">
-  <link rel="canonical" href="./regular-html-version.html">
-  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
-  <style amp-custom>
-    /* These CSS Rules violate essential CSS validation */
-    @import url("http://somewhere/on/the/internet.css");
-    foo.i-amp-class {}
-    foo.amp-class {}
-    foo { b: red !important; }
-    @viewport (mumble mumble) { }
-    /* customization: commenting out next line for amp-library -- css parser seems to have problems */
-    /*    @media (whatever) { @notallowednested } */
-
-    /* some tests for url verification - images */
-    foo { background-image: url('') }  /* allowed for now */
-    foo { background-image: url('invalid://invalid.com/1.jpg') }
-    foo { background-image: url('https://valid.com/1.jpg') }
-    foo { background-image: url('http://valid.com/1.jpg') }
-    foo { background-image: url('absolute://disallow.com/soon.jpg') }
-    foo { background-image: url('://valid.jpg') }
-    foo { background-image: url('valid.jpg') }
-
-    /* some tests for url verification - fonts */
-    @font-face { src: url(''); } /* allowed for now */
-    @font-face { src: url('invalid://invalid.com/1.ttf') }
-    @font-face { src: url('https://valid.com/1.ttf') }
-    @font-face { src: url('http://valid.com/1.ttf') }
-    @font-face { src: url('absolute://invalid.com/1.ttf') }
-    @font-face { src: url('://valid.ttf') }
-    @font-face { src: url('valid.ttf') }
-  </style>
-  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
-  <script src="https://cdn.ampproject.org/v0.js" async></script>
-</head>
-<body>
-</body>
-
-</html>
 
 
 ORIGINAL HTML
@@ -128,31 +70,94 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
 
+<html amp> on line 22
+- The tag 'html' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: html tag was removed due to validation issues.
+
+<head> on line 23
+- The tag 'head' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: head tag was removed due to validation issues.
+
+<meta charset="utf-8"> on line 24
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
+
+<link rel="canonical" href="./regular-html-version.html"> on line 25
+- The tag 'link' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: link tag was removed due to validation issues.
+
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui"> on line 26
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
+
 <style amp-custom> on line 27
-- The text (CDATA) inside tag 'style amp-custom' contains 'CSS -amp- class name prefix', which is disallowed.
-   [code: CDATA_VIOLATES_BLACKLIST  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
-- The text (CDATA) inside tag 'style amp-custom' contains 'CSS !important', which is disallowed.
-   [code: CDATA_VIOLATES_BLACKLIST  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+- The tag 'style' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: style tag was removed due to validation issues.
 
-<style amp-custom> on line 29
-- CSS syntax error in tag 'style amp-custom' - saw invalid at rule '@import'.
-   [code: CSS_SYNTAX_INVALID_AT_RULE  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+<style amp-boilerplate> on line 55
+- The tag 'style' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: style tag was removed due to validation issues.
 
-<style amp-custom> on line 33
-- CSS syntax error in tag 'style amp-custom' - saw invalid at rule '@viewport'.
-   [code: CSS_SYNTAX_INVALID_AT_RULE  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+<noscript> on line 55
+- The tag 'noscript' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: noscript tag was removed due to validation issues.
 
-<style amp-custom> on line 39
-- CSS syntax error in tag 'style amp-custom' - invalid url protocol 'invalid:'.
-   [code: CSS_SYNTAX_INVALID_URL_PROTOCOL  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+<style amp-boilerplate> on line 55
+- The tag 'style' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: style tag was removed due to validation issues.
 
-<style amp-custom> on line 48
-- CSS syntax error in tag 'style amp-custom' - invalid url protocol 'invalid:'.
-   [code: CSS_SYNTAX_INVALID_URL_PROTOCOL  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+<script src="https://cdn.ampproject.org/v0.js" async> on line 56
+- The tag 'script' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: script tag was removed due to validation issues.
 
-<style amp-custom> on line 51
-- CSS syntax error in tag 'style amp-custom' - invalid url protocol 'absolute:'.
-   [code: CSS_SYNTAX_INVALID_URL_PROTOCOL  category: AUTHOR_STYLESHEET_PROBLEM see: https://www.ampproject.org/docs/reference/spec.html#stylesheets]
+<body> on line 58
+- The tag 'body' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: body tag was removed due to validation issues.
+
+GLOBAL WARNING
+- The mandatory tag 'HTML' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'HEAD' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'link rel=canonical' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'meta charset=utf-8' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: meta charset=utf-8 tag was added to the document.
+- The mandatory tag 'meta name=viewport' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: meta name=viewport tag was added to the document.
+- The mandatory tag 'head > style[amp4ads-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-a4a/amp-a4a-format.md#boilerplate]
+- The mandatory tag 'head > style[amp4email-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+- The mandatory tag 'BODY' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'amphtml engine v0.js script' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: amphtml engine v0.js script tag was added to the document.
+- The mandatory tag 'amp4ads engine amp4ads-v0.js script' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'noscript enclosure for boilerplate' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: noscript tag was added to the document.
+- The mandatory tag 'head > style[amp-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: head > style[amp-boilerplate] tag was added to the document.
+- The mandatory tag 'noscript > style[amp-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: noscript > style[amp-boilerplate] tag was added to the document.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------

@@ -1,62 +1,3 @@
-<!DOCTYPE html>
-<!--
-  Copyright 2015 The AMP HTML Authors. All Rights Reserved.
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS-IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the license.
---><!--
-  Test Description:
-  This is a test for the rules surrounding the <track> tag:
-   - Must be a child of <audio>, <video>, <amp-audio>, or <amp-video>
-   - If attribute kind has value 'subtitles', attribute srcland must
-     be specified.
-   - 'src' attribute must be https.
-  This is the minimum valid AMP document; it includes all of the required
-  fields from the spec, but nothing else.
---><html amp><head>
-  <meta charset="utf-8">
-  <link rel="canonical" href="./regular-html-version.html">
-  <meta name="viewport" content="width=device-width,minimum-scale=1">
-  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
-  <script async src="https://cdn.ampproject.org/v0.js"></script>
-  <script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-latest.js"></script>
-</head>
-<body>
-
-  <amp-audio src="https://example.com/audio" layout="fixed">
-    <!-- Valid examples -->
-    <track src="https://example.com/track">
-    <track src="https://example.com/track" kind="captions">
-    <track src="https://example.com/track" kind="descriptions">
-    <track src="https://example.com/track" kind="subtitles" srclang="en">
-
-    <!-- Invalid: http URL -->
-    <track>
-    <!-- Invalid: subtitles but no srclang -->
-    <track src="https://example.com/track" kind="subtitles">
-  </amp-audio>
-
-  <!-- Invalid examples to make sure the error messages look right -->
-  <noscript>
-    <audio><track src="https://a.com/" kind="subtitles"></audio>
-    <video><track src="https://a.com/" kind="subtitles"></video>
-  </noscript>
-  <amp-video src="https://example.com/audio" layout="fixed" height="42" width="42">
-    <track src="https://a.com/" kind="subtitles">
-  </amp-video>
-
-</body>
-
-</html>
 
 
 ORIGINAL HTML
@@ -132,28 +73,165 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
 
+<html amp> on line 27
+- The tag 'html' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: html tag was removed due to validation issues.
+
+<head> on line 28
+- The tag 'head' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: head tag was removed due to validation issues.
+
+<meta charset="utf-8"> on line 29
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
+
+<link rel="canonical" href="./regular-html-version.html"> on line 30
+- The tag 'link' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: link tag was removed due to validation issues.
+
+<meta name="viewport" content="width=device-width,minimum-scale=1"> on line 31
+- The tag 'meta' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: meta tag was removed due to validation issues.
+
+<style amp-boilerplate> on line 32
+- The tag 'style' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: style tag was removed due to validation issues.
+
+<noscript> on line 32
+- The tag 'noscript' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: noscript tag was removed due to validation issues.
+
+<style amp-boilerplate> on line 32
+- The tag 'style' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: style tag was removed due to validation issues.
+
+<script async src="https://cdn.ampproject.org/v0.js"> on line 33
+- The tag 'script' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: script tag was removed due to validation issues.
+
+<script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-latest.js"> on line 34
+- The tag 'script' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: script tag was removed due to validation issues.
+
+<body> on line 36
+- The tag 'body' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: body tag was removed due to validation issues.
+
+<amp-audio src="https://example.com/audio" layout="fixed"> on line 38
+- The tag 'amp-audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-audio tag was removed due to validation issues.
+
+<track src="https://example.com/track"> on line 40
+- The tag 'track' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: track tag was removed due to validation issues.
+
+<track src="https://example.com/track" kind="captions"> on line 41
+- The tag 'track' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: track tag was removed due to validation issues.
+
+<track src="https://example.com/track" kind="descriptions"> on line 42
+- The tag 'track' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: track tag was removed due to validation issues.
+
+<track src="https://example.com/track" kind="subtitles" srclang="en"> on line 45
+- The tag 'track' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: track tag was removed due to validation issues.
+
 <track src="http://example.com/track"> on line 48
-- Invalid URL protocol 'http:' for attribute 'src' in tag 'amp-audio > track'.
-   [code: INVALID_URL_PROTOCOL  category: AMP_TAG_PROBLEM]
-   ACTION TAKEN: track.src attribute was removed due to validation issues.
+- The tag 'track' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: track tag was removed due to validation issues.
 
 <track src="https://example.com/track" kind="subtitles"> on line 50
-- The mandatory attribute 'srclang' is missing in tag 'amp-audio > track[kind=subtitles]'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM]
+- The tag 'track' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: track tag was removed due to validation issues.
+
+<noscript> on line 54
+- The tag 'noscript' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: noscript tag was removed due to validation issues.
+
+<audio> on line 55
+- The tag 'audio' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT]
+   ACTION TAKEN: audio tag was removed due to validation issues.
 
 <track src="https://a.com/" kind="subtitles"> on line 55
-- The mandatory attribute 'srclang' is missing in tag 'audio > track[kind=subtitles]'.
-   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML]
+- The tag 'track' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: track tag was removed due to validation issues.
+
+<video> on line 56
+- The tag 'video' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT]
+   ACTION TAKEN: video tag was removed due to validation issues.
 
 <track src="https://a.com/" kind="subtitles"> on line 56
-- The mandatory attribute 'srclang' is missing in tag 'video > track[kind=subtitles]'.
-   [code: MANDATORY_ATTR_MISSING  category: DISALLOWED_HTML]
+- The tag 'track' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: track tag was removed due to validation issues.
+
+<amp-video src="https://example.com/audio" layout="fixed" height="42" width="42"> on line 58
+- The tag 'amp-video' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-video tag was removed due to validation issues.
 
 <track src="https://a.com/" kind="subtitles"> on line 59
-- The mandatory attribute 'srclang' is missing in tag 'amp-video > track[kind=subtitles]'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM]
+- The tag 'track' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: track tag was removed due to validation issues.
+
+GLOBAL WARNING
+- The mandatory tag 'HTML' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'HEAD' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'link rel=canonical' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'meta charset=utf-8' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: meta charset=utf-8 tag was added to the document.
+- The mandatory tag 'meta name=viewport' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: meta name=viewport tag was added to the document.
+- The mandatory tag 'head > style[amp4ads-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-a4a/amp-a4a-format.md#boilerplate]
+- The mandatory tag 'head > style[amp4email-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+- The mandatory tag 'BODY' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'amphtml engine v0.js script' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+   ACTION TAKEN: amphtml engine v0.js script tag was added to the document.
+- The mandatory tag 'amp4ads engine amp4ads-v0.js script' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec#required-markup]
+- The mandatory tag 'noscript enclosure for boilerplate' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: noscript tag was added to the document.
+- The mandatory tag 'head > style[amp-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: head > style[amp-boilerplate] tag was added to the document.
+- The mandatory tag 'noscript > style[amp-boilerplate]' is missing or incorrect.
+   [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   ACTION TAKEN: noscript > style[amp-boilerplate] tag was added to the document.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-audio', include path 'https://cdn.ampproject.org/v0/amp-audio-0.1.js'
-
+No custom amp script includes required
