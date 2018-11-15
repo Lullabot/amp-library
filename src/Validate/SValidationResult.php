@@ -78,127 +78,209 @@ class SValidationResult extends ValidationResult
     {
         switch ($code) {
             case ValidationErrorCode::UNKNOWN_CODE:
-                return 0;
+              return 0;
             case ValidationErrorCode::MANDATORY_CDATA_MISSING_OR_INCORRECT:
-                return 1;
+              return 1;
             case ValidationErrorCode::CDATA_VIOLATES_BLACKLIST:
-                return 2;
-            case ValidationErrorCode::WRONG_PARENT_TAG:
-                return 3;
+              return 2;
+            case ValidationErrorCode::NON_WHITESPACE_CDATA_ENCOUNTERED:
+              return 3;
+            case ValidationErrorCode::INVALID_JSON_CDATA:
+              return 4;
             case ValidationErrorCode::DISALLOWED_TAG_ANCESTOR:
-                return 4;
+              return 5;
             case ValidationErrorCode::MANDATORY_TAG_ANCESTOR:
-                return 5;
+              return 6;
             case ValidationErrorCode::MANDATORY_TAG_ANCESTOR_WITH_HINT:
-                return 6;
+              return 7;
             case ValidationErrorCode::MANDATORY_TAG_MISSING:
-                return 7;
+              return 8;
+            case ValidationErrorCode::WRONG_PARENT_TAG:
+              return 9;
             case ValidationErrorCode::TAG_REQUIRED_BY_MISSING:
-                return 8;
-            case ValidationErrorCode::ATTR_REQUIRED_BUT_MISSING:
-                return 9;
+              return 10;
+            case ValidationErrorCode::TAG_EXCLUDED_BY_TAG:
+              return 11;
+            case ValidationErrorCode::MISSING_REQUIRED_EXTENSION:
+              return 12;
+            case ValidationErrorCode::ATTR_MISSING_REQUIRED_EXTENSION:
+              return 13;
+            case ValidationErrorCode::WARNING_TAG_REQUIRED_BY_MISSING:
+              return 14;
+            case ValidationErrorCode::EXTENSION_UNUSED:
+              return 15;
+            case ValidationErrorCode::WARNING_EXTENSION_UNUSED:
+              return 16;
+            case ValidationErrorCode::WARNING_EXTENSION_DEPRECATED_VERSION:
+              return 17;
             case ValidationErrorCode::DISALLOWED_TAG:
-                return 10;
+              return 18;
             case ValidationErrorCode::DISALLOWED_ATTR:
-                return 11;
+              return 19;
             case ValidationErrorCode::INVALID_ATTR_VALUE:
-                return 12;
+              return 20;
+            case ValidationErrorCode::DUPLICATE_ATTRIBUTE:
+              return 21;
             case ValidationErrorCode::ATTR_VALUE_REQUIRED_BY_LAYOUT:
-                return 13;
+              return 22;
             case ValidationErrorCode::MANDATORY_ATTR_MISSING:
-                return 14;
+              return 23;
             case ValidationErrorCode::MANDATORY_ONEOF_ATTR_MISSING:
-                return 15;
+              return 24;
+            case ValidationErrorCode::MANDATORY_ANYOF_ATTR_MISSING:
+              return 25;
+            case ValidationErrorCode::ATTR_REQUIRED_BUT_MISSING:
+              return 26;
             case ValidationErrorCode::DUPLICATE_UNIQUE_TAG:
-                return 16;
-            case ValidationErrorCode::STYLESHEET_TOO_LONG_OLD_VARIANT:
-                return 17;
+              return 27;
+            case ValidationErrorCode::DUPLICATE_UNIQUE_TAG_WARNING:
+              return 28;
             case ValidationErrorCode::STYLESHEET_TOO_LONG:
-                return 18;
-            case ValidationErrorCode::CSS_SYNTAX:
-                return 19;
+              return 29;
+            case ValidationErrorCode::STYLESHEET_AND_INLINE_STYLE_TOO_LONG:
+              return 30;
+            case ValidationErrorCode::INLINE_STYLE_TOO_LONG:
+              return 31;
             case ValidationErrorCode::CSS_SYNTAX_INVALID_AT_RULE:
-                return 20;
+              return 32;
             case ValidationErrorCode::MANDATORY_PROPERTY_MISSING_FROM_ATTR_VALUE:
-                return 21;
+              return 33;
             case ValidationErrorCode::INVALID_PROPERTY_VALUE_IN_ATTR_VALUE:
-                return 22;
+              return 34;
             case ValidationErrorCode::DISALLOWED_PROPERTY_IN_ATTR_VALUE:
-                return 23;
+              return 35;
             case ValidationErrorCode::MUTUALLY_EXCLUSIVE_ATTRS:
-                return 24;
+              return 36;
             case ValidationErrorCode::UNESCAPED_TEMPLATE_IN_ATTR_VALUE:
-                return 25;
+              return 37;
             case ValidationErrorCode::TEMPLATE_PARTIAL_IN_ATTR_VALUE:
-                return 26;
+              return 38;
             case ValidationErrorCode::TEMPLATE_IN_ATTR_NAME:
-                return 27;
+              return 39;
             case ValidationErrorCode::INCONSISTENT_UNITS_FOR_WIDTH_AND_HEIGHT:
-                return 28;
+              return 40;
+            case ValidationErrorCode::MISSING_LAYOUT_ATTRIBUTES:
+              return 41;
             case ValidationErrorCode::IMPLIED_LAYOUT_INVALID:
-                return 29;
+              return 42;
             case ValidationErrorCode::SPECIFIED_LAYOUT_INVALID:
-                return 30;
-            case ValidationErrorCode::DEV_MODE_ENABLED:
-                return 31;
+              return 43;
             case ValidationErrorCode::ATTR_DISALLOWED_BY_IMPLIED_LAYOUT:
-                return 32;
+              return 44;
             case ValidationErrorCode::ATTR_DISALLOWED_BY_SPECIFIED_LAYOUT:
-                return 33;
+              return 45;
             case ValidationErrorCode::DUPLICATE_DIMENSION:
-                return 34;
+              return 46;
             case ValidationErrorCode::DISALLOWED_RELATIVE_URL:
-                return 35;
+              return 47;
             case ValidationErrorCode::MISSING_URL:
-                return 36;
+              return 48;
+            case ValidationErrorCode::DISALLOWED_DOMAIN:
+              return 49;
             case ValidationErrorCode::INVALID_URL_PROTOCOL:
-                return 37;
+              return 50;
             case ValidationErrorCode::INVALID_URL:
-                return 38;
+              return 51;
+            case ValidationErrorCode::DISALLOWED_STYLE_ATTR:
+              return 52;
             case ValidationErrorCode::CSS_SYNTAX_STRAY_TRAILING_BACKSLASH:
-                return 39;
+              return 53;
             case ValidationErrorCode::CSS_SYNTAX_UNTERMINATED_COMMENT:
-                return 40;
+              return 54;
             case ValidationErrorCode::CSS_SYNTAX_UNTERMINATED_STRING:
-                return 41;
+              return 55;
             case ValidationErrorCode::CSS_SYNTAX_BAD_URL:
-                return 42;
+              return 56;
             case ValidationErrorCode::CSS_SYNTAX_EOF_IN_PRELUDE_OF_QUALIFIED_RULE:
-                return 43;
+              return 57;
             case ValidationErrorCode::CSS_SYNTAX_INVALID_DECLARATION:
-                return 44;
+              return 58;
             case ValidationErrorCode::CSS_SYNTAX_INCOMPLETE_DECLARATION:
-                return 45;
+              return 59;
             case ValidationErrorCode::CSS_SYNTAX_ERROR_IN_PSEUDO_SELECTOR:
-                return 46;
+              return 60;
             case ValidationErrorCode::CSS_SYNTAX_MISSING_SELECTOR:
-                return 47;
+              return 61;
             case ValidationErrorCode::CSS_SYNTAX_NOT_A_SELECTOR_START:
-                return 48;
+              return 62;
             case ValidationErrorCode::CSS_SYNTAX_UNPARSED_INPUT_REMAINS_IN_SELECTOR:
-                return 49;
+              return 63;
             case ValidationErrorCode::CSS_SYNTAX_MISSING_URL:
-                return 50;
+              return 64;
+            case ValidationErrorCode::CSS_SYNTAX_DISALLOWED_DOMAIN:
+              return 65;
             case ValidationErrorCode::CSS_SYNTAX_INVALID_URL:
-                return 51;
+              return 66;
             case ValidationErrorCode::CSS_SYNTAX_INVALID_URL_PROTOCOL:
-                return 52;
+              return 67;
             case ValidationErrorCode::CSS_SYNTAX_DISALLOWED_RELATIVE_URL:
-                return 53;
+              return 68;
             case ValidationErrorCode::INCORRECT_NUM_CHILD_TAGS:
-                return 54;
+              return 69;
             case ValidationErrorCode::DISALLOWED_CHILD_TAG_NAME:
-                return 55;
+              return 70;
             case ValidationErrorCode::DISALLOWED_FIRST_CHILD_TAG_NAME:
-                return 56;
+              return 71;
             case ValidationErrorCode::CSS_SYNTAX_INVALID_ATTR_SELECTOR:
-                return 57;
+              return 72;
+            case ValidationErrorCode::CHILD_TAG_DOES_NOT_SATISFY_REFERENCE_POINT:
+              return 73;
+            case ValidationErrorCode::MANDATORY_REFERENCE_POINT_MISSING:
+              return 74;
+            case ValidationErrorCode::DUPLICATE_REFERENCE_POINT:
+              return 75;
+            case ValidationErrorCode::TAG_REFERENCE_POINT_CONFLICT:
+              return 76;
+            case ValidationErrorCode::CHILD_TAG_DOES_NOT_SATISFY_REFERENCE_POINT_SINGULAR:
+              return 77;
+            case ValidationErrorCode::CSS_SYNTAX_DISALLOWED_PROPERTY_VALUE:
+              return 78;
+            case ValidationErrorCode::CSS_SYNTAX_DISALLOWED_PROPERTY_VALUE_WITH_HINT:
+              return 79;
+            case ValidationErrorCode::CSS_SYNTAX_PROPERTY_DISALLOWED_WITHIN_AT_RULE:
+              return 80;
+            case ValidationErrorCode::CSS_SYNTAX_PROPERTY_DISALLOWED_TOGETHER_WITH:
+              return 81;
+            case ValidationErrorCode::CSS_SYNTAX_PROPERTY_REQUIRES_QUALIFICATION:
+              return 82;
+            case ValidationErrorCode::BASE_TAG_MUST_PRECEED_ALL_URLS:
+              return 83;
+            case ValidationErrorCode::DISALLOWED_SCRIPT_TAG:
+              return 100;
             case ValidationErrorCode::GENERAL_DISALLOWED_TAG:
-                return 100;
+              return 101;
             case ValidationErrorCode::DEPRECATED_ATTR:
-                return 101;
+              return 102;
             case ValidationErrorCode::DEPRECATED_TAG:
-                return 102;
+              return 103;
+            case ValidationErrorCode::DISALLOWED_MANUFACTURED_BODY:
+              return 104;
+            case ValidationErrorCode::DOCUMENT_TOO_COMPLEX:
+              return 105;
+            case ValidationErrorCode::INCORRECT_MIN_NUM_CHILD_TAGS:
+              return 106;
+            case ValidationErrorCode::TAG_NOT_ALLOWED_TO_HAVE_SIBLINGS:
+              return 107;
+            case ValidationErrorCode::MANDATORY_LAST_CHILD_TAG:
+              return 108;
+            case ValidationErrorCode::CSS_SYNTAX_INVALID_PROPERTY:
+              return 109;
+            case ValidationErrorCode::CSS_SYNTAX_INVALID_PROPERTY_NOLIST:
+              return 110;
+            case ValidationErrorCode::CSS_SYNTAX_QUALIFIED_RULE_HAS_NO_DECLARATIONS:
+              return 111;
+            case ValidationErrorCode::CSS_SYNTAX_DISALLOWED_QUALIFIED_RULE_MUST_BE_INSIDE_KEYFRAME:
+              return 112;
+            case ValidationErrorCode::CSS_SYNTAX_DISALLOWED_KEYFRAME_INSIDE_KEYFRAME:
+              return 113;
+            case ValidationErrorCode::CSS_SYNTAX_MALFORMED_MEDIA_QUERY:
+              return 115;
+            case ValidationErrorCode::CSS_SYNTAX_DISALLOWED_MEDIA_TYPE:
+              return 116;
+            case ValidationErrorCode::CSS_SYNTAX_DISALLOWED_MEDIA_FEATURE:
+              return 117;
+            case ValidationErrorCode::INVALID_UTF8:
+              return 118;
             default:
                 throw new \Exception('Unknown error code');
         }
