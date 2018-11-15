@@ -148,9 +148,6 @@ class ParsedTagSpec
         if (empty(($attr_value))) {
             $attr_value = '';
         }
-        //var_dump($attr_name);
-        //var_dump($attr_value);
-        //var_dump($mandatory_parent);
         return TagSpecDispatch::makeDispatchKey($attr_name, $attr_value, $mandatory_parent);
     }
 
