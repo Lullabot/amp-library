@@ -294,7 +294,7 @@ class RenderValidationResult
             return ErrorCategoryCode::AUTHOR_STYLESHEET_PROBLEM;
         }
 
-        if ($error->code === ValidationErrorCode::CSS_SYNTAX &&
+        if ($error->code === ValidationErrorCode::UNKNOWN_CODE &&
             isset($error->params[0]) && $error->params[0] === 'style amp-custom'
         ) {
             return ErrorCategoryCode::AUTHOR_STYLESHEET_PROBLEM;
