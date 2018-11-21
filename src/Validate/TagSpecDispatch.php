@@ -83,6 +83,9 @@ class TagSpecDispatch
      */
     public static function makeDispatchKey($attr_name, $attr_value, $mandatory_parent)
     {
+        if (is_array($attr_value)) {
+          $attr_value = implode('^', $attr_value);
+        }
         return "$attr_name^$attr_value^$mandatory_parent";
     }
 
