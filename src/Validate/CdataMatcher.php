@@ -91,7 +91,7 @@ class CdataMatcher
             try {
                 $this->validateCssSpec($cdata, $context, $result, $cdata_spec);
             } catch (\Exception $e) {
-                $context->addError(ValidationErrorCode::CSS_SYNTAX,
+                $context->addError(ValidationErrorCode::CSS_SYNTAX_INVALID_AT_RULE,
                     [ParsedTagSpec::getTagSpecName($this->tag_spec), 'CSS Parser Error: ' . $e->getMessage()], $this->tag_spec->spec_url, $result);
             }
         }
