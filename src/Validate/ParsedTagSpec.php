@@ -106,8 +106,8 @@ class ParsedTagSpec
             }
         }
 
-        /** @var string $also_require_tag */
-        foreach ($tag_spec->also_requires_tag as $also_require_tag) {
+        /** @var string $also_requires_tag_warning */
+        foreach ($tag_spec->also_requires_tag_warning as $also_require_tag) {
             $this->also_requires_tagspec[] = $tagspec_by_detail_or_name[$also_require_tag];
         }
     }
