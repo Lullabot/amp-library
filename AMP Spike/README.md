@@ -55,7 +55,7 @@ Maintainers of the Drupal AMP Module:
 
 Here is the [Full list of contributors](https://www.drupal.org/node/2582081/committers)
 
-##The problem
+## The problem
 As Google AMP team keep pushing new functionalities into the [AMP Html Project][20]
 on a daily basis, we have a situation where the AMP Library no longer works with
 the latest AMP Embeds an attributes, which are stripped out by the AMP Library.
@@ -86,8 +86,8 @@ has changed a lot and has been moved into a [folder called *engine*](https://git
 So, the fix requires a total re-write of the PHP classes and the Python script
 that creates the generated validator class.
  
-#The experiment
-####1. WordPress
+# The experiment
+#### 1. WordPress
 I was curious about the [Wordpress plugin][40]
 
 The Wordpress plugin is mainly maintained by:
