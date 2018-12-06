@@ -197,3 +197,6 @@ These files can be committed and the AMP Libraty can be tagged and released.
 [56]: https://www.virtualbox.org/wiki/Downloads
 [57]: https://github.com/dennisinteractive/amp-library/tree/amphtml-generator/src/Spec
 
+# TODO
+Figure out if this is the best approach and update the [Python scripts](https://github.com/dennisinteractive/amp-library/tree/amphtml-generator/bin)
+and the PHP classes in <https://github.com/Lullabot/amp-library/tree/master/src/Validate>
