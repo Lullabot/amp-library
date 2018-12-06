@@ -187,8 +187,8 @@ These files can be committed and the AMP Libraty can be tagged and released.
 
 ### Pull requests:
 
-- [WP Plugin using AMP Library][50]pull/4
-- [Amphtml generator update][51]pull/6
+- [WP Plugin using AMP Library][50] pull/4
+- [Amphtml generator update][51] pull/6
 
 
 [50]: https://github.com/marcelovani/amp-wp/pull/4
