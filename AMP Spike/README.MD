@@ -181,6 +181,10 @@ scripts inside `vendor/amphtml/validator` folder, generate the PHP files and cop
 them into `src/Spec` folder.
 These files can be committed and the AMP Libraty can be tagged and released.
 
+####The command line tool
+- Go into `wp-content/plugins/amp/vendor/lullabot/amp` folder
+- Run `vendor/lullabot/amp/bin/amp-console amp:convert vendor/lullabot/amp/sample-html/sample-html-fragment.html`
+
 ###Pull requests:
 
 - [WP Plugin using AMP Library][50]pull/4
