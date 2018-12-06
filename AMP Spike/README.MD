@@ -121,8 +121,19 @@ In the middle, you see the AMP version of the article using the AMP WP plugin.
 On the right, it's the AMP version using the Lullabot Library with some extra
 debugging information (optional)
 
-This is the code that switches the class:
+This is the HTML markup of the article
+```html
+AMP Converter Test
+<p style="text-align: center;">Image
+  <img class="wp-image-13 size-medium aligncenter" src="http://amp-test.dd:8083/sites/amp-test.dd/wp-content/uploads/2018/12/amplifier-300x198.jpg" alt="" width="300" height="198" />
+</p>
+<p style="text-align: center;">YouTube Video
+  <iframe src="https://www.youtube.com/embed/cKgIsOA-G-Q" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+</p>
 ```
+
+This is the code that switches the class:
+```php
 private function build_post_content() {
     $amp = new \Lullabot\AMP\AMP();
      $content = apply_filters('the_content', $this->post->post_content);
@@ -142,13 +153,17 @@ concept, this should be a good start.
 
 
 ####How to test this
-
+- Install WordPress as usual
+- Checkout the forked AMP WP pulgin inside the `wp-content/plugins`
+  folder buy running: `git clone -b amp-library git@github.com:marcelovani/amp-wp.git amp` 
+- Go inside the `wp-content/plugins/amp` folder and run `composer install`.
 
 [40]: https://github.com/ampproject/amp-wp
 
 
-
 ###Pull requests:
+
+- [WP Plugin using AMP Library][50]pull/4
 
 [50]: https://github.com/marcelovani/amp-wp/pull/4
 
