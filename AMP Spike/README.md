@@ -1,4 +1,4 @@
-#AMP Spike
+# AMP Spike
 
 This is an experiment to try to merge the functionalites of
 [Wordpress AMP plugin][1] and [Lullabot AMP Library][2] by making an assessment
@@ -153,7 +153,7 @@ I wanted to change the scope to apply the AMP markup on the full HTML that is
 rendered by WordPress, but I don't know how to do that. But for the proof of
 concept, this should be a good start.
 
-####How to test this
+#### How to test this
 - Install WordPress as usual
 - Check out the forked AMP WP pulgin inside the `wp-content/plugins`
   folder buy running: `git clone -b amp-library git@github.com:marcelovani/amp-wp.git amp` 
@@ -162,12 +162,12 @@ concept, this should be a good start.
 - Create an article and visit the /amp url
 
 
-####2. Lullabot AMP Library
+#### 2. Lullabot AMP Library
 I moved some code from the WP plugin and from the Lullabot fork of AMPHTML into
 This fork of [AMP Library](https://github.com/dennisinteractive/amp-library/tree/amphtml-generator)
 See this pull request [Amphtml generator update][51]
 
-####How to regenerate the validator scripts
+#### How to regenerate the validator scripts
 The AMP Library currently has both [validators (class-amp-allowed-tags-generated.php and validator-generated.php)][57] 
 side by side, until we do the actual work to update the classes and then get rid of one of them.
 - Check out the forked AMP library buy running: `git clone -b amphtml-generator git@github.com:dennisinteractive/amp-library.git amp-library` 
@@ -181,11 +181,11 @@ scripts inside `vendor/amphtml/validator` folder, generate the PHP files and cop
 them into `src/Spec` folder.
 These files can be committed and the AMP Libraty can be tagged and released.
 
-####The command line tool
+#### The command line tool
 - Go into `wp-content/plugins/amp/vendor/lullabot/amp` folder
 - Run `vendor/lullabot/amp/bin/amp-console amp:convert vendor/lullabot/amp/sample-html/sample-html-fragment.html`
 
-###Pull requests:
+### Pull requests:
 
 - [WP Plugin using AMP Library][50]pull/4
 - [Amphtml generator update][51]pull/6
