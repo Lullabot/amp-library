@@ -113,7 +113,32 @@ This is a good sign, we probably can join some code.
 Since the AMP Library is already a standalone package, I started by moving some
 of the code from the Wordpress plugin into the AMP Library. I also removed the
 submodule. See all comments on this Pull request [Abstracting AMP validators and sanitizers into AMP Library ][50].
+
 It does the job and also prints some debugging information, see screenshots:
+ ![Screenshots](https://github.com/dennisinteractive/amp-library/raw/amp-spike/AMP%20Spike/Screenshots.jpg)
+On the left, you see the Desktop version on a WordPress site.
+In the middle, you see the AMP version of the article using the AMP WP plugin.
+On the right, it's the AMP version using the Lullabot Library with some extra
+debugging information (optional)
+
+This is the code that switches the class:
+```
+private function build_post_content() {
+    $amp = new \Lullabot\AMP\AMP();
+     $content = apply_filters('the_content', $this->post->post_content);
+     $options = array(
+      'scope' => 'body',
+      'add_stats_html_comment' => false
+    );
+    $amp->loadHtml($content, $options);
+    $this->add_data_by_key('post_amp_content', $amp->convertToAmpHtml());
+    $this->merge_data_for_key('amp_component_scripts', $amp->getComponentJs());
+    $this->add_data_by_key('post_amp_debug', $amp->warningsHumanHtml());
+    return;
+```
+I wanted to change the scope to apply the AMP markup on the full HTML that is
+rendered by WordPress, but I don't know how to do that. But for the proof of
+concept, this should be a good start.
 
 
 ####How to test this
