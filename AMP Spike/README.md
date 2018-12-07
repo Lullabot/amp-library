@@ -129,7 +129,7 @@ This is the HTML markup of the article
 ```html
 AMP Converter Test
 <p style="text-align: center;">Image
-  <img class="wp-image-13 size-medium aligncenter" src="http://amp-test.dd:8083/sites/amp-test.dd/wp-content/uploads/2018/12/amplifier-300x198.jpg" alt="" width="300" height="198" />
+  <img class="wp-image-13 size-medium aligncenter" src="https://cdn.shopify.com/s/files/1/2222/0805/products/Stereo-845-PP-e1441807241782_480x480.jpg" alt="" width="300" height="198" />
 </p>
 <p style="text-align: center;">YouTube Video
   <iframe src="https://www.youtube.com/embed/cKgIsOA-G-Q" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
