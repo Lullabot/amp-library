@@ -221,4 +221,4 @@ Options:
   and the PHP classes in <https://github.com/Lullabot/amp-library/tree/master/src/Validate>
 - Figure out how to make the WP AMP plugin work for site builders that don't use
   Composer. Maybe as part of the build we include the library?
-- Provide a Docker file as an alternative for the Vagrantfile for the AMP Library
+- Provide a Dockerfile as an alternative for the Vagrantfile for the AMP Library
