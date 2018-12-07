@@ -40,7 +40,7 @@ Maintainers of the Drupal AMP Module:
 [1]: https://wordpress.org/plugins/amp
 [2]: https://github.com/Lullabot/amp-library
 [3]: https://www.drupal.org/project/amp
-[4]: https://www.lullabot.com/our-work/accelerated-mobile-pages
+[4]: https://www.lullabot.com/articles/amping-up-drupal
 [5]: https://github.com/sidkshatriya
 [6]: https://github.com/sirkitree
 [7]: https://github.com/dsayswhat
@@ -58,8 +58,8 @@ Here is the [Full list of contributors](https://www.drupal.org/node/2582081/comm
 ## The problem
 As Google AMP team keep pushing new functionalities into the [AMP Html Project][20]
 on a daily basis, we have a situation where the AMP Library no longer works with
-the latest AMP Embeds an attributes, which are stripped out by the AMP Library.
-Here are some of the issues found on AMP Library and Drupal AMP module:
+the latest AMP Tags and attributes, which are stripped out by the AMP Library.
+Here are some of the issues for AMP Library and Drupal AMP module:
 
 - Lullabot AMP library Validate Generator needs update: [#2962305](https://www.drupal.org/project/amp/issues/2962305)
 - Move Power User mode to separate module: [#2970810](https://www.drupal.org/project/amp/issues/2970810)
@@ -110,18 +110,20 @@ I decided to have a look into the code to see how it works and what bits of
 functionalities are common with [AMP Library][2].
 I can see that the module has some [Sanitizers](https://github.com/ampproject/amp-wp/tree/develop/includes/sanitizers)
 which are called [Passes](https://github.com/Lullabot/amp-library/tree/master/src/Pass) in the AMP library.
-This is a good sign, we probably can join some code.
+This is a good sign that we can probably join some of the code.
 
 Since the AMP Library is already a standalone package, I started by moving some
 of the code from the Wordpress plugin into the AMP Library. I also removed the
-submodule. See all comments on this Pull request [Abstracting AMP validators and sanitizers into AMP Library ][50].
+git submodule. See all comments on this Pull request [Abstracting AMP validators and sanitizers into AMP Library ][50].
+
+So, now we have WordPress plugin using AMP Library!
 
 It does the job and also prints some debugging information, see screenshots:
  ![Screenshots](https://github.com/dennisinteractive/amp-library/raw/amp-spike/AMP%20Spike/Screenshots.jpg)
 On the left, you see the Desktop version on a WordPress site.
-In the middle, you see the AMP version of the article using the AMP WP plugin.
-On the right, it's the AMP version using the Lullabot Library with some extra
-debugging information (optional)
+In the middle, you see the AMP version of the article using the original AMP WP plugin.
+On the right, it's the [Forked WP Plugin][50] using the Lullabot Library with some extra
+debugging information (optional).
 
 This is the HTML markup of the article
 ```html
@@ -134,7 +136,8 @@ AMP Converter Test
 </p>
 ```
 
-This is the code that switches the class:
+This is the code that replaces the class:
+see https://github.com/marcelovani/amp-wp/pull/4/files#diff-35292ad861a5ed6690412c3ccfe5b0adR318
 ```php
 private function build_post_content() {
     $amp = new \Lullabot\AMP\AMP();
