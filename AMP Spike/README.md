@@ -182,7 +182,7 @@ side by side, until we do the actual work to update the classes and then get rid
 The build script will check out the latest tag of [AMPHtml][20], copy the Python
 scripts inside `vendor/amphtml/validator` folder, generate the PHP files and copy
 them into `src/Spec` folder.
-These files can be committed and the AMP Libraty can be tagged and released.
+These files can be committed and the AMP Library can be tagged and released.
 
 #### The command line tool
 - Go into `wp-content/plugins/amp/vendor/lullabot/amp` folder
@@ -216,6 +216,9 @@ Options:
 [56]: https://www.virtualbox.org/wiki/Downloads
 [57]: https://github.com/dennisinteractive/amp-library/tree/amphtml-generator/src/Spec
 
-# TODO
-Figure out if this is the best approach and update the [Python scripts](https://github.com/dennisinteractive/amp-library/tree/amphtml-generator/bin)
-and the PHP classes in <https://github.com/Lullabot/amp-library/tree/master/src/Validate>
+# Challenges and ideas
+- Figure out if this is the best approach and update the [Python scripts](https://github.com/dennisinteractive/amp-library/tree/amphtml-generator/bin)
+  and the PHP classes in <https://github.com/Lullabot/amp-library/tree/master/src/Validate>
+- Figure out how to make the WP AMP plugin work for site builders that don't use
+  Composer. Maybe as part of the build we include the library?
+- Provide a Docker file as an alternative for the Vagrantfile for the AMP Library
