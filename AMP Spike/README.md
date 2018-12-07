@@ -1,6 +1,6 @@
 # AMP Spike
 
-This is an experiment to try to merge the functionalites of
+This experiment is an attempt to merge the functionalites of
 [Wordpress AMP plugin][1] and [Lullabot AMP Library][2] by making an assessment
 of what could be abstracted and put into a PHP package that could be used by
 different platforms.
@@ -9,9 +9,9 @@ I work with AMP for Drupal and I am one of the contributors to the [Drupal AMP p
 The Drupal module uses the [AMP Library][2] to validate and convert the markup.
 The Library comes with many interesting functionalities including:
 - The ability to validate the AMP markup
-- The ability to convert HTML markup to AMP Markup, fix and remove invalid tags.
-- Reporting of changes and errors found
-- A command line tool that can be used to convert files manually an useful for testing
+- The ability to convert HTML markup to AMP Markup, fixing and removing invalid tags.
+- Reporting changes and errors found
+- A command line tool that can be used to convert files manually, useful for testing
 - PHPUnit tests
 - I works with third party dependencies that are managed with composer
 
@@ -183,7 +183,23 @@ These files can be committed and the AMP Libraty can be tagged and released.
 
 #### The command line tool
 - Go into `wp-content/plugins/amp/vendor/lullabot/amp` folder
-- Run `vendor/lullabot/amp/bin/amp-console amp:convert vendor/lullabot/amp/sample-html/sample-html-fragment.html`
+- Run `vendor/bin/amp-console amp:convert vendor/lullabot/amp/sample-html/sample-html-fragment.html`
+Options:
+```
+--no-orig-and-warn  If set, the original HTML and warnings/messages encountered during conversion will not be printed out
+      --no-lines          If set, the line numbers will be not printed alongside the AMPized HTML.
+      --diff              If set, a diff of the input and output HTML will be printed out instead of the AMP html. Note that the original HTML will be formatted before being diffed with output HTML for best results. This is because the output HTML is also formatted automatically.
+      --js                If set, a list of custom amp components and the url to include the js is printed out
+      --full-document     If set, assumes this is a whole document html document and not an html fragment underneath the body (which is the default)
+      --options=OPTIONS   If set, loads options from the file indicated
+  -h, --help              Display this help message
+  -q, --quiet             Do not output any message
+  -V, --version           Display this application version
+      --ansi              Force ANSI output
+      --no-ansi           Disable ANSI output
+  -n, --no-interaction    Do not ask any interactive question
+  -v|vv|vvv, --verbose    Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+```
 
 ### Pull requests:
 
