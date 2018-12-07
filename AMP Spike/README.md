@@ -185,7 +185,7 @@ them into `src/Spec` folder.
 These files can be committed and the AMP Library can be tagged and released.
 
 #### The command line tool
-- Go into `wp-content/plugins/amp/vendor/lullabot/amp` folder
+- Go into `wp-content/plugins/amp/vendor/lullabot/amp` folder and run `composer install`
 - Run `vendor/bin/amp-console amp:convert vendor/lullabot/amp/sample-html/sample-html-fragment.html`
 Options:
 ```
