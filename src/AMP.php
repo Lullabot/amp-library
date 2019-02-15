@@ -127,6 +127,11 @@ class AMP
         return $this->amp_html;
     }
 
+    public function getValidationResult()
+    {
+        return $this->validation_result;
+    }
+
     /**
      * AMP constructor.
      *

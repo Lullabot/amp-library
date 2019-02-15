@@ -40,6 +40,11 @@ use Lullabot\AMP\Spec\ValidationResultStatus;
  */
 class SValidationResult extends ValidationResult
 {
+
+    public function getStatus(){
+        return $this->status;
+    }
+
     /**
      * Corresponds to maxSpecificity() top level function in validator.js.
      * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
