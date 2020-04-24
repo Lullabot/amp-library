@@ -90,7 +90,8 @@ class InstagramTransformPass extends BasePass
         $el->attr('width', self::DEFAULT_INSTAGRAM_WIDTH);
         $el->attr('height', self::DEFAULT_INSTAGRAM_HEIGHT);
 
-        $client = new Client();
+        // Set a timeout of 200ms.
+        $client = new Client(['timeout' => 0.2]);
         try {
             $res = $client->get('https://api.instagram.com/oembed/', [
                 'query' => ['url' => $url]
