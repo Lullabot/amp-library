@@ -39,14 +39,12 @@ class AMPHTML5 extends HTML5
      * Similar to \Masterminds\HTML5::parse() method in superclass but we use our custom (sub-classed) tokenizer and DOM tree
      * builder to achieve desired effect of adding a line number attribute to each tag of the output DOM document.
      *
-     * @param InputStream $inputstream
-     * @param array $options
      * @return \DOMDocument
      */
-    public function parse(InputStream $inputstream, array $options = [])
+    public function parse($inputstream, array $options = [])
     {
         // User options override default options in $this->options
-        $final_options = array_merge($this->options, $options);
+        $final_options = array_merge($this->getOptions(), $options);
         $amp_tree_builder = new AMPDOMTreeBuilder($inputstream, $final_options);
         $amp_tokenizer = new AMPTokenizer($amp_tree_builder);
 
