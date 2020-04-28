@@ -229,6 +229,16 @@ class AMP
             }
         }
 
+        // Timeout for Instagram oembed endpoint connections. Used to get the
+        // image dimensions.
+        if (!isset($this->options['instagram_oembed_enabled'])) {
+            $this->options['instagram_oembed_enabled'] = TRUE;
+        }
+        if (!isset($this->options['instagram_oembed_timeout'])) {
+            // Default to no timeout.
+            $this->options['instagram_oembed_timeout'] = 0;
+        }
+
         // Finally, create a new Context
         $this->context = new Context($this->scope, $this->options);
     }
