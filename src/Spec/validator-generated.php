@@ -5270,6 +5270,12 @@ class ValidationRulesFactory {
   $o_1287->code = ValidationErrorCode::CSS_SYNTAX_INVALID_ATTR_SELECTOR;
   $o_1287->format = 'CSS syntax error in tag \'%1\' - invalid attribute selector.';
   $o_0->error_formats[] = $o_1287;
+  $o_1288 = new TagSpec();
+  $o_1288->tag_name = 'esi:include';
+  $o_1289 = new AttrSpec();
+  $o_1289->name = 'src';
+  $o_1288->attrs[] = $o_1289;
+  $o_0->tags[] = $o_1288;
   return $o_0;
   }
 }
