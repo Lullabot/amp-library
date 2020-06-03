@@ -28,7 +28,7 @@ class AmpTest extends TestCase
     protected $amp = null;
     protected $skip_internet = false;
 
-    public function setup()
+    public function setup(): void
     {
         $this->amp = new AMP();
         $this->skip_internet = getenv('AMP_TEST_SKIP_INTERNET');
