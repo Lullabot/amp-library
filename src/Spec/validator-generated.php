@@ -2365,6 +2365,9 @@ class ValidationRulesFactory {
   $o_567 = new AttrSpec();
   $o_567->name = 'json';
   $o_565->attrs[] = $o_567;
+  $o_amp_ad_rtc_config = new AttrSpec();
+  $o_amp_ad_rtc_config->name = 'rtc-config';
+  $o_565->attrs[] = $o_amp_ad_rtc_config;
   $o_568 = new AttrSpec();
   $o_568->name = 'src';
   $o_569 = new UrlSpec();
