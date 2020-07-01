@@ -199,6 +199,8 @@ class SValidationResult extends ValidationResult
                 return 101;
             case ValidationErrorCode::DEPRECATED_TAG:
                 return 102;
+            case ValidationErrorCode::INVALID_URL_HOST:
+                return 103;
             default:
                 throw new \Exception('Unknown error code');
         }

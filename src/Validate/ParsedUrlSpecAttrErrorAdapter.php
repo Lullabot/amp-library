@@ -68,6 +68,19 @@ class ParsedUrlSpecAttrErrorAdapter
 
     /**
      * @param Context $context
+     * @param string $uri_host
+     * @param TagSpec $tagspec
+     * @param SValidationResult $result
+     * @param int $line_delta
+     */
+    public function invalidUrlHost(Context $context, $uri_host, TagSpec $tagspec, SValidationResult $result, $line_delta = 0)
+    {
+        $context->addError(ValidationErrorCode::INVALID_URL_HOST,
+            [$this->attr_name, ParsedTagSpec::getTagSpecName($tagspec), $uri_host], $tagspec->spec_url, $result, $this->attr_name);
+    }
+
+    /**
+     * @param Context $context
      * @param string $uri_scheme
      * @param TagSpec $tagspec
      * @param SValidationResult $result

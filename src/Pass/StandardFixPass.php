@@ -37,6 +37,7 @@ class StandardFixPass extends BasePass
 
     protected $remove_attributes_for_codes = [
         ValidationErrorCode::INVALID_URL_PROTOCOL,
+        ValidationErrorCode::INVALID_URL_HOST,
         ValidationErrorCode::INVALID_URL,
         ValidationErrorCode::INVALID_ATTR_VALUE,
         ValidationErrorCode::DISALLOWED_ATTR,
