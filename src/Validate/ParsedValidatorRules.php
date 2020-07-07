@@ -93,12 +93,12 @@ class ParsedValidatorRules
             assert(empty($tagspec_by_detail_or_name[ParsedTagSpec::getTagSpecName($tagspec)]));
             $tagspec_by_detail_or_name[ParsedTagSpec::getTagSpecName($tagspec)] = $tagspec;
 
-            if (!empty($tagspec->also_requires_tag)) {
+            if (!empty($tagspec->also_requires_tag_warning)) {
                 $detail_or_names_to_track[ParsedTagSpec::getTagSpecName($tagspec)] = 1;
             }
 
             /** @var string $require */
-            foreach ($tagspec->also_requires_tag as $require) {
+            foreach ($tagspec->also_requires_tag_warning as $require) {
                 $detail_or_names_to_track[$require] = 1;
             }
         }

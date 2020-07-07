@@ -1,8 +1,8 @@
 <!-- normal twitter embed using 'status' -->
-<amp-twitter data-cards="hidden" data-lang="en" height="223" width="486" layout="responsive" data-tweetid="704420904437043200"></amp-twitter>
+
 
 <!-- normal twitter embed using 'statuses' -->
-<amp-twitter data-cards="hidden" data-lang="en" height="223" width="486" layout="responsive" data-tweetid="704420904437043200"></amp-twitter>
+
 
 
 
@@ -35,9 +35,18 @@ Transformations made from HTML tags to AMP custom tags
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
-PASS
+FAIL
+
+<amp-twitter data-cards="hidden" data-lang="en" height="223" width="486" layout="responsive" data-tweetid="704420904437043200"> on line 2
+- The tag 'amp-twitter' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-twitter tag was removed due to validation issues.
+
+<amp-twitter data-cards="hidden" data-lang="en" height="223" width="486" layout="responsive" data-tweetid="704420904437043200"> on line 8
+- The tag 'amp-twitter' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-twitter tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-twitter', include path 'https://cdn.ampproject.org/v0/amp-twitter-0.1.js'
-
+No custom amp script includes required

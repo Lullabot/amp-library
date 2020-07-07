@@ -1,11 +1,4 @@
-<amp-video controls autoplay width="500" height="200" data-provider="Fox" class="video-large" layout="responsive"><div placeholder><p>Click Here</p></div><div fallback><div>Your browser does not support the <strong>video</strong> tag</div><p>Try using recent versions of Google Chrome or Firefox</p></div>
-  <source type="video/mp4" src="/video/movie.mp4">
-  <source type="video/webm" src="/video/movie.webm">
-  <track kind="captions" src="/captions.en.vtt" srclang="en" label="English">
-  <track kind="captions" src="/captions.hi.vtt" srclang="hi" label="Hindi">
-  
-  
-</amp-video>
+
 
 ORIGINAL HTML
 ---------------
@@ -30,13 +23,60 @@ AMP-HTML Validation Issues and Fixes
 -------------------------------------
 FAIL
 
+<div placeholder> on line 0
+- The tag 'div' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: div tag was removed due to validation issues.
+
+<p> on line 0
+- The tag 'p' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: p tag was removed due to validation issues.
+
+<div fallback> on line 0
+- The tag 'div' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: div tag was removed due to validation issues.
+
+<amp-video controls autoplay width="500" height="200" data-provider="Fox" class="video-large" layout="responsive"> on line 1
+- The tag 'amp-video' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-video tag was removed due to validation issues.
+
+<source type="video/mp4" src="/video/movie.mp4"> on line 2
+- The tag 'source' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: source tag was removed due to validation issues.
+
+<source type="video/webm" src="/video/movie.webm"> on line 3
+- The tag 'source' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: source tag was removed due to validation issues.
+
 <track kind="captions" src="/captions.en.vtt" srclang="en" label="English"> on line 4
-- The relative URL '/captions.en.vtt' for attribute 'src' in tag 'amp-video > track' is disallowed.
-   [code: DISALLOWED_RELATIVE_URL  category: AMP_TAG_PROBLEM]
+- The tag 'track' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: track tag was removed due to validation issues.
 
 <track kind="captions" src="/captions.hi.vtt" srclang="hi" label="Hindi"> on line 5
-- The relative URL '/captions.hi.vtt' for attribute 'src' in tag 'amp-video > track' is disallowed.
-   [code: DISALLOWED_RELATIVE_URL  category: AMP_TAG_PROBLEM]
+- The tag 'track' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: track tag was removed due to validation issues.
+
+<div> on line 6
+- The tag 'div' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: div tag was removed due to validation issues.
+
+<strong> on line 6
+- The tag 'strong' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: strong tag was removed due to validation issues.
+
+<p> on line 7
+- The tag 'p' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: p tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------

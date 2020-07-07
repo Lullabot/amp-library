@@ -107,7 +107,7 @@ class ParsedTagSpec
         }
 
         /** @var string $also_require_tag */
-        foreach ($tag_spec->also_requires_tag as $also_require_tag) {
+        foreach ($tag_spec->also_requires_tag_warning as $also_require_tag) {
             $this->also_requires_tagspec[] = $tagspec_by_detail_or_name[$also_require_tag];
         }
     }
@@ -140,6 +140,11 @@ class ParsedTagSpec
         /** @var string $mandatory_parent */
         $mandatory_parent = empty($this->spec->mandatory_parent) ? '' : $this->spec->mandatory_parent;
         $attr_value = $this->dispatch_key_attr_spec->getSpec()->value;
+        if(!empty($attr_value) && is_array($attr_value)) {
+          foreach($attr_value AS $value) {
+            $attr_value = $value;
+          }
+        }
         if (empty(($attr_value))) {
             $attr_value = '';
         }

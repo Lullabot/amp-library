@@ -1,4 +1,4 @@
-<amp-youtube data-videoid="MnR9AVs6Q_c" layout="responsive" height="308" width="512"></amp-youtube>
+
 
 ORIGINAL HTML
 ---------------
@@ -19,9 +19,13 @@ Transformations made from HTML tags to AMP custom tags
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
-PASS
+FAIL
+
+<amp-youtube data-videoid="MnR9AVs6Q_c" layout="responsive" height="308" width="512"> on line 1
+- The tag 'amp-youtube' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-youtube tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-youtube', include path 'https://cdn.ampproject.org/v0/amp-youtube-0.1.js'
-
+No custom amp script includes required

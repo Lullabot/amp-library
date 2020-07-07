@@ -1,4 +1,4 @@
-<amp-soundcloud data-trackid="238184768" layout="fixed-height" data-visual="true" height="450"></amp-soundcloud>
+
 
 ORIGINAL HTML
 ---------------
@@ -16,9 +16,13 @@ Transformations made from HTML tags to AMP custom tags
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
-PASS
+FAIL
+
+<amp-soundcloud data-trackid="238184768" layout="fixed-height" data-visual="true" height="450"> on line 2
+- The tag 'amp-soundcloud' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-soundcloud tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-soundcloud', include path 'https://cdn.ampproject.org/v0/amp-soundcloud-0.1.js'
-
+No custom amp script includes required

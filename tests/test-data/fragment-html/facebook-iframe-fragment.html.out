@@ -1,14 +1,14 @@
 <!-- video -->
-<amp-facebook layout="responsive" data-href="https://www.facebook.com/facebook/videos/10153231379946729/" data-embed-as="video" height="281" width="500"></amp-facebook>
+
 
 <!-- video with card; also with height and width attributes removed (they should be inferred from src) -->
-<amp-facebook layout="responsive" data-href="https://www.facebook.com/facebook/videos/10153231379946729/" data-embed-as="post" height="366" width="500"></amp-facebook>
+
 
 <!-- post -->
-<amp-facebook layout="responsive" data-href="https://www.facebook.com/20531316728/posts/10154009990506729/" data-embed-as="post" height="290" width="500"></amp-facebook>
+
 
 <!-- post -->
-<amp-facebook layout="responsive" data-href="https://www.facebook.com/photo.php?fbid=986393557241&amp;set=a.941146602501.2418915.4&amp;type=3" data-embed-as="post" height="439" width="500"></amp-facebook>
+
 
 
 ORIGINAL HTML
@@ -53,9 +53,28 @@ Transformations made from HTML tags to AMP custom tags
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
-PASS
+FAIL
+
+<amp-facebook layout="responsive" data-href="https://www.facebook.com/facebook/videos/10153231379946729/" data-embed-as="video" height="281" width="500"> on line 4
+- The tag 'amp-facebook' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-facebook tag was removed due to validation issues.
+
+<amp-facebook layout="responsive" data-href="https://www.facebook.com/facebook/videos/10153231379946729/" data-embed-as="post" height="366" width="500"> on line 9
+- The tag 'amp-facebook' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-facebook tag was removed due to validation issues.
+
+<amp-facebook layout="responsive" data-href="https://www.facebook.com/20531316728/posts/10154009990506729/" data-embed-as="post" height="290" width="500"> on line 14
+- The tag 'amp-facebook' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-facebook tag was removed due to validation issues.
+
+<amp-facebook layout="responsive" data-href="https://www.facebook.com/photo.php?fbid=986393557241&set=a.941146602501.2418915.4&type=3" data-embed-as="post" height="439" width="500"> on line 19
+- The tag 'amp-facebook' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-facebook tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-facebook', include path 'https://cdn.ampproject.org/v0/amp-facebook-0.1.js'
-
+No custom amp script includes required

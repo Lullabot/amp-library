@@ -1,5 +1,5 @@
-<amp-vimeo width="16" height="9" layout="responsive" data-videoid="18352872"></amp-vimeo>
-<p><a href="https://vimeo.com/18352872">Drupal 7 Marketing Video</a> from <a href="https://vimeo.com/lullabot">Lullabot</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+
 
 
 ORIGINAL HTML
@@ -20,9 +20,33 @@ Transformations made from HTML tags to AMP custom tags
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
-PASS
+FAIL
+
+<amp-vimeo width="16" height="9" layout="responsive" data-videoid="18352872"> on line 2
+- The tag 'amp-vimeo' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-vimeo tag was removed due to validation issues.
+
+<p> on line 3
+- The tag 'p' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: p tag was removed due to validation issues.
+
+<a href="https://vimeo.com/18352872"> on line 3
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
+
+<a href="https://vimeo.com/lullabot"> on line 4
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
+
+<a href="https://vimeo.com"> on line 4
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-vimeo', include path 'https://cdn.ampproject.org/v0/amp-vimeo-0.1.js'
-
+No custom amp script includes required

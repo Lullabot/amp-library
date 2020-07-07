@@ -1,4 +1,4 @@
-<amp-vine layout="responsive" data-vineid="ixtpg1zrLQt" height="600" width="600"></amp-vine>
+
 
 
 
@@ -18,9 +18,13 @@ Transformations made from HTML tags to AMP custom tags
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
-PASS
+FAIL
+
+<amp-vine layout="responsive" data-vineid="ixtpg1zrLQt" height="600" width="600"> on line 1
+- The tag 'amp-vine' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: amp-vine tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
-'amp-vine', include path 'https://cdn.ampproject.org/v0/amp-vine-0.1.js'
-
+No custom amp script includes required

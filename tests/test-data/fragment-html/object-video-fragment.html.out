@@ -1,4 +1,4 @@
-<a target="_blank" href="http://video.golem.de/player/videoplayer.swf?id=2883&amp;autoPl=false">http://video.golem.de/player/videoplayer.swf?id=2883&amp;autoPl=false</a>
+
 
 ORIGINAL HTML
 ---------------
@@ -19,7 +19,12 @@ Transformations made from HTML tags to AMP custom tags
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
-PASS
+FAIL
+
+<a target="_blank" href="http://video.golem.de/player/videoplayer.swf?id=2883&autoPl=false"> on line 1
+- The tag 'a' is disallowed.
+   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
+   ACTION TAKEN: a tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
