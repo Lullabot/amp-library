@@ -5270,6 +5270,14 @@ class ValidationRulesFactory {
   $o_1287->code = ValidationErrorCode::CSS_SYNTAX_INVALID_ATTR_SELECTOR;
   $o_1287->format = 'CSS syntax error in tag \'%1\' - invalid attribute selector.';
   $o_0->error_formats[] = $o_1287;
+  $o_1288 = new AttrSpec();
+  $o_1288->name = 'expand-single-section';
+  $o_1288->value = '';
+  $o_620->attrs[] = $o_1288;
+  $o_1289 = new AttrSpec();
+  $o_1289->name = 'disable-session-states';
+  $o_1289->value = '';
+  $o_620->attrs[] = $o_1289;
   return $o_0;
   }
 }
