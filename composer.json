@@ -1,5 +1,5 @@
 {
-    "name": "lullabot/amp",
+    "name": "ewilde-imperial/amp",
     "description": "A set of useful classes and utilities to convert html to AMP html (See https://www.ampproject.org/)",
     "authors": [
         {
@@ -9,7 +9,7 @@
     ],
     "license": "Apache-2.0",
     "keywords": ["Drupal", "AMP", "mobile"],
-    "homepage": "https://github.com/Lullabot/amp-library",
+    "homepage": "https://github.com/ewilde-imperial/amp-library",
     "require" : {
         "php" : ">=5.5",
         "querypath/querypath": ">=3.0.4",
