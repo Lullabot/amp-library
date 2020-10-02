@@ -3,7 +3,7 @@
 <!-- this image is in the public domain. https://commons.wikimedia.org/wiki/File:"Birdcatcher"_with_jockey_up.jpg -->
 <amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625" height="480" layout="responsive"></amp-img>
 <p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>
-<p></p>
+<p><input type="submit" value="submit"></p>
 <p>This is a <!-- test comment -->sample </p><div>sample</div> paragraph
 <amp-iframe sandbox="allow-scripts allow-same-origin" layout="responsive" height="315" width="560" src="https://www.reddit.com"></amp-iframe>
 
@@ -54,11 +54,6 @@ FAIL
 - The attribute 'target' in tag 'a' is set to the invalid value '_parent'.
    [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
    ACTION TAKEN: a.target attribute was removed due to validation issues.
-
-<input type="submit" value="submit"> on line 6
-- The tag 'input' is disallowed.
-   [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
-   ACTION TAKEN: input tag was removed due to validation issues.
 
 <div onmouseover="hello();"> on line 7
 - The attribute 'onmouseover' may not appear in tag 'div'.
