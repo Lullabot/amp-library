@@ -179,6 +179,19 @@ class ImgTagTransformPass extends BasePass
 
         // Try obtaining image size without having to download the whole image
         $size = $this->fastimage->getImageSize($img_url);
+    
+        if (!$size) {
+            // Now try with downloading the whole image
+            list($width, $height) = @getimagesize($src);
+        
+            if ($width && $height) {
+                $size = [
+                    'width' => $width,
+                    'height' => $height,
+                ];
+            }
+        }
+        
         return $size;
     }
 

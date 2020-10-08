@@ -51,6 +51,8 @@ class AMP
     public $passes = [
         'Lullabot\AMP\Pass\PreliminaryPass', // Removes user blacklisted tags
         'Lullabot\AMP\Pass\ImgTagTransformPass',
+        'Lullabot\AMP\Pass\ImgurTransformPass',
+        'Lullabot\AMP\Pass\TumblrTransformPass',
         'Lullabot\AMP\Pass\IframeSoundCloudTagTransformPass',
         'Lullabot\AMP\Pass\IframeFacebookTagTransformPass',
         'Lullabot\AMP\Pass\AudioTagTransformPass',

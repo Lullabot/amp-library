@@ -1,0 +1,24 @@
+<amp-iframe height="360" width="414" layout="responsive" frameborder="0" sandbox="allow-scripts allow-same-origin" src="https://embed.tumblr.com/embed/post/k33lX6gULMz1j_FK_w_a1g/145429050241"></amp-iframe>
+
+
+ORIGINAL HTML
+---------------
+Line 1: <div class="tumblr-post" data-href="https://embed.tumblr.com/embed/post/k33lX6gULMz1j_FK_w_a1g/145429050241" data-did="da39a3ee5e6b4b0d3255bfef95601890afd80709"><a href="http://potterlove975.tumblr.com/post/145429050241">http://potterlove975.tumblr.com/post/145429050241</a></div>
+Line 2: <script async="" src="https://assets.tumblr.com/post.js"></script>
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<div class="tumblr-post" data-href="https://embed.tumblr.com/embed/post/k33lX6gULMz1j_FK_w_a1g/145429050241" data-did="da39a3ee5e6b4b0d3255bfef95601890afd80709"> at line 1
+ ACTION TAKEN: a (with associated script tag) tumblr tag was converted to the amp-iframe tag
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-iframe', include path 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js'
+
