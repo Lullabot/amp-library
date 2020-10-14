@@ -1,10 +1,11 @@
-<phpunit>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src</directory>
-            <exclude>
-                <file>src/AmpCommand.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+    <exclude>
+      <file>src/AmpCommand.php</file>
+    </exclude>
+  </coverage>
 </phpunit>
