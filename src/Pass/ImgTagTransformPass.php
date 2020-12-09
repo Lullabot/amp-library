@@ -350,9 +350,12 @@ class ImgTagTransformPass extends BasePass
         }
 
         if ($dimensions !== false) {
-            $image_dimensions_cache[$src] = $dimensions;
+            /*$image_dimensions_cache[$src] = $dimensions;
             $el->attr('width', $dimensions['width']);
-            $el->attr('height', $dimensions['height']);
+            $el->attr('height', $dimensions['height']);*/
+            // DEFINO TAMAÑO FIJO IMAGEN, gano velocidad al no consultar el recurso
+            $el->attr('width', 1200);
+            $el->attr('height', 800);
             return true;
         } else {
             return false;
