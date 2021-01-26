@@ -99,6 +99,7 @@ class Context
         'amp-youtube' => 'https://cdn.ampproject.org/v0/amp-youtube-0.1.js',
         'amp-sidebar' => 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js',
         'amp-accordion' => 'https://cdn.ampproject.org/v0/amp-accordion-0.1.js',
+        'amp-sticky-ad' => 'https://cdn.ampproject.org/v0/amp-sticky-ad-1.0.js',
         'template' => 'https://cdn.ampproject.org/v0/amp-mustache-0.1.js'
     ];
 
