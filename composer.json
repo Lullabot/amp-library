@@ -11,20 +11,20 @@
     "keywords": ["Drupal", "AMP", "mobile"],
     "homepage": "https://github.com/Lullabot/amp-library",
     "require" : {
-        "php" : ">=5.5.0",
-        "querypath/QueryPath": ">=3.0.4",
+        "php" : ">=5.5",
+        "querypath/querypath": ">=3.0.4",
         "sebastian/diff": "^1.2 || ^2 || ^3",
         "marc1706/fast-image-size": "1.*",
-        "masterminds/html5": "~2.3.0",
         "sabberworm/php-css-parser": "^8.0.0",
-        "guzzlehttp/guzzle": "~6.1"
+        "guzzlehttp/guzzle": "~6.1",
+        "masterminds/html5": "^2.5"
     },
     "autoload": {
         "classmap": ["src/Spec/validator-generated.php"],
         "psr-4": {"Lullabot\\AMP\\": "src"}
     },
     "require-dev": {
-        "php" : ">=5.5.0",
+        "php" : ">=5.5",
         "phpunit/phpunit": "4.8.* || ^6",
         "symfony/console": "^2.7.0"
     }

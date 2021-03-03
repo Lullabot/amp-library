@@ -1,0 +1,43 @@
+<amp-instagram layout="responsive" data-shortcode="BCW-bHsLDVg" width="640" height="799" data-captioned="1"></amp-instagram>
+
+
+
+ORIGINAL HTML
+---------------
+Line  1: <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-version="6"
+Line  2:             style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+Line  3:     <div style="padding:8px;">
+Line  4:         <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:62.4537037037% 0; text-align:center; width:100%;">
+Line  5:             <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAGFBMVEUiIiI9PT0eHh4gIB4hIBkcHBwcHBwcHBydr+JQAAAACHRSTlMABA4YHyQsM5jtaMwAAADfSURBVDjL7ZVBEgMhCAQBAf//42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB/lQPb79drWOyJVa/DAvg9B/rLB4cC+Nqgdz/TvBbBnr6GBReqn/nRmDgaQEej7WhonozjF+Y2I/fZou/qAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div>
+Line  6:         </div>
+Line  7:         <p style=" margin:8px 0 0 0; padding:0 4px;"><a href="https://www.instagram.com/p/BCW-bHsLDVg/"
+Line  8:                                                         style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none; word-wrap:break-word;"
+Line  9:                                                         target="_blank">I tried to make off with the big one. Security
+Line 10:             stopped me. Darn it. #oscars</a></p>
+Line 11:         <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">
+Line 12:             A photo posted by Mark Ruffalo (@markruffalo) on
+Line 13:             <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;"
+Line 14:                   datetime="2016-02-29T05:47:47+00:00">Feb 28, 2016 at 9:47pm PST
+Line 15:             </time>
+Line 16:         </p>
+Line 17:     </div>
+Line 18: </blockquote>
+Line 19: <script async defer src="//platform.instagram.com/en_US/embeds.js"></script>
+Line 20: 
+
+
+Transformations made from HTML tags to AMP custom tags
+-------------------------------------------------------
+
+<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0... at line 2
+ ACTION TAKEN: blockquote.instagram-media (with associated script tag) instagram embed code was converted to the amp-instagram tag.
+
+
+AMP-HTML Validation Issues and Fixes
+-------------------------------------
+PASS
+
+COMPONENT NAMES WITH JS PATH
+------------------------------
+'amp-instagram', include path 'https://cdn.ampproject.org/v0/amp-instagram-0.1.js'
+
