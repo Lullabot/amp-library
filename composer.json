@@ -13,7 +13,7 @@
     "require" : {
         "php" : ">=5.5.0",
         "querypath/QueryPath": ">=3.0.4",
-        "sebastian/diff": "^1.2 || ^2 || ^3",
+        "sebastian/diff": "^1.2 || ^2 || ^3 || ^4",
         "marc1706/fast-image-size": "1.*",
         "masterminds/html5": "^2.7",
         "sabberworm/php-css-parser": "^8.0.0",
