@@ -11,12 +11,12 @@
     "keywords": ["Drupal", "AMP", "mobile"],
     "homepage": "https://github.com/Lullabot/amp-library",
     "require" : {
-        "php" : ">=5.5",
+        "php" : "^7.4 || ^8",
         "querypath/querypath": ">=3.0.4",
-        "sebastian/diff": "^1.2 || ^2 || ^3",
+        "sebastian/diff": "^4.0.2",
         "marc1706/fast-image-size": "1.*",
         "sabberworm/php-css-parser": "^8.0.0",
-        "guzzlehttp/guzzle": "~6.1",
+        "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
         "masterminds/html5": "^2.5"
     },
     "autoload": {
@@ -25,7 +25,7 @@
     },
     "require-dev": {
         "php" : ">=5.5",
-        "phpunit/phpunit": "4.8.* || ^6",
+        "phpunit/phpunit": "^9.3.3",
         "symfony/console": "^2.7.0"
     }
 }
