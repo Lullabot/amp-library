@@ -54,12 +54,7 @@ Transformations made from HTML tags to AMP custom tags
 
 AMP-HTML Validation Issues and Fixes
 -------------------------------------
-FAIL
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg"> on line 14
-- The tag 'img' may only appear as a descendant of tag 'noscript'. Did you mean 'amp-img'?
-   [code: MANDATORY_TAG_ANCESTOR_WITH_HINT  category: DISALLOWED_HTML_WITH_AMP_EQUIVALENT see: https://www.ampproject.org/docs/reference/amp-img.html]
-   ACTION TAKEN: img tag was removed due to validation issues.
+PASS
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------
