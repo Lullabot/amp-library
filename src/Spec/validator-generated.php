@@ -5318,11 +5318,7 @@ class ValidationRulesFactory {
       $o_1296->mandatory = true;
       $o_1295->attrs[] = $o_1296;
       $o_1297 = new AttrSpec();
-      $o_1297->name = 'src';
-      $o_1298 = new UrlSpec();
-      $o_1298->allowed_protocol = ['http', 'https'];
-      $o_1298->allow_relative = false;
-      $o_1297->value_url = $o_1298;
+      $o_1297->name = 'script';
       $o_1295->attrs[] = $o_1297;
       $o_1295->attr_lists = ['extended-amp-global'];
       $o_1295->spec_url = 'https://www.ampproject.org/docs/reference/extended/amp-script.html';
@@ -5331,7 +5327,24 @@ class ValidationRulesFactory {
       $o_1295->amp_layout = $o_1299;
       $o_1295->disallowed_ancestor = ['head', 'amp-sidebar'];
       $o_1295->also_requires_tag = ['amp-script extension .js script'];
+      $o_1305 = new AttrSpec();
+      $o_1305->name = 'sandbox';
+      $o_1295->attrs[] = $o_1305;
       $o_0->tags[] = $o_1295;
+      $o_1300 = new TagSpec();
+      $o_1300->tag_name = 'script';
+      $o_1300->spec_name = 'extension .js script';
+      $o_1300->mandatory_parent = 'body';
+      $o_1302 = new AttrSpec();
+      $o_1302->name = 'type';
+      $o_1300->attrs[] = $o_1302;
+      $o_1303 = new AttrSpec();
+      $o_1303->name = 'id';
+      $o_1300->attrs[] = $o_1303;
+      $o_1304 = new AttrSpec();
+      $o_1304->name = 'target';
+      $o_1300->attrs[] = $o_1304;
+      $o_0->tags[] = $o_1300;
 
   return $o_0;
   }
