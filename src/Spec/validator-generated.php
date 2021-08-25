@@ -5317,6 +5317,13 @@ class ValidationRulesFactory {
       $o_1296->name = 'type';
       $o_1296->mandatory = true;
       $o_1295->attrs[] = $o_1296;
+      $o_1297 = new AttrSpec();
+      $o_1297->name = 'src';
+      $o_1298 = new UrlSpec();
+      $o_1298->allowed_protocol = ['http', 'https'];
+      $o_1298->allow_relative = false;
+      $o_1297->value_url = $o_1298;
+      $o_1295->attrs[] = $o_1297;
       $o_1295->attr_lists = ['extended-amp-global'];
       $o_1295->spec_url = 'https://www.ampproject.org/docs/reference/extended/amp-script.html';
       $o_1299 = new AmpLayout();
