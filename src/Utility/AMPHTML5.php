@@ -18,7 +18,6 @@
 namespace Lullabot\AMP\Utility;
 
 use Masterminds\HTML5;
-use Masterminds\HTML5\Parser\InputStream;
 
 /**
  * Class AMPHTML5
@@ -39,6 +38,9 @@ class AMPHTML5 extends HTML5
      * Similar to \Masterminds\HTML5::parse() method in superclass but we use our custom (sub-classed) tokenizer and DOM tree
      * builder to achieve desired effect of adding a line number attribute to each tag of the output DOM document.
      *
+
+     * @param string $inputstream
+     * @param array $options
      * @return \DOMDocument
      */
     public function parse($inputstream, array $options = [])

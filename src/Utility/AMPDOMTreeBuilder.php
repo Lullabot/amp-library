@@ -18,7 +18,6 @@
 namespace Lullabot\AMP\Utility;
 
 use Masterminds\HTML5\Parser\DOMTreeBuilder;
-use Masterminds\HTML5\Parser\InputStream;
 use Masterminds\HTML5\Parser\Scanner;
 use Lullabot\AMP\AMP;
 
@@ -44,6 +43,11 @@ class AMPDOMTreeBuilder extends DOMTreeBuilder
         return $this->scanner;
     }
 
+    /**
+     * AMPDOMTreeBuilder constructor.
+     * @param string $inputstream
+     * @param array $options
+     */
     public function __construct($inputstream, array $options = [])
     {
         // We embed a scanner so that $this->startTag() knows the current line number
