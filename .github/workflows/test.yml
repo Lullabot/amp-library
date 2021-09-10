@@ -35,5 +35,9 @@ jobs:
         name: composer.lock
         path: composer.lock
 
-    - name: Run test suite
-      run: composer test
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run test suite
+        run: composer test
