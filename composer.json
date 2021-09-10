@@ -11,7 +11,7 @@
     "keywords": ["Drupal", "AMP", "mobile"],
     "homepage": "https://github.com/Lullabot/amp-library",
     "require": {
-        "php": ">=5.5",
+        "php": ">=5.6",
         "querypath/querypath": "^3.0.4",
         "sebastian/diff": "^1.2 || ^2 || ^3",
         "marc1706/fast-image-size": "1.*",
