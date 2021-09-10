@@ -27,5 +27,8 @@
         "php" : ">=5.5",
         "phpunit/phpunit": "4.8.* || ^6",
         "symfony/console": "^2.7.0"
+    },
+    "scripts": {
+        "test": "phpunit tests"
     }
 }
