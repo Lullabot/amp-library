@@ -1,28 +1,28 @@
 <!-- Note: this image is in the public domain. https://commons.wikimedia.org/wiki/File:"Birdcatcher"_with_jockey_up.jpg -->
 
 <!-- should transform to amp-img -->
-<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg">
+<img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Carnegie_Hall_Tower.JPG" />
 
 <!-- should transform to amp-img with fixed layout, preserving the width and height -->
-<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="125" height="96">
+<img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Carnegie_Hall_Tower.JPG" width="125" height="96" />
 
 <!-- nonexistent image, should refuse to convert to amp-img and keep it as it is -->
-<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg">
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg" />
 
 <!-- should provide layout and height width and make layout responsive -->
-<amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg"></amp-img>
+<amp-img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Carnegie_Hall_Tower.JPG"></amp-img>
 
 <!-- since only width exists, overwrite with height and width from original image -->
-<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="500"></amp-img>
+<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Carnegie_Hall_Tower.JPG" width="500"></amp-img>
 
 <!-- since height is illegal, overwrite with height and width from original image -->
-<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625" height="auto"></amp-img>
+<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Carnegie_Hall_Tower.JPG" width="625" height="auto"></amp-img>
 
 <!-- since units are inconsistent, overwrite with height+width from original image -->
-<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625rem" height="480"></amp-img>
+<amp-img layout="responsive" src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Carnegie_Hall_Tower.JPG" width="625rem" height="480"></amp-img>
 
 <!-- should transform to amp-pixel -->
-<img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif">
+<img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif" />
 
 <!-- should transform to amp-img instead of amp-anim because of default option['use_amp_anim_tag'] = false -->
-<img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif">
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif" />
