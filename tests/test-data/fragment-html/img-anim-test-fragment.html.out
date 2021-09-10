@@ -17,19 +17,19 @@
 ORIGINAL HTML
 ---------------
 Line  1: <!-- should transform to amp-anim-->
-Line  2: <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Rotating_earth_%28large%29.gif/200px-Rotating_earth_%28large%29.gif">
+Line  2: <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Rotating_earth_%28large%29.gif/200px-Rotating_earth_%28large%29.gif" />
 Line  3: 
 Line  4: <!-- should transform to amp-img because this gif is not animated -->
-Line  5: <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif">
+Line  5: <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Quilt_design_as_46x46_uncompressed_GIF.gif" />
 Line  6: 
 Line  7: <!-- should transform to amp-anim-->
-Line  8: <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Animated_PNG_example_bouncing_beach_ball.png">
+Line  8: <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Animated_PNG_example_bouncing_beach_ball.png" />
 Line  9: 
 Line 10: <!-- should transform to amp-img because this png is not animated -->
-Line 11: <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/240px-Wikimedia-logo.png">
+Line 11: <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/240px-Wikimedia-logo.png" />
 Line 12: 
 Line 13: <!-- nonexistent image, should refuse to convert to amp-img and delete it -->
-Line 14: <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg">
+Line 14: <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/non-existent-image1234.jpg" />
 Line 15: 
 
 
