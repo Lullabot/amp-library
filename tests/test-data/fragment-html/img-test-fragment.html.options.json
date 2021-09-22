@@ -1,3 +1,4 @@
 {
-  "img_max_fixed_layout_width" : 200
+  "img_max_fixed_layout_width" : 200,
+  "server_url": "file://"
 }
