@@ -132,12 +132,15 @@ class AMP
      *
      * @see src/Spec/validator-generated.php
      */
-    public function __construct()
+    public function __construct(ParsedValidatorRules $parsed_rules = NULL)
     {
-        // The ParsedValidationRules object is expensive to create. So we maintain a global singleton
-        // This way the AMP Object creation is actually cheap
-        /** @var ParsedValidatorRules parsed_rules */
-        $this->parsed_rules = ParsedValidatorRules::getSingletonParsedValidatorRules();
+        $this->parsed_rules = $parsed_rules;
+        if (empty($this->parsed_rules)) {
+            // The ParsedValidationRules object is expensive to create. So we maintain a global singleton
+            // This way the AMP Object creation is actually cheap
+            /** @var ParsedValidatorRules parsed_rules */
+            $this->parsed_rules = ParsedValidatorRules::getSingletonParsedValidatorRules();
+        }
         /** @var ValidatorRules rules */
         $this->rules = $this->parsed_rules->rules;
     }
