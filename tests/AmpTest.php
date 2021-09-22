@@ -17,6 +17,10 @@
  */
 
 use Lullabot\AMP\AMP;
+use Lullabot\AMP\Spec\UrlSpec;
+use Lullabot\AMP\Spec\ValidationRulesFactory;
+use Lullabot\AMP\Spec\ValidatorRules;
+use Lullabot\AMP\Validate\ParsedValidatorRules;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -30,7 +34,9 @@ class AmpTest extends TestCase
 
     public function setup()
     {
-        $this->amp = new AMP();
+        $this->moveImageFixturesToTmp();
+        $parsed_rules = $this->getParsedRulesTestSet();
+        $this->amp = new AMP($parsed_rules);
         $this->skip_internet = getenv('AMP_TEST_SKIP_INTERNET');
     }
 
@@ -97,4 +103,83 @@ class AmpTest extends TestCase
             }
         }
     }
+
+    protected function getTestImages($subdirectory)
+    {
+        /** @var DirectoryIterator $fileitem */
+        foreach (new DirectoryIterator($subdirectory) as $fileitem) {
+            if (!$fileitem->isFile() || $fileitem->isDot()) {
+                continue;
+            }
+
+            yield $fileitem->getPathname();
+        }
+    }
+
+    protected function allowFileProtocolForImages(ValidatorRules $rules)
+    {
+        /** @var \Lullabot\AMP\Spec\TagSpec $tag */
+        foreach ($rules->tags as $tag) {
+            if (!in_array($tag->tag_name, ['img', 'amp-pixel'])) {
+                continue;
+            }
+            /** @var \Lullabot\AMP\Spec\AttrSpec $attr */
+            foreach ($tag->attrs as $attr) {
+                if ($attr->name !== 'src') {
+                    continue;
+                }
+                $url_spec = new UrlSpec();
+                if ($tag->tag_name === 'img') {
+                    $url_spec->allowed_protocol = [
+                      'data',
+                      'http',
+                      'https',
+                      'file'
+                    ];
+                }
+                elseif ($tag->tag_name === 'amp-pixel') {
+                    $url_spec->allowed_protocol = [
+                      'https',
+                      'file'
+                    ];
+                }
+                $url_spec->allow_relative = TRUE;
+                $attr->value_url = $url_spec;
+            }
+        }
+
+        /** @var \Lullabot\AMP\Spec\AttrList $attr_list */
+        foreach ($rules->attr_lists as $attr_list) {
+            if ($attr_list->name !== 'mandatory-src-or-srcset') {
+                continue;
+            }
+            /** @var \Lullabot\AMP\Spec\AttrSpec $attr */
+            foreach ($attr_list->attrs as $attr) {
+                if ($attr->name !== 'src') {
+                    continue;
+                }
+                $url_spec = new UrlSpec();
+                $url_spec->allowed_protocol = ['data', 'http', 'https', 'file'];
+                $url_spec->allow_relative = TRUE;
+                $attr->value_url = $url_spec;
+            }
+        }
+    }
+
+    protected function getParsedRulesTestSet()
+    {
+        /** @var \Lullabot\AMP\Spec\ValidatorRules $rules */
+        $rules = ValidationRulesFactory::createValidationRules();
+        $this->allowFileProtocolForImages($rules);
+        return ParsedValidatorRules::createParsedValidatorRulesFromValidatorRules($rules);
+    }
+
+    protected function moveImageFixturesToTmp()
+    {
+        foreach ($this->getTestImages('tests/test-data/images') as $image) {
+            $path_info = pathinfo($image);
+            copy($image, sys_get_temp_dir() . '/' . $path_info['basename']);
+        }
+    }
+
 }
