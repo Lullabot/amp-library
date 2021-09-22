@@ -69,6 +69,17 @@ class ParsedValidatorRules
     }
 
     /**
+     * Should only be used for testing when you need to adjust rules.
+     *
+     * @param \Lullabot\AMP\Spec\ValidatorRules $rules
+     *
+     * @return \Lullabot\AMP\Validate\ParsedValidatorRules
+     */
+    public static function createParsedValidatorRulesFromValidatorRules(ValidatorRules $rules) {
+        return new self($rules);
+    }
+
+    /**
      * Note that this is deliberately protected
      *
      * ParsedValidatorRules constructor.
