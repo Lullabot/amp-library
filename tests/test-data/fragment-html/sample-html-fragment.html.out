@@ -1,7 +1,6 @@
 <p><a>Run</a></p>
 <p><a href="http://www.cnn.com">CNN</a></p>
-<!-- this image is in the public domain. https://commons.wikimedia.org/wiki/File:"Birdcatcher"_with_jockey_up.jpg -->
-<amp-img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg" width="625" height="480" layout="responsive"></amp-img>
+<amp-img src="file:///tmp/kitten.jpg" width="512" height="341" layout="responsive"></amp-img>
 <p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>
 <p></p>
 <p>This is a <!-- test comment -->sample </p><div>sample</div> paragraph
@@ -14,24 +13,23 @@ ORIGINAL HTML
 ---------------
 Line  1: <p><a style="color: red;" href="javascript:run();">Run</a></p>
 Line  2: <p><a style="margin: 2px;" href="http://www.cnn.com" target="_parent">CNN</a></p>
-Line  3: <!-- this image is in the public domain. https://commons.wikimedia.org/wiki/File:"Birdcatcher"_with_jockey_up.jpg -->
-Line  4: <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg">
-Line  5: <p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>
-Line  6: <p><INPUT type="submit" value="submit"></p>
-Line  7: <p>This is a <!-- test comment -->sample <div onmouseover="hello();">sample</div> paragraph</p>
-Line  8: <iframe src="https://www.reddit.com"></iframe>
-Line  9: <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-Line 10: <style></style>
-Line 11: 
+Line  3: <img src="file:///tmp/kitten.jpg">
+Line  4: <p><a href="http://www.bbcnews.com" target="_blank">BBC</a></p>
+Line  5: <p><INPUT type="submit" value="submit"></p>
+Line  6: <p>This is a <!-- test comment -->sample <div onmouseover="hello();">sample</div> paragraph</p>
+Line  7: <iframe src="https://www.reddit.com"></iframe>
+Line  8: <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+Line  9: <style></style>
+Line 10: 
 
 
 Transformations made from HTML tags to AMP custom tags
 -------------------------------------------------------
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/%22Birdcatcher%22_with_jockey_up.jpg"> at line 4
+<img src="file:///tmp/kitten.jpg"> at line 3
  ACTION TAKEN: img tag was converted to the amp-img tag.
 
-<iframe src="https://www.reddit.com"> at line 8
+<iframe src="https://www.reddit.com"> at line 7
  ACTION TAKEN: iframe tag was converted to the amp-iframe tag.
 
 
@@ -55,22 +53,22 @@ FAIL
    [code: INVALID_ATTR_VALUE  category: DISALLOWED_HTML]
    ACTION TAKEN: a.target attribute was removed due to validation issues.
 
-<input type="submit" value="submit"> on line 6
+<input type="submit" value="submit"> on line 5
 - The tag 'input' is disallowed.
    [code: DISALLOWED_TAG  category: DISALLOWED_HTML]
    ACTION TAKEN: input tag was removed due to validation issues.
 
-<div onmouseover="hello();"> on line 7
+<div onmouseover="hello();"> on line 6
 - The attribute 'onmouseover' may not appear in tag 'div'.
    [code: DISALLOWED_ATTR  category: DISALLOWED_HTML]
    ACTION TAKEN: div.onmouseover attribute was removed due to validation issues.
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> on line 9
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> on line 8
 - The tag 'script' is disallowed except in specific forms.
    [code: GENERAL_DISALLOWED_TAG  category: CUSTOM_JAVASCRIPT_DISALLOWED]
    ACTION TAKEN: script tag was removed due to validation issues.
 
-<style> on line 10
+<style> on line 9
 - The parent tag of tag 'style' is 'body', but it can only be 'head'.
    [code: WRONG_PARENT_TAG  category: DISALLOWED_HTML see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
    ACTION TAKEN: style tag was removed due to validation issues.
