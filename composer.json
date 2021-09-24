@@ -10,10 +10,10 @@
     "license": "Apache-2.0",
     "keywords": ["Drupal", "AMP", "mobile"],
     "homepage": "https://github.com/Lullabot/amp-library",
-    "require" : {
-        "php" : ">=5.5",
-        "querypath/querypath": ">=3.0.4",
-        "sebastian/diff": "^1.2 || ^2 || ^3",
+    "require": {
+        "php": ">=5.6",
+        "querypath/querypath": "^3.0.4",
+        "sebastian/diff": "^1.2 || ^2 || ^3 || ^4",
         "marc1706/fast-image-size": "1.*",
         "sabberworm/php-css-parser": "^8.0.0",
         "guzzlehttp/guzzle": "~6.1",
@@ -24,8 +24,10 @@
         "psr-4": {"Lullabot\\AMP\\": "src"}
     },
     "require-dev": {
-        "php" : ">=5.5",
-        "phpunit/phpunit": "4.8.* || ^6",
+        "phpunit/phpunit": "^5.6.3 || ^6",
         "symfony/console": "^2.7.0"
+    },
+    "scripts": {
+        "test": "phpunit tests"
     }
 }
