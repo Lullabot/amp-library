@@ -207,7 +207,7 @@ class AMP
 
         // Get the request scheme http, https etc.
         if (empty($options['request_scheme'])) {
-            if (!empty($_SERVER['https'])) {
+            if (!empty($_SERVER['HTTPS'])) {
                 $this->options['request_scheme'] = 'https://';
             } else {
                 $this->options['request_scheme'] = 'http://';
