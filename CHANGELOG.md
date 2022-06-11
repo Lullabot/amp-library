@@ -16,3 +16,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced Travis with Github Actions for running tests.
 - Allowed sebastian/diff 4.x
 - Fixed tests 
+- Removed Guzzle for HTTPlug, you will need to install a [HTTPlug adapter](https://docs.php-http.org/en/latest/clients.html)
