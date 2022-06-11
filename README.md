@@ -91,6 +91,8 @@ To use this in your composer based PHP project, refer to [composer docs here](ht
 
 Or you can simply do `$ composer require lullabot/amp:"^1.0.0"` to fetch the library from [here](https://packagist.org/packages/lullabot/amp) and automatically update your `composer.json`
 
+You will also need to install a [HTTPlug's adapter](https://docs.php-http.org/en/latest/clients.html) depending on which HttpClient implementation you want to use, eg: `composer require php-http/guzzle7-adapter`.
+
 ##### Advanced
 Should you wish to follow the bleeding edge you can do `$ composer require lullabot/amp:"dev-master"`. Note that this will create a `.git` folder in `vendor/lullabot/amp`. If you want to avoid that,  do `$ composer require lullabot/amp:"dev-master" --prefer-dist`
 
