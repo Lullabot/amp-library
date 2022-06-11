@@ -17,8 +17,8 @@
 
 namespace Lullabot\AMP\Pass;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use Http\Discovery\Psr17FactoryDiscovery;
+use Psr\Http\Client\ClientExceptionInterface;
 use QueryPath\DOMQuery;
 
 use Lullabot\AMP\Utility\ActionTakenLine;
@@ -28,8 +28,10 @@ use Lullabot\AMP\Utility\ActionTakenType;
  * Class InstagramTransformPass
  * @package Lullabot\AMP\Pass
  */
-class InstagramTransformPass extends BasePass
+class InstagramTransformPass extends BasePass implements HttpClientAwarePass
 {
+    use HttpClientAwareTrait;
+
     const DEFAULT_INSTAGRAM_HEIGHT = 400;
     const DEFAULT_INSTAGRAM_WIDTH = 400;
 
@@ -93,12 +95,12 @@ class InstagramTransformPass extends BasePass
         if (!$this->options['instagram_oembed_enabled']) {
             return 'Querying the Instagram oembed endpoint for image dimensions is disabled. Setting default height and width';
         }
-        $client = new Client(['timeout' => $this->options['instagram_oembed_timeout']]);
+
         try {
-            $res = $client->get('https://api.instagram.com/oembed/', [
-                'query' => ['url' => $url]
-            ]);
-        } catch (GuzzleException $e) {
+            $requestFactory = Psr17FactoryDiscovery::findRequestFactory();
+            $request = $requestFactory->createRequest('GET', 'https://api.instagram.com/oembed/?url=' . $url);
+            $res = $this->getHttpClient()->sendRequest($request);
+        } catch (ClientExceptionInterface $e) {
             return $e->getMessage() . PHP_EOL . 'Could not make request to instagram oembed endpoint. Setting default height and width';
         }
 
