@@ -140,7 +140,7 @@ class TwitterTransformPass extends BasePass
         foreach ($links as $link) {
             $href = $link->attr('href');
             $matches = [];
-            if (preg_match('&(*UTF8)twitter.com/.*/status(?:es)?/([^/]+)&i', $href, $matches)) {
+            if (preg_match('&(*UTF8)twitter.com/.*/status(?:es)?/([^/?]+)&i', $href, $matches)) {
                 if (!empty($matches[1])) {
                     $tweet_id = $matches[1];
                     break;
