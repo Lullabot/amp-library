@@ -121,7 +121,7 @@ FAIL
 
 <amp-sidebar layout="nodisplay"> on line 50
 - The tag 'amp-sidebar' appears more than once in the document.
-   [code: DUPLICATE_UNIQUE_TAG  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-sidebar/amp-sidebar.md]
+   [code: DUPLICATE_UNIQUE_TAG  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-sidebar/amp-sidebar.md]
    ACTION TAKEN: amp-sidebar tag was removed due to validation issues.
 
 <amp-ad layout="fill" src="https://ad" type="ad"> on line 51
@@ -131,7 +131,7 @@ FAIL
 
 <amp-sidebar side="center" layout="nodisplay"> on line 54
 - The attribute 'side' in tag 'amp-sidebar' is set to the invalid value 'center'.
-   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-sidebar/amp-sidebar.md]
+   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-sidebar/amp-sidebar.md]
    ACTION TAKEN: amp-sidebar.side attribute was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH

@@ -26,7 +26,7 @@ use Lullabot\AMP\Spec\ValidationError;
  * @package Lullabot\AMP\Validate
  *
  * This class does NOT exist in validator.js
- * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
  *
  * Adds some more information to the ValidationError class
  *

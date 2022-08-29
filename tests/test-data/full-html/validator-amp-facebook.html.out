@@ -16,7 +16,7 @@
 --><!--
   Test Description:
   Tests support for the amp-facebook tag.
-  https://github.com/ampproject/amphtml/blob/master/extensions/amp-facebook/amp-facebook.md
+  https://github.com/ampproject/amphtml/blob/main/extensions/amp-facebook/amp-facebook.md
 --><html amp><head>
   <meta charset="utf-8">
   <link rel="canonical" href="./regular-html-version.html">
@@ -60,7 +60,7 @@ Line 15: -->
 Line 16: <!--
 Line 17:   Test Description:
 Line 18:   Tests support for the amp-facebook tag.
-Line 19:   https://github.com/ampproject/amphtml/blob/master/extensions/amp-facebook/amp-facebook.md
+Line 19:   https://github.com/ampproject/amphtml/blob/main/extensions/amp-facebook/amp-facebook.md
 Line 20: -->
 Line 21: <!doctype html>
 Line 22: <html ⚡>

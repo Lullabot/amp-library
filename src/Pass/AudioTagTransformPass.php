@@ -28,7 +28,7 @@ use Lullabot\AMP\Utility\ActionTakenType;
  *
  * Support for <audio> to <amp-audio> tag conversion. Similar to VideoTagTransformPass in many ways.
  *
- * @see https://github.com/ampproject/amphtml/blob/master/extensions/amp-audio/amp-audio.md
+ * @see https://github.com/ampproject/amphtml/blob/main/extensions/amp-audio/amp-audio.md
  * @see https://developer.mozilla.org/en/docs/Web/HTML/Element/audio
  */
 class AudioTagTransformPass extends BasePass

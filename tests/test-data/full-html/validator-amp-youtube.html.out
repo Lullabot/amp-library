@@ -31,7 +31,7 @@
   <amp-youtube width="480" height="270" video-id="9bZkp7q19f0">
   </amp-youtube>
   <!-- This is the current way to do it, according to
-https://github.com/ampproject/amphtml/blob/master/extensions/amp-youtube/amp-youtube.md -->
+https://github.com/ampproject/amphtml/blob/main/extensions/amp-youtube/amp-youtube.md -->
   <amp-youtube width="480" height="270" data-videoid="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
   </amp-youtube>
   <!-- This is invalid, the video id is missing. -->
@@ -87,7 +87,7 @@ Line 35:   <amp-youtube width="480" height="270"
 Line 36:                video-id="9bZkp7q19f0">
 Line 37:   </amp-youtube>
 Line 38:   <!-- This is the current way to do it, according to
-Line 39: https://github.com/ampproject/amphtml/blob/master/extensions/amp-youtube/amp-youtube.md -->
+Line 39: https://github.com/ampproject/amphtml/blob/main/extensions/amp-youtube/amp-youtube.md -->
 Line 40:   <amp-youtube width="480" height="270"
 Line 41:                data-videoid="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
 Line 42:   </amp-youtube>

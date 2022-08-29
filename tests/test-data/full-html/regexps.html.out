@@ -173,9 +173,9 @@ FAIL
 
 <style> on line 27
 - The tag 'head > style[amp-boilerplate] - old variant' is deprecated - use 'head > style[amp-boilerplate]' instead.
-   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
 - The mandatory text (CDATA) inside tag 'head > style[amp-boilerplate] - old variant' is missing or incorrect.
-   [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
    ACTION TAKEN: head > style[amp-boilerplate] - old variant CDATA was added or modified to fit requirements.
 
 <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"> on line 36
@@ -241,7 +241,7 @@ FAIL
 
 GLOBAL WARNING
 - The tag 'head > style[amp-boilerplate]' is missing or incorrect, but required by 'noscript > style[amp-boilerplate]'.
-   [code: TAG_REQUIRED_BY_MISSING  category: GENERIC see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: TAG_REQUIRED_BY_MISSING  category: GENERIC see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
 - The tag 'amp-audio extension .js script' is missing or incorrect, but required by 'amp-audio'.
    [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
    ACTION TAKEN: amp-audio custom component script tag added to head

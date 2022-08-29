@@ -76,12 +76,12 @@ FAIL
 
 <style amp-boilerplate> on line 28
 - The mandatory text (CDATA) inside tag 'head > style[amp-boilerplate]' is missing or incorrect.
-   [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
    ACTION TAKEN: head > style[amp-boilerplate] CDATA was added or modified to fit requirements.
 
 <style amp-boilerplate> on line 28
 - The mandatory text (CDATA) inside tag 'noscript > style[amp-boilerplate]' is missing or incorrect.
-   [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
    ACTION TAKEN: noscript > style[amp-boilerplate] CDATA was added or modified to fit requirements.
 
 COMPONENT NAMES WITH JS PATH

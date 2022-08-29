@@ -48,11 +48,11 @@ use Lullabot\AMP\AMP;
  * - The mandatory tag 'amphtml engine v0.js script' is missing or incorrect.
  * [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://www.ampproject.org/docs/reference/spec.html#required-markup]
  * - The mandatory tag 'noscript enclosure for boilerplate' is missing or incorrect.
- * [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+ * [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
  * - The mandatory tag 'head > style[amp-boilerplate]' is missing or incorrect.
- * [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+ * [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
  * - The mandatory tag 'noscript > style[amp-boilerplate]' is missing or incorrect.
- * [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+ * [code: MANDATORY_TAG_MISSING  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
  */
 class MinimumValidFixPass extends BasePass
 {

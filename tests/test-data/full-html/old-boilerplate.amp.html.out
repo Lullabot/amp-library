@@ -52,11 +52,11 @@ PASS
 
 <style> on line 9
 - The tag 'head > style[amp-boilerplate] - old variant' is deprecated - use 'head > style[amp-boilerplate]' instead.
-   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
 
 <style> on line 9
 - The tag 'noscript > style[amp-boilerplate] - old variant' is deprecated - use 'noscript > style[amp-boilerplate]' instead.
-   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------

@@ -145,48 +145,48 @@ FAIL
 
 <amp-springboard-player data-site-id="a261" data-mode="video" data-content-id="1578473" data-player-id="test401" data-domain="test.com" data-items="10" layout="fixed" width="480" height="270"> on line 41
 - The attribute 'data-site-id' in tag 'amp-springboard-player' is set to the invalid value 'a261'.
-   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
+   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html]
    ACTION TAKEN: amp-springboard-player.data-site-id attribute was removed due to validation issues.
 
 <amp-springboard-player data-site-id="261" data-mode="playlist" data-content-id="1578473" data-player-id="test 401" data-domain="test.com" data-items="10" layout="fixed" width="480" height="270"> on line 46
 - The attribute 'data-player-id' in tag 'amp-springboard-player' is set to the invalid value 'test 401'.
-   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
+   [code: INVALID_ATTR_VALUE  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html]
    ACTION TAKEN: amp-springboard-player.data-player-id attribute was removed due to validation issues.
 
 <amp-springboard-player data-site-id="261" data-mode="video" data-player-id="test401" data-domain="test.com" data-items="10" layout="fixed" width="480" height="270"> on line 51
 - The mandatory attribute 'data-content-id' is missing in tag 'amp-springboard-player'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
+   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html]
 
 <amp-springboard-player data-site-id="261" data-mode="video" data-content-id="1578473" data-player-id="test401" data-items="10" layout="fixed" width="480" height="270"> on line 56
 - The mandatory attribute 'data-domain' is missing in tag 'amp-springboard-player'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
+   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html]
 
 <amp-springboard-player data-site-id="261" data-mode="video" data-content-id="1578473" data-player-id="test401" data-domain="test.com" layout="fixed" width="480" height="270"> on line 61
 - The mandatory attribute 'data-items' is missing in tag 'amp-springboard-player'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
+   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html]
 
 <amp-springboard-player data-site-id="261" data-content-id="1578473" data-player-id="test401" data-domain="test.com" data-items="10" layout="fixed" width="480" height="270"> on line 66
 - The mandatory attribute 'data-mode' is missing in tag 'amp-springboard-player'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
+   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html]
 
 <amp-springboard-player data-site-id="261" data-mode="video" data-content-id="1578473" data-domain="test.com" data-items="10" layout="fixed" width="480" height="270"> on line 71
 - The mandatory attribute 'data-player-id' is missing in tag 'amp-springboard-player'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
+   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html]
 
 <amp-springboard-player data-mode="video" data-content-id="1578473" data-player-id="test401" data-domain="test.com" data-items="10" layout="fixed" width="480" height="270"> on line 76
 - The mandatory attribute 'data-site-id' is missing in tag 'amp-springboard-player'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
+   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html]
 
 <amp-springboard-player data-site-id="261" data-mode="playlist" data-player-id="test401" layout="fixed-height" width="480" height="270"> on line 80
 - The specified layout 'FIXED_HEIGHT' is not supported by tag 'amp-springboard-player'.
-   [code: SPECIFIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
+   [code: SPECIFIED_LAYOUT_INVALID  category: AMP_LAYOUT_PROBLEM see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html]
    ACTION TAKEN: amp-springboard-player.layout attribute was removed due to validation issues.
 - The mandatory attribute 'data-content-id' is missing in tag 'amp-springboard-player'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
+   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html]
 - The mandatory attribute 'data-domain' is missing in tag 'amp-springboard-player'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
+   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html]
 - The mandatory attribute 'data-items' is missing in tag 'amp-springboard-player'.
-   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html]
+   [code: MANDATORY_ATTR_MISSING  category: AMP_TAG_PROBLEM see: https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html]
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------

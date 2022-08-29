@@ -78,11 +78,11 @@ FAIL
 
 <style> on line 28
 - The tag 'noscript > style[amp-boilerplate] - old variant' is deprecated - use 'noscript > style[amp-boilerplate]' instead.
-   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
 
 GLOBAL WARNING
 - The tag 'noscript > style[amp-boilerplate]' is missing or incorrect, but required by 'head > style[amp-boilerplate]'.
-   [code: TAG_REQUIRED_BY_MISSING  category: GENERIC see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: TAG_REQUIRED_BY_MISSING  category: GENERIC see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------

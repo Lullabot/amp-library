@@ -37,7 +37,7 @@ use Lullabot\AMP\Utility\ActionTakenType;
  *     <embed src="https://www.youtube.com/embed/MnR9AVs6Q_c" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="512" height="308">
  *   </object>
  *
- * @see https://github.com/ampproject/amphtml/blob/master/extensions/amp-youtube/amp-youtube.md
+ * @see https://github.com/ampproject/amphtml/blob/main/extensions/amp-youtube/amp-youtube.md
  *
  */
 class ObjectYouTubeTagTransformPass extends BasePass
@@ -61,7 +61,7 @@ class ObjectYouTubeTagTransformPass extends BasePass
             $context_string = $this->getContextString($dom_el);
 
             $actionTakenType = '';
-            
+
             if ($this->isYouTubeObject($el)) {
                 $youtube_code = $this->getYouTubeCode($el);
 
@@ -78,7 +78,7 @@ class ObjectYouTubeTagTransformPass extends BasePass
                 $actionTakenType = ActionTakenType::YOUTUBE_OBJECT_CONVERTED;
 
                 $this->setStandardAttributesFrom($el, $new_el, self::DEFAULT_VIDEO_WIDTH, self::DEFAULT_VIDEO_HEIGHT, self::DEFAULT_ASPECT_RATIO);
-            
+
             } else {
                 continue;
             }
@@ -87,7 +87,7 @@ class ObjectYouTubeTagTransformPass extends BasePass
             $el->removeChildren()->remove();
             $this->addActionTaken(new ActionTakenLine('object', $actionTakenType, $lineno, $context_string));
             $this->context->addLineAssociation($new_dom_el, $lineno);
-            
+
         }
 
         return $this->transformations;
@@ -125,7 +125,7 @@ class ObjectYouTubeTagTransformPass extends BasePass
             if ($param->attr('name') == 'movie') {
                 $param_value = $param->attr('value');
 
-                $pattern = 
+                $pattern =
                     '~(?#!js YouTubeId Rev:20160125_1800)
                     # Match non-linked youtube URL in the wild. (Rev:20130823)
                     https?://          # Required scheme. Either http or https.

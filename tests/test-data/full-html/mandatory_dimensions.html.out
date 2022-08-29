@@ -17,7 +17,7 @@
   Test Description:
   This test validates the complex rules around mandatory dimensions for
   responsive amp custom elements. See
-  https://github.com/ampproject/amphtml/blob/master/spec/amp-html-layout.md.
+  https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-html-layout.md.
 --><html amp><head>
   <meta charset="utf-8">
   <link rel="canonical" href="./regular-html-version.html">
@@ -179,7 +179,7 @@ Line  16: <!--
 Line  17:   Test Description:
 Line  18:   This test validates the complex rules around mandatory dimensions for
 Line  19:   responsive amp custom elements. See
-Line  20:   https://github.com/ampproject/amphtml/blob/master/spec/amp-html-layout.md.
+Line  20:   https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-html-layout.md.
 Line  21: -->
 Line  22: <!doctype html>
 Line  23: <html ⚡>

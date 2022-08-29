@@ -721,12 +721,12 @@ class ValidationRulesFactory {
   $o_95->mandatory_alternatives = 'head > style[amp-boilerplate]';
   $o_95->unique = true;
   $o_95->mandatory_parent = 'head';
-  $o_95->spec_url = 'https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md';
+  $o_95->spec_url = 'https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md';
   $o_96 = new CdataSpec();
   $o_96->cdata_regex = 'body ?{opacity: ?0}';
   $o_95->cdata = $o_96;
   $o_95->deprecation = 'head > style[amp-boilerplate]';
-  $o_95->deprecation_url = 'https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md';
+  $o_95->deprecation_url = 'https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md';
   $o_0->tags[] = $o_95;
   $o_97 = new TagSpec();
   $o_97->tag_name = 'style';
@@ -734,12 +734,12 @@ class ValidationRulesFactory {
   $o_97->mandatory_alternatives = 'noscript > style[amp-boilerplate]';
   $o_97->unique = true;
   $o_97->mandatory_parent = 'noscript';
-  $o_97->spec_url = 'https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md';
+  $o_97->spec_url = 'https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md';
   $o_98 = new CdataSpec();
   $o_98->cdata_regex = 'body ?{opacity: ?1}';
   $o_97->cdata = $o_98;
   $o_97->deprecation = 'noscript > style[amp-boilerplate]';
-  $o_97->deprecation_url = 'https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md';
+  $o_97->deprecation_url = 'https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md';
   $o_0->tags[] = $o_97;
   $o_99 = new TagSpec();
   $o_99->tag_name = 'style';
@@ -753,7 +753,7 @@ class ValidationRulesFactory {
   $o_100->value = '';
   $o_100->dispatch_key = true;
   $o_99->attrs[] = $o_100;
-  $o_99->spec_url = 'https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md';
+  $o_99->spec_url = 'https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md';
   $o_101 = new CdataSpec();
   $o_101->cdata_regex = '\\s*body{-webkit-animation:-amp-start\\s+8s\\s+steps\\(1,end\\)\\s+0s\\s+1\\s+normal\\s+both;-moz-animation:-amp-start\\s+8s\\s+steps\\(1,end\\)\\s+0s\\s+1\\s+normal\\s+both;-ms-animation:-amp-start\\s+8s\\s+steps\\(1,end\\)\\s+0s\\s+1\\s+normal\\s+both;animation:-amp-start\\s+8s\\s+steps\\(1,end\\)\\s+0s\\s+1\\s+normal\\s+both}@-webkit-keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes\\s+-amp-start{from{visibility:hidden}to{visibility:visible}}\\s*';
   $o_99->cdata = $o_101;
@@ -771,7 +771,7 @@ class ValidationRulesFactory {
   $o_103->value = '';
   $o_103->dispatch_key = true;
   $o_102->attrs[] = $o_103;
-  $o_102->spec_url = 'https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md';
+  $o_102->spec_url = 'https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md';
   $o_104 = new CdataSpec();
   $o_104->cdata_regex = '\\s*body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}\\s*';
   $o_102->cdata = $o_104;
@@ -2308,7 +2308,7 @@ class ValidationRulesFactory {
   $o_549->mandatory = true;
   $o_549->unique = true;
   $o_549->mandatory_parent = 'head';
-  $o_549->spec_url = 'https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md';
+  $o_549->spec_url = 'https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md';
   $o_0->tags[] = $o_549;
   $o_550 = new TagSpec();
   $o_550->tag_name = 'noscript';
@@ -2845,7 +2845,7 @@ class ValidationRulesFactory {
   $o_679->name = 'type';
   $o_679->value = 'text/javascript';
   $o_675->attrs[] = $o_679;
-  $o_675->spec_url = 'https://github.com/ampproject/amphtml/blob/master/extensions/amp-brid-player/amp-brid-player.md';
+  $o_675->spec_url = 'https://github.com/ampproject/amphtml/blob/main/extensions/amp-brid-player/amp-brid-player.md';
   $o_680 = new CdataSpec();
   $o_681 = new BlackListedCDataRegex();
   $o_681->regex = '.';
@@ -2876,7 +2876,7 @@ class ValidationRulesFactory {
   $o_686->value_regex = '[0-9]+';
   $o_682->attrs[] = $o_686;
   $o_682->attr_lists = ['extended-amp-global'];
-  $o_682->spec_url = 'https://github.com/ampproject/amphtml/blob/master/extensions/amp-brid-player/amp-brid-player.md';
+  $o_682->spec_url = 'https://github.com/ampproject/amphtml/blob/main/extensions/amp-brid-player/amp-brid-player.md';
   $o_687 = new AmpLayout();
   $o_687->supported_layouts = [AmpLayoutLayout::FILL, AmpLayoutLayout::FIXED, AmpLayoutLayout::FIXED_HEIGHT, AmpLayoutLayout::FLEX_ITEM, AmpLayoutLayout::NODISPLAY, AmpLayoutLayout::RESPONSIVE];
   $o_682->amp_layout = $o_687;
@@ -3540,7 +3540,7 @@ class ValidationRulesFactory {
   $o_838->name = 'type';
   $o_838->value = 'text/javascript';
   $o_834->attrs[] = $o_838;
-  $o_834->spec_url = 'https://github.com/ampproject/amphtml/blob/master/extensions/amp-jwplayer/amp-jwplayer.md';
+  $o_834->spec_url = 'https://github.com/ampproject/amphtml/blob/main/extensions/amp-jwplayer/amp-jwplayer.md';
   $o_839 = new CdataSpec();
   $o_840 = new BlackListedCDataRegex();
   $o_840->regex = '.';
@@ -3565,7 +3565,7 @@ class ValidationRulesFactory {
   $o_844->value_regex_casei = '[0-9a-z]{8}';
   $o_844->mandatory_oneof = 'data-media-id or data-playlist-id';
   $o_841->attrs[] = $o_844;
-  $o_841->spec_url = 'https://github.com/ampproject/amphtml/blob/master/extensions/amp-jwplayer/amp-jwplayer.md';
+  $o_841->spec_url = 'https://github.com/ampproject/amphtml/blob/main/extensions/amp-jwplayer/amp-jwplayer.md';
   $o_845 = new AmpLayout();
   $o_845->supported_layouts = [AmpLayoutLayout::FILL, AmpLayoutLayout::FIXED, AmpLayoutLayout::FIXED_HEIGHT, AmpLayoutLayout::FLEX_ITEM, AmpLayoutLayout::NODISPLAY, AmpLayoutLayout::RESPONSIVE];
   $o_841->amp_layout = $o_845;
@@ -3897,7 +3897,7 @@ class ValidationRulesFactory {
   $o_917->value_regex = '(left|right)';
   $o_916->attrs[] = $o_917;
   $o_916->attr_lists = ['extended-amp-global'];
-  $o_916->spec_url = 'https://github.com/ampproject/amphtml/blob/master/extensions/amp-sidebar/amp-sidebar.md';
+  $o_916->spec_url = 'https://github.com/ampproject/amphtml/blob/main/extensions/amp-sidebar/amp-sidebar.md';
   $o_918 = new AmpLayout();
   $o_918->supported_layouts = [AmpLayoutLayout::NODISPLAY];
   $o_916->amp_layout = $o_918;
@@ -4068,7 +4068,7 @@ class ValidationRulesFactory {
   $o_954->name = 'type';
   $o_954->value = 'text/javascript';
   $o_950->attrs[] = $o_954;
-  $o_950->spec_url = 'https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html';
+  $o_950->spec_url = 'https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html';
   $o_955 = new CdataSpec();
   $o_956 = new BlackListedCDataRegex();
   $o_956->regex = '.';
@@ -4106,7 +4106,7 @@ class ValidationRulesFactory {
   $o_963->value_regex = '[0-9]+';
   $o_957->attrs[] = $o_963;
   $o_957->attr_lists = ['extended-amp-global'];
-  $o_957->spec_url = 'https://github.com/ampproject/amphtml/blob/master/extensions/amp-springboard-player/amp-springboard-player.html';
+  $o_957->spec_url = 'https://github.com/ampproject/amphtml/blob/main/extensions/amp-springboard-player/amp-springboard-player.html';
   $o_964 = new AmpLayout();
   $o_964->supported_layouts = [AmpLayoutLayout::FILL, AmpLayoutLayout::FIXED, AmpLayoutLayout::FLEX_ITEM, AmpLayoutLayout::RESPONSIVE];
   $o_957->amp_layout = $o_964;

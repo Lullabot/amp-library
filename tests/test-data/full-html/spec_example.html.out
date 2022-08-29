@@ -16,7 +16,7 @@
 --><!--
   Test Description:
   This is the sample document from the AMP spec.
-  https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md
+  https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-html-format.md
 --><html amp><head>
     <meta charset="utf-8">
     <title>Sample document</title>
@@ -74,7 +74,7 @@ Line 15: -->
 Line 16: <!--
 Line 17:   Test Description:
 Line 18:   This is the sample document from the AMP spec.
-Line 19:   https://github.com/ampproject/amphtml/blob/master/spec/amp-html-format.md
+Line 19:   https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-html-format.md
 Line 20: -->
 Line 21: <!doctype html>
 Line 22: <html ⚡>

@@ -35,8 +35,8 @@ use Lullabot\AMP\Utility\ActionTakenType;
  * AMP Project related Developer Documentation
  * @see https://www.ampproject.org/docs/reference/extended/amp-facebook.html
  * @see https://ampbyexample.com/components/amp-facebook/
- * @see https://github.com/ampproject/amphtml/blob/master/extensions/amp-facebook/amp-facebook.md
- * @see https://github.com/ampproject/amphtml/blob/master/extensions/amp-facebook/0.1/validator-amp-facebook.protoascii
+ * @see https://github.com/ampproject/amphtml/blob/main/extensions/amp-facebook/amp-facebook.md
+ * @see https://github.com/ampproject/amphtml/blob/main/extensions/amp-facebook/0.1/validator-amp-facebook.protoascii
  */
 class FacebookNonIframeTransformPass extends BaseFacebookPass
 {

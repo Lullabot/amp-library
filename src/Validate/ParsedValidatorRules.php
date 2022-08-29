@@ -31,7 +31,7 @@ use Lullabot\AMP\Spec\ValidationRulesFactory;
  * @package Lullabot\AMP\Validate
  *
  * This class is a straight PHP port of the ParsedValidatorRules class in validator.js
- * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
  *
  */
 class ParsedValidatorRules

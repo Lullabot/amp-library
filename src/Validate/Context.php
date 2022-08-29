@@ -28,7 +28,7 @@ use Lullabot\AMP\AMP;
  * @package Lullabot\AMP\Validate
  *
  * This class is a PHP port of the Context class in validator.js
- * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
  *
  * The static method severityFor() is a normal top-level function in validator.js but has been incorporated
  * into this class for convenience.
