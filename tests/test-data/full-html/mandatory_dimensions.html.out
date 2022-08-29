@@ -162,13 +162,13 @@ ORIGINAL HTML
 ---------------
 Line   1: <!--
 Line   2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
-Line   3:
+Line   3: 
 Line   4:   Licensed under the Apache License, Version 2.0 (the "License");
 Line   5:   you may not use this file except in compliance with the License.
 Line   6:   You may obtain a copy of the License at
-Line   7:
+Line   7: 
 Line   8:       http://www.apache.org/licenses/LICENSE-2.0
-Line   9:
+Line   9: 
 Line  10:   Unless required by applicable law or agreed to in writing, software
 Line  11:   distributed under the License is distributed on an "AS-IS" BASIS,
 Line  12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -191,44 +191,44 @@ Line  28:   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,
 Line  29:   <script async src="https://cdn.ampproject.org/v0.js"></script>
 Line  30: </head>
 Line  31: <body>
-Line  32:
+Line  32: 
 Line  33:   <!-- Valid Examples -->
 Line  34:     <!-- Layout of responsive/fixed with width/height -->
 Line  35:     <amp-img src="img" layout="responsive" width="42" height="42"></amp-img>
 Line  36:     <amp-img src="img" layout="fixed" width="42" height="42"></amp-img>
-Line  37:
+Line  37: 
 Line  38:     <!-- Layout of nodisplay/fill with/without width/height -->
 Line  39:     <amp-img src="img" layout="nodisplay" width="42" height="42"></amp-img>
 Line  40:     <amp-img src="img" layout="fill" width="42" height="42"></amp-img>
 Line  41:     <amp-img src="img" layout="nodisplay"></amp-img>
 Line  42:     <amp-img src="img" layout="fill"></amp-img>
-Line  43:
+Line  43: 
 Line  44:     <!-- Layout of nodisplay/fill with partial width/height.
 Line  45:          These should not validate, but currently do. -->
 Line  46:     <amp-img src="img" layout="nodisplay" width="42"></amp-img>
 Line  47:     <amp-img src="img" layout="fill" height="42"></amp-img>
-Line  48:
+Line  48: 
 Line  49:     <!-- Missing layout implies layout="fixed" when width and height are set. -->
 Line  50:     <amp-img src="img" width="42" height="42"></amp-img>
-Line  51:
+Line  51: 
 Line  52:     <!-- fixed-height layout allows width=auto. -->
 Line  53:     <amp-img layout="fixed-height" src="img" width="auto" height="42"></amp-img>
 Line  54:     <amp-img layout="fixed-height" src="img" height="42"></amp-img>
-Line  55:
+Line  55: 
 Line  56:     <!-- Missing layout implies layout="fixed-height" when height is set. -->
 Line  57:     <amp-img src="img" width="auto" height="42"></amp-img>
 Line  58:     <amp-img src="img" height="42"></amp-img>
-Line  59:
+Line  59: 
 Line  60:     <!-- It's OK to have inconsistent units for layout="fixed" -->
 Line  61:     <amp-img src="img" layout="fixed" width="42px" height="42rem"></amp-img>
-Line  62:
-Line  63:
+Line  62: 
+Line  63: 
 Line  64:     <!-- throw in some fully optional attrs -->
 Line  65:     <amp-img src="img" width=42 height=42 placeholder=""></amp-img>
 Line  66:     <amp-img src="img" layout="nodisplay" alt="" attribution=""></amp-img>
 Line  67:     <amp-img src="img" layout="fixed" width="42" height="42" on="" media="">
 Line  68:     </amp-img>
-Line  69:
+Line  69: 
 Line  70:     <!-- amp-audio/pixel/lightbox have relaxed width/heigh constraints -->
 Line  71:     <amp-audio src="https://example.com/audio" layout="fixed" width="42"></amp-audio>
 Line  72:     <amp-audio src="https://example.com/audio" layout="fixed"></amp-audio>
@@ -236,7 +236,7 @@ Line  73:     <amp-pixel src="https://example.com/pixel" layout="fixed" width="4
 Line  74:     <amp-pixel src="https://example.com/pixel" layout="fixed"></amp-pixel>
 Line  75:     <amp-lightbox layout="nodisplay" width="42"></amp-lightbox>
 Line  76:     <amp-lightbox layout="nodisplay"></amp-lightbox>
-Line  77:
+Line  77: 
 Line  78:     <!-- src or srcset or both are all valid -->
 Line  79:     <amp-img width="42" height="42" src="img"></amp-img>
 Line  80:     <amp-img width="42" height="42" srcset="img 1x, img2 2x"></amp-img>
@@ -244,7 +244,7 @@ Line  81:     <amp-img width="42" height="42" src="img" srcset="img 1x, img2 2x"
 Line  82:     <amp-anim width="42" height="42" src="anim"></amp-anim>
 Line  83:     <amp-anim width="42" height="42" srcset="img 1x, img2 2x"></amp-anim>
 Line  84:     <amp-anim width="42" height="42" src="anim" srcset="img 1x, img2 2x"></amp-anim>
-Line  85:
+Line  85: 
 Line  86:     <!-- src optional -->
 Line  87:     <amp-audio src="https://example.com/audio"></amp-audio>
 Line  88:     <amp-audio></amp-audio>
@@ -252,12 +252,12 @@ Line  89:     <amp-video width="42" height="42" src="https://example.com/video">
 Line  90:     <amp-video width="42" height="42"></amp-video>
 Line  91:     <amp-ad width="42" height="42" type="" src="https://example.com/ad"></amp-ad>
 Line  92:     <amp-ad width="42" height="42" type=""></amp-ad>
-Line  93:
+Line  93: 
 Line  94:     <!-- src or srcdoc required -->
 Line  95:     <amp-iframe width="42" height="42" src="https://example.com/iframe"></amp-iframe>
 Line  96:     <amp-iframe width="42" height="42" srcdoc="<p>Hello, world!</p>"></amp-iframe>
 Line  97:     <amp-pixel src="https://example.com/pixel"></amp-pixel>
-Line  98:
+Line  98: 
 Line  99:     <!-- disallow a src or srcset -->
 Line 100:     <amp-fit-text height="42"></amp-fit-text>
 Line 101:     <amp-carousel height="42"></amp-carousel>
@@ -266,13 +266,13 @@ Line 103:     <amp-twitter data-tweetid="" height="42"></amp-twitter>
 Line 104:     <amp-instagram data-shortcode="" height="42"></amp-instagram>
 Line 105:     <amp-lightbox layout="nodisplay"></amp-lightbox>
 Line 106:   <!-- /Valid Examples -->
-Line 107:
+Line 107: 
 Line 108:   <!-- Invalid Examples -->
 Line 109:     <!-- Container layout isn't supported by amp-img. -->
 Line 110:     <amp-img src="img" layout="container"></amp-img>
 Line 111:     <amp-img src="img" layout="container" width="42" height="42"></amp-img>
 Line 112:     <amp-img src="img"></amp-img>
-Line 113:
+Line 113: 
 Line 114:     <!-- Layout of responsive/fixed without width/height - This should all fail -->
 Line 115:     <amp-img src="img" layout="responsive"></amp-img>
 Line 116:     <amp-img src="img" layout="fixed"></amp-img>
@@ -280,22 +280,22 @@ Line 117:     <amp-img src="img" layout="responsive" width="42"></amp-img>
 Line 118:     <amp-img src="img" layout="fixed" height="42"></amp-img>
 Line 119:     <amp-img src="img" layout="fixed" height="auto"></amp-img>
 Line 120:     <amp-img src="img" layout="fixed" width="auto" height="42"></amp-img>
-Line 121:
+Line 121: 
 Line 122:     <!-- Inconsistent units -->
 Line 123:     <amp-img src="img" layout="responsive" width="42px" height="42rem"></amp-img>
-Line 124:
+Line 124: 
 Line 125:     <!-- src or srcset or both are all valid -->
 Line 126:     <amp-img width="42" height="42"></amp-img>
 Line 127:     <amp-anim width="42" height="42"></amp-anim>
-Line 128:
+Line 128: 
 Line 129:     <!-- src optional -->
 Line 130:     <amp-audio srcset="img 1x, img2 2x"></amp-audio>
 Line 131:     <amp-ad height="42" type="" srcset="img 1x, img2 2x"></amp-ad>
-Line 132:
+Line 132: 
 Line 133:     <!-- src or srcdoc required -->
 Line 134:     <amp-iframe height="42"></amp-iframe>
 Line 135:     <amp-pixel></amp-pixel>
-Line 136:
+Line 136: 
 Line 137:     <!-- disallow a src or srcset -->
 Line 138:     <amp-fit-text height="42" src="fit-text"></amp-fit-text>
 Line 139:     <amp-carousel height="42" src="carousel"></amp-carousel>
@@ -303,14 +303,14 @@ Line 140:     <amp-youtube height="42" data-videoid="" srcset="img 1x, img2 2x">
 Line 141:     <amp-twitter height="42" data-tweetid="" srcset="img 1x, img2 2x"></amp-twitter>
 Line 142:     <amp-instagram height="42" data-shortcode="" srcset="img 1x, img2 2x"></amp-instagram>
 Line 143:     <amp-lightbox layout="nodisplay" src="lightbox"></amp-lightbox>
-Line 144:
+Line 144: 
 Line 145:     <!-- Not-whitelisted attributes -->
 Line 146:     <amp-img height="42" src="img" foo="bar"></amp-img>
 Line 147:   <!-- /Invalid Examples -->
-Line 148:
+Line 148: 
 Line 149: </body>
 Line 150: </html>
-Line 151:
+Line 151: 
 
 
 
