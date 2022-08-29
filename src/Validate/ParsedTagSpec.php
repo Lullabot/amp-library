@@ -29,7 +29,7 @@ use Lullabot\AMP\Spec\ValidationErrorCode;
  * @package Lullabot\AMP\Validate
  *
  * This class is a straight PHP port of the ParsedTagSpec class in validator.js (also called the "canonical validator")
- * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
  *
  * Additionally, various top level functions from the canonical validator have been ported and incorporate as static
  * methods in this class. This was done to give these javascript functions a place to reside (rather than have global

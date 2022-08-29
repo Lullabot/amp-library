@@ -25,7 +25,7 @@ use Lullabot\AMP\Spec\ValidationErrorCode;
  * @package Lullabot\AMP\Validate
  *
  * This class is a straight PHP port of the ChildTagMatcher class in validator.js
- * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
  *
  */
 class ChildTagMatcher

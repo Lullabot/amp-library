@@ -30,8 +30,8 @@ use Lullabot\AMP\AMP;
  * This class does not exist in the canonical validator [1].  Rather, its a mishmash of some useful functions
  * ported from the JavaScript canonical validator into PHP and then agglomerated in this class.
  *
- * [1] See https://github.com/ampproject/amphtml/blob/master/validator/validator.js
- *     Also see https://github.com/ampproject/amphtml/blob/master/validator/validator-full.js
+ * [1] See https://github.com/ampproject/amphtml/blob/main/validator/validator.js
+ *     Also see https://github.com/ampproject/amphtml/blob/main/validator/validator-full.js
  */
 class RenderValidationResult
 {
@@ -45,7 +45,7 @@ class RenderValidationResult
 
     /**
      * Corresponds to amp.validator.renderErrorMessage() in validator.js
-     * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+     * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
      *
      * Ported into this class for convenience as a member function
      *
@@ -73,7 +73,7 @@ class RenderValidationResult
 
     /**
      * Corresponds to top-level function applyFormat() in validator.js
-     * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+     * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
      *
      * Ported into this class for convenience as a member function
      *
@@ -94,7 +94,7 @@ class RenderValidationResult
 
     /**
      * Corresponds to top-level function errorLine() in validator.js
-     * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+     * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
      *
      * Ported into this class for convenience as a member function
      *
@@ -127,7 +127,7 @@ class RenderValidationResult
 
     /**
      * Corresponds to amp.validator.annotateWithErrorCategories() in validator.js
-     * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+     * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
      *
      * @param SValidationResult $validation_result
      */
@@ -141,7 +141,7 @@ class RenderValidationResult
 
     /**
      * Corresponds to amp.validator.renderValidationResult() in validator.js
-     * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+     * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
      *
      * The implementation here is different from the one in validator.js. We're doing some grouping.
      *
@@ -229,7 +229,7 @@ class RenderValidationResult
 
     /**
      * Corresponds to amp.validator.categorizeError() in validator-full.js
-     * (see https://github.com/ampproject/amphtml/blob/master/validator/validator-full.js )
+     * (see https://github.com/ampproject/amphtml/blob/main/validator/validator-full.js )
      *
      * @param ValidationError $error
      * @return ErrorCategoryCode

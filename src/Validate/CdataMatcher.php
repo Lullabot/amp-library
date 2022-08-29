@@ -33,7 +33,7 @@ use Sabberworm\CSS\Value\URL;
  * @package Lullabot\AMP\Validate
  *
  * This class is a PHP port of the CdataMatcher class in validator.js
- * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
  *
  * The main difference between the PHP and Javascript ports is the use the sabberworm/php-css-parser css parser library in
  * the PHP port. The Javascript validator uses its own css parser. This causes some code divergence in areas related

@@ -25,8 +25,8 @@ use Lullabot\AMP\Spec\ValidationResultStatus;
  *
  * This class does not exist in the canonical validator [1].
  *
- * [1] See https://github.com/ampproject/amphtml/blob/master/validator/validator.js
- *     and https://github.com/ampproject/amphtml/tree/master/validator
+ * [1] See https://github.com/ampproject/amphtml/blob/main/validator/validator.js
+ *     and https://github.com/ampproject/amphtml/tree/main/validator
  */
 class GroupedValidationResult
 {

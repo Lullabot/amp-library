@@ -28,7 +28,7 @@ use Lullabot\AMP\Utility\ActionTakenType;
  *
  * Support for <video> to <amp-video> tag conversion. Similar to AudioTagTransformPass in many ways.
  *
- * @see https://github.com/ampproject/amphtml/blob/master/builtins/amp-video.md
+ * @see https://github.com/ampproject/amphtml/blob/main/builtins/amp-video.md
  * @see https://ampbyexample.com/components/amp-video/
  * @see https://developer.mozilla.org/en/docs/Web/HTML/Element/video
  */

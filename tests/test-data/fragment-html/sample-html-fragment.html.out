@@ -20,7 +20,7 @@ Line  6: <p>This is a <!-- test comment -->sample <div onmouseover="hello();">sa
 Line  7: <iframe src="https://www.reddit.com"></iframe>
 Line  8: <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 Line  9: <style></style>
-Line 10: 
+Line 10:
 
 
 Transformations made from HTML tags to AMP custom tags
@@ -70,7 +70,7 @@ FAIL
 
 <style> on line 9
 - The parent tag of tag 'style' is 'body', but it can only be 'head'.
-   [code: WRONG_PARENT_TAG  category: DISALLOWED_HTML see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: WRONG_PARENT_TAG  category: DISALLOWED_HTML see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
    ACTION TAKEN: style tag was removed due to validation issues.
 
 COMPONENT NAMES WITH JS PATH

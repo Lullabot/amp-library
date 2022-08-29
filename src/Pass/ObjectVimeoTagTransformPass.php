@@ -37,7 +37,7 @@ use Lullabot\AMP\Utility\ActionTakenType;
  *     <embed src="http://vimeo.com/moogaloop.swf?clip_id=12223465&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="550" height="309"></embed>
  *   </object>
  *
- * @see https://github.com/ampproject/amphtml/blob/master/extensions/amp-vimeo/amp-vimeo.md
+ * @see https://github.com/ampproject/amphtml/blob/main/extensions/amp-vimeo/amp-vimeo.md
  *
  */
 class ObjectVimeoTagTransformPass extends BasePass
@@ -53,7 +53,7 @@ class ObjectVimeoTagTransformPass extends BasePass
             $context_string = $this->getContextString($dom_el);
 
             $actionTakenType = '';
-            
+
             if ($this->isVimeoObject($el)) {
                 $vimeo_code = $this->getVimeoCode($el);
 
@@ -66,7 +66,7 @@ class ObjectVimeoTagTransformPass extends BasePass
                 $new_dom_el = $el->next()->get(0);
 
                 $actionTakenType = ActionTakenType::VIMEO_OBJECT_CONVERTED;
-            
+
             } else {
                 continue;
             }
@@ -75,7 +75,7 @@ class ObjectVimeoTagTransformPass extends BasePass
             $el->removeChildren()->remove();
             $this->addActionTaken(new ActionTakenLine('object', $actionTakenType, $lineno, $context_string));
             $this->context->addLineAssociation($new_dom_el, $lineno);
-            
+
         }
 
         return $this->transformations;

@@ -27,7 +27,7 @@ use Lullabot\AMP\Utility\ParseUrl;
  * @package Lullabot\AMP\Validate
  *
  * This class is a straight PHP port of the ParsedUrlSpec class in validator.js
- * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
  */
 class ParsedUrlSpec
 {

@@ -107,7 +107,7 @@ class TwitterTransformPass extends BasePass
         }
 
         // Dealing with height and width is going to be tricky
-        // https://github.com/ampproject/amphtml/blob/master/extensions/amp-twitter/amp-twitter.md
+        // https://github.com/ampproject/amphtml/blob/main/extensions/amp-twitter/amp-twitter.md
         // @todo make this smarter
         // Twitter js widget should make it look fine
         if (!$height_exists) {

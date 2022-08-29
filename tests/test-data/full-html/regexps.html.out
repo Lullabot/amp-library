@@ -30,15 +30,15 @@
   The first example is valid. The latter two examples are invalid.
   -->
   <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-latest.js"></script>
-  
-  
+
+
 
   <!--
   href value_regex: "https://fonts\\.googleapis\\.com/css\\?.*|https://fast\\.fonts\\.net/.*"
   The first example is valid, the second example is invalid.
   -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?foobar">
-  
+
 
   <!--
   rel value_regex: lenghty, see protoascii
@@ -47,9 +47,9 @@
   <link rel="accessibility">
   <link rel="accessibility alternate">
   <link rel="accessibility alternate archives">
-  
-  
-  
+
+
+
 
   <!--
   name blacklisted_value_regex: "(^|\\s)(viewport|content-disposition|revisit-after)($|\\s)"
@@ -83,13 +83,13 @@ ORIGINAL HTML
 ---------------
 Line  1: <!--
 Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
-Line  3: 
+Line  3:
 Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
 Line  5:   you may not use this file except in compliance with the License.
 Line  6:   You may obtain a copy of the License at
-Line  7: 
+Line  7:
 Line  8:       http://www.apache.org/licenses/LICENSE-2.0
-Line  9: 
+Line  9:
 Line 10:   Unless required by applicable law or agreed to in writing, software
 Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
 Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -110,7 +110,7 @@ Line 26:   <meta name="viewport" content="width=device-width,minimum-scale=1">
 Line 27:   <style>invalid body</style>
 Line 28:   <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
 Line 29:   <script async src="https://cdn.ampproject.org/v0.js"></script>
-Line 30: 
+Line 30:
 Line 31:   <!--
 Line 32:   src value_regex: "https://cdn\\.ampproject\\.org/v0/amp-vine-(latest|0\\.1).js"
 Line 33:   The first example is valid. The latter two examples are invalid.
@@ -118,7 +118,7 @@ Line 34:   -->
 Line 35:   <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-latest.js"></script>
 Line 36:   <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"></script>
 Line 37:   <script async custom-element="amp-vine" src="http://xss.com/https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"></script>
-Line 38: 
+Line 38:
 Line 39:   <!--
 Line 40:   href value_regex: "https://fonts\\.googleapis\\.com/css\\?.*|https://fast\\.fonts\\.net/.*"
 Line 41:   The first example is valid, the second example is invalid.
@@ -127,7 +127,7 @@ Line 43:   <link rel="stylesheet" type="text/css"
 Line 44:         href="https://fonts.googleapis.com/css?foobar">
 Line 45:   <link rel="stylesheet" type="text/css"
 Line 46:         href="http://xss.com/https://fonts.googleapis.com/css?foobar">
-Line 47: 
+Line 47:
 Line 48:   <!--
 Line 49:   rel value_regex: lenghty, see protoascii
 Line 50:   The first three examples are valid. The latter three examples are invalid.
@@ -138,7 +138,7 @@ Line 54:   <link rel="accessibility alternate archives">
 Line 55:   <link rel="import">
 Line 56:   <link rel="accessibility subresource">
 Line 57:   <link rel="manifest accessibility">
-Line 58: 
+Line 58:
 Line 59:   <!--
 Line 60:   name blacklisted_value_regex: "(^|\\s)(viewport|content-disposition|revisit-after)($|\\s)"
 Line 61:   The first two examples are valid. The latter two examples are invalid.
@@ -147,10 +147,10 @@ Line 63:   <meta name="valid" content="">
 Line 64:   <meta name="validcontent-disposition" content="">
 Line 65:   <meta name="content-disposition" content="">
 Line 66:   <meta name="invalid content-disposition" content="">
-Line 67: 
+Line 67:
 Line 68: </head>
 Line 69: <body>
-Line 70: 
+Line 70:
 Line 71:   <!--
 Line 72:   autoplay value_regex: "^$|desktop|tablet|mobile"
 Line 73:   The first two examples are valid, the latter three examples are invalid.
@@ -160,10 +160,10 @@ Line 76:   <amp-audio src="https://example.com/audio" layout="fixed" autoplay="d
 Line 77:   <amp-audio src="https://example.com/audio" layout="fixed" autoplay="invalid"></amp-audio>
 Line 78:   <amp-audio src="https://example.com/audio" layout="fixed" autoplay="desktopfoo"></amp-audio>
 Line 79:   <amp-audio src="https://example.com/audio" layout="fixed" autoplay="foodesktop"></amp-audio>
-Line 80: 
+Line 80:
 Line 81: </body>
 Line 82: </html>
-Line 83: 
+Line 83:
 
 
 
@@ -173,9 +173,9 @@ FAIL
 
 <style> on line 27
 - The tag 'head > style[amp-boilerplate] - old variant' is deprecated - use 'head > style[amp-boilerplate]' instead.
-   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
 - The mandatory text (CDATA) inside tag 'head > style[amp-boilerplate] - old variant' is missing or incorrect.
-   [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
    ACTION TAKEN: head > style[amp-boilerplate] - old variant CDATA was added or modified to fit requirements.
 
 <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"> on line 36
@@ -241,7 +241,7 @@ FAIL
 
 GLOBAL WARNING
 - The tag 'head > style[amp-boilerplate]' is missing or incorrect, but required by 'noscript > style[amp-boilerplate]'.
-   [code: TAG_REQUIRED_BY_MISSING  category: GENERIC see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: TAG_REQUIRED_BY_MISSING  category: GENERIC see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
 - The tag 'amp-audio extension .js script' is missing or incorrect, but required by 'amp-audio'.
    [code: TAG_REQUIRED_BY_MISSING  category: AMP_TAG_PROBLEM see: https://www.ampproject.org/docs/reference/extended/amp-audio.html]
    ACTION TAKEN: amp-audio custom component script tag added to head

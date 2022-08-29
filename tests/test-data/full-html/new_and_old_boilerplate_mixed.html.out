@@ -36,13 +36,13 @@ ORIGINAL HTML
 ---------------
 Line  1: <!--
 Line  2:   Copyright 2015 The AMP HTML Authors. All Rights Reserved.
-Line  3: 
+Line  3:
 Line  4:   Licensed under the Apache License, Version 2.0 (the "License");
 Line  5:   you may not use this file except in compliance with the License.
 Line  6:   You may obtain a copy of the License at
-Line  7: 
+Line  7:
 Line  8:       http://www.apache.org/licenses/LICENSE-2.0
-Line  9: 
+Line  9:
 Line 10:   Unless required by applicable law or agreed to in writing, software
 Line 11:   distributed under the License is distributed on an "AS-IS" BASIS,
 Line 12:   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -68,7 +68,7 @@ Line 31: <body>
 Line 32: Hello, world.
 Line 33: </body>
 Line 34: </html>
-Line 35: 
+Line 35:
 
 
 
@@ -78,11 +78,11 @@ FAIL
 
 <style> on line 28
 - The tag 'noscript > style[amp-boilerplate] - old variant' is deprecated - use 'noscript > style[amp-boilerplate]' instead.
-   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: DEPRECATED_TAG  category: DEPRECATION see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
 
 GLOBAL WARNING
 - The tag 'noscript > style[amp-boilerplate]' is missing or incorrect, but required by 'head > style[amp-boilerplate]'.
-   [code: TAG_REQUIRED_BY_MISSING  category: GENERIC see: https://github.com/ampproject/amphtml/blob/master/spec/amp-boilerplate.md]
+   [code: TAG_REQUIRED_BY_MISSING  category: GENERIC see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
 
 COMPONENT NAMES WITH JS PATH
 ------------------------------

@@ -26,7 +26,7 @@ use Lullabot\AMP\Spec\ValidationResultStatus;
  * @package Lullabot\AMP\Validate
  *
  * This class is a straight PHP port of the ValidationResult class in validator.js
- * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
  *
  * Some additional functions from validator.js, from outside the ValidationResult class have also been incorporated
  * into this class for convenience when they were ported. See maxSpecificity(), specificity().
@@ -42,7 +42,7 @@ class SValidationResult extends ValidationResult
 {
     /**
      * Corresponds to maxSpecificity() top level function in validator.js.
-     * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+     * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
      *
      * Ported into this class for convenience as a static member function
      *
@@ -66,7 +66,7 @@ class SValidationResult extends ValidationResult
 
     /**
      * Corresponds specificity() top level function in validator.js.
-     * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+     * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
      *
      * Ported into this class for convenience as a static member function
      *

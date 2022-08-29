@@ -7,7 +7,7 @@ An open source PHP library and console utility to convert HTML to [AMP HTML](htt
 
 The AMP PHP Library is an open source and pure PHP Library that:
 - Works with whole or partial HTML documents (or strings). Specifically, the AMP PHP Library:
- - Reports compliance of a whole/partial HTML document with the [AMP HTML specification](https://www.ampproject.org/). We implement an AMP HTML validator in pure PHP to report compliance of an arbitrary HTML document / HTML fragment with the AMP HTML standard. This validator is a ported subset of the [canonical validator](https://github.com/ampproject/amphtml/tree/master/validator) that is implemented in JavaScript
+ - Reports compliance of a whole/partial HTML document with the [AMP HTML specification](https://www.ampproject.org/). We implement an AMP HTML validator in pure PHP to report compliance of an arbitrary HTML document / HTML fragment with the AMP HTML standard. This validator is a ported subset of the [canonical validator](https://github.com/ampproject/amphtml/tree/main/validator) that is implemented in JavaScript
     - Specifically, the PHP validator supports tag specification validation, attribute specification validation, CDATA validation, CSS validation, layout validation, template validation and attribute property-value pair validation. It will report tags and attributes that are missing, illegal, mandatory according to spec but not present, unique according to spec but multiply present, having wrong parents or ancestors or children and so forth.
     - _Note_: while the AMP PHP library (already) supports many of the features and capabilities of the canonical validator, it is not intended to achieve parity in _every_ respect with the canonical validator. Even _within_ the features we support (e.g. CSS validation) there may be certain validation issues that we don't flag but the canonical validator does.
  - Using the feedback given by the in-house PHP validator, the AMP PHP library tries to "correct" some issues found in the HTML to make it more AMP HTML compliant. This would, for example, involve:
@@ -51,7 +51,7 @@ The AMP PHP Library is an open source and pure PHP Library that:
 ### Use Cases
 
 - Currently the AMP PHP Library is used by the [Drupal AMP Module](https://www.drupal.org/project/amp) to report issues with user entered, arbitrary HTML (originating from Rich Text Editors) and converting the HTML to AMPized HTML (as much as possible)
-- The AMP PHP Library command line validator can be used for experimentation and to do HTML to AMP HTML conversion of HTML files. While the [canonical validator](https://github.com/ampproject/amphtml/tree/master/validator) only validates, our library tries to make corrections too. As noted above, our validator is a subset of the canonical validator but already covers a lot of cases
+- The AMP PHP Library command line validator can be used for experimentation and to do HTML to AMP HTML conversion of HTML files. While the [canonical validator](https://github.com/ampproject/amphtml/tree/main/validator) only validates, our library tries to make corrections too. As noted above, our validator is a subset of the canonical validator but already covers a lot of cases
 - The AMP PHP Library can be used in any other PHP project to "convert" HTML to AMP HTML and report validation issues. It does not have any non-PHP dependencies and will work in PHP 5.5 and higher. It will also work in recent versions of [HHVM](http://hhvm.com/).
 
 ### Setup
@@ -260,8 +260,8 @@ print($amp->warningsHumanText());
 - [Composer homepage](https://packagist.org/packages/lullabot/amp) for the AMP PHP Library on [Packagist](https://packagist.org/), the PHP package repository
 - AMP Project [Homepage](https://www.ampproject.org/)
 - AMP Project [code repository](https://github.com/ampproject/amphtml) on Github
-- [AMP HTML JavaScript validator subtree](https://github.com/ampproject/amphtml/tree/master/validator) on Github within the AMP Project code repository
-- [Technical Specification](https://github.com/ampproject/amphtml/blob/master/validator/validator-main.protoascii) of AMP HTML in [Protocol Buffers](https://developers.google.com/protocol-buffers/) ASCII message format. See [here](https://github.com/ampproject/amphtml/blob/master/validator/validator.proto) for the Schema definition of the technical specification
+- [AMP HTML JavaScript validator subtree](https://github.com/ampproject/amphtml/tree/main/validator) on Github within the AMP Project code repository
+- [Technical Specification](https://github.com/ampproject/amphtml/blob/main/validator/validator-main.protoascii) of AMP HTML in [Protocol Buffers](https://developers.google.com/protocol-buffers/) ASCII message format. See [here](https://github.com/ampproject/amphtml/blob/main/validator/validator.proto) for the Schema definition of the technical specification
 
 ### Useful Links for amp-library developers
 

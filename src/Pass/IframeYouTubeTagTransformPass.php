@@ -32,7 +32,7 @@ use Lullabot\AMP\Utility\ActionTakenType;
  * This is what a youtube embed looks like:
  *   <iframe width="560" height="315" src="https://www.youtube.com/embed/MnR9AVs6Q_c" frameborder="0" allowfullscreen></iframe>
  *
- * @see https://github.com/ampproject/amphtml/blob/master/extensions/amp-youtube/amp-youtube.md
+ * @see https://github.com/ampproject/amphtml/blob/main/extensions/amp-youtube/amp-youtube.md
  * @see https://developers.google.com/youtube/iframe_api_reference
  *
  */
@@ -165,7 +165,7 @@ class IframeYouTubeTagTransformPass extends BasePass
     protected function setYouTubeAttributesFrom($el, $new_dom_el)
     {
         $arr = $this->getQueryArray($el);
-        // From https://github.com/ampproject/amphtml/blob/master/extensions/amp-youtube/amp-youtube.md
+        // From https://github.com/ampproject/amphtml/blob/main/extensions/amp-youtube/amp-youtube.md
         //  "All data-param-* attributes will be added as query parameter to the youtube iframe src. This may be used to
         //   pass custom values through to youtube plugins, such as autoplay."
         //

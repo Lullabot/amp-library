@@ -25,7 +25,7 @@ use Lullabot\AMP\Spec\AttrTriggerSpec;
  * @package Lullabot\AMP\Validate
  *
  * This class is a straight PHP port of the ParsedAttrTriggerSpec class in validator.js
- * (see https://github.com/ampproject/amphtml/blob/master/validator/validator.js )
+ * (see https://github.com/ampproject/amphtml/blob/main/validator/validator.js )
  *
  */
 class ParsedAttrTriggerSpec
