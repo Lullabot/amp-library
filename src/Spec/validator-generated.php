@@ -729,7 +729,7 @@ class ValidationRulesFactory {
   $o_95->deprecation_url = 'https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md';
   $o_0->tags[] = $o_95;
   $o_97 = new TagSpec();
-  $o_97->tag_name = 'style'
+  $o_97->tag_name = 'style';
   $o_97->spec_name = 'noscript > style[amp-boilerplate] - old variant';
   $o_97->mandatory_alternatives = 'noscript > style[amp-boilerplate]';
   $o_97->unique = true;
