@@ -4,6 +4,9 @@
 <!-- normal twitter embed using 'statuses' -->
 <amp-twitter data-cards="hidden" data-lang="en" height="223" width="486" layout="responsive" data-tweetid="704420904437043200"></amp-twitter>
 
+<!-- twitter embed with double blockquote -->
+<amp-twitter data-dnt="true" height="694" width="486" layout="responsive" data-tweetid="1129040592930070530"></amp-twitter>
+
 
 
 ORIGINAL HTML
@@ -20,7 +23,17 @@ Line  9:         href="https://twitter.com/hashtag/Oscars?src=hash">#Oscars</a>!
 Line 10:     well-done! <a href="https://t.co/xyrO7kQBzH">pic.twitter.com/xyrO7kQBzH</a></p>&mdash; Andy Serkis (@andyserkis) <a
 Line 11:         href="https://twitter.com/andyserkis/statuses/704420904437043200">February 29, 2016</a></blockquote>
 Line 12: <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-Line 13: 
+Line 13: <!-- twitter embed with double blockquote -->
+Line 14: <blockquote align="center" class="twitter-tweet" data-dnt="true">
+Line 15:     <p dir="ltr" lang="en">We're excited to announce that we've been named one of <a href="https://twitter.com/Inc?ref_src=twsrc%5Etfw">@Inc</a>'s Best Workplaces of 2019! 😁 🙌 🎉 👏 See the full list here: <a href="https://t.co/NnKPPmlc0n">https://t.co/NnKPPmlc0n</a> <a href="https://twitter.com/hashtag/IncBestWorkplaces?src=hash&amp;ref_src=twsrc%5Etfw">#IncBestWorkplaces</a> <a href="https://t.co/RlclLbnutX">pic.twitter.com/RlclLbnutX</a></p>
+Line 16:     — Lullabot (@lullabot) <a href="https://twitter.com/lullabot/status/1129040592930070530?ref_src=twsrc%5Etfw">May 16, 2019</a>
+Line 17:     <blockquote align="center" class="twitter-tweet" data-dnt="true">
+Line 18:         <p dir="ltr" lang="en">Do you have that rare combination of technical acumen and the ability to lead teams, make decisions, and get things done? We're looking for a Technical Project Manager to join our team and would love to talk to you! <a href="https://t.co/iAwTYyOKoo">https://t.co/iAwTYyOKoo</a> <a href="https://twitter.com/hashtag/Drupal?src=hash&amp;ref_src=twsrc%5Etfw">#Drupal</a> <a href="https://twitter.com/hashtag/projectmanagement?src=hash&amp;ref_src=twsrc%5Etfw">#projectmanagement</a> <a href="https://t.co/Tt6RExQzBX">pic.twitter.com/Tt6RExQzBX</a></p>
+Line 19:         — Lullabot (@lullabot) <a href="https://twitter.com/lullabot/status/1130532897142841344?ref_src=twsrc%5Etfw">May 20, 2019</a>
+Line 20:     </blockquote>
+Line 21: </blockquote>
+Line 22: <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+Line 23: 
 
 
 Transformations made from HTML tags to AMP custom tags
@@ -30,6 +43,9 @@ Transformations made from HTML tags to AMP custom tags
  ACTION TAKEN: blockquote.twitter-tweet (with twitter script tag) twitter embed code was converted to the amp-twitter tag.
 
 <blockquote data-cards="hidden" class="twitter-tweet" data-lang="en"> at line 8
+ ACTION TAKEN: blockquote.twitter-tweet (with twitter script tag) twitter embed code was converted to the amp-twitter tag.
+
+<blockquote align="center" class="twitter-tweet" data-dnt="true"> at line 14
  ACTION TAKEN: blockquote.twitter-tweet (with twitter script tag) twitter embed code was converted to the amp-twitter tag.
 
 

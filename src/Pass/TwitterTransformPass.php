@@ -30,7 +30,7 @@ class TwitterTransformPass extends BasePass
 {
     function pass()
     {
-        $all_tweets = $this->q->top()->find('blockquote.twitter-tweet, blockquote.twitter-video');
+        $all_tweets = $this->q->top()->find('blockquote.twitter-tweet:not(blockquote.twitter-tweet > blockquote.twitter-tweet), blockquote.twitter-video');
         /** @var DOMQuery $el */
         foreach ($all_tweets as $el) {
             /** @var \DOMElement $dom_el */
@@ -140,7 +140,7 @@ class TwitterTransformPass extends BasePass
         foreach ($links as $link) {
             $href = $link->attr('href');
             $matches = [];
-            if (preg_match('&(*UTF8)twitter.com/.*/status(?:es)?/([^/]+)&i', $href, $matches)) {
+            if (preg_match('&(*UTF8)twitter.com/.*/status(?:es)?/([^/?]+)&i', $href, $matches)) {
                 if (!empty($matches[1])) {
                     $tweet_id = $matches[1];
                     break;
