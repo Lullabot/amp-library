@@ -35,6 +35,7 @@ class ActionTakenType
     const FACEBOOK_SCRIPT_REMOVED = 'facebook script tag was removed.';
     const VIMEO_CONVERTED = 'vimeo embed code was converted to the amp-vimeo tag.';
     const DAILYMOTION_CONVERTED = 'dailymotion embed code was converted to the amp-dailymotion tag.';
+    const TIKTOK_CONVERTED = 'tiktok embed code was converted to the amp-tiktok tag.';
     const TWITTER_CONVERTED = 'twitter embed code was converted to the amp-twitter tag.';
     const IFRAME_CONVERTED = 'tag was converted to the amp-iframe tag.';
     const IFRAME_CONVERTED_AND_HTTPS = 'tag was converted to the amp-iframe tag. The url protocol was changed to explicitly use https. amp-iframe does not support http';
