@@ -63,6 +63,7 @@ class AMP
         'Lullabot\AMP\Pass\InstagramTransformPass',
         'Lullabot\AMP\Pass\PinterestTagTransformPass',
         'Lullabot\AMP\Pass\FacebookNonIframeTransformPass',
+        'Lullabot\AMP\Pass\TikTokTransformPass',
         'Lullabot\AMP\Pass\TwitterTransformPass',
         'Lullabot\AMP\Pass\ObjectYouTubeTagTransformPass',
         'Lullabot\AMP\Pass\ObjectVimeoTagTransformPass',
