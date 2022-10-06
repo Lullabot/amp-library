@@ -26,14 +26,6 @@
   <script async src="https://cdn.ampproject.org/v0.js"></script>
 
   <!--
-  src value_regex: "https://cdn\\.ampproject\\.org/v0/amp-vine-(latest|0\\.1).js"
-  The first example is valid. The latter two examples are invalid.
-  -->
-  <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-latest.js"></script>
-  
-  
-
-  <!--
   href value_regex: "https://fonts\\.googleapis\\.com/css\\?.*|https://fast\\.fonts\\.net/.*"
   The first example is valid, the second example is invalid.
   -->
@@ -110,15 +102,7 @@ Line 26:   <meta name="viewport" content="width=device-width,minimum-scale=1">
 Line 27:   <style>invalid body</style>
 Line 28:   <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
 Line 29:   <script async src="https://cdn.ampproject.org/v0.js"></script>
-Line 30: 
-Line 31:   <!--
-Line 32:   src value_regex: "https://cdn\\.ampproject\\.org/v0/amp-vine-(latest|0\\.1).js"
-Line 33:   The first example is valid. The latter two examples are invalid.
-Line 34:   -->
-Line 35:   <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-latest.js"></script>
-Line 36:   <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"></script>
-Line 37:   <script async custom-element="amp-vine" src="http://xss.com/https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"></script>
-Line 38: 
+Line 30:
 Line 39:   <!--
 Line 40:   href value_regex: "https://fonts\\.googleapis\\.com/css\\?.*|https://fast\\.fonts\\.net/.*"
 Line 41:   The first example is valid, the second example is invalid.
@@ -177,18 +161,6 @@ FAIL
 - The mandatory text (CDATA) inside tag 'head > style[amp-boilerplate] - old variant' is missing or incorrect.
    [code: MANDATORY_CDATA_MISSING_OR_INCORRECT  category: MANDATORY_AMP_TAG_MISSING_OR_INCORRECT see: https://github.com/ampproject/amphtml/blob/main/docs/spec/amp-boilerplate.md]
    ACTION TAKEN: head > style[amp-boilerplate] - old variant CDATA was added or modified to fit requirements.
-
-<script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"> on line 36
-- The attribute 'src' in tag 'amp-vine extension .js script' is set to the invalid value 'https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar'.
-   [code: INVALID_ATTR_VALUE  category: CUSTOM_JAVASCRIPT_DISALLOWED see: https://www.ampproject.org/docs/reference/extended/amp-vine.html]
-   ACTION TAKEN: script.src attribute was removed due to validation issues.
-- FINAL ACTION TAKEN: script tag removed from head as it still does not validate. Could not fix tag validation problems.
-
-<script async custom-element="amp-vine" src="http://xss.com/https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar"> on line 37
-- The attribute 'src' in tag 'amp-vine extension .js script' is set to the invalid value 'http://xss.com/https://cdn.ampproject.org/v0/amp-vine-0.1.js?foobar'.
-   [code: INVALID_ATTR_VALUE  category: CUSTOM_JAVASCRIPT_DISALLOWED see: https://www.ampproject.org/docs/reference/extended/amp-vine.html]
-   ACTION TAKEN: script.src attribute was removed due to validation issues.
-- FINAL ACTION TAKEN: script tag removed from head as it still does not validate. Could not fix tag validation problems.
 
 <link rel="stylesheet" type="text/css" href="http://xss.com/https://fonts.googleapis.com/css?foobar"> on line 46
 - The attribute 'href' in tag 'link rel=stylesheet for fonts' is set to the invalid value 'http://xss.com/https://fonts.googleapis.com/css?foobar'.

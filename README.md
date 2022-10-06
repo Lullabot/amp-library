@@ -37,7 +37,6 @@ The AMP PHP Library is an open source and pure PHP Library that:
     - [Pinterest embed code](https://github.com/Lullabot/amp-library/blob/main/tests/test-data/fragment-html/pinterest-fragment.html) for pins is converted to an `<amp-pinterest>` tag
     - [Soundcloud embed code](https://github.com/Lullabot/amp-library/blob/main/tests/test-data/fragment-html/soundcloud-fragment.html) for audio music is converted to an `<amp-soundcloud>` tag
     - [Vimeo embed code](https://github.com/Lullabot/amp-library/blob/main/tests/test-data/fragment-html/vimeo-fragment.html) for videos is converted to an `<amp-vimeo>` tag
-    - [Vine embed code](https://github.com/Lullabot/amp-library/blob/main/tests/test-data/fragment-html/vine-fragment.html) for videos is converted to an `<amp-vine>` tag
     - Facebook [iframe](https://github.com/Lullabot/amp-library/blob/main/tests/test-data/fragment-html/facebook-iframe-fragment.html) and [Javascript SDK](https://github.com/Lullabot/amp-library/blob/main/tests/test-data/fragment-html/facebook-non-iframe-fragment.html) embed code for posts and videos is converted to an `<amp-facebook>` tag
     - _Notes_:
        - Some of these embed code conversions may not have the advanced features you may require. File an issue if you need enhancements to the functionality already provided or new embed code conversions
