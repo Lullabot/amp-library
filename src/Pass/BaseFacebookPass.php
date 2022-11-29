@@ -29,7 +29,8 @@ abstract class BaseFacebookPass extends BasePass
     {
         return
             // e.g. https://www.facebook.com/20531316728/posts/10154009990506729/
-            preg_match('&(*UTF8)facebook\.com/.*/posts/\d+/?&i', $url)
+            // e.g. https://www.facebook.com/SCIFI/posts/pfbid0feV972GaXeGPtsDHsyXFEkZmoCwiBBFc8nxwkZdmXi7toKkKqe8DCC1M3picqxcRl
+            preg_match('&(*UTF8)facebook\.com/.*/posts/\w+/?&i', $url)
             // e.g. https://www.facebook.com/photos/{photo-id}
             // or https://www.facebook.com/SanAntonioVAMC/photos/a.411451129506.185409.351086129506/10154231221264507/?type=3&amp;theater
             || preg_match('&(*UTF8)facebook\.com/.*photos.*&i', $url)
