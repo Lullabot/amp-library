@@ -27,6 +27,8 @@ class ActionTakenType
     const IMG_PIXEL_CONVERTED = 'tag was converted to the amp-pixel tag.';
     const IMG_ANIM_CONVERTED = 'tag was converted to the amp-anim tag.';
     const IMG_COULD_NOT_BE_CONVERTED = 'tag could NOT be converted to the amp-img tag as the image is not accessible.';
+    const INFOGRAM_CONVERTED = 'infogram tag was converted to the amp-iframe tag.';
+    const INFOGRAM_COULD_NOT_BE_CONVERTED = 'infogram tag could NOT be converted to the amp-iframe tag.';
     const INSTAGRAM_CONVERTED = 'instagram embed code was converted to the amp-instagram tag.';
     const PINTEREST_CONVERTED = 'pinterest embed code was converted to the amp-pinterest tag.';
     const VINE_CONVERTED = 'vine embed code was converted to the amp-vine tag.';
