@@ -475,6 +475,7 @@ class RenderValidationResult
         if ((in_array($error->code, [ValidationErrorCode::MISSING_URL,
             ValidationErrorCode::INVALID_URL,
             ValidationErrorCode::INVALID_URL_PROTOCOL,
+            ValidationErrorCode::INVALID_URL_HOST,
             ValidationErrorCode::DISALLOWED_RELATIVE_URL]))
         ) {
             if (isset($error->params[1]) && strpos($error->params[1], 'amp-') === 0) {
