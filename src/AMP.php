@@ -353,8 +353,8 @@ class AMP
             . "   If your network is slow, your library processing time will increase and network download time may dominate total time taken for library processing." . PHP_EOL
             . "=END-AMP-STATS-FOOTER=";
 
-        $start_replaced = str_replace("#AMP-START-PLACEHOLDER-${stats_data['start_time']}#", $comment_start, $html);
-        $end_replaced = str_replace("#AMP-END-PLACEHOLDER-${stats_data['start_time']}#", $comment_end, $start_replaced);
+        $start_replaced = str_replace("#AMP-START-PLACEHOLDER-{$stats_data['start_time']}#", $comment_start, $html);
+        $end_replaced = str_replace("#AMP-END-PLACEHOLDER-{$stats_data['start_time']}#", $comment_end, $start_replaced);
 
         return $end_replaced;
     }
