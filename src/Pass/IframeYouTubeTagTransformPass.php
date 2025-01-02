@@ -171,7 +171,9 @@ class IframeYouTubeTagTransformPass extends BasePass
         //
         // We're doing this in reverse: we see the query parameters and we make them data-param-*
         foreach ($arr as $query_name => $query_value) {
-            $new_dom_el->attr("data-param-$query_name", $query_value);
+            if ($query_name !== 'autoplay') {  // the data-param-autoplay attribute throws errors
+                $new_dom_el->attr("data-param-$query_name", $query_value);
+            }
         }
     }
 }
